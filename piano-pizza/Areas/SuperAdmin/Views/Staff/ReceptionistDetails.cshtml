@@ -1,0 +1,228 @@
+﻿@inject piano_pizza.Resources.LocalizationService local
+@{
+    Layout = "~/Areas/SuperAdmin/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/assets/plugins/jquery-datatable/dataTables.bootstrap4.min.css" rel="stylesheet" />
+
+
+<section class="content">
+    <div class="block-header">
+        <div class="row">
+            <div class="col-12">
+                <h5>@local.GetLocalizedHtmlString("ReceptionistDetail")</h5>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+
+        <!-- Exportable Table -->
+        <div class="row clearfix">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="header">
+                        <div>
+                            <button id="all" class="btn-sm btn-primary rounded font-12 mt-2">@local.GetLocalizedHtmlString("All")</button>
+                            <button id="active" class="btn-sm btn-primary FilterButton rounded font-12 mt-2">@local.GetLocalizedHtmlString("OnJob")</button>
+                            <button id="block" class="btn-sm btn-primary FilterButton rounded font-12 mt-2">@local.GetLocalizedHtmlString("Left")</button>
+                        </div>
+                        <a href="/SuperAdmin/Staff/AddReceptionist" class="btn-sm btn-primary float-right text-white mt-n4" style="cursor:pointer">@local.GetLocalizedHtmlString("AddReceptionist")</a>
+                    </div>
+                    <div class="body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered  js-basic-example dataTable">
+                                <thead style="white-space:nowrap">
+                                    <tr>
+                                        <th>
+                                            #Sr
+                                        </th>
+                                        <th>@local.GetLocalizedHtmlString("Branch")</th>
+                                        <th>@local.GetLocalizedHtmlString("Name")</th>
+                                        <th>@local.GetLocalizedHtmlString("Gender")</th>
+                                        <th>@local.GetLocalizedHtmlString("Email")</th>
+                                        <th>@local.GetLocalizedHtmlString("PhoneNumber")</th>
+                                        <th class="text-center">@local.GetLocalizedHtmlString("AssignedOrders")</th>
+                                        <th>@local.GetLocalizedHtmlString("JoiningDate")</th>
+                                        <th>@local.GetLocalizedHtmlString("Status")</th>
+                                        <th class="text-center">@local.GetLocalizedHtmlString("Action")</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody style="white-space:nowrap">
+
+                                    <tr>
+                                        <td>
+                                            1
+                                        </td>
+
+                                        <td>
+                                            <a href="~/assets/images/piano/PizzaLogo.jpg">
+                                                <img class="rounded shadow" src="~/assets/images/piano/PizzaLogo.jpg" height="35">
+                                            </a>
+                                            <span class="w-space-no ml-2">Abc</span>
+                                        </td>
+
+                                        <td>
+                                            <a href="~/assets/images/sm/avatar1.jpg">
+                                                <img class="rounded shadow" src="~/assets/images/sm/avatar1.jpg" height="35">
+                                            </a>
+
+                                            <span class="w-space-no ml-2">John Doe</span>
+
+                                        </td>
+                                        <td>Male</td>
+                                        <td>
+                                            <div> John@gmail.com</div>
+                                        </td>
+                                        <td>+92 000 0000000</td>
+                                        <td>20 Sept 2012</td>
+                                        <td>
+                                            <div class="badge badge-success badge-shadow badge_width_height">On Job</div>
+                                        </td>
+                                        <td class="text-center">
+                                            <div class="d-flex flex-row m-auto">
+                                                <a href="javascript:void(0);" class="btn-sm btn-default waves-effect waves-float waves-black"><i class="fas fa-user-edit"></i></a>
+                                                <a href="javascript:void(0);" class="btn-sm btn-default waves-effect waves-float waves-red"><i class="fas fa-user-times"></i></a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr id="two">
+                                        <td>
+                                            2
+                                        </td>
+                                        <td>
+
+                                            <a href="~/assets/images/piano/PizzaLogo.jpg">
+                                                <img class="rounded shadow" src="~/assets/images/piano/PizzaLogo.jpg" height="35">
+                                            </a>
+                                            <span class="w-space-no ml-2">Abc</span>
+                                        </td>
+                                        <td>
+                                            <a href="~/assets/images/profile_av.jpg">
+                                                <img class="rounded shadow" src="~/assets/images/profile_av.jpg" height="35">
+                                            </a>
+
+                                            <span class="w-space-no ml-2">Alex Doe</span>
+                                        </td>
+                                        <td>Male</td>
+                                        <td>
+                                            <div> John@gmail.com</div>
+                                        </td>
+
+                                        <td>+92 000 0000000</td>
+                                        <td>20 Sept 2012</td>
+                                        <td>
+                                            <div class="badge badge-danger badge-shadow badge_width_height">Left</div>
+                                        </td>
+                                        <td class="text-center">
+                                            <div class="d-flex flex-row">
+                                                <a href="javascript:void(0);" class="btn-sm btn-default waves-effect waves-float waves-red m-auto"><i class="zmdi zmdi-delete"></i></a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- #END# Exportable Table -->
+    </div>
+</section>
+
+
+<script>
+    $('#Usr').addClass('active');
+    $('#Usr').addClass('open');
+
+    $("#active").click(function () {
+        $('#active').removeClass('FilterButton');
+        $('#active').siblings().addClass('FilterButton');
+
+    });
+    $("#all").click(function () {
+        $('#all').removeClass('FilterButton');
+        $('#all').siblings().addClass('FilterButton');
+
+    });
+    $("#block").click(function () {
+        $('#block').removeClass('FilterButton');
+        $('#block').siblings().addClass('FilterButton');
+
+
+    });
+
+    $("#Unban_button_2").click(function () {
+
+        Swal.fire({
+            title: 'Are you sure, you want  to UnBlock User?',
+
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, UnBlock it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire(
+                    'UnBlocked!',
+                    'User is UnBlocked.',
+                    'success'
+                )
+
+                $("#status_button_2").text("Active");
+                $("#status_button_2").removeClass("badge-danger");
+                $("#status_button_2").addClass("badge-success");
+                $('#ban_button_2').css("display", "block");
+                $('#Unban_button_2').css("display", "none");
+
+                if ($("#status_button_1").text() == "Active") {
+
+                    console.log("123");
+
+                    $("#Active").click(function () {
+                        $('#one').show();
+                        $('#two').show();
+
+                    });
+
+                    $("#All").click(function () {
+                        $('#one').show();
+                        $('#two').show();
+
+                    });
+                    $("#Block").click(function () {
+                        $('#one').hide();
+                        $('#two').hide();
+
+                    });
+                }
+                else if ($("#status_button_1").text() == "Blocked") {
+                    $("#Active").click(function () {
+                        $('#one').hide();
+                        $('#two').show();
+
+                    });
+
+                    $("#All").click(function () {
+                        $('#one').show();
+                        $('#two').show();
+
+                    });
+                    $("#Block").click(function () {
+                        $('#one').show();
+                        $('#two').hide();
+
+                    });
+                }
+
+
+            }
+        })
+    });
+
+</script>
+
+
+

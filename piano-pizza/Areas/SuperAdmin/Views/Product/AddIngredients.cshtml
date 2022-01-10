@@ -1,0 +1,109 @@
+﻿@inject piano_pizza.Resources.LocalizationService local
+@{
+    Layout = "~/Areas/SuperAdmin/Views/Shared/_Layout.cshtml";
+}
+<section class="content">
+    <div class="block-header">
+        <div class="row">
+            <div class="col-12">
+                <h2>
+                    @local.GetLocalizedHtmlString("AddIngredients")<img src="~/assets/images/piano/Bg-transparent/Ingredient-removebg-preview.png" height="30" class="ml-2" />
+                </h2>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <!-- Basic Validation -->
+        <div class="row clearfix">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <div class="card">
+                    <div class="body">
+                        <div id="form_validation" method="POST">
+
+                            <div class="row mt-4">
+                                <div class="col-md-3">
+                                    <label>Select Branch</label>
+                                    <select class="form-group form-float show-tick w-100">
+                                        <option value="" disabled selected>-- Select Branch</option>
+                                        <option value="">MAASTRICHT</option>
+                                        <option value="">LEIDEN</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label>Select Category</label>
+                                    <select class="form-group form-float show-tick w-100">
+                                        <option value="" disabled selected>-- Select Category</option>
+                                        <option value="10">PIZZE SPECIALI</option>
+                                        <option value="20">DRINKS</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label>Select Product</label>
+                                    <select class="form-group form-float show-tick w-100">
+                                        <option value="" disabled selected>-- Select Product</option>
+                                        <option value="10">Lazania Pizza</option>
+                                        <option value="20">Kabab Pizza</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div id="Number_Input" class="form-group form-float">
+                                        <label>Ingredients to add</label>
+                                        <input id="num1" type="number" class="form-control mt-1" required="" placeholder="Ingredients to add:">
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="targetDIV">
+
+                            </div>
+                            <button class="btn btn-raised btn-primary btn-round waves-effect mb-4" style="float:right" type="submit">@local.GetLocalizedHtmlString("SUBMIT")</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- #END# Basic Validation -->
+
+    </div>
+</section>
+
+<script>
+    $('#num1').on('input', function () {
+        $("#targetDIV").empty();
+
+        var x = document.getElementById("num1").value;
+
+
+
+        var targetDiv = $("#targetDIV");
+
+        for (var i = 0; i < x; i++) {
+
+            targetDiv.append('<div class="mb-3 p-2 border rounded">' +
+
+                '<div class="form-row">' +
+
+                '<div class="form-group col-md-6 col-sm-12 col-12">' +
+                '<label>Ingredient Name</label>' +
+                '<input type="text" class="form-control" placeholder="Enter Name..." required>' +
+                '</div>' +
+
+
+                '<div class="form-group col-md-6 col-sm-12 col-12">' +
+                '<label>Price</label>' +
+                '<input type="number" class="form-control" placeholder="Enter Price..." required>' +
+                '</div>' +
+                '</div>' +
+
+                '</div>');
+
+        }
+
+    });
+
+
+
+
+</script>

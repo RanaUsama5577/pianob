@@ -1,0 +1,250 @@
+﻿@inject piano_pizza.Resources.LocalizationService local
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/SuperAdmin/Views/Shared/_Layout.cshtml";
+}
+
+
+<section class="content">
+    <div class="block-header">
+        <div class="row">
+            <div class="col-12">
+                <h2>
+                    @local.GetLocalizedHtmlString("BranchDetails")
+                    
+                </h2>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+
+        <!-- Exportable Table -->
+        <div class="row clearfix">
+            <div class="col-lg-12">
+                <div class="card">
+
+                    <div class="body">
+                        <div class="table-responsive">
+                            <table class="table js-basic-example dataTable">
+                                <thead class="no-wrap">
+                                    <tr>
+                                        <th>@local.GetLocalizedHtmlString("Name")</th>
+                                        <th class="text-center">@local.GetLocalizedHtmlString("Images")</th>
+                                        <th>@local.GetLocalizedHtmlString("Country")</th>
+                                        <th>@local.GetLocalizedHtmlString("City")</th>
+                                        <th class="text-center">@local.GetLocalizedHtmlString("Location")</th>
+                                        <th>@local.GetLocalizedHtmlString("Phone")</th>
+                                        <th>@local.GetLocalizedHtmlString("Email")</th>
+                                        <th class="text-center">@local.GetLocalizedHtmlString("Description")</th>
+                                        <th class="text-center">@local.GetLocalizedHtmlString("Action")</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody class="no-wrap">
+
+                                    <tr>
+                                        <td>
+
+                                            <a href="~/assets/images/piano/PizzaLogo.jpg">
+                                                <img class="rounded shadow" src="~/assets/images/piano/PizzaLogo.jpg" height="35">
+                                            </a>
+                                            <span class="w-space-no ml-2">Abc</span>
+                                        </td>
+                                        <td class="hidden-md-down text-center">
+                                            <ul id="aniimated-thumbnials" class="list-unstyled team-info margin-0 " style="cursor:pointer">
+                                                <li> <a href="/assets/images/piano/locationPic1.jpg"> <img class="img-fluid img-thumbnail p-0" src="/assets/images/piano/locationPic1.jpg"> </a> </li>
+                                                <li> <a href="/assets/images/piano/locationPic2.jpg"> <img class="img-fluid img-thumbnail p-0" src="/assets/images/piano/locationPic2.jpg"> </a> </li>
+                                                <li> <a href="/assets/images/piano/locationPic1.jpg"> <img class="img-fluid img-thumbnail p-0" src="/assets/images/piano/locationPic1.jpg"> </a> </li>
+                                            </ul>
+                                        </td>
+
+                                        <td class="align-middle">South Holland</td>
+                                        <td class="align-middle">LEIDEN</td>
+                                        <td class="align-middle text-center"><a href="http://www.google.com/maps/place/41.8719,12.5674" target="_blank"><i class="fas fa-map-marker-alt"></i></a></td>
+                                        <td>#92 ##########</td>
+                                        <td>john@gmail.com</td>
+                                        <td class="align-middle text-center">
+                                            <a class="btn-sm btn-primary description" data-toggle="modal" data-target="#des"><i class="zmdi zmdi-eye text-white"></i></a>
+                                        </td>
+                                        <td class="align-middle text-center">
+                                            <a href="javascript:void(0);" class="btn-sm btn-default waves-effect waves-float waves-black"><i class="zmdi zmdi-edit"></i></a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <a href="~/assets/images/piano/PizzaLogo.jpg">
+                                                <img class="rounded shadow" src="~/assets/images/piano/PizzaLogo.jpg" height="35">
+                                            </a>
+                                            <span class="w-space-no ml-2">Xyz</span>
+                                        </td>
+                                        <td class="hidden-md-down text-center">
+                                            <ul id="aniimated-thumbnials" class="list-unstyled team-info margin-0 " style="cursor:pointer">
+                                                <li> <a href="/assets/images/piano/locationPic1.jpg"> <img class="img-fluid img-thumbnail p-0" src="/assets/images/piano/locationPic1.jpg"> </a> </li>
+                                                <li> <a href="/assets/images/piano/locationPic2.jpg"> <img class="img-fluid img-thumbnail p-0" src="/assets/images/piano/locationPic2.jpg"> </a> </li>
+                                                <li> <a href="/assets/images/piano/locationPic1.jpg"> <img class="img-fluid img-thumbnail p-0" src="/assets/images/piano/locationPic1.jpg"> </a> </li>
+                                            </ul>
+                                        </td>
+
+                                        <td class="align-middle">Netherland</td>
+                                        <td class="align-middle">MAASTRICHT</td>
+                                        <td class="align-middle text-center"><a href="http://www.google.com/maps/place/41.8719,12.5674" target="_blank"><i class="fas fa-map-marker-alt"></i></a></td>
+                                        <td>#92 ##########</td>
+                                        <td>john@gmail.com</td>
+                                        <td class="align-middle text-center">
+                                            <a class="btn-sm btn-primary description" data-toggle="modal" data-target="#des"><i class="zmdi zmdi-eye text-white"></i></a>
+                                        </td>
+                                        <td class="align-middle text-center">
+                                            <a href="javascript:void(0);" class="btn-sm btn-default waves-effect waves-float waves-black"><i class="zmdi zmdi-edit"></i></a>
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade bs-example-modal-md mt-5" id="des" tabindex="-1" role="dialog" aria-labelledby="des" aria-hidden="true">
+            <div class="modal-dialog modal-md">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="formModal">@local.GetLocalizedHtmlString("Details")</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <textarea readonly class="w-100 border-0"> Sample Details</textarea>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div><!-- /.modal -->
+        </div>
+
+        <div class="modal fade bs-example-modal-md mt-5" id="PrdDtls" tabindex="-1" role="dialog" aria-labelledby="PrdDtls" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="formModal">@local.GetLocalizedHtmlString("ProductsDetail")</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="table-responsive">
+                            <table class="table js-basic-example dataTable">
+                                <thead class="no-wrap">
+                                    <tr>
+                                        <th>@local.GetLocalizedHtmlString("Image")</th>
+                                        <th>@local.GetLocalizedHtmlString("ProductName")</th>
+                                        <th data-breakpoints="sm xs">@local.GetLocalizedHtmlString("Detail")</th>
+                                        <th data-breakpoints="sm xs" class="text-center">@local.GetLocalizedHtmlString("Ingredients")</th>
+                                        <th data-breakpoints="xs">@local.GetLocalizedHtmlString("Quantity")</th>
+                                        <th data-breakpoints="xs">@local.GetLocalizedHtmlString("Amount")</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody class="no-wrap">
+
+                                    <tr>
+                                        <td class="align-middle">
+                                            <a href="/assets/images/piano/Page-1-Image-1.png" target="_blank"> <img src="/assets/images/piano/Page-1-Image-1.png" height="30"> </a>
+                                        </td>
+                                        <td class="align-middle"><h6>Lazania Pizza</h6></td>
+                                        <td class="align-middle">
+                                            <a class="btn-sm btn-primary description" data-toggle="modal" data-target="#des"><i class="zmdi zmdi-eye text-white"></i></a>
+                                        </td>
+                                        <td class="align-middle text-center">
+                                            <a class="ingredients" style="cursor:pointer" data-toggle="modal" data-target="#ingredients">
+                                                <img src="~/assets/images/piano/Bg-transparent/Ingredient-removebg-preview.png" height="35" />
+                                            </a>
+                                        </td>
+                                        <td class="align-middle text-center">2</td>
+                                        <td class="align-middle">$16.00</td>
+
+                                    </tr>
+                                    <tr>
+                                        <td class="align-middle">
+                                            <a href="/assets/images/piano/Page-1-Image-1.png"> <img src="/assets/images/piano/Page-1-Image-1.png" height="30"> </a>
+                                        </td>
+                                        <td class="align-middle"><h6>Kabab Pizza</h6></td>
+                                        <td class="align-middle">
+                                            <a class="btn-sm btn-primary description" data-toggle="modal" data-target="#des"><i class="zmdi zmdi-eye text-white"></i></a>
+                                        </td>
+                                        <td class="align-middle text-center">
+                                            <a class="ingredients" style="cursor:pointer" data-toggle="modal" data-target="#ingredients">
+                                                <img src="~/assets/images/piano/Bg-transparent/Ingredient-removebg-preview.png" height="35" />
+                                            </a>
+                                        </td>
+                                        <td class="align-middle text-center">1</td>
+                                        <td class="align-middle">$15.00</td>
+                                    </tr>
+
+                                </tbody>
+                                <tfoot>
+                                    <tr><th rowspan="1" colspan="5">@local.GetLocalizedHtmlString("TotalBill")</th><th rowspan="1" colspan="1">$31.00</th></tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- /.modal -->
+        </div>
+        <!-- #END# Exportable Table -->
+        <div class="modal fade bs-example-modal-md mt-5" id="des" tabindex="-1" role="dialog" aria-labelledby="des" aria-hidden="true">
+            <div class="modal-dialog modal-md">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="formModal">@local.GetLocalizedHtmlString("Details")</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <textarea readonly class="w-100 border-0">@local.GetLocalizedHtmlString("SampleDetails") </textarea>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div><!-- /.modal -->
+        </div>
+
+
+        <div class="modal fade bs-example-modal-md mt-5" id="ingredients" tabindex="-1" role="dialog" aria-labelledby="ingredients" aria-hidden="true">
+            <div class="modal-dialog modal-md">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="formModal">@local.GetLocalizedHtmlString("Ingredients")</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label>Extra Topping:</label><span class="float-right">$25</span>
+                            </div>
+                            <div class="col-md-12">
+                                <label>Extra Topping:</label><span class="float-right">$25</span>
+                            </div>
+                            <div class="col-md-12">
+                                <label>Extra Topping:</label><span class="float-right">$25</span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div><!-- /.modal -->
+        </div>
+    </div>
+</section>
+

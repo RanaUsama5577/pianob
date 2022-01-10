@@ -1,0 +1,117 @@
+﻿@inject piano_pizza.Resources.LocalizationService local
+@{
+    Layout = "~/Areas/SuperAdmin/Views/Shared/_Layout.cshtml";
+}
+<section class="content">
+    <div class="block-header">
+        <div class="row">
+            <div class="col-12">
+                <h2>
+                    @local.GetLocalizedHtmlString("AddReceptionist")
+                </h2>
+            </div>
+
+        </div>
+    </div>
+    <div class="container-fluid">
+        <!-- Basic Validation -->
+        <div class="row clearfix">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <div class="card">
+                    <div class="body">
+                        <div id="form_validation" method="POST">
+
+
+
+                            <div class="row mt-4">
+                                <div class="col-md-4 col-sm-12 col-12">
+                                    <div class="card-body shadow" style="min-height:335px!important;max-height:335px!important">
+                                        <input type="file" accept="image/*" name="imageFile" id="file" onchange="loadFile(event)" style="display: none" />
+                                        <div class="d-flex justify-content-center mt-3">
+                                            <label for="file" style="cursor: pointer;" class="mt-1">
+                                                <span class="position-absolute rounded-circle bg-white pl-1 pr-1 pt-1" style="margin-left: 200px;margin-top: 200px;">
+                                                    <i class="fas fa-camera font-18 text-black"></i>
+                                                </span>
+                                                <img src="~/assets/images/profile_av.jpg" class="rounded-circle align-middle" id="output" style="vertical-align:middle;max-width:250px!important;min-width: 250px!important;max-height:250px!important; min-height: 250px!important" />
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-8 col-sm-12 col-12">
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-12 col-12">
+                                            <label>@local.GetLocalizedHtmlString("SelectBranch")</label>
+                                            <select class="form-group form-float show-tick w-100">
+                                                <option value="" disabled selected>-- Select Branch</option>
+                                                <option value="">MAASTRICHT</option>
+                                                <option value="">LEIDEN</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12 col-12">
+                                            <div class="form-group form-float">
+                                                <label>@local.GetLocalizedHtmlString("Name")</label>
+                                                <input type="text" class="form-control mt-1" placeholder="Name" name="name" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12 col-12">
+                                            <label>@local.GetLocalizedHtmlString("SelectGender")</label>
+                                            <select class="form-group form-float show-tick w-100">
+                                                <option value="" disabled selected>-- Select Gender</option>
+                                                <option value="">Male</option>
+                                                <option value="">Female</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12 col-12">
+                                            <div class="form-group form-float">
+                                                <label>@local.GetLocalizedHtmlString("Email")</label>
+                                                <input type="text" class="form-control mt-1" placeholder="E-mail.." required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12 col-12">
+                                            <div class="form-group form-float">
+                                                <label>@local.GetLocalizedHtmlString("Phone")</label>
+                                                <input type="number" class="form-control" placeholder="Phone.." required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12 col-12">
+                                            <label>@local.GetLocalizedHtmlString("JoiningDate")</label>
+                                            <div class="input-group">
+
+                                                <span class="input-group-addon">
+                                                    <i class="zmdi zmdi-calendar"></i>
+                                                </span>
+                                                <input type="text" class="form-control datetimepicker" placeholder="Please choose date & time...">
+                                            </div>
+                                        </div> <div class="col-md-6 col-sm-12 col-12">
+                                            <div class="form-group form-float">
+                                                <label>@local.GetLocalizedHtmlString("Password")</label>
+                                                <input type="password" class="form-control mt-1" placeholder="Password.." required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12 col-12">
+                                            <div class="form-group form-float">
+                                                <label>@local.GetLocalizedHtmlString("ConfirmPassword")</label>
+                                                <input type="password" class="form-control" placeholder="Confirm Password.." required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="btn btn-raised btn-primary btn-round waves-effect mb-4" style="float:right" type="submit">@local.GetLocalizedHtmlString("SUBMIT")</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- #END# Basic Validation -->
+
+    </div>
+</section>
+
+<script>
+    var loadFile = function (event) {
+        var image = document.getElementById("output");
+        image.src = URL.createObjectURL(event.target.files[0]);
+    };
+</script>
+

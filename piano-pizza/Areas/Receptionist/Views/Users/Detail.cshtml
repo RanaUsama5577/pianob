@@ -1,0 +1,104 @@
+﻿
+@{
+    ViewBag.Title = "Detail";
+    Layout = "~/Areas/Receptionist/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/assets/plugins/jquery-datatable/dataTables.bootstrap4.min.css" rel="stylesheet" />
+
+
+<section class="content">
+    <div class="block-header">
+        <div class="row">
+            <div class="col-12">
+                <h5>Users Detail</h5>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+
+        <!-- Exportable Table -->
+        <div class="row clearfix">
+            <div class="col-lg-12">
+                <div class="card">
+                  
+                    <div class="body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped table-hover js-basic-example dataTable">
+                                <thead style="white-space:nowrap">
+                                    <tr>
+                                        <th>
+                                            #Sr
+                                        </th>
+                                        <th>Name</th>
+                                        <th>Gender</th>
+                                        <th>Email</th>
+                                        <th>Phone Number</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody style="white-space:nowrap">
+
+                                    <tr>
+                                        <td>
+                                            1
+                                        </td>
+                                        <td>
+                                            <a href="~/assets/images/sm/avatar1.jpg">
+                                                <img class="rounded shadow" src="~/assets/images/sm/avatar1.jpg" height="35">
+                                            </a>
+
+                                            <span class="w-space-no ml-2">John Doe</span>
+
+                                        </td>
+                                        <td>Male</td>
+                                        <td>
+                                            <div> John@gmail.com</div>
+                                        </td>
+                                        <td>+92 000 0000000</td>
+                                        <td>
+                                            <div class="badge badge-danger badge-shadow badge_width_height">Blocked</div>
+                                        </td>
+                                       
+                                    </tr>
+                                    <tr id="two">
+                                        <td>
+                                            2
+                                        </td>
+                                        <td>
+                                            <a href="~/assets/images/profile_av.jpg">
+                                                <img class="rounded shadow" src="~/assets/images/profile_av.jpg" height="35">
+                                            </a>
+
+                                            <span class="w-space-no ml-2">Alex Doe</span>
+                                        </td>
+                                        <td>Male</td>
+                                        <td>
+                                            <div> John@gmail.com</div>
+                                        </td>
+                                        <td>+92 000 0000000</td>
+                                        <td>
+                                            <div class="badge badge-success badge-shadow badge_width_height">Active</div>
+                                        </td>
+                                       
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- #END# Exportable Table -->
+    </div>
+</section>
+
+
+<script>
+    $('#Usr').addClass('active');
+    $('#Usr').addClass('open');
+
+   
+</script>
+

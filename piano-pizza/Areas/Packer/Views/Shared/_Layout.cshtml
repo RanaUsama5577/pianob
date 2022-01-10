@@ -1,0 +1,237 @@
+﻿<!doctype html>
+<html class="no-js " lang="en">
+
+<!-- Mirrored from www.wrraptheme.com/templates/compass/html/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 29 Sep 2021 10:47:42 GMT -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <meta name="description" content="Responsive Bootstrap 4 and web Application ui kit.">
+    <title>Pionob</title>
+    <link rel="icon" href="/assets/images/piano/cropped-b-black-180x180.png"> <!-- Favicon-->
+
+    <link href="~/assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+
+    <link href="~/assets/plugins/jvectormap/jquery-jvectormap-2.0.3.min.css" rel="stylesheet" />
+
+    <link href="~/assets/plugins/bootstrap-select/css/bootstrap-select.css" rel="stylesheet" />
+
+    <link href="~/assets/plugins/jquery-datatable/dataTables.bootstrap4.min.css" rel="stylesheet" />
+
+    <link href="~/assets/plugins/light-gallery/css/lightgallery.css" rel="stylesheet" />
+
+    <link href="~/assets/plugins/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css" rel="stylesheet" />
+    <link href="~/assets/css/sweetalert2.min.css" rel="stylesheet" />
+
+    <link href="~/assets/css/jquery.steps.css" rel="stylesheet" />
+    <!-- JQuery DataTable Css -->
+    <link href="~/assets/css/image-uploader.min.css" rel="stylesheet" />
+
+    <link href="~/assets/css/main.css" rel="stylesheet" />
+    <link href="~/assets/css/color_skins.css" rel="stylesheet" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css" integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+
+</head>
+<body class="theme-black">
+    <!-- Page Loader -->
+    <div class="page-loader-wrapper">
+        <div class="loader">
+            <div class="m-t-30"><img src="/assets/images/Login/Piano-b-black.png" height="48"></div>
+            <p>Please wait...</p>
+        </div>
+    </div>
+    <!-- Overlay For Sidebars -->
+    <div class="overlay"></div>
+
+    <!-- Top Bar -->
+    <nav class="navbar">
+        <div class="col-12">
+            <div class="navbar-header text-center">
+                <a href="javascript:void(0);" class="bars"></a>
+                <a class="navbar-brand"><img src="/assets/images/Login/Piano-b-black.png" height="50"></a>
+            </div>
+            <ul class="nav navbar-nav navbar-left">
+                <li><a href="javascript:void(0);" class="ls-toggle-btn" data-close="true"><i class="zmdi zmdi-swap"></i></a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button">
+                        <i class="zmdi zmdi-notifications"></i>
+                        <div class="notify"><span class="heartbit"></span><span class="point"></span></div>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-right slideDown">
+                        <li class="header">NOTIFICATIONS</li>
+                        <li class="body">
+                            <ul class="menu list-unstyled">
+                                <li>
+                                    <a href="javascript:void(0);">
+                                        <div class="icon-circle bg-blue"><i class="zmdi zmdi-account"></i></div>
+                                        <div class="menu-info">
+                                            <h4>8 New Members joined</h4>
+                                            <p><i class="zmdi zmdi-time"></i> 14 mins ago </p>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0);">
+                                        <div class="icon-circle bg-amber"><i class="zmdi zmdi-shopping-cart"></i></div>
+                                        <div class="menu-info">
+                                            <h4>4 Sales made</h4>
+                                            <p> <i class="zmdi zmdi-time"></i> 22 mins ago </p>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0);">
+                                        <div class="icon-circle bg-red"><i class="zmdi zmdi-delete"></i></div>
+                                        <div class="menu-info">
+                                            <h4><b>Nancy Doe</b> Deleted account</h4>
+                                            <p> <i class="zmdi zmdi-time"></i> 3 hours ago </p>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0);">
+                                        <div class="icon-circle bg-green"><i class="zmdi zmdi-edit"></i></div>
+                                        <div class="menu-info">
+                                            <h4><b>Nancy</b> Changed name</h4>
+                                            <p> <i class="zmdi zmdi-time"></i> 2 hours ago </p>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0);">
+                                        <div class="icon-circle bg-grey"><i class="zmdi zmdi-comment-text"></i></div>
+                                        <div class="menu-info">
+                                            <h4><b>John</b> Commented your post</h4>
+                                            <p> <i class="zmdi zmdi-time"></i> 4 hours ago </p>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0);">
+                                        <div class="icon-circle bg-purple"><i class="zmdi zmdi-refresh"></i></div>
+                                        <div class="menu-info">
+                                            <h4><b>John</b> Updated status</h4>
+                                            <p> <i class="zmdi zmdi-time"></i> 3 hours ago </p>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0);">
+                                        <div class="icon-circle bg-light-blue"><i class="zmdi zmdi-settings"></i></div>
+                                        <div class="menu-info">
+                                            <h4>Settings Updated</h4>
+                                            <p> <i class="zmdi zmdi-time"></i> Yesterday </p>
+                                        </div>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="footer"> <a href="javascript:void(0);">View All Notifications</a> </li>
+                    </ul>
+                </li>
+
+                @*<--Logout-->*@
+                <li><a href="/Account/SignIn" class="mega-menu mr-3" data-close="true"><i class="zmdi zmdi-power"></i></a></li>
+
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Left Sidebar -->
+    <aside id="leftsidebar" class="sidebar">
+        <div class="menu">
+            <ul class="list">
+                <li>
+                    <div class="user-info">
+                        <div class="image"><img src="~/assets/images/profile_av.jpg" /></div>
+                        <div class="detail mt-2">
+                            <div class="d-flex flex-row" style="justify-content: center;">
+                                <p class="mt-1">Alex Doe</p>
+                                <a href="/Packer/Main/PackerProfile" class="mt-n2" title="Profile"><i class="zmdi zmdi-account-circle"></i></a>
+                            </div>
+                        </div>
+                    </div>
+
+                </li>
+                <li class="header">MAIN</li>
+                <li id="dash">
+                    <a href="/Packer/Main/Index"><i class="fas fa-desktop"></i><span>Dashboard</span></a>
+                </li>
+
+
+                <li class="header">Management</li>
+
+
+                <li id="order">
+                    <a href="/Packer/Order/AssignOrders"> <img src="~/assets/images/food-pack (1).png" class="mb-1" height="20" /><span>Cooked Orders</span> </a>
+                </li>
+                <li id="completeOrder">
+                    <a href="/Packer/Order/CompletedOrder">
+                        <img src="~/assets/images/food-pack (1).png" class="mb-1" height="20"/><span>Completed Orders</span>
+                    </a>
+                </li>
+                <li class="header">Content</li>
+                <li id="privacy">
+                    <a href="/Packer/AppContent/PrivacyPolicy"><i class="far fa-file-alt mr-2"></i>Privacy Policy</a>
+                </li>
+                <li id="cookie">
+                    <a href="/Packer/AppContent/Cookies"><i class="far fa-file-alt mr-2"></i>Cookie Policy</a>
+                </li>
+
+
+            </ul>
+        </div>
+    </aside>
+    <div>
+        @RenderBody()
+
+    </div>
+    @RenderSection("scripts", required: false)
+
+    <!-- Main Content -->
+    <script src="~/assets/bundles/libscripts.bundle.js"></script> <!-- Lib Scripts Plugin Js ( jquery.v3.2.1, Bootstrap4 js) -->
+    <script src="~/assets/bundles/vendorscripts.bundle.js"></script> <!-- slimscroll, waves Scripts Plugin Js -->
+    <!-- Jquery DataTable Plugin Js -->
+    <script src="~/assets/js/jquery.validate.js"></script>
+    <script src="~/assets/js/jquery.steps.js"></script>
+
+    <script src="~/assets/plugins/chartjs/Chart.bundle.js"></script> <!-- Chart Plugins Js -->
+
+    <script src="~/assets/plugins/momentjs/moment.js"></script> <!-- Moment Plugin Js -->
+    <script src="~/assets/plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js"></script>
+
+    <script src="~/assets/plugins/light-gallery/js/lightgallery-all.min.js"></script>
+    <script src="~/assets/bundles/mainscripts.bundle.js"></script>
+
+    <script src="~/assets/js/pages/forms/form-wizard.js"></script>
+
+    <script src="~/assets/bundles/datatablescripts.bundle.js"></script>
+    <script src="~/assets/plugins/jquery-datatable/buttons/dataTables.buttons.min.js"></script>
+    <script src="~/assets/plugins/jquery-datatable/buttons/buttons.bootstrap4.min.js"></script>
+    <script src="~/assets/plugins/jquery-datatable/buttons/buttons.colVis.min.js"></script>
+    <script src="~/assets/plugins/jquery-datatable/buttons/buttons.flash.min.js"></script>
+    <script src="~/assets/plugins/jquery-datatable/buttons/buttons.html5.min.js"></script>
+    <script src="~/assets/js/jquery-modal-video.min.js"></script>
+    <script src="~/assets/js/pages/tables/jquery-datatable.js"></script>
+    <script src="~/assets/js/sweetalert2.min.js"></script>
+
+    <script src="~/assets/summernote/dist/summernote.js"></script>
+    <script src="~/assets/js/image-uploader.min.js"></script>
+
+    <script src="~/assets/js/pages/medias/image-gallery.js"></script>
+    <script src="~/assets/js/pages/forms/basic-form-elements.js"></script>
+
+    <script>
+        $(function () {
+
+            $('.input-images-1').imageUploader();
+        });
+    </script>
+</body>
+
+</html>

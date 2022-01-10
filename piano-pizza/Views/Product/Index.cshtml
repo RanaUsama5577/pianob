@@ -1,0 +1,112 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<!-- #header-wrap -->
+<div id="header-bottom-wrap" class="is-clearfix">
+    <div id="header-bottom" class="site-header-bottom">
+        <div id="header-bottom-inner" class="site-header-bottom-inner ">
+            <section class="hero slider is-clearfix ">
+                <div style="background-image: url('/app-images/home.jpg'); background-repeat: no-repeat; background-size: cover; height: 200px; position: relative; background-position: center center;">
+                </div>
+                <div style="position: absolute;width: 100%;height: 100%;background-color: #000000;opacity: 0.5;transition: background 0.3s, border-radius 0.3s, opacity 0.3s;">
+                </div>
+                <div style="text-align: center;position: absolute;width: 100%;">
+                    <h2 style="color: #fff;font-size: 36px;margin-top: 138px;font-family: 'LIBRE FRANKLIN', sans-serif;" class="">Pizze</h2>
+                </div>
+            </section>
+            <!-- .slider -->
+        </div>
+        <!-- #header-bottom-inner -->
+    </div>
+    <!-- #header-bottom -->
+</div>
+<!-- #header-bottom-wrap -->
+<!-- import content layouts and modules -->
+<div id="content-main-wrap" class="is-clearfix">
+    <div id="content-area" class="site-content-area">
+        <div id="content-area-inner" class="site-content-area-inner">
+            <!-- works section -->
+            <section id="welcome" class="section introduction is-clearfix">
+                <div class="container">
+                    <div class="columns is-variable is-6 is-multiline">
+                        <div class="column is-6-desktop is-12-tablet has-text-centered">
+                            <div class="works-latest">
+                                <div class="works-latest-item">
+                                    <img alt="Joo - Niche Multi-Purpose HTML Template" src="/app-images/braseol1.jpg">
+                                </div>
+                                <!-- .works-latest-item -->
+                            </div>
+                        </div>
+                        <div class="column is-6-desktop is-12-tablet">
+                            <h1 class="heading-title style-3 has-text-left">
+                                Marinara - 8.60
+                            </h1>
+                            <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla accumsan, metus ultrices eleifend gravi, nulla nunc varius lectus. </p>
+                            <br>
+                            <div class="content">
+                                <h3>
+                                    Additional Ingredients
+                                </h3>
+                                <ul class="list no-margin" style="padding:0px 100px 0px 0px;">
+                                    <li>
+                                        <div class="ps-checkbox mb-0">
+                                            <input class="form-control" type="checkbox" id="create-account">
+                                            <label for="create-account">Buffalo Mozzarella.</label>
+                                            <span style="float: right;">5.0</span>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="ps-checkbox mb-0">
+                                            <input class="form-control" type="checkbox" id="create-account2">
+                                            <label for="create-account2">Mozzarella.</label>
+                                            <span style="float: right;">2.5</span>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="ps-checkbox mb-0">
+                                            <input class="form-control" type="checkbox" id="create-account3">
+                                            <label for="create-account3">Parmesan Cheese.</label>
+                                            <span style="float: right;">3.1</span>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="ps-checkbox mb-0">
+                                            <input class="form-control" type="checkbox" id="create-account4">
+                                            <label for="create-account4">Gorgonzola</label>
+                                            <span style="float: right;">2.8</span>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="ps-checkbox mb-0">
+                                            <input class="form-control" type="checkbox" id="create-account5">
+                                            <label for="create-account5">Tuna Fish</label>
+                                            <span style="float: right;">4.66</span>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="ps-checkbox mb-0">
+                                            <input class="form-control" type="checkbox" id="create-account6">
+                                            <label for="create-account6">Anchovies</label>
+                                            <span style="float: right;">1.5</span>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="ps-checkbox mb-0">
+                                            <input class="form-control" type="checkbox" id="create-account7">
+                                            <label for="create-account7">Parma Ham</label>
+                                            <span style="float: right;">7.5</span>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                            <br>
+                            <a style="background-color: #2d2929;" class="button" href="@Url.Action("Index","Order")">Order Now</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+    <!-- #content-area -->
+</div>
+

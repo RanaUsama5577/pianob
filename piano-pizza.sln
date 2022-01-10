@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31624.102
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "piano-pizza", "piano-pizza\piano-pizza.csproj", "{B647ED1E-5C16-46BD-B775-C8EE72C895B4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAL", "DAL\DAL.csproj", "{4A237613-28CA-4EC3-9FFE-979FC98B597D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Entities", "Entities\Entities.csproj", "{40D9FF16-EDAC-4215-AA64-22319D73A81A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B647ED1E-5C16-46BD-B775-C8EE72C895B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B647ED1E-5C16-46BD-B775-C8EE72C895B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B647ED1E-5C16-46BD-B775-C8EE72C895B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B647ED1E-5C16-46BD-B775-C8EE72C895B4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4A237613-28CA-4EC3-9FFE-979FC98B597D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A237613-28CA-4EC3-9FFE-979FC98B597D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A237613-28CA-4EC3-9FFE-979FC98B597D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A237613-28CA-4EC3-9FFE-979FC98B597D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{40D9FF16-EDAC-4215-AA64-22319D73A81A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{40D9FF16-EDAC-4215-AA64-22319D73A81A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{40D9FF16-EDAC-4215-AA64-22319D73A81A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{40D9FF16-EDAC-4215-AA64-22319D73A81A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A0EDC2B4-B904-4DAB-81E8-70BC42CEFD46}
+	EndGlobalSection
+EndGlobal

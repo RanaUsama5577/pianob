@@ -1,0 +1,63 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@inject piano_pizza.Resources.LocalizationService local
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<!-- #header-wrap -->
+<div id="header-bottom-wrap" class="is-clearfix">
+    <div id="header-bottom" class="site-header-bottom">
+        <div id="header-bottom-inner" class="site-header-bottom-inner ">
+            <section class="hero slider is-clearfix ">
+                <div style="background-image: url('/app-images/home.jpg');background-repeat: no-repeat;background-size: cover;height:600px;position: relative;background-position: center center;">
+                </div>
+                <div style="position: absolute;width: 100%;height: 100%;background-color: #000000;opacity: 0.5;transition: background 0.3s, border-radius 0.3s, opacity 0.3s;">
+                </div>
+                <div style="text-align: center;position: absolute;width: 100%;">
+                    <h2 style="color: #fff;font-size: 10vh;margin-top: 138px;font-family: 'LIBRE FRANKLIN', sans-serif;" class="">Where would you like <br>to order pizza?</h2>
+                    <a href="menu.html" class="main-section-btn">MAASTRICHT</a>
+                    <a href="menu.html" class="main-section-btn">LEIDEN</a>
+                </div>
+            </section>
+            <!-- .slider -->
+        </div>
+        <!-- #header-bottom-inner -->
+    </div>
+    <!-- #header-bottom -->
+</div>
+<!-- #header-bottom-wrap -->
+<!-- import content layouts and modules -->
+<div id="content-main-wrap" class="is-clearfix">
+    <div id="content-area" class="site-content-area">
+        <div id="content-area-inner" class="site-content-area-inner">
+            <!-- import content layouts and modules -->
+            <section>
+                <div style="background: #010101;text-align: center;">
+                    <img src="/app-images/piano-b-logo-2-1024x1024.png" style="height: 350px;">
+                </div>
+            </section>
+            <section>
+                <div style="text-align: center;">
+                    <img src="/app-images/8-slice-of-pizza.jpg" style="height: 100%;width: 100%;">
+                </div>
+            </section>
+            <section>
+                <div class="columns">
+                    <div class="column is-4" style="padding: 0px 0px 0px 92px;">
+                        <h2 style="color: #17b117;font-family: fangsong;padding: 26px;font-size: 46px;">
+                            WE PRESENT <br> TO YOU<br> THE PIZZA<br> OF THE<br> MONTH
+                        </h2>
+                        <h2 style="padding: 0px 26px;font-size: 34px;">
+                            THE BRESAOLA
+                        </h2>
+                    </div>
+                    <div class="column is-8">
+                        <img src="/app-images/braseol1.jpg">
+                    </div>
+                </div>
+            </section>
+        </div>
+        <!-- #content-area-inner -->
+    </div>
+    <!-- #content-area -->
+</div>

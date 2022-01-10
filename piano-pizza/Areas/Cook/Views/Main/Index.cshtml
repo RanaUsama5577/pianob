@@ -1,0 +1,120 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Cook/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    #bar_chart {
+        min-height: 415px !important;
+    }
+</style>
+<section class="content home">
+    <div class="block-header">
+        <div class="row">
+            <div class="col-12">
+                <h2>
+                    Dashboard
+                </h2>
+            </div>
+
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row clearfix social-widget">
+
+
+
+            <div class="col-sm-12 col-md-8 col-12">
+                <div class="card mb-0 pb-0 shadow height">
+                    <div class="header">
+                        <h2><strong>Orders</strong> Detail</h2>
+                        <ul class="header-dropdown">
+                            <li class="dropdown">
+                                <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <i class="zmdi zmdi-more"></i> </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="body">
+                        <canvas id="bar_chart" height="150"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-4 col-12">
+                <div class="w-100 mt-2">
+                    <a href="@Url.Action("Orders","Order")" style="cursor:pointer" class="card info-box-2 hover-zoom-effect twitter-widget">
+                        <div class="icon">
+                            <img src="~/assets/images/food-cover.png" class="mt-4 mb-2" height="35" />
+                        </div>
+                        <div class="content mb-2">
+                            <div class="number">9</div><div class="text">Waiting Orders</div>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="w-100">
+                    <a href="@Url.Action("Orders","Order")" style="cursor:pointer" class="card info-box-2 hover-zoom-effect twitter-widget">
+                        <div class="icon">
+                            <img src="~/assets/images/piano/cooking.png" class="mt-4 mb-2" height="35" />
+                        </div>
+                        <div class="content mb-2">
+                            <div class="number">6</div><div class="text">Assigned Orders</div>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="w-100">
+                    <a href="@Url.Action("Orders","Order")" style="cursor:pointer" class="card info-box-2 hover-zoom-effect twitter-widget">
+                        <div class="icon">
+                            <img src="~/assets/images/piano/cooking.png" class="mt-4 mb-2" height="35" />
+                        </div>
+                        <div class="content mb-2">
+                            <div class="number">3</div><div class="text">Completed Orders</div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+          
+        </div>
+
+    </div>
+</section>
+
+<script>
+    $('#Dash').addClass('active');
+    $('#Dash').addClass('open');
+</script>
+
+<script>
+    $(function () {
+        new Chart(document.getElementById("bar_chart").getContext("2d"), getChartJs());
+    });
+
+    function getChartJs(type) {
+        var config = null;
+
+
+
+        config = {
+            type: 'bar',
+            width: '30',
+            data: {
+                labels: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+                datasets: [{
+                    label: "Cooked Orders",
+                    data: [28, 48, 40, 19, 86, 27, 90, 19, 86, 27, 90, 3],
+                    backgroundColor: '#3b5998',
+                    strokeColor: "rgba(255,118,118,0.1)",
+                }]
+            },
+            options: {
+                responsive: true,
+                legend: false
+            }
+        }
+
+
+        return config;
+    }
+</script>
+

@@ -1,0 +1,280 @@
+﻿
+@{
+    ViewBag.Title = "CompletedOrder";
+    Layout = "~/Areas/Packer/Views/Shared/_Layout.cshtml";
+}
+
+<section class="content">
+    <div class="block-header">
+        <div class="row">
+            <div class="col-12">
+                <h2>
+                    Completed Orders
+                </h2>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+
+        <!-- Exportable Table -->
+        <div class="row clearfix">
+            <div class="col-lg-12">
+                <div class="card">
+
+                    <div class="body">
+                        <div class="table-responsive">
+                            <table class="table js-basic-example dataTable ">
+                                <thead class="no-wrap">
+                                    <tr>
+                                        <th>Order Id</th>
+                                        <th>Customer Name</th>
+                                        <th>Email</th>
+                                        <th>Phone</th>
+                                        <th>Products Detail</th>
+                                        <th data-breakpoints="sm xs" class="text-center">Assigned Delivery Person</th>
+                                        <th data-breakpoints="sm xs">Datetime</th>
+                                        <th data-breakpoints="sm xs">Amount</th>
+
+                                    </tr>
+                                </thead>
+
+                                <tbody class="no-wrap">
+                                    <tr>
+                                        <td>#123456</td>
+                                        <td>
+                                            <a href="~/assets/images/sm/avatar5.jpg">
+                                                <img class="rounded shadow" src="~/assets/images/sm/avatar5.jpg" height="35">
+                                            </a>
+                                            <span class="w-space-no ml-2">John Doe</span>
+                                        </td>
+                                        <td>john@gmail.com</td>
+                                        <td>#92 #######</td>
+
+                                        <td class="align-middle text-center">
+                                            <a class="description" style="cursor:pointer" data-toggle="modal" data-target="#PrdDtls"><img src="~/assets/images/piano/Bg-transparent/Page-2-Image-14-removebg-preview.png" height="35" /></a>
+                                        </td>
+
+                                        <td class="d-flex justify-content-center">
+                                            <img src="~/assets/images/piano/delivery-man.png" height="25"/>
+                                            <span class="w-space-no ml-2">John Doe</span>
+                                        </td>
+                                        <td class="align-middle">20 Sept 2021 12:00 PM</td>
+                                        <td class="align-middle">$16.00</td>
+
+                                    </tr>
+
+                                    <tr>
+                                        <td>#123456</td>
+                                        <td >
+                                            <a href="~/assets/images/sm/avatar5.jpg">
+                                                <img class="rounded shadow" src="~/assets/images/sm/avatar5.jpg" height="35">
+                                            </a>
+                                            <span class="w-space-no ml-2">John Doe</span>
+                                        </td>
+                                        <td>john@gmail.com</td>
+                                        <td>#92 #######</td>
+
+                                        <td class="align-middle text-center">
+                                            <a class="description" style="cursor:pointer" data-toggle="modal" data-target="#PrdDtls"><img src="~/assets/images/piano/Bg-transparent/Page-2-Image-14-removebg-preview.png" height="35" /></a>
+                                        </td>
+
+                                        <td class="d-flex justify-content-center">
+                                            <img src="~/assets/images/piano/delivery-man.png" height="25" />
+                                            <span class="w-space-no ml-2">John Doe</span>
+                                        </td>
+                                        <td class="align-middle">20 Sept 2021 12:00 PM</td>
+                                        <td class="align-middle">$16.00</td>
+
+                                    </tr>
+
+
+
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade bs-example-modal-md mt-5" id="assignOrder" tabindex="-1" role="dialog" aria-labelledby="assignOrder" aria-hidden="true">
+            <div class="modal-dialog modal-md">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="formModal">Assign Order</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group form-float">
+                                    <label>Order Id</label>
+                                    <input type="text" class="form-control mt-1" readonly value="#123456" required>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <label>Select Cook</label>
+                                <select class="form-group form-float show-tick w-100">
+                                    <option value="" disabled selected>-- Select Packer</option>
+                                    <option value="">Alex Doe</option>
+                                    <option value="">John Doe</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div>
+                            <button onclick="Status()" class="btn btn-success float-right right">Assign</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div><!-- /.modal -->
+        </div>
+
+        <div class="modal fade bs-example-modal-md mt-5" id="PrdDtls" tabindex="-1" role="dialog" aria-labelledby="PrdDtls" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="formModal">Products Detail</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="table-responsive">
+                            <table class="table js-basic-example dataTable">
+                                <thead class="no-wrap">
+                                    <tr>
+                                        <th>Image</th>
+                                        <th>Product Name</th>
+                                        <th data-breakpoints="sm xs">Detail</th>
+                                        <th data-breakpoints="sm xs" class="text-center">Ingredients</th>
+                                        <th data-breakpoints="xs">Quantity</th>
+                                        <th data-breakpoints="xs">Amount</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody class="no-wrap">
+
+                                    <tr>
+                                        <td class="align-middle">
+                                            <a href="/assets/images/piano/Page-1-Image-1.png" target="_blank"> <img src="/assets/images/piano/Page-1-Image-1.png" height="30"> </a>
+                                        </td>
+                                        <td class="align-middle"><h6>Lazania Pizza</h6></td>
+                                        <td class="align-middle">
+                                            <a class="btn-sm btn-primary description" data-toggle="modal" data-target="#des"><i class="zmdi zmdi-eye text-white"></i></a>
+                                        </td>
+                                        <td class="align-middle text-center">
+                                            <a class="ingredients" style="cursor:pointer" data-toggle="modal" data-target="#ingredients">
+                                                <img src="~/assets/images/piano/Bg-transparent/Ingredient-removebg-preview.png" height="35" />
+                                            </a>
+                                        </td>
+                                        <td class="align-middle text-center">2</td>
+                                        <td class="align-middle">$16.00</td>
+
+                                    </tr>
+                                    <tr>
+                                        <td class="align-middle">
+                                            <a href="/assets/images/piano/Page-1-Image-1.png"> <img src="/assets/images/piano/Page-1-Image-1.png" height="30"> </a>
+                                        </td>
+                                        <td class="align-middle"><h6>Kabab Pizza</h6></td>
+                                        <td class="align-middle">
+                                            <a class="btn-sm btn-primary description" data-toggle="modal" data-target="#des"><i class="zmdi zmdi-eye text-white"></i></a>
+                                        </td>
+                                        <td class="align-middle text-center">
+                                            <a class="ingredients" style="cursor:pointer" data-toggle="modal" data-target="#ingredients">
+                                                <img src="~/assets/images/piano/Bg-transparent/Ingredient-removebg-preview.png" height="35" />
+                                            </a>
+                                        </td>
+                                        <td class="align-middle text-center">1</td>
+                                        <td class="align-middle">$15.00</td>
+                                    </tr>
+
+                                </tbody>
+                                <tfoot>
+                                    <tr><th rowspan="1" colspan="5">Total Bill</th><th rowspan="1" colspan="1">$31.00</th></tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- /.modal -->
+        </div>
+        <!-- #END# Exportable Table -->
+        <div class="modal fade bs-example-modal-md mt-5" id="des" tabindex="-1" role="dialog" aria-labelledby="des" aria-hidden="true">
+            <div class="modal-dialog modal-md">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="formModal">Details</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <textarea readonly class="w-100 border-0"> Sample Details</textarea>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div><!-- /.modal -->
+        </div>
+
+
+        <div class="modal fade bs-example-modal-md mt-5" id="ingredients" tabindex="-1" role="dialog" aria-labelledby="ingredients" aria-hidden="true">
+            <div class="modal-dialog modal-md">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="formModal">Ingredients</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label>Extra Topping:</label><span class="float-right">$25</span>
+                            </div>
+                            <div class="col-md-12">
+                                <label>Extra Topping:</label><span class="float-right">$25</span>
+                            </div>
+                            <div class="col-md-12">
+                                <label>Extra Topping:</label><span class="float-right">$25</span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div><!-- /.modal -->
+        </div>
+    </div>
+</section>
+
+<script>
+    function Status() {
+
+        Swal.fire({
+            title: 'Are you sure, you want assign order to John?',
+
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Assign Please!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire(
+                    'Assigned!',
+                    'Order assigned to John Doe.',
+                    'success'
+                )
+            }
+        })
+    }
+</script>
+
