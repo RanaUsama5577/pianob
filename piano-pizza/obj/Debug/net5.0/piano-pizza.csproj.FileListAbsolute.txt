@@ -238,3 +238,8 @@ D:\repos\piano-pizza\piano-pizza\obj\Debug\net5.0\en-US\piano-pizza.resources.dl
 D:\repos\piano-pizza\piano-pizza\obj\Debug\net5.0\it-IT\piano-pizza.resources.dll
 D:\repos\piano-pizza\piano-pizza\obj\Debug\net5.0\piano_pizza.Resources.ApplicationResource.en-US.resources
 D:\repos\piano-pizza\piano-pizza\obj\Debug\net5.0\piano_pizza.Resources.ApplicationResource.it-IT.resources
+D:\repos\piano-pizza\piano-pizza\bin\Debug\net5.0\BLL.dll
+D:\repos\piano-pizza\piano-pizza\bin\Debug\net5.0\BLL.pdb
+D:\repos\piano-pizza\piano-pizza\obj\Debug\net5.0\Razor\Areas\SuperAdmin\Views\Staff\DriverDetails.cshtml.g.cs
+D:\repos\piano-pizza\piano-pizza\obj\Debug\net5.0\Razor\Views\Account\ForgotPassword.cshtml.g.cs
+D:\repos\piano-pizza\piano-pizza\obj\Debug\net5.0\Razor\Views\Account\Login.cshtml.g.cs

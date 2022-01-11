@@ -6,6 +6,7 @@ using System.Web;
 
 namespace piano_pizza.Areas.Receptionist.Controllers
 {
+    [Area("Receptionist")]
     public class MainController : Controller
     {
         // GET: Receptionist/Main

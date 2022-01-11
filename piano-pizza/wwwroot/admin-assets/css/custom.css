@@ -1,0 +1,4 @@
+﻿.btn-primary:not(:disabled):not(.disabled):active {
+    color: #fff;
+    background-color: #6d6a6a !important;
+}

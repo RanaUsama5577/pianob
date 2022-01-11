@@ -57,6 +57,9 @@ namespace DAL.Migrations
                     b.Property<string>("Address")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("BranchId")
+                        .HasColumnType("int");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
@@ -86,8 +89,14 @@ namespace DAL.Migrations
                     b.Property<string>("FullName")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Gender")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("IsNotificationDisabled")
                         .HasColumnType("bit");
+
+                    b.Property<DateTime?>("JoiningDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("LanguageSelection")
                         .HasColumnType("nvarchar(max)");
@@ -144,6 +153,8 @@ namespace DAL.Migrations
                         .HasColumnType("nvarchar(256)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("BranchId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
@@ -699,6 +710,15 @@ namespace DAL.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("DAL.ApplicationUser", b =>
+                {
+                    b.HasOne("DAL.Branches.Branch", "BranchObject")
+                        .WithMany()
+                        .HasForeignKey("BranchId");
+
+                    b.Navigation("BranchObject");
                 });
 
             modelBuilder.Entity("DAL.Branches.BranchImages", b =>

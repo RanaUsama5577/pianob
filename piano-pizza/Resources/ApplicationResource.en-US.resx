@@ -234,6 +234,9 @@
   <data name="Details" xml:space="preserve">
     <value>Details</value>
   </data>
+  <data name="DriverDetail" xml:space="preserve">
+    <value>Driver Detail</value>
+  </data>
   <data name="EditProfile" xml:space="preserve">
     <value>Edit Profile</value>
   </data>

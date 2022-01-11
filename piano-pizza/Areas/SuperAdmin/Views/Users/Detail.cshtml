@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Entities.UserProfileDtos>
+﻿@model IEnumerable<Entities.ProfileDtos>
 @inject piano_pizza.Resources.LocalizationService local
 @{
     Layout = "~/Areas/SuperAdmin/Views/Shared/_Layout.cshtml";
@@ -29,11 +29,7 @@
                             <table class="table table-bordered table-striped table-hover js-basic-example dataTable">
                                 <thead style="white-space:nowrap">
                                     <tr>
-                                        <th>
-                                            #Sr
-                                        </th>
                                         <th>@local.GetLocalizedHtmlString("Name")</th>
-                                        <th>@local.GetLocalizedHtmlString("Gender")</th>
                                         <th>@local.GetLocalizedHtmlString("Email")</th>
                                         <th>@local.GetLocalizedHtmlString("PhoneNumber")</th>
                                         <th>@local.GetLocalizedHtmlString("Status")</th>
@@ -41,32 +37,75 @@
                                     </tr>
                                 </thead>
                                 <tbody style="white-space:nowrap">
-                                    <tr>
-                                        <td>
-                                            1
-                                        </td>
-                                        <td>
-                                            <a href="~/admin-assets/images/sm/avatar1.jpg">
-                                                <img class="rounded shadow" src="~/admin-assets/images/sm/avatar1.jpg" height="35">
-                                            </a>
-
-                                            <span class="w-space-no ml-2">John Doe</span>
-
-                                        </td>
-                                        <td>Male</td>
-                                        <td>
-                                            <div>John@gmail.com</div>
-                                        </td>
-                                        <td>+92 000 0000000</td>
-                                        <td>
-                                            <div class="badge badge-danger badge-shadow badge_width_height">Blocked</div>
-                                        </td>
-                                        <td class="text-center">
-                                            <div style="display:flex;flex-direction:row">
-                                                <a class="btn-sm btn-success m-auto"><i class="fas fa-user-plus text-white"></i></a>
-                                            </div>
-                                        </td>
-                                    </tr>
+                                    @foreach (var i in Model)
+                                    {
+                                        if (i.Status == Entities.Enum.UserStatus.Active)
+                                        {
+                                            <tr data-row="1">
+                                                <td>
+                                                    @if (i.ProfileImageUrl != null && i.ProfileImageUrl != "Not Uploaded")
+                                                    {
+                                                        <div>
+                                                            <a class="image-popup-vertical-fit" href="@i.ProfileImageUrl">
+                                                                <img class="img-responsive thumbnail" src="@i.ProfileImageUrl" width="35" height="30">
+                                                            </a>
+                                                        </div>
+                                                        <a href="@i.ProfileImageUrl">
+                                                            <img class="rounded shadow" src="@i.ProfileImageUrl" height="35">
+                                                        </a>
+                                                        <span class="w-space-no ml-2">@i.FullName</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <img class="img-responsive thumbnail" src="/default.png" width="35" height="30">
+                                                    }
+                                                </td>
+                                                <td>@i.Email</td>
+                                                <td>@i.Phone</td>
+                                                <td>
+                                                    <div class="badge badge-success badge-shadow badge_width_height">Active</div>
+                                                </td>
+                                                <td class="text-center">
+                                                    <div style="display:flex;flex-direction:row">
+                                                        <a onclick="showBlockModal('@i.Id')" class="btn-sm btn-danger m-auto"><i class="fas fa-user-slash text-white"></i></a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        }
+                                        else
+                                        {
+                                            <tr data-row="2">
+                                                <td>
+                                                    @if (i.ProfileImageUrl != null && i.ProfileImageUrl != "Not Uploaded")
+                                                    {
+                                                        <div>
+                                                            <a class="image-popup-vertical-fit" href="@i.ProfileImageUrl">
+                                                                <img class="img-responsive thumbnail" src="@i.ProfileImageUrl" width="35" height="30">
+                                                            </a>
+                                                        </div>
+                                                        <a href="@i.ProfileImageUrl">
+                                                            <img class="rounded shadow" src="@i.ProfileImageUrl" height="35">
+                                                        </a>
+                                                        <span class="w-space-no ml-2">@i.FullName</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <img class="img-responsive thumbnail" src="/default.png" width="35" height="30">
+                                                    }
+                                                </td>
+                                                <td>@i.Email</td>
+                                                <td>@i.Phone</td>
+                                                <td>
+                                                    <div class="badge badge-danger badge-shadow badge_width_height">Blocked</div>
+                                                </td>
+                                                <td class="text-center">
+                                                    <div style="display:flex;flex-direction:row">
+                                                        <a onclick="showUnBlockModal('@i.Id')" class="btn-sm btn-success m-auto"><i class="fas fa-user-check text-white"></i></a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
                                 </tbody>
                             </table>
                         </div>
@@ -78,298 +117,140 @@
     </div>
 </section>
 
-
 <script>
     $('#Usr').addClass('active');
     $('#Usr').addClass('open');
-
+    $(function () {
+        var table = $('#table-1').DataTable({
+            //scrollY: "300px",
+            //scrollX: true,
+            //scrollCollapse: true,
+            //fixedColumns: {
+            //left: 2,
+            //right: 1
+            //}
+        });
+        $.fn.dataTable.ext.search.pop();
+        table.draw();
+        $('#all').removeClass('FilterButton');
+        $('#all').siblings().addClass('FilterButton');
+    })
     $("#active").click(function () {
         $('#active').removeClass('FilterButton');
         $('#active').siblings().addClass('FilterButton');
-
+        var table = $('#table-1').DataTable();
+        $.fn.dataTable.ext.search.pop();
+        table.draw();
+        $.fn.dataTable.ext.search.push(
+            function (settings, data, dataIndex) {
+                return $(table.row(dataIndex).node()).attr('data-row') == "1";
+            }
+        );
+        table.draw();
     });
     $("#all").click(function () {
         $('#all').removeClass('FilterButton');
         $('#all').siblings().addClass('FilterButton');
-
+        var table = $('#table-1').DataTable();
+        $.fn.dataTable.ext.search.pop();
+        table.draw();
     });
     $("#block").click(function () {
         $('#block').removeClass('FilterButton');
         $('#block').siblings().addClass('FilterButton');
-
-
-    });
-
-    $("#Unban_button_2").click(function () {
-
-        Swal.fire({
-            title: 'Are you sure, you want  to UnBlock User?',
-
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, UnBlock it!'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                Swal.fire(
-                    'UnBlocked!',
-                    'User is UnBlocked.',
-                    'success'
-                )
-
-                $("#status_button_2").text("Active");
-                $("#status_button_2").removeClass("badge-danger");
-                $("#status_button_2").addClass("badge-success");
-                $('#ban_button_2').css("display", "block");
-                $('#Unban_button_2').css("display", "none");
-
-                if ($("#status_button_1").text() == "Active") {
-
-                    console.log("123");
-
-                    $("#Active").click(function () {
-                        $('#one').show();
-                        $('#two').show();
-
-                    });
-
-                    $("#All").click(function () {
-                        $('#one').show();
-                        $('#two').show();
-
-                    });
-                    $("#Block").click(function () {
-                        $('#one').hide();
-                        $('#two').hide();
-
-                    });
-                }
-                else if ($("#status_button_1").text() == "Blocked") {
-                    $("#Active").click(function () {
-                        $('#one').hide();
-                        $('#two').show();
-
-                    });
-
-                    $("#All").click(function () {
-                        $('#one').show();
-                        $('#two').show();
-
-                    });
-                    $("#Block").click(function () {
-                        $('#one').show();
-                        $('#two').hide();
-
-                    });
-                }
-
-
+        var table = $('#table-1').DataTable();
+        $.fn.dataTable.ext.search.pop();
+        table.draw();
+        $.fn.dataTable.ext.search.push(
+            function (settings, data, dataIndex) {
+                return $(table.row(dataIndex).node()).attr('data-row') == "2";
             }
-        })
+        );
+        table.draw();
+
     });
-    $("#Unban_button_1").click(function () {
-
-        Swal.fire({
-            title: 'Are you sure, want  to UnBlock User?',
-
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, Unblock it!'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                Swal.fire(
-                    'Unblocked!',
-                    'User is Unblocked.',
-                    'success'
-                )
-
-
-                $("#status_button_1").text("Active");
-                $("#status_button_1").removeClass("badge-danger");
-                $("#status_button_1").addClass("badge-success");
-                $('#ban_button_1').css("display", "block");
-                $('#Unban_button_1').css("display", "none");
-
-
-                if ($("#status_button_2").text() == "Active") {
-
-                    console.log("123");
-
-                    $("#Active").click(function () {
-                        $('#one').show();
-                        $('#two').show();
-
-                    });
-
-                    $("#All").click(function () {
-                        $('#one').show();
-                        $('#two').show();
-
-                    });
-                    $("#Block").click(function () {
-                        $('#one').hide();
-                        $('#two').hide();
-
-                    });
-                }
-                else if ($("#status_button_2").text() == "Blocked") {
-                    $("#Active").click(function () {
-                        $('#one').show();
-                        $('#two').hide();
-
-                    });
-
-                    $("#All").click(function () {
-                        $('#one').show();
-                        $('#two').show();
-
-                    });
-                    $("#Block").click(function () {
-                        $('#one').hide();
-                        $('#two').show();
-
-                    });
-                }
-
-
-            }
-        })
-    });
-    $("#ban_button_2").click(function () {
-
-        Swal.fire({
-            title: 'Are you sure, want  to Block User?',
-
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, Block it!'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                Swal.fire(
-                    'Blocked!',
-                    'User is Blocked.',
-                    'success'
-                )
-
-                $("#status_button_2").text("Blocked");
-                $("#status_button_2").removeClass("badge-success");
-                $("#status_button_2").addClass("badge-danger");
-                $('#ban_button_2').css("display", "none");
-                $('#Unban_button_2').css("display", "block");
-
-                if ($("#status_button_1").text() == "Blocked") {
-                    console.log("1234");
-                    $("#Active").click(function () {
-                        $('#one').hide();
-                        $('#two').hide();
-
-                    });
-
-                    $("#All").click(function () {
-                        $('#one').show();
-                        $('#two').show();
-
-                    });
-                    $("#Block").click(function () {
-                        $('#one').show();
-                        $('#two').show();
-
-                    });
-                }
-                else if ($("#status_button_1").text() == "Active") {
-                    $("#Active").click(function () {
-                        $('#one').show();
-                        $('#two').hide();
-
-                    });
-
-                    $("#All").click(function () {
-                        $('#one').show();
-                        $('#two').show();
-
-                    });
-                    $("#Block").click(function () {
-                        $('#one').hide();
-                        $('#two').show();
-
-                    });
-                }
-
-            }
-        })
-    });
-    $("#ban_button_1").click(function () {
-
-        Swal.fire({
-            title: 'Are you sure, want  to Block User?',
-
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, Block it!'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                Swal.fire(
-                    'Blocked!',
-                    'User is Blocked.',
-                    'success'
-                )
-
-                $("#status_button_1").text("Blocked");
-                $("#status_button_1").removeClass("badge-success");
-                $("#status_button_1").addClass("badge-danger");
-                $('#ban_button_1').css("display", "none");
-                $('#Unban_button_1').css("display", "block");
-                if ($("#status_button_2").text() == "Blocked") {
-
-                    console.log("123");
-
-                    $("#Active").click(function () {
-                        $('#one').hide();
-                        $('#two').hide();
-
-                    });
-
-                    $("#All").click(function () {
-                        $('#one').show();
-                        $('#two').show();
-
-                    });
-                    $("#Block").click(function () {
-                        $('#one').show();
-                        $('#two').show();
-
-                    });
-                }
-                else if ($("#status_button_2").text() == "Active") {
-                    $("#Active").click(function () {
-                        $('#one').hide();
-                        $('#two').show();
-
-                    });
-
-                    $("#All").click(function () {
-                        $('#one').show();
-                        $('#two').show();
-
-                    });
-                    $("#Block").click(function () {
-                        $('#one').show();
-                        $('#two').hide();
-
-                    });
-                }
-
-
-            }
-        })
-    });
-
 </script>
 
+<script>
+    function showBlockModal(doc_id) {
+        $('#docId').val(doc_id);
+        Swal.fire({
+            title: 'Are you sure you want to block?',
+            text: "",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Confirm!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                blockUser();
+            }
+        })
+    }
+    function showUnBlockModal(doc_id) {
+        $('#unBlockDocId').val(doc_id);
+        Swal.fire({
+            title: 'Are you sure you want to unblock?',
+            text: "",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Confirm!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                unBlockUser();
+            }
+        })
+    }
+    function blockUser() {
+        var Id = $('#docId').val();
+        var response = getResponseFromUrl('GET', '/SuperAdmin/Users/BlockUser?id=' + Id);
+        if (response.code == 200) {
+            TimerSweet("Customer Blocked!", 'Customer is successfully blocked', "success", 2000);
+            setTimeout(function () {
+                location.reload();
+            }, 2000);
+        }
+        else {
+            sweetMessage("Error!", response.shortMessage, "error");
+        }
+    }
+    function unBlockUser() {
+        var Id = $('#unBlockDocId').val();
+        var response = getResponseFromUrl('GET', '/SuperAdmin/Users/UnBlockUser?id=' + Id);
+        if (response.code == 200) {
+            TimerSweet("Customer Unblocked!", 'Customer is successfully unblocked', "success", 2000);
+            setTimeout(function () {
+                location.reload();
+            }, 2000);
+        }
+        else {
+            sweetMessage("Error!", response.shortMessage, "error");
+        }
+    }
+</script>
+<!--Ajax-->
+<script>
+    var getResponseFromUrl = function (requestType, requestUrl, requestData) {
+        var response;
+        $.ajax({
+            type: requestType,
+            url: requestUrl,
+            data: requestData,
+            data: requestData,
+            async: false,
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                response = data;
+                console.log(data);
+            },
+            error: function (error) {
+                return error;
+            },
+        });
+        return response;
+    }
+</script>

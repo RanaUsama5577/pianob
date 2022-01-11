@@ -30,6 +30,7 @@ namespace Entities
             TermsAndConditions,
             AboutUs,
             AboutApp,
+            PrivacyPolicy,
         }
         public enum CartStatus
         {
@@ -42,6 +43,13 @@ namespace Entities
             Active,
             Blocked,
         }
+
+        public enum UserStatus
+        {
+            Active,
+            Blocked,
+            Left,
+        }
         public enum UserType
         {
             SuperAdmin,
@@ -49,6 +57,7 @@ namespace Entities
             Cook,
             Packer,
             Driver,
+            User,
         }
 
         public enum LoginProvider

@@ -30,6 +30,7 @@
 
     <link href="~/admin-assets/css/main.css" rel="stylesheet" />
     <link href="~/admin-assets/css/color_skins.css" rel="stylesheet" />
+    <link href="~/admin-assets/css/custom.css" rel="stylesheet" />
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css" integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
@@ -170,12 +171,13 @@
                     <a href="/SuperAdmin/Users/Detail"><i class="fas fa-users"></i><span>@local.GetLocalizedHtmlString("Users")</span> </a>
                 </li>
 
-                <li id="staff">
-                    <a href="javascript:void(0);" class="menu-toggle"><i class="fas fa-user-tie"></i><span>@local.GetLocalizedHtmlString("Staff")</span> </a>
+                <li >
+                    <a id="staff" href="javascript:void(0);" class="menu-toggle"><i class="fas fa-user-tie"></i><span>@local.GetLocalizedHtmlString("Staff")</span> </a>
                     <ul class="ml-menu">
+                        <li id="RecepDtls"><a href="/SuperAdmin/Staff/ReceptionistDetails">@local.GetLocalizedHtmlString("ReceptionistDetails") </a></li>
                         <li id="CookDtls"><a href="/SuperAdmin/Staff/CookDetails">@local.GetLocalizedHtmlString("CookDetails")</a></li>
                         <li id="PackerDtls"><a href="/SuperAdmin/Staff/PackerDetails">@local.GetLocalizedHtmlString("PackerDetails")</a></li>
-                        <li id="RecepDtls"><a href="/SuperAdmin/Staff/ReceptionistDetails">@local.GetLocalizedHtmlString("ReceptionistDetails") </a></li>
+                        <li id="DriverDtls"><a href="/SuperAdmin/Staff/DriverDetails">@local.GetLocalizedHtmlString("DriverDetails")</a></li>
                     </ul>
                 </li>
 

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System;
+using System.ComponentModel.DataAnnotations.Schema;
 using static Entities.Enum;
 
 namespace DAL
@@ -7,7 +8,7 @@ namespace DAL
     public class ApplicationUser : IdentityUser
     {
         public UserType Type { get; set; }
-        public EntityStatus Status { get; set; }
+        public UserStatus Status { get; set; }
         public DateTime RegisteredAt { get; set; }
         public LoginProvider ExternalType { get; set; }
         public string ExternalId { get; set; }
@@ -21,6 +22,10 @@ namespace DAL
         public string FcmToken { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
-
+        public DateTime? JoiningDate { get; set; }
+        public string Gender { get; set; }
+        [ForeignKey("BranchObject")]
+        public int? BranchId { get; set; }
+        public virtual Branches.Branch BranchObject { get; set; }
     }
 }

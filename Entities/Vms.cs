@@ -43,11 +43,33 @@ namespace Entities
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public UserType Role { get; set; }
-        public string Token { get; set; }
+        public UserStatus Status { get; set; }
         public LoginProvider ExternalType { get; set; }
         public string ExternalId { get; set; }
-        public string DateOfBirth { get; set; }
         public string FcmToken { get; set; }
+        public string CreatedAt { get; set; }
+        public string UpdatedAt { get; set; }
+        public string JoiningDate { get; set; }
+        public string Gender { get; set; }
+        public string BranchName { get; set; }
+        public int? BranchId { get; set; }
+    }
+
+    public class CategoryVms
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public int BranchId { get; set; }
+        public string BranchName { get; set; }
+        public EntityStatus Status { get; set; }
+        public string CreatedAt { get; set; }
+        public string UpdatedAt { get; set; }
+    }
+    public class CategoryAddVms
+    {
+        public int? catId { get; set; }
+        public int? branchId { get; set; }
+        public string name { get; set; }
     }
     public class ChangePasswordVMS
     {

@@ -4,6 +4,77 @@
     "D:\\repos\\piano-pizza\\piano-pizza\\piano-pizza.csproj": {}
   },
   "projects": {
+    "D:\\repos\\piano-pizza\\BLL\\BLL.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\repos\\piano-pizza\\BLL\\BLL.csproj",
+        "projectName": "BLL",
+        "projectPath": "D:\\repos\\piano-pizza\\BLL\\BLL.csproj",
+        "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
+        "outputPath": "D:\\repos\\piano-pizza\\BLL\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net5.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net5.0": {
+            "targetAlias": "net5.0",
+            "projectReferences": {
+              "D:\\repos\\piano-pizza\\DAL\\DAL.csproj": {
+                "projectPath": "D:\\repos\\piano-pizza\\DAL\\DAL.csproj"
+              },
+              "D:\\repos\\piano-pizza\\Entities\\Entities.csproj": {
+                "projectPath": "D:\\repos\\piano-pizza\\Entities\\Entities.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net5.0": {
+          "targetAlias": "net5.0",
+          "dependencies": {
+            "Microsoft.AspNetCore.Identity": {
+              "target": "Package",
+              "version": "[2.2.0, )"
+            },
+            "Microsoft.AspNetCore.Mvc.ViewFeatures": {
+              "target": "Package",
+              "version": "[2.2.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.400\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
     "D:\\repos\\piano-pizza\\DAL\\DAL.csproj": {
       "version": "1.0.0",
       "restore": {
@@ -164,6 +235,9 @@
           "net5.0": {
             "targetAlias": "net5.0",
             "projectReferences": {
+              "D:\\repos\\piano-pizza\\BLL\\BLL.csproj": {
+                "projectPath": "D:\\repos\\piano-pizza\\BLL\\BLL.csproj"
+              },
               "D:\\repos\\piano-pizza\\DAL\\DAL.csproj": {
                 "projectPath": "D:\\repos\\piano-pizza\\DAL\\DAL.csproj"
               }

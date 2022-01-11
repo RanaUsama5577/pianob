@@ -22,6 +22,7 @@ using Microsoft.AspNetCore.Mvc.Razor;
 using System.Resources;
 using System.Reflection;
 using piano_pizza.Resources;
+using BLL.AdminService;
 
 namespace piano_pizza
 {
@@ -37,11 +38,12 @@ namespace piano_pizza
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddTransient<IAdminService, AdminService>();
+
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDatabaseDeveloperPageExceptionFilter();
-
 
             services.AddIdentity<ApplicationUser, IdentityRole>(options =>
             {
