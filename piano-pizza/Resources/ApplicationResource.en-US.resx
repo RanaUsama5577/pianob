@@ -123,6 +123,9 @@
   <data name="Active" xml:space="preserve">
     <value>Active</value>
   </data>
+  <data name="Add New Branch" xml:space="preserve">
+    <value>Add New Branch</value>
+  </data>
   <data name="AddBranch" xml:space="preserve">
     <value>Add Branch</value>
   </data>

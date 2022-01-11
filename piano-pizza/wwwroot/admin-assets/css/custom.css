@@ -2,3 +2,22 @@
     color: #fff;
     background-color: #6d6a6a !important;
 }
+.navbar {
+    z-index: 9;
+}
+
+.sidebar {
+    z-index: 9;
+}
+.modal-content .btn-default {
+    color: #212529 !important;
+    background-color: #dae0e5 !important;
+    border-color: #d3d9df !important;
+}
+
+.red_border{
+    border:1px solid red;
+}
+.none_border{
+    border:none;
+}

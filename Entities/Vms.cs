@@ -31,6 +31,9 @@ namespace Entities
     public class AdminDashboard
     {
         public int TotalUsers { get; set; }
+        public int TotalProducts { get; set; }
+        public int TotalOrders { get; set; }
+        public int TotalCategories { get; set; }
     }
     public class ProfileDtos
     {
@@ -70,6 +73,35 @@ namespace Entities
         public int? catId { get; set; }
         public int? branchId { get; set; }
         public string name { get; set; }
+    }
+
+    public class BranchVms
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Phone { get; set; }
+        public string Email { get; set; }
+        public string Description { get; set; }
+        public string Image { get; set; }
+        public decimal Latitude { get; set; }
+        public decimal Longitude { get; set; }
+        public string Address { get; set; }
+        public EntityStatus Status { get; set; }
+        public string CreatedAt { get; set; }
+        public string UpdatedAt { get; set; }
+    }
+    public class BranchAddVms
+    {
+        public int? branchId { get; set; }
+        public string Name { get; set; }
+        public string Phone { get; set; }
+        public string Email { get; set; }
+        public string Description { get; set; }
+        public string ImageUrl { get; set; }
+        public IFormFile Image { get; set; }
+        public decimal Latitude { get; set; }
+        public decimal Longitude { get; set; }
+        public string Address { get; set; }
     }
     public class ChangePasswordVMS
     {

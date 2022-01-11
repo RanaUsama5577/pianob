@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using BLL.AdminService;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -11,10 +12,18 @@ namespace piano_pizza.Areas.SuperAdmin.Controllers
     [Authorize(Roles = "SuperAdmin")]
     public class MainController : Controller
     {
+        //Init ASP.NET identity store to handle user sign-in & sign-up 
+        private readonly IAdminService admin;
+
+        public MainController(IAdminService adminService)
+        {
+            admin = adminService;
+        }
         // GET: SuperAdmin/Main
         public ActionResult Index()
         {
-            return View();
+            var res = admin.DashboardStats();
+            return View(res);
         }
         public ActionResult AdminProfile()
         {

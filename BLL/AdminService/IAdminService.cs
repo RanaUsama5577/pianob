@@ -12,6 +12,8 @@ namespace BLL.AdminService
 {
     public interface IAdminService
     {
+        List<BranchVms> GetBranches();
+        ResponseDto AddBranch(BranchAddVms modal);
         List<ProfileDtos> GetUsers(UserType userType);
         Task<ResponseDto> CreateAdmin();
         Task<ResponseDto> Login(LoginViewModel LoginUser);
@@ -31,6 +33,8 @@ namespace BLL.AdminService
         Task<ResponseDto> Logout();
         ResponseDto BlockUser(string Id);
         ResponseDto UnBlockUser(string Id);
+        ResponseDto BlockBranch(int Id);
+        ResponseDto UnBlockBranch(int Id);
         ResponseDto LeftUser(string Id);
     }
 }

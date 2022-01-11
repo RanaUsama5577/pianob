@@ -205,7 +205,6 @@ D:\repos\piano-pizza\piano-pizza\obj\Debug\net5.0\Razor\Areas\Receptionist\Views
 D:\repos\piano-pizza\piano-pizza\obj\Debug\net5.0\Razor\Areas\Receptionist\Views\Users\ReceptionistProfile.cshtml.g.cs
 D:\repos\piano-pizza\piano-pizza\obj\Debug\net5.0\Razor\Areas\SuperAdmin\Views\AppContent\CookiePolicy.cshtml.g.cs
 D:\repos\piano-pizza\piano-pizza\obj\Debug\net5.0\Razor\Areas\SuperAdmin\Views\AppContent\PrivacyPolicy.cshtml.g.cs
-D:\repos\piano-pizza\piano-pizza\obj\Debug\net5.0\Razor\Areas\SuperAdmin\Views\Branch\AddBranch.cshtml.g.cs
 D:\repos\piano-pizza\piano-pizza\obj\Debug\net5.0\Razor\Areas\SuperAdmin\Views\Branch\Details.cshtml.g.cs
 D:\repos\piano-pizza\piano-pizza\obj\Debug\net5.0\Razor\Areas\SuperAdmin\Views\Login\ForgotPassword.cshtml.g.cs
 D:\repos\piano-pizza\piano-pizza\obj\Debug\net5.0\Razor\Areas\SuperAdmin\Views\Login\SignIn.cshtml.g.cs
@@ -243,3 +242,4 @@ D:\repos\piano-pizza\piano-pizza\bin\Debug\net5.0\BLL.pdb
 D:\repos\piano-pizza\piano-pizza\obj\Debug\net5.0\Razor\Areas\SuperAdmin\Views\Staff\DriverDetails.cshtml.g.cs
 D:\repos\piano-pizza\piano-pizza\obj\Debug\net5.0\Razor\Views\Account\ForgotPassword.cshtml.g.cs
 D:\repos\piano-pizza\piano-pizza\obj\Debug\net5.0\Razor\Views\Account\Login.cshtml.g.cs
+D:\repos\piano-pizza\piano-pizza\obj\Debug\net5.0\Razor\Areas\SuperAdmin\Views\Staff\AddDriver.cshtml.g.cs

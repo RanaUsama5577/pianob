@@ -1,4 +1,5 @@
 ﻿using DAL;
+using DAL.Branches;
 using DAL.Categories;
 using Entities;
 using Microsoft.AspNetCore.Hosting;
@@ -113,7 +114,10 @@ namespace BLL.AdminService
         {
             AdminDashboard a = new AdminDashboard
             {
-                TotalUsers = db.Users.Where(p => p.Status == UserStatus.Active && p.Type == UserType.SuperAdmin).Count(),
+                TotalUsers = db.Users.Where(p => p.Status == UserStatus.Active && p.Type != UserType.SuperAdmin).Count(),
+                TotalOrders = db.Orders.Where(p => p.Status != OrderType.Cancelled).Count(),
+                TotalProducts = db.Products.Where(p => p.Status == EntityStatus.Active).Count(),
+                TotalCategories = db.Categories.Where(p => p.Status == EntityStatus.Active).Count(),
             };
             return a;
         }
@@ -614,7 +618,6 @@ namespace BLL.AdminService
                 return JsonResponse2(504, es.GetBaseException().Message, null);
             }
         }
-
         public ResponseDto LeftUser(string Id)
         {
             try
@@ -649,6 +652,124 @@ namespace BLL.AdminService
             {
                 return JsonResponse2(504, es.GetBaseException().Message, null);
             }
+        }
+        public ResponseDto BlockBranch(int Id)
+        {
+            try
+            {
+                var entity = db.Branches.Find(Id);
+                if (entity == null)
+                {
+                    return JsonResponse2(400, "entity not found", null);
+                }
+                else
+                {
+                    entity.Status = EntityStatus.Blocked;
+                    db.Entry(entity).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return JsonResponse2(200, "success", null);
+                }
+            }
+            catch (Exception es)
+            {
+                return JsonResponse2(504, es.GetBaseException().Message, null);
+            }
+        }
+        public ResponseDto UnBlockBranch(int Id)
+        {
+            try
+            {
+                var entity = db.Branches.Find(Id);
+                if (entity == null)
+                {
+                    return JsonResponse2(400, "entity not found", null);
+                }
+                else
+                {
+                    entity.Status = EntityStatus.Active;
+                    db.Entry(entity).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return JsonResponse2(200, "success", null);
+                }
+            }
+            catch (Exception es)
+            {
+                return JsonResponse2(504, es.GetBaseException().Message, null);
+            }
+        }
+        public List<BranchVms> GetBranches()
+        {
+            try
+            {
+                var entities = db.Branches.AsEnumerable().Select(n => new BranchVms
+                {
+                    CreatedAt = n.CreatedAt.ToString("dd-MMM-yyyy hh:mm:ss tt"),
+                    UpdatedAt = n.UpdatedAt != null ? n.UpdatedAt.Value.ToString("dd-MMM-yyyy hh:mm:ss tt") : "-",
+                    Name = n.Name,
+                    Status = n.Status,
+                    Id = n.Id,
+                    Address = n.Address,
+                    Description = n.Description,
+                    Email = n.Email,
+                    Image = n.Image,
+                    Latitude = n.Latitude,
+                    Longitude = n.Longitude,
+                    Phone = n.Phone,
+                });
+                return entities.ToList();
+            }
+            catch (Exception es)
+            {
+                throw new ValidationException(es.GetBaseException().Message);
+            }
+        }
+
+        public ResponseDto AddBranch(BranchAddVms modal)
+        {
+            if (!ModelState.IsValid)
+            {
+                var message = string.Join(" | ", ModelState.Values
+                                .SelectMany(v => v.Errors)
+                                .Select(e => e.ErrorMessage));
+
+                return JsonResponse2(400, message, null);
+            }
+            if (modal.branchId == null)
+            {
+                
+                Branch entity = new Branch
+                {
+                    CreatedAt = currentTime,
+                    UpdatedAt = currentTime,
+                    Name = modal.Name,
+                    Status = EntityStatus.Active,
+                    Address = modal.Address,
+                    Description = modal.Description,
+                    Email= modal.Email,
+                    Image = modal.ImageUrl,
+                    Latitude = modal.Latitude,
+                    Longitude = modal.Longitude,
+                    Phone = modal.Phone,
+                };
+                db.Branches.Add(entity);
+                db.SaveChanges();
+            }
+            else
+            {
+                var entity = db.Branches.Find(modal.branchId);
+                entity.Name = modal.Name;
+                entity.Latitude = modal.Latitude;
+                entity.Longitude = modal.Longitude;
+                entity.Description = modal.Description;
+                entity.Phone = modal.Phone;
+                entity.Email = modal.Email;
+                entity.Image = modal.ImageUrl !=""?modal.ImageUrl:entity.Image;
+                entity.Address = modal.Address;
+                entity.UpdatedAt = currentTime;
+                db.Entry(entity).State = EntityState.Modified;
+                db.SaveChanges();
+            }
+            return JsonResponse2(200, "success", null);
         }
     }
 }
