@@ -16,6 +16,7 @@ namespace BLL.AdminService
         ResponseDto AddBranch(BranchAddVms modal);
         List<ProfileDtos> GetUsers(UserType userType);
         Task<ResponseDto> CreateAdmin();
+        Task<ResponseDto> AddStaff(AddStaffDtos modal);
         Task<ResponseDto> Login(LoginViewModel LoginUser);
         AdminDashboard DashboardStats();
         contentVms GetTerms();
@@ -33,8 +34,14 @@ namespace BLL.AdminService
         Task<ResponseDto> Logout();
         ResponseDto BlockUser(string Id);
         ResponseDto UnBlockUser(string Id);
+        ResponseDto DeleteUser(string Id);
         ResponseDto BlockBranch(int Id);
         ResponseDto UnBlockBranch(int Id);
         ResponseDto LeftUser(string Id);
+        List<CategoryVms> GetCategories();
+        ResponseDto AddOrUpdateCategory(CategoryAddVms modal);
+        ResponseDto DeleteCategory(int Id);
+        ResponseDto UnBlockCategory(int Id);
+        ResponseDto BlockCategory(int Id);
     }
 }

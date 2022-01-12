@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -16,8 +17,9 @@ namespace piano_pizza.Areas.SuperAdmin.Controllers
 {
     [Area("SuperAdmin")]
     [Authorize(Roles = "SuperAdmin")]
-    public class UsersController : Controller
+    public class CategoryController : Controller
     {
+
         //Init ASP.NET identity store to handle user sign-in & sign-up 
         private readonly UserManager<ApplicationUser> userManager;
         private readonly SignInManager<ApplicationUser> signInManager;
@@ -25,7 +27,7 @@ namespace piano_pizza.Areas.SuperAdmin.Controllers
         //Init ASP.NET identity store to handle user sign-in & sign-up 
         private readonly IAdminService admin;
 
-        public UsersController(RoleManager<IdentityRole> roleManager, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IAdminService adminService)
+        public CategoryController(RoleManager<IdentityRole> roleManager, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IAdminService adminService)
         {
             admin = adminService;
             this.signInManager = signInManager;
@@ -33,17 +35,23 @@ namespace piano_pizza.Areas.SuperAdmin.Controllers
             this.userManager = userManager;
         }
 
-        // GET: SuperAdmin/Users
-        public ActionResult Detail()
+        public IActionResult Index()
         {
-            var users = admin.GetUsers(Entities.Enum.UserType.User);
-            return View(users);
+            var res = admin.GetCategories();
+            var s = admin.GetBranches();
+            ViewBag.Branches = new SelectList(s.ToList(), "Id", "Name");
+            return View(res);
         }
-        public IActionResult BlockUser(string Id)
+        public IActionResult AddCategory(CategoryAddVms modal)
+        {
+            var res = admin.AddOrUpdateCategory(modal);
+            return Json(res);
+        }
+        public IActionResult BlockEntity(int Id)
         {
             try
             {
-                var s = admin.BlockUser(Id);
+                var s = admin.BlockCategory(Id);
                 return Json(s);
             }
             catch (Exception ex)
@@ -51,35 +59,11 @@ namespace piano_pizza.Areas.SuperAdmin.Controllers
                 throw new ValidationException(ex.GetBaseException().Message);
             }
         }
-        public IActionResult UnBlockUser(string Id)
+        public IActionResult UnBlockEntity(int Id)
         {
             try
             {
-                var s = admin.UnBlockUser(Id);
-                return Json(s);
-            }
-            catch (Exception ex)
-            {
-                throw new ValidationException(ex.GetBaseException().Message);
-            }
-        }
-        public IActionResult LeftUser(string Id)
-        {
-            try
-            {
-                var s = admin.LeftUser(Id);
-                return Json(s);
-            }
-            catch (Exception ex)
-            {
-                throw new ValidationException(ex.GetBaseException().Message);
-            }
-        }
-        public IActionResult DeleteUser(string Id)
-        {
-            try
-            {
-                var s = admin.DeleteUser(Id);
+                var s = admin.UnBlockCategory(Id);
                 return Json(s);
             }
             catch (Exception ex)
@@ -89,5 +73,3 @@ namespace piano_pizza.Areas.SuperAdmin.Controllers
         }
     }
 }
-
-

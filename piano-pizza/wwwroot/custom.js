@@ -5,17 +5,20 @@
  * 
  */
 "use strict";
-$(function () {
-    $(".loader").fadeOut("slow");
-    var element = $('#main-menu-navigation').find("[href='" + location.pathname + "']");
-    element.parent().addClass('active');
-    if (element.parent().hasClass('.nav-item')) {
-        
-    }
-    else {
-        element.parent().parent().parent().addClass('sidebar-group-active open');
-    }
-})
+//$(function () {
+//    var element = $('.sidebar-left-secondary').find("[href='" + location.pathname + "']");
+//    if (element.length == 0) {
+//        element = $('.side-content-wrap').find("[href='" + location.pathname + "']");
+//        element.parent().addClass('active');
+//    }
+//    else {
+//        element.addClass('active-a');
+//        var parent = element.parent().parent().attr('data-parent');
+//        var element2 = $('.side-content-wrap').find("[data-item='" + parent + "']");
+//        element2.addClass('active');
+//    }
+//    feather.replace();
+//})
 function message(title, message, type, delay) {
     if (type == "success") {
         iziToast.success({
@@ -51,11 +54,11 @@ function message(title, message, type, delay) {
     }
 }
 //Simple Sweets
-function sweetMessage(title,text,type ) {
+function sweetMessage(title, text, type) {
     Swal.fire(title, text, type);
 }
 //Timer Sweets
-function TimerSweet(title,text, icon, time) {
+function TimerSweet(title, text, icon, time) {
     Swal.fire({
         position: 'top-end',
         icon: icon,
@@ -65,7 +68,6 @@ function TimerSweet(title,text, icon, time) {
         timer: time
     })
 }
-
 //Mixin Sweets
 function MixinSweet(title, text, icon, time) {
     //error//success//warning//info
@@ -144,3 +146,39 @@ function remove_dots(elem) {
         }
     }
 }
+//Float Number Validcation
+$(".number_valid").keypress(function () {
+    return event.charCode >= 48 && event.charCode <= 57;
+});
+$(".float_valid").keypress(function () {
+    return event.charCode >= 48 && event.charCode <= 57 || event.charCode == 46;
+});
+$(".float_valid").keyup(function (elem) {
+    var val = $(this).val();
+
+    var tmp = $(this).val().replace(/^0+/, '0');
+    if (tmp.charAt(0) == 0 && tmp.charAt(1) > 0) {
+        tmp = 0;
+    }
+    $(this).val(tmp);
+
+    var fixer = 0;
+    if (val.includes(".")) {
+        if (tmp.charAt(0) == ".") {
+            $(this).val(fixer);
+        }
+        // IF DOUBLE MINUS APPEARS
+        else if ((val.match(/\./g).length) > 1) {
+            $(this).val(fixer);
+        }
+    }
+});
+$(".float_valid").on('input', function (elem) {
+    var t = $(this).val();
+    $(this).val((t.indexOf(".") >= 0) ? (t.substr(0, t.indexOf(".")) + t.substr(t.indexOf("."), 3)) : t);
+});
+$(".onlyCharacters").keyup(function () {
+    var newValue = $(this).val().replace(/[0-9]/g, "");
+    $(this).val(newValue);
+});
+

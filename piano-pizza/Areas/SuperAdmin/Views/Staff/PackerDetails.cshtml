@@ -27,11 +27,11 @@
                             <button id="block" class="btn-sm btn-primary FilterButton rounded font-12 mt-2">@local.GetLocalizedHtmlString("Blocked")</button>
                             <button id="left" class="btn-sm btn-primary FilterButton rounded font-12 mt-2">@local.GetLocalizedHtmlString("Left")</button>
                         </div>
-                        <a href="/SuperAdmin/Staff/AddPacker" class="btn-sm btn-primary float-right text-white mt-n4 " style="cursor:pointer">@local.GetLocalizedHtmlString("AddPacker")</a>
+                        <a href="/SuperAdmin/Staff/AddStaff?type=3" class="btn-sm btn-primary float-right text-white mt-n4 " style="cursor:pointer">@local.GetLocalizedHtmlString("AddPacker")</a>
                     </div>
                     <div class="body">
                         <div class="table-responsive">
-                            <table class="table table-bordered  js-basic-example dataTable">
+                            <table id="table-1" class="table table-bordered  js-basic-example dataTable">
                                 <thead style="white-space:nowrap">
                                     <tr>
                                         <th>
@@ -40,7 +40,6 @@
                                         <th>@local.GetLocalizedHtmlString("Branch")</th>
                                         <th>@local.GetLocalizedHtmlString("Name")</th>
                                         <th>@local.GetLocalizedHtmlString("Gender")</th>
-                                        <th>@local.GetLocalizedHtmlString("Email")</th>
                                         <th>@local.GetLocalizedHtmlString("PhoneNumber")</th>
                                         <th>@local.GetLocalizedHtmlString("JoiningDate")</th>
                                         <th>@local.GetLocalizedHtmlString("Status")</th>
@@ -56,25 +55,17 @@
                                             <tr data-row="1">
                                                 <td>@i.BranchName</td>
                                                 <td>
-                                                    @if (i.ProfileImageUrl != null && i.ProfileImageUrl != "Not Uploaded")
-                                                    {
-                                                        <div>
-                                                            <a class="image-popup-vertical-fit" href="@i.ProfileImageUrl">
-                                                                <img class="img-responsive thumbnail" src="@i.ProfileImageUrl" width="35" height="30">
-                                                            </a>
+                                                    <div class="d-flex justify-content-left align-items-center">
+                                                        <div class="avatar  me-1">
+                                                            <img src="@i.ProfileImageUrl" class="rounded shadow mr-2" style="max-width: 31px;">
                                                         </div>
-                                                        <a href="@i.ProfileImageUrl">
-                                                            <img class="rounded shadow" src="@i.ProfileImageUrl" height="35">
-                                                        </a>
-                                                        <span class="w-space-no ml-2">@i.FullName</span>
-                                                    }
-                                                    else
-                                                    {
-                                                        <img class="img-responsive thumbnail" src="/default.png" width="35" height="30">
-                                                    }
+                                                        <div class="d-flex flex-column">
+                                                            <span class="emp_name text-truncate fw-bold">@i.FullName</span>
+                                                            <small class="emp_post text-truncate text-muted">@i.Email</small>
+                                                        </div>
+                                                    </div>
                                                 </td>
                                                 <td>@i.Gender</td>
-                                                <td>@i.Email</td>
                                                 <td>@i.Phone</td>
                                                 <td class="align-middle text-center">
                                                     <a class="description" style="cursor:pointer" data-toggle="modal" data-target="#OrderDtls"><img src="~/admin-assets/images/piano/Bg-transparent/Page-2-Image-14-removebg-preview.png" height="35" /></a>
@@ -97,25 +88,17 @@
                                             <tr data-row="2">
                                                 <td>@i.BranchName</td>
                                                 <td>
-                                                    @if (i.ProfileImageUrl != null && i.ProfileImageUrl != "Not Uploaded")
-                                                    {
-                                                        <div>
-                                                            <a class="image-popup-vertical-fit" href="@i.ProfileImageUrl">
-                                                                <img class="img-responsive thumbnail" src="@i.ProfileImageUrl" width="35" height="30">
-                                                            </a>
+                                                    <div class="d-flex justify-content-left align-items-center">
+                                                        <div class="avatar  me-1">
+                                                            <img src="@i.ProfileImageUrl" class="rounded shadow mr-2" style="max-width: 31px;">
                                                         </div>
-                                                        <a href="@i.ProfileImageUrl">
-                                                            <img class="rounded shadow" src="@i.ProfileImageUrl" height="35">
-                                                        </a>
-                                                        <span class="w-space-no ml-2">@i.FullName</span>
-                                                    }
-                                                    else
-                                                    {
-                                                        <img class="img-responsive thumbnail" src="/default.png" width="35" height="30">
-                                                    }
+                                                        <div class="d-flex flex-column">
+                                                            <span class="emp_name text-truncate fw-bold">@i.FullName</span>
+                                                            <small class="emp_post text-truncate text-muted">@i.Email</small>
+                                                        </div>
+                                                    </div>
                                                 </td>
                                                 <td>@i.Gender</td>
-                                                <td>@i.Email</td>
                                                 <td>@i.Phone</td>
                                                 <td class="align-middle text-center">
                                                     <a class="description" style="cursor:pointer" data-toggle="modal" data-target="#OrderDtls"><img src="~/admin-assets/images/piano/Bg-transparent/Page-2-Image-14-removebg-preview.png" height="35" /></a>
@@ -138,25 +121,17 @@
                                             <tr data-row="3">
                                                 <td>@i.BranchName</td>
                                                 <td>
-                                                    @if (i.ProfileImageUrl != null && i.ProfileImageUrl != "Not Uploaded")
-                                                    {
-                                                        <div>
-                                                            <a class="image-popup-vertical-fit" href="@i.ProfileImageUrl">
-                                                                <img class="img-responsive thumbnail" src="@i.ProfileImageUrl" width="35" height="30">
-                                                            </a>
+                                                    <div class="d-flex justify-content-left align-items-center">
+                                                        <div class="avatar  me-1">
+                                                            <img src="@i.ProfileImageUrl" class="rounded shadow mr-2" style="max-width: 31px;">
                                                         </div>
-                                                        <a href="@i.ProfileImageUrl">
-                                                            <img class="rounded shadow" src="@i.ProfileImageUrl" height="35">
-                                                        </a>
-                                                        <span class="w-space-no ml-2">@i.FullName</span>
-                                                    }
-                                                    else
-                                                    {
-                                                        <img class="img-responsive thumbnail" src="/default.png" width="35" height="30">
-                                                    }
+                                                        <div class="d-flex flex-column">
+                                                            <span class="emp_name text-truncate fw-bold">@i.FullName</span>
+                                                            <small class="emp_post text-truncate text-muted">@i.Email</small>
+                                                        </div>
+                                                    </div>
                                                 </td>
                                                 <td>@i.Gender</td>
-                                                <td>@i.Email</td>
                                                 <td>@i.Phone</td>
                                                 <td class="align-middle text-center">
                                                     <a class="description" style="cursor:pointer" data-toggle="modal" data-target="#OrderDtls"><img src="~/admin-assets/images/piano/Bg-transparent/Page-2-Image-14-removebg-preview.png" height="35" /></a>
@@ -402,7 +377,6 @@
         );
         table.draw();
     });
-
 </script>
 <script>
     function showBlockModal(doc_id) {
@@ -450,6 +424,36 @@
                     var response = getResponseFromUrl('GET', '/SuperAdmin/Users/UnBlockUser?id=' + doc_id);
                     if (response.code == 200) {
                         TimerSweet("Staff Unblocked!", 'Staff is successfully unblocked', "success", 2000);
+                        setTimeout(function () {
+                            location.reload();
+                        }, 2000);
+                    }
+                    else {
+                        sweetMessage("Error!", response.shortMessage, "error");
+                    }
+                })
+            },
+        }).then((result) => {
+            if (result.isConfirmed) {
+
+            }
+        })
+    }
+    function showDeleteModal(doc_id) {
+        Swal.fire({
+            title: 'Are you sure you want to delete?',
+            text: "",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Confirm!',
+            showLoaderButton: true,
+            preConfirm: (ref) => {
+                return new Promise(async function (resolve, reject) {
+                    var response = getResponseFromUrl('GET', '/SuperAdmin/Users/DeleteUser?id=' + doc_id);
+                    if (response.code == 200) {
+                        TimerSweet("Staff Deleted!", 'Staff is successfully deleted', "success", 2000);
                         setTimeout(function () {
                             location.reload();
                         }, 2000);

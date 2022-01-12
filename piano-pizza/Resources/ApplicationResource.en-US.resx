@@ -126,6 +126,9 @@
   <data name="Add New Branch" xml:space="preserve">
     <value>Add New Branch</value>
   </data>
+  <data name="Add Staff" xml:space="preserve">
+    <value>Add Staff</value>
+  </data>
   <data name="AddBranch" xml:space="preserve">
     <value>Add Branch</value>
   </data>

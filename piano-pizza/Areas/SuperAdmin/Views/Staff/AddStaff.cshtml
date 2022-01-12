@@ -2,15 +2,19 @@
 @{
     Layout = "~/Areas/SuperAdmin/Views/Shared/_Layout.cshtml";
 }
+<style>
+    .swal2-select{
+        display:none!important;
+    }
+</style>
 <section class="content">
     <div class="block-header">
         <div class="row">
             <div class="col-12">
                 <h2>
-                    @local.GetLocalizedHtmlString("AddReceptionist")
+                    @local.GetLocalizedHtmlString("Add Staff")
                 </h2>
             </div>
-
         </div>
     </div>
     <div class="container-fluid">
@@ -20,8 +24,8 @@
                 <div class="card">
                     <div class="body">
                         <form autocomplete="off" id="Form" method="POST" action="/SuperAdmin/Staff/AddStaff" enctype="multipart/form-data">
-                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                            <input type="hidden" name="Role" id="Role" value="1" />
+                            <p style="color:orangered;">@ViewBag.Message</p>
+                            <input type="hidden" name="Role" id="Role" value="@ViewBag.Type" />
                             <div id="form_validation">
                                 <div class="row mt-4">
                                     <div class="col-md-4 col-sm-12 col-12">
@@ -51,8 +55,7 @@
                                             </div>
                                             <div class="col-md-6 col-sm-12 col-12">
                                                 <label>@local.GetLocalizedHtmlString("SelectGender")</label>
-                                                <select class="form-group form-float show-tick w-100" name="Gender" id="Gender">
-                                                    <option value="" disabled selected>-- Select Gender--</option>
+                                                <select class="form-group  form-float show-tick w-100" name="Gender" id="Gender">
                                                     <option value="Male">Male</option>
                                                     <option value="Female">Female</option>
                                                 </select>
@@ -94,7 +97,7 @@
                                     </div>
                                 </div>
                                 <div style="display:flex;justify-content:end;">
-                                    <a class="btn btn-raised btn-default btn-round waves-effect mb-4" href="/SuperAdmin/Staff/DriverDetails">@local.GetLocalizedHtmlString("Cancel")</a>
+                                    <a class="btn btn-raised btn-default btn-round waves-effect mb-4" href="@ViewBag.CancelString">@local.GetLocalizedHtmlString("Cancel")</a>
                                     <button class="btn btn-raised btn-default btn-round waves-effect mb-4" type="submit">@local.GetLocalizedHtmlString("SUBMIT")</button>
                                 </div>
                             </div>
@@ -104,28 +107,22 @@
             </div>
         </div>
         <!-- #END# Basic Validation -->
-
     </div>
 </section>
 
 <script>
-    $('#DriverDtls').addClass('active');
-    $('#staff').addClass('toggled');
+    $(function () {
+        $('#RecepDtls').addClass('active');
+        $('#staff').addClass('toggled');
+        if ('@ViewBag.Message' != '') {
+            MixinSweet("@ViewBag.Message!", "","info", 2000);
+        }
+    })
+
     var loadFile = function (event) {
         var image = document.getElementById("output");
         image.src = URL.createObjectURL(event.target.files[0]);
     };
-</script>
-
-<script>
-    $(function () {
-        if ('@ViewBag.Message' == 'Success') {
-            MixinSweet("Success!", "","success", 2000);
-        }
-        else if ('@ViewBag.Message' == 'Error') {
-            MixinSweet("Error!", "","error", 2000);
-        }
-    })
 </script>
 
 <script>
@@ -192,4 +189,3 @@
         return true;
     }
 </script>
-

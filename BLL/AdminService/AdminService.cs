@@ -101,7 +101,7 @@ namespace BLL.AdminService
                     JoiningDate = n.JoiningDate != null ? n.UpdatedAt.Value.ToString("dd-MMM-yyyy hh:mm:ss tt") : "-",
                     BranchId = n.BranchId,
                     Gender = n.Gender,
-                    BranchName = n.BranchId != null ? n.BranchObject.Name : "-",
+                    BranchName = n.BranchId != null ? db.Branches.Find(n.BranchId).Name : "-",
                 });
                 return users.ToList();
             }
@@ -140,6 +140,8 @@ namespace BLL.AdminService
                     Name = n.Name,
                     Status = n.Status,
                     Id = n.Id,
+                    BranchName = db.Branches.Find(n.BranchId).Name,
+                    BranchId = n.BranchId,
                 });
                 return entities.ToList();
             }
@@ -160,7 +162,7 @@ namespace BLL.AdminService
             }
             if (modal.catId == null)
             {
-                var branch = db.Branches.Find(modal.branchId);
+                var branch = db.Branches.Find(modal.BranchId);
                 if(branch == null)
                 {
                     return JsonResponse2(400, "branch not found", null);
@@ -169,7 +171,7 @@ namespace BLL.AdminService
                 {
                     CreatedAt = currentTime,
                     UpdatedAt = currentTime,
-                    Name = modal.name,
+                    Name = modal.Name,
                     BranchId = branch.Id,
                     Status = EntityStatus.Active,
                 };
@@ -179,7 +181,7 @@ namespace BLL.AdminService
             else
             {
                 var entity = db.Categories.Find(modal.catId);
-                entity.Name = modal.name;
+                entity.Name = modal.Name;
                 entity.UpdatedAt = currentTime;
                 db.Entry(entity).State = EntityState.Modified;
                 db.SaveChanges();
@@ -583,6 +585,27 @@ namespace BLL.AdminService
                 return JsonResponse2(504, es.GetBaseException().Message, null);
             }
         }
+        public ResponseDto DeleteUser(string Id)
+        {
+            try
+            {
+                var entity = db.Users.Find(Id);
+                if (entity == null)
+                {
+                    return JsonResponse2(400, "entity not found", null);
+                }
+                else
+                {
+                    db.Users.Remove(entity);
+                    db.SaveChanges();
+                    return JsonResponse2(200, "success", null);
+                }
+            }
+            catch (Exception es)
+            {
+                return JsonResponse2(504, es.GetBaseException().Message, null);
+            }
+        }
         public ResponseDto UnBlockUser(string Id)
         {
             try
@@ -723,7 +746,6 @@ namespace BLL.AdminService
                 throw new ValidationException(es.GetBaseException().Message);
             }
         }
-
         public ResponseDto AddBranch(BranchAddVms modal)
         {
             if (!ModelState.IsValid)
@@ -770,6 +792,73 @@ namespace BLL.AdminService
                 db.SaveChanges();
             }
             return JsonResponse2(200, "success", null);
+        }
+        async public Task<ResponseDto> AddStaff(AddStaffDtos modal)
+        {
+            if (!ModelState.IsValid)
+            {
+                var message = string.Join(" | ", ModelState.Values
+                                .SelectMany(v => v.Errors)
+                                .Select(e => e.ErrorMessage));
+                return JsonResponse2(400, message, null);
+            }
+            try
+            {
+                var EmailRegistered = db.Users.Where(u => u.Email == modal.Email).FirstOrDefault();
+                if (EmailRegistered != null)
+                {
+                    return JsonResponse2(401, "Email already registered!", null);
+                }
+                var imageUrl = "";
+                var branch = db.Branches.Find(modal.BranchId);
+                if (branch == null)
+                {
+                    return JsonResponse2(401, "Branch is not found!", null);
+                }
+                ApplicationUser newUser = new ApplicationUser
+                {
+                    Email = modal.Email,
+                    UserName = modal.Email,
+                    RegisteredAt = currentTime,
+                    FullName = modal.FullName,
+                    PhoneNumber = modal.Phone,
+                    CreatedAt = currentTime,
+                    JoiningDate = modal.JoiningDate,
+                    Gender = modal.Gender,
+                    ExternalType = LoginProvider.WithEmail,
+                    Status = UserStatus.Active,
+                    Type = modal.Role,
+                    ProfileImageUrl = modal.ImageUrl,
+                    BranchId = branch.Id,
+                    UpdatedAt = currentTime,
+                };
+                var result = await userManager.CreateAsync(newUser, "1q2w3e4r");
+                if (result.Succeeded)
+                {
+                    var role = nameof(modal.Role);
+                    if (await roleManager.RoleExistsAsync(role))
+                    {
+                        await userManager.AddToRoleAsync(newUser, role);
+                        return JsonResponse2(200, "success", null);
+                    }
+                    else
+                    {
+                        IdentityRole identityRole = new IdentityRole();
+                        identityRole.Name = role;
+                        await roleManager.CreateAsync(identityRole);
+                        await userManager.AddToRoleAsync(newUser, role);
+                        return JsonResponse2(200, "success", null);
+                    }
+                }
+                else
+                {
+                    return JsonResponse2(400, "error", result);
+                }
+            }
+            catch (Exception ex)
+            {
+                return JsonResponse2(504, ex.Message, null);
+            }
         }
     }
 }

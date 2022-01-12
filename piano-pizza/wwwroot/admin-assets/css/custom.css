@@ -3,7 +3,7 @@
     background-color: #6d6a6a !important;
 }
 .navbar {
-    z-index: 9;
+    z-index: 10;
 }
 
 .sidebar {
@@ -20,4 +20,7 @@
 }
 .none_border{
     border:none;
+}
+.modal {
+    top: 51px!important;
 }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using static Entities.Enum;
@@ -57,7 +58,20 @@ namespace Entities
         public string BranchName { get; set; }
         public int? BranchId { get; set; }
     }
-
+    public class AddStaffDtos
+    {
+        public string Phone { get; set; }
+        public IFormFile ImageFile { get; set; }
+        public string ImageUrl { get; set; }
+        public string Email { get; set; }
+        public string FullName { get; set; }
+        public string Password { get; set; }
+        public string ConfirmPassword { get; set; }
+        public UserType Role { get; set; }
+        public DateTime JoiningDate { get; set; }
+        public string Gender { get; set; }
+        public int? BranchId { get; set; }
+    }
     public class CategoryVms
     {
         public int Id { get; set; }
@@ -71,10 +85,9 @@ namespace Entities
     public class CategoryAddVms
     {
         public int? catId { get; set; }
-        public int? branchId { get; set; }
-        public string name { get; set; }
+        public int? BranchId { get; set; }
+        public string Name { get; set; }
     }
-
     public class BranchVms
     {
         public int Id { get; set; }

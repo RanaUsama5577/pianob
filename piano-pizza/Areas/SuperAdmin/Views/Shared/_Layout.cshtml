@@ -183,16 +183,17 @@
                     <a href="/SuperAdmin/Branch/Details"><i class="fas fa-building"></i><span>@local.GetLocalizedHtmlString("BranchDetails")</span> </a>
                 </li>
 
+                <li id="Category">
+                    <a href="/SuperAdmin/Category/Index"><i class="fas fa-building"></i><span>@local.GetLocalizedHtmlString("Categories")</span> </a>
+                </li>
+
                 <li id="product">
                     <a href="javascript:void(0);" class="menu-toggle"><i class="fas fa-pizza-slice"></i><span>@local.GetLocalizedHtmlString("Product")</span> </a>
                     <ul class="ml-menu">
-                        <li id="RprtTag"><a href="/SuperAdmin/Product/Category">@local.GetLocalizedHtmlString("Categories")</a></li>
-                        <li id="RprtChlg"><a href="/SuperAdmin/Product/AddProduct">@local.GetLocalizedHtmlString("AddProduct")</a></li>
-                        <li id="RprtChlg"><a href="/SuperAdmin/Product/AddIngredients">@local.GetLocalizedHtmlString("AddIngredients")</a></li>
                         <li id="RprtChlg"><a href="/SuperAdmin/Product/Detail">@local.GetLocalizedHtmlString("ProductsDetail") </a></li>
+                        <li id="RprtChlg"><a href="/SuperAdmin/Product/AddIngredients">@local.GetLocalizedHtmlString("AddIngredients")</a></li>
                     </ul>
                 </li>
-
                 <li id="order">
                     <a href="javascript:void(0);" class="menu-toggle"><i class="fas fa-shopping-cart"></i><span>@local.GetLocalizedHtmlString("Order") </span> </a>
                     <ul class="ml-menu">
@@ -204,18 +205,13 @@
                         </li>
                     </ul>
                 </li>
-
-
                 <li id="payment">
                     <a href="/SuperAdmin/Order/Payment"><i class="fas fa-hand-holding-usd"></i><span>@local.GetLocalizedHtmlString("Payments")</span> </a>
                 </li>
-
-
                 <li id="Query">
                     <a href="/SuperAdmin/Main/Queries"><i class="far fa-question-circle"></i><span>@local.GetLocalizedHtmlString("Queries")</span> </a>
                 </li>
                 <li class="header">Content</li>
-
                 <li id="AppData">
                     <a href="javascript:void(0);" class="menu-toggle"><i class="far fa-file-alt"></i><span>@local.GetLocalizedHtmlString("AppData")</span> </a>
                     <ul class="ml-menu">
@@ -234,7 +230,6 @@
         @RenderBody()
 
     </div>
-    @RenderSection("scripts", required: false)
 
     <!-- Main Content -->
 
