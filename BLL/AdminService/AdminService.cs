@@ -1,6 +1,7 @@
 ﻿using DAL;
 using DAL.Branches;
 using DAL.Categories;
+using DAL.Products;
 using Entities;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -859,6 +860,224 @@ namespace BLL.AdminService
             {
                 return JsonResponse2(504, ex.Message, null);
             }
+        }
+
+        public List<ProductDtos> GetProducts()
+        {
+            try
+            {
+                var entities = db.Products.Select(n => new ProductDtos
+                {
+                    CreatedAt = n.CreatedAt.ToShortDateString(),
+                    Name = n.Name,
+                    Status = n.Status,
+                    Id = n.Id,
+                    Description = n.Description,
+                    ImageUrls = db.ProductsImages.Where(p => p.ProductId == n.Id).Select(p => p.Image).ToList(),
+                    ProductsImages = db.ProductsImages.Where(p => p.ProductId == n.Id).Select(n => new ProductsImagesVms
+                    {
+                        Id = n.Id,
+                        Url = n.Image,
+                    }).ToList(),
+                    Logo = n.Logo,
+                    Price = n.Price,
+                    CategoryId = n.CategoryId,
+                    BranchId = n.CategoriesObject.BranchId,
+                    BranchName = n.CategoriesObject.BranchesObject.Name,
+                    CategoryName = n.CategoriesObject.Name,
+                }); ;
+                return entities.ToList();
+            }
+            catch (Exception es)
+            {
+                throw new ValidationException(es.GetBaseException().Message);
+            }
+        }
+
+        public ResponseDto AddProducts(ProductDtos modal)
+        {
+            if (!ModelState.IsValid)
+            {
+                var message = string.Join(" | ", ModelState.Values
+                                .SelectMany(v => v.Errors)
+                                .Select(e => e.ErrorMessage));
+
+                return JsonResponse2(400, message, null);
+            }
+            if (modal.ProductId == null)
+            {
+
+                Products entity = new Products
+                {
+                    CreatedAt = currentTime,
+                    UpdatedAt = currentTime,
+                    Name = modal.Name,
+                    Status = EntityStatus.Active,
+                    Description = modal.Description,
+                    CategoryId = modal.CategoryId,
+                    Logo = modal.Logo,
+                    Price = modal.Price,
+                };
+                db.Products.Add(entity);
+                foreach(var i in modal.ImageUrls)
+                {
+                    ProductsImages productsImages = new ProductsImages
+                    {
+                        Status = EntityStatus.Active,
+                        CreatedAt = currentTime,
+                        Image = i,
+                        UpdatedAt = currentTime,
+                        ProductsObject = entity,
+                    };
+                    db.ProductsImages.Add(productsImages);
+                }
+                db.SaveChanges();
+            }
+            else
+            {
+                var entity = db.Products.Find(modal.ProductId);
+                entity.Name = modal.Name;
+                entity.Description = modal.Description;
+                entity.Price = modal.Price;
+                entity.Logo = modal.Logo != "" ? modal.Logo : entity.Logo;
+                entity.UpdatedAt = currentTime;
+                db.Entry(entity).State = EntityState.Modified;
+
+                foreach (var i in modal.ImageUrls)
+                {
+                    ProductsImages productsImages = new ProductsImages
+                    {
+                        Status = EntityStatus.Active,
+                        CreatedAt = currentTime,
+                        Image = i,
+                        UpdatedAt = currentTime,
+                        ProductsObject = entity,
+                    };
+                    db.ProductsImages.Add(productsImages);
+                }
+                db.SaveChanges();
+            }
+            return JsonResponse2(200, "success", null);
+        }
+        public ResponseDto BlockProduct(int Id)
+        {
+            try
+            {
+                var entity = db.Products.Find(Id);
+                if (entity == null)
+                {
+                    return JsonResponse2(400, "entity not found", null);
+                }
+                else
+                {
+                    entity.Status = EntityStatus.Blocked;
+                    db.Entry(entity).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return JsonResponse2(200, "success", null);
+                }
+            }
+            catch (Exception es)
+            {
+                return JsonResponse2(504, es.GetBaseException().Message, null);
+            }
+        }
+        public ResponseDto UnBlockProduct(int Id)
+        {
+            try
+            {
+                var entity = db.Products.Find(Id);
+                if (entity == null)
+                {
+                    return JsonResponse2(400, "entity not found", null);
+                }
+                else
+                {
+                    entity.Status = EntityStatus.Active;
+                    db.Entry(entity).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return JsonResponse2(200, "success", null);
+                }
+            }
+            catch (Exception es)
+            {
+                return JsonResponse2(504, es.GetBaseException().Message, null);
+            }
+        }
+        public ResponseDto DeleteProduct(int Id)
+        {
+            try
+            {
+                var entity = db.Products.Find(Id);
+                if (entity == null)
+                {
+                    return JsonResponse2(400, "entity not found", null);
+                }
+                else
+                {
+                    db.Products.Remove(entity);
+                    db.SaveChanges();
+                    return JsonResponse2(200, "success", null);
+                }
+            }
+            catch (Exception es)
+            {
+                return JsonResponse2(504, es.GetBaseException().Message, null);
+            }
+        }
+        public ResponseDto DeleteProductImage(int Id)
+        {
+            try
+            {
+                var entity = db.ProductsImages.Find(Id);
+                if (entity == null)
+                {
+                    return JsonResponse2(400, "entity not found", null);
+                }
+                else
+                {
+                    db.ProductsImages.Remove(entity);
+                    db.SaveChanges();
+                    return JsonResponse2(200, "success", null);
+                }
+            }
+            catch (Exception es)
+            {
+                return JsonResponse2(504, es.GetBaseException().Message, null);
+            }
+        }
+        public ResponseDto AddIngredients(IngredientAddVms modal)
+        {
+            if (!ModelState.IsValid)
+            {
+                var message = string.Join(" | ", ModelState.Values
+                                .SelectMany(v => v.Errors)
+                                .Select(e => e.ErrorMessage));
+
+                return JsonResponse2(400, message, null);
+            }
+            foreach(var i in modal.Items)
+            {
+                var cat = db.Categories.Find(modal.CategoryId);
+                if (cat == null)
+                {
+                    return JsonResponse2(400, "category not found", null);
+                }
+                var product = modal.ProductId == null;
+                Ingredients ingredients = new Ingredients
+                {
+                    CreatedAt =currentTime,
+                    Status = EntityStatus.Active,
+                    CategoryId = modal.CategoryId,
+                    Name = i.Name,
+                    Price = i.Price,
+                    ProductId = modal.ProductId,
+                    Type = product == true ?IngredientType.CategoryType:IngredientType.ProductType,
+                    UpdatedAt = currentTime,
+                };
+                db.Ingredients.Add(ingredients);
+            }
+            db.SaveChanges();
+            return JsonResponse2(200, "success", null);
         }
     }
 }

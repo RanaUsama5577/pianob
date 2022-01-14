@@ -165,13 +165,13 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Phone*</label>
-                                        <input type="text" class="form-control" placeholder="Enter Name" id="Phone" name="Phone" />
+                                        <input type="text" class="form-control" placeholder="Enter Phone" id="Phone" name="Phone" />
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Email*</label>
-                                        <input type="email" class="form-control" placeholder="Enter Name" id="Email" name="Email" />
+                                        <input type="email" class="form-control" placeholder="Enter Email" id="Email" name="Email" />
                                     </div>
                                 </div>
                                 <div class="col-md-12">
@@ -272,7 +272,7 @@
             showLoaderOnConfirm: true,
             preConfirm: (ref) => {
                 return new Promise(async function (resolve, reject) {
-                    var response = getResponseFromUrl('GET', '/SuperAdmin/Branch/BtlockEntity?id=' + doc_id);
+                    var response = getResponseFromUrl('GET', '/SuperAdmin/Branch/BlockEntity?id=' + doc_id);
                     if (response.code == 200) {
                         TimerSweet("Branch Blocked!", 'Branch is successfully blocked', "success", 2000);
                         setTimeout(function () {

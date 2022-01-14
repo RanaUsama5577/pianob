@@ -43,5 +43,12 @@ namespace BLL.AdminService
         ResponseDto DeleteCategory(int Id);
         ResponseDto UnBlockCategory(int Id);
         ResponseDto BlockCategory(int Id);
+        List<ProductDtos> GetProducts();
+        ResponseDto AddProducts(ProductDtos modal);
+        ResponseDto DeleteProduct(int Id);
+        ResponseDto UnBlockProduct(int Id);
+        ResponseDto BlockProduct(int Id);
+        ResponseDto DeleteProductImage(int Id);
+        ResponseDto AddIngredients(IngredientAddVms modal);
     }
 }

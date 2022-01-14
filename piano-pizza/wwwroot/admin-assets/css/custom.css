@@ -1,4 +1,42 @@
-﻿.btn-primary:not(:disabled):not(.disabled):active {
+﻿.container234 .overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0px;
+    left: 13px;
+    right: 0px;
+    height: 100% !important;
+    width: 100% !important;
+    opacity: 0;
+    transition: .5s ease;
+    background-color: #1c1d1d;
+    display: block !important;
+}
+
+.container234 {
+    position: relative;
+}
+
+    .container234 .overlay {
+        opacity: 1;
+        height: 23px !important;
+        top: 5px;
+        border-radius: 10px;
+        display: block;
+    }
+
+    .container234 .text {
+        color: white;
+        font-size: 11px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        -webkit-transform: translate(-50%, -50%);
+        -ms-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+        text-align: center;
+    }
+
+.btn-primary:not(:disabled):not(.disabled):active {
     color: #fff;
     background-color: #6d6a6a !important;
 }

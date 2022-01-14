@@ -217,6 +217,7 @@ D:\repos\piano-pizza\piano-pizza\obj\Debug\net5.0\Razor\Areas\SuperAdmin\Views\S
 D:\repos\piano-pizza\piano-pizza\obj\Debug\net5.0\Razor\Areas\SuperAdmin\Views\Staff\AddDriver.cshtml.g.cs
 D:\repos\piano-pizza\piano-pizza\obj\Debug\net5.0\Razor\Areas\SuperAdmin\Views\Staff\AddPacker.cshtml.g.cs
 D:\repos\piano-pizza\piano-pizza\obj\Debug\net5.0\Razor\Areas\SuperAdmin\Views\Staff\AddReceptionist.cshtml.g.cs
+D:\repos\piano-pizza\piano-pizza\obj\Debug\net5.0\Razor\Areas\SuperAdmin\Views\Staff\AddStaff.cshtml.g.cs
 D:\repos\piano-pizza\piano-pizza\obj\Debug\net5.0\Razor\Areas\SuperAdmin\Views\Staff\CookDetails.cshtml.g.cs
 D:\repos\piano-pizza\piano-pizza\obj\Debug\net5.0\Razor\Areas\SuperAdmin\Views\Staff\DriverDetails.cshtml.g.cs
 D:\repos\piano-pizza\piano-pizza\obj\Debug\net5.0\Razor\Areas\SuperAdmin\Views\Staff\PackerDetails.cshtml.g.cs
@@ -243,4 +244,3 @@ D:\repos\piano-pizza\piano-pizza\obj\Debug\net5.0\piano-pizza.dll
 D:\repos\piano-pizza\piano-pizza\obj\Debug\net5.0\ref\piano-pizza.dll
 D:\repos\piano-pizza\piano-pizza\obj\Debug\net5.0\piano-pizza.pdb
 D:\repos\piano-pizza\piano-pizza\obj\Debug\net5.0\piano-pizza.genruntimeconfig.cache
-D:\repos\piano-pizza\piano-pizza\obj\Debug\net5.0\Razor\Areas\SuperAdmin\Views\Staff\AddStaff.cshtml.g.cs
