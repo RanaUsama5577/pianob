@@ -21,8 +21,11 @@ namespace BLL.AdminService
         AdminDashboard DashboardStats();
         contentVms GetTerms();
         contentVms GetPrivacyPolicy();
+        contentVms GetCookiePolicy();
+        List<contactUs> GetContactUs();
+        ResponseDto ResolveQuery(int Id);
         ResponseDto UpdatePrivacyPolicy(contentVms modal);
-        ResponseDto UpdateTerms(contentVms modal);
+        ResponseDto UpdateCookiePolicy(contentVms modal);
         contentVms GetAboutApp();
         ResponseDto UpdateAboutApp(contentVms modal);
         contentVms GetAboutUs();
@@ -55,6 +58,11 @@ namespace BLL.AdminService
         ResponseDto BlockIngredient(int Id);
         ResponseDto DeleteIngredient(int Id);
         ResponseDto UpdateIngredient(IngredientListVms modal);
+        ResponseDto UpdateFcm(string Fcm, string Id);
+        ResponseDto GetNotifications(string Id);
+        ResponseDto DeleteSingleNotification(int Id, string userId);
+        ResponseDto ReadSingleNotification(int Id, string userId);
+        ResponseDto GetAndReadAllNotifications(string userId);
 
     }
 }

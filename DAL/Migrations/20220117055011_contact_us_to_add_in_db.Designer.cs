@@ -4,14 +4,16 @@ using DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220117055011_contact_us_to_add_in_db")]
+    partial class contact_us_to_add_in_db
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -289,12 +291,7 @@ namespace DAL.Migrations
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("ContactUs");
                 });
@@ -791,15 +788,6 @@ namespace DAL.Migrations
                         .IsRequired();
 
                     b.Navigation("BranchesObject");
-                });
-
-            modelBuilder.Entity("DAL.ContactUs", b =>
-                {
-                    b.HasOne("DAL.ApplicationUser", "UserObject")
-                        .WithMany()
-                        .HasForeignKey("UserId");
-
-                    b.Navigation("UserObject");
                 });
 
             modelBuilder.Entity("DAL.Notifications", b =>

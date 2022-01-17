@@ -28,5 +28,6 @@ namespace DAL
         public DbSet<Carts> Carts { get; set; }
         public DbSet<CartIngredients> CartIngredients { get; set; }
         public DbSet<AssigneesList> AssigneesLists { get; set; }
+        public DbSet<ContactUs> ContactUs { get; set; }
     }
 }

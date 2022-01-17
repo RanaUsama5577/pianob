@@ -67,73 +67,11 @@
                     <ul class="dropdown-menu dropdown-menu-right slideDown">
                         <li class="header">@local.GetLocalizedHtmlString("NOTIFICATIONS")</li>
                         <li class="body">
-                            <ul class="menu list-unstyled">
-                                <li>
-                                    <a href="javascript:void(0);">
-                                        <div class="icon-circle bg-blue"><i class="zmdi zmdi-account"></i></div>
-                                        <div class="menu-info">
-                                            <h4>8 New Members joined</h4>
-                                            <p><i class="zmdi zmdi-time"></i> 14 mins ago </p>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0);">
-                                        <div class="icon-circle bg-amber"><i class="zmdi zmdi-shopping-cart"></i></div>
-                                        <div class="menu-info">
-                                            <h4>4 Sales made</h4>
-                                            <p> <i class="zmdi zmdi-time"></i> 22 mins ago </p>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0);">
-                                        <div class="icon-circle bg-red"><i class="zmdi zmdi-delete"></i></div>
-                                        <div class="menu-info">
-                                            <h4><b>Nancy Doe</b> Deleted account</h4>
-                                            <p> <i class="zmdi zmdi-time"></i> 3 hours ago </p>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0);">
-                                        <div class="icon-circle bg-green"><i class="zmdi zmdi-edit"></i></div>
-                                        <div class="menu-info">
-                                            <h4><b>Nancy</b> Changed name</h4>
-                                            <p> <i class="zmdi zmdi-time"></i> 2 hours ago </p>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0);">
-                                        <div class="icon-circle bg-grey"><i class="zmdi zmdi-comment-text"></i></div>
-                                        <div class="menu-info">
-                                            <h4><b>John</b> Commented your post</h4>
-                                            <p> <i class="zmdi zmdi-time"></i> 4 hours ago </p>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0);">
-                                        <div class="icon-circle bg-purple"><i class="zmdi zmdi-refresh"></i></div>
-                                        <div class="menu-info">
-                                            <h4><b>John</b> Updated status</h4>
-                                            <p> <i class="zmdi zmdi-time"></i> 3 hours ago </p>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0);">
-                                        <div class="icon-circle bg-light-blue"><i class="zmdi zmdi-settings"></i></div>
-                                        <div class="menu-info">
-                                            <h4>Settings Updated</h4>
-                                            <p> <i class="zmdi zmdi-time"></i> Yesterday </p>
-                                        </div>
-                                    </a>
-                                </li>
+                            <ul class="menu list-unstyled" id="NotificationAppend">
+                                
                             </ul>
                         </li>
-                        <li class="footer"> <a href="javascript:void(0);">@local.GetLocalizedHtmlString("ViewAllNotifications")</a></li>
+                        <li class="footer"> <a id="ReadAll" onclick="ReadAllNotifications()" href="javascript:void(0);">@local.GetLocalizedHtmlString("ReadAllNotifications")</a></li>
                     </ul>
                 </li>
 
@@ -150,10 +88,10 @@
             <ul class="list">
                 <li>
                     <div class="user-info">
-                        <div class="image"><img src="/user_icon.jpg" /></div>
+                        <div class="image"><img class="imageUrl" src="/user_icon.jpg" /></div>
                         <div class="detail mt-2">
                             <div class="d-flex flex-row" style="justify-content: center;">
-                                <p class="mt-1">@local.GetLocalizedHtmlString("Admin")</p>
+                                <p id="nav-user-name" class="mt-1"></p>
                                 <a href="/SuperAdmin/Main/AdminProfile" class="mt-n2" title="Profile"><i class="zmdi zmdi-account-circle"></i></a>
                             </div>
                         </div>
@@ -187,8 +125,8 @@
                     <a href="/SuperAdmin/Category/Index"><i class="fas fa-building"></i><span>@local.GetLocalizedHtmlString("Categories")</span> </a>
                 </li>
 
-                <li >
-                    <a id="product"  href="javascript:void(0);" class="menu-toggle"><i class="fas fa-pizza-slice"></i><span>@local.GetLocalizedHtmlString("Product")</span> </a>
+                <li>
+                    <a id="product" href="javascript:void(0);" class="menu-toggle"><i class="fas fa-pizza-slice"></i><span>@local.GetLocalizedHtmlString("Product")</span> </a>
                     <ul class="ml-menu">
                         <li id="ProductsA"><a href="/SuperAdmin/Product/Detail">@local.GetLocalizedHtmlString("ProductsDetail") </a></li>
                         <li id="IngrendientsA"><a href="/SuperAdmin/Product/Ingrendients">@local.GetLocalizedHtmlString("Ingredients") </a></li>
@@ -213,8 +151,8 @@
                     <a href="/SuperAdmin/Main/Queries"><i class="far fa-question-circle"></i><span>@local.GetLocalizedHtmlString("Queries")</span> </a>
                 </li>
                 <li class="header">Content</li>
-                <li id="AppData">
-                    <a href="javascript:void(0);" class="menu-toggle"><i class="far fa-file-alt"></i><span>@local.GetLocalizedHtmlString("AppData")</span> </a>
+                <li>
+                    <a id="AppData" href="javascript:void(0);" class="menu-toggle"><i class="far fa-file-alt"></i><span>@local.GetLocalizedHtmlString("AppData")</span> </a>
                     <ul class="ml-menu">
                         <li id="privacy">
                             <a href="/SuperAdmin/AppContent/PrivacyPolicy">@local.GetLocalizedHtmlString("PrivacyPolicy")</a>
@@ -232,6 +170,7 @@
 
     </div>
 
+    <input type="hidden" id="EmailUserId" />
     <!-- Main Content -->
 
     <script src="~/admin-assets/bundles/vendorscripts.bundle.js"></script> <!-- slimscroll, waves Scripts Plugin Js -->
@@ -265,6 +204,149 @@
         $(function () {
             $('.input-images-1').imageUploader();
         });
+    </script>
+    <script>
+        $(function () {
+            GetProfile();
+            GetNotifications();
+        })
+        function GetProfile() {
+            var response = getLayoutResponeFromUrl('GET', '/SuperAdmin/Main/GetProfile');
+            if (response.code == 200) {
+                var data = response.result;
+                $('#nav-user-name').html("Hello " + data.fullName);
+                $('#Username').val(data.fullName);
+                $('.imageUrl').attr('src', data.profileImageUrl);
+                $('#EmailUserId').html(data.email);
+            }
+            else {
+                console.log("Error!", response.shortMessage);
+            }
+        }
+
+        function GetNotifications() {
+            var response = getLayoutResponeFromUrl('GET', '/SuperAdmin/Settings/GetNotifications');
+            if (response.code == 200) {
+                $('#NotificationAppend').html("");
+                var data = response.result;
+                var count = 0;
+                console.log(data);
+                data.forEach(function (item) {
+                    if (item.type == 0) {
+                        var href = "/SuperAdmin/Users/Index";
+                    }
+                    if (item.isSeen == false) {
+                        count++;
+                        var notification = '<li>' +
+                            '<a onclick="ReadNotification(' + item.id + ',\'' + href + '\')" href="javascript:void(0);">'+
+                            '<div class="icon-circle bg-blue"><i class="zmdi zmdi-notifications-none"></i></div>'+
+                            '<div class="menu-info">'+
+                            '<h4>' + item.body + '</h4>'+
+                            '<p><i class="zmdi zmdi-time"></i>' + item.createdAt + '</p>'+
+                            '</div>'+
+                            '</a>'+
+                                '</li>';
+                    }
+                    else {
+                        var notification = '<li>' +
+                            '<a onclick="ReadNotification(' + item.id + ',\'' + href + '\')" href="javascript:void(0);">' +
+                            '<div class="icon-circle bg-blue"><i class="zmdi zmdi-notifications-none"></i></div>' +
+                            '<div class="menu-info">' +
+                            '<h4>' + item.body + '</h4>' +
+                            '<p><i class="zmdi zmdi-time"></i>' + item.createdAt + '</p>' +
+                            '</div>' +
+                            '</a>' +
+                            '</li>';
+                    }
+                    $('#NotificationAppend').append(notification);
+                })
+                if (count > 0) {
+                    $('.notify').show();
+                }
+                else {
+                    $('.notify').hide();
+                    $('#ReadAll').hide();
+                    var notification = '<li>' +
+                        '<a href="javascript:void(0);">' +
+                        '<div class="icon-circle bg-blue"><i class="zmdi zmdi-notifications-none"></i></div>' +
+                        '<div class="menu-info">' +
+                        '<h4>No notification to show</h4>' +
+                        '</div>' +
+                        '</a>' +
+                        '</li>';
+                    $('#NotificationAppend').prepend(notification);
+                }
+                //$(".dropdown-list-icons").getNiceScroll().resize();
+            }
+            else {
+                console.log("Error!", response.ShortMessage);
+            }
+        }
+
+        function ReadNotification(Id, Href) {
+            var response = getLayoutResponeFromUrl('GET', '/SuperAdmin/Settings/ReadNotification?Id=' + Id);
+            if (response.Code == 200) {
+                window.location.href = Href;
+            }
+            else {
+                console.log("Error!", response.ShortMessage);
+            }
+        }
+
+        function ReadAllNotifications() {
+            var response = getLayoutResponeFromUrl('GET', '/SuperAdmin/Settings/ReadAllNotification');
+            if (response.Code == 200) {
+                GetNotifications();
+            }
+            else {
+                console.log("Error!", response.ShortMessage);
+            }
+        }
+
+        //function UpdateFcm() {
+        //    messaging.requestPermission()
+        //        .then(function () {
+        //            console.log("Have Permission");
+        //            return messaging.getToken();
+        //        })
+        //        .then(function (token) {
+        //            console.log(token);
+        //            var response = getLayoutResponeFromUrl('GET', '/SuperAdmin/Settings/UpdateFcm?Fcm=' + token);
+        //            if (response.Code == 200) {
+        //                console.log("Fcm Updated");
+        //            }
+        //            else {
+        //                console.log("Error!", response.ShortMessage);
+        //            }
+        //        })
+        //        .catch(function (error) {
+        //            console.log("Error", error);
+        //        });
+        //}
+    </script>
+    <!--Ajax-->
+    <script>
+        var getLayoutResponeFromUrl = function (requestType, requestUrl, requestData) {
+            var response;
+            $.ajax({
+                type: requestType,
+                url: requestUrl,
+                data: requestData,
+                data: requestData,
+                async: false,
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    response = data;
+                    console.log(data);
+                },
+                error: function (error) {
+                    console.log(error);
+                    return error;
+                },
+            });
+            return response;
+        }
     </script>
 </body>
 

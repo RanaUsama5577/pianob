@@ -31,6 +31,7 @@ namespace Entities
             AboutUs,
             AboutApp,
             PrivacyPolicy,
+            CookiePolicy,
         }
         public enum CartStatus
         {

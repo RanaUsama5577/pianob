@@ -1,6 +1,6 @@
 ﻿@inject piano_pizza.Resources.LocalizationService local
 @{
-    Layout = "~/Areas/SuperAdmin/Views/Shared/_Layout.cshtml";
+    Layout = "/Areas/SuperAdmin/Views/Shared/_Layout.cshtml";
 }
 <link href="~/admin-assets/summernote/dist/summernote.css" rel="stylesheet" />
 <section class="content profile-page">
@@ -19,20 +19,16 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="header">
-                        <h2>@local.GetLocalizedHtmlString("PrivacyPolicy")</h2>
+                        <h2 style="display: inline-block;">@local.GetLocalizedHtmlString("PrivacyPolicy")</h2>
+                        <button id="edit-button" onclick="edit()" style="margin-left: auto; font-size: 15px; float: right;" class="btn btn-primary">Edit</button>
                     </div>
                     <div class="body">
-                        <div class="summernote">
-                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-
-                            Why do we use it?
-                            It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).
-                        </div>
+                        <div id="simple-text"></div>
                     </div>
-                    <div>
+                    <div id="footerdiv" style="display:none;" >
                         <div class="card-footer d-flex flex-row bg-white rounded">
-                            <button data-context="warning" class="btn-toastr btn btn-danger ml-auto font-15">@local.GetLocalizedHtmlString("RevertChanges")</button>
-                            <button class="btn btn-success font-15 ml-3">@local.GetLocalizedHtmlString("Update")</button>
+                            <button onclick="CancelSection()" data-context="warning" class="btn-toastr btn btn-danger ml-auto font-15">@local.GetLocalizedHtmlString("Cancel")</button>
+                            <button onclick="UpdateContent()" class="btn btn-success font-15 ml-3">@local.GetLocalizedHtmlString("Update")</button>
                         </div>
                     </div>
                 </div>
@@ -40,5 +36,120 @@
         </div>
     </div>
 </section>
+<script>
+    function CancelSection() {
+        $('#simple-text').summernote('reset');
+        $('#simple-text').summernote('destroy');
+        $('#footerdiv').hide();
+        $('#edit-button').show();
+        $('#HeadingContent').show();
+        $('#signup_heading').hide();
+    }
+    function callbackMax(max) {
+        $('#text-count').text(max);
+    }
+    var edit = function () {
+        var max = 4000;
+        $('#simple-text').summernote({
+            focus: true,
+            callbacks: {
+                onKeydown: function (e) {
+                    var t = e.currentTarget.innerText;
+                    if (t.length >= max) {
+                        //delete key
+                        if (e.keyCode != 8) {
+                            e.preventDefault();
+                            MixinSweet("Maximum content limit is 4000", "", "info", 1500);
+                        }
+                    }
+                },
+                onKeyup: function (e) {
+                    var t = e.currentTarget.innerText;
+                    if (typeof callbackMax == 'function') {
+                        callbackMax(max - t.length);
+                    }
+                },
+                onPaste: function (e) {
+                    var t = e.currentTarget.innerText;
+                    var bufferText = ((e.originalEvent || e).clipboardData || window.clipboardData).getData('Text');
+                    var all = t + bufferText;
+                    if (all.length > max) {
+                        e.preventDefault();
+                        MixinSweet("Maximum content limit is 4000", "", "info", 1500);
+                    }
+                    if (typeof callbackMax == 'function') {
+                        callbackMax(max - t.length);
+                    }
+                }
+            }
+        });
+        $('#edit-button').hide();
+        $('#footerdiv').show();
+        $('#HeadingContent').hide();
+        $('#signup_heading').show();
+    };
+    var save = function () {
+        var markup = $('#simple-text').summernote('code');
+        $('#simple-text').summernote('destroy');
+        $('#footerdiv').hide();
+        $('#edit-button').show();
+        $('#HeadingContent').show();
+        $('#signup_heading').hide();
+    };
+</script>
 
-
+<script>
+    $(function () {
+        $('#privacy').addClass('active');
+        $('#AppData').addClass('toggled');
+        GetContent();
+    })
+    function GetContent() {
+        $.ajax({
+            url: "/SuperAdmin/AppContent/GetPrivacyPolicy",
+            type: "GET",
+            data: null,
+            success: function (response) {
+                $('#simple-text').html(response.content);
+                $('#HeadingContent').html(response.title);
+                $('#signup_heading').val(response.title);
+            },
+            error: function (result) {
+                console.log("Save Error", result);
+            }
+        });
+    }
+    function UpdateContent() {
+        var txt = $('#simple-text').summernote('code');
+        var heading = $('#signup_heading').val();
+        var data = {};
+        data.content = txt;
+        data.title = heading;
+        $.ajax({
+            url: "/SuperAdmin/AppContent/UpdatePrivacyPolicy",
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify(data),
+            dataType: "json",
+            success: function (response) {
+                if (response.code == 200) {
+                    TimerSweet("Privacy Policy Updated!", 'Privacy Policy are successfully updated', "success", 2000);
+                    setTimeout(function () {
+                        GetContent();
+                        $('#simple-text').summernote('destroy');
+                        $('#footerdiv').hide();
+                        $('#edit-button').show();
+                        $('#HeadingContent').show();
+                        $('#signup_heading').hide();
+                    }, 2000);
+                }
+                else {
+                    sweetMessage("Error!", response.shortMessage, "error");
+                }
+            },
+            error: function (result) {
+                console.log("Save Error", result);
+            }
+        });
+    }
+</script>

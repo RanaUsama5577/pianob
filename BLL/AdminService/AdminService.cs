@@ -48,29 +48,29 @@ namespace BLL.AdminService
             {
                 ApplicationUser newUser = new ApplicationUser
                 {
-                    Email = "superadmin@piano.com",
-                    UserName = "superadmin@piano.com",
+                    Email = "user@piano.com",
+                    UserName = "user@piano.com",
                     RegisteredAt = currentTime,
-                    FullName = "Super Admin",
+                    FullName = "John Doe",
                     ExternalType = LoginProvider.WithEmail,
                     Status = UserStatus.Active,
-                    Type = UserType.SuperAdmin,
+                    Type = UserType.User,
                     ProfileImageUrl = "/user_icon.png",
                 };
                 var result = await userManager.CreateAsync(newUser, "1q2w3e4r");
                 if (result.Succeeded)
                 {
-                    if (await roleManager.RoleExistsAsync("SuperAdmin"))
+                    if (await roleManager.RoleExistsAsync("User"))
                     {
-                        await userManager.AddToRoleAsync(newUser, "SuperAdmin");
+                        await userManager.AddToRoleAsync(newUser, "User");
                         return JsonResponse2(200, "success", null);
                     }
                     else
                     {
                         IdentityRole identityRole = new IdentityRole();
-                        identityRole.Name = "SuperAdmin";
+                        identityRole.Name = "User";
                         await roleManager.CreateAsync(identityRole);
-                        await userManager.AddToRoleAsync(newUser, "SuperAdmin");
+                        await userManager.AddToRoleAsync(newUser, "User");
                         return JsonResponse2(200, "success", null);
                     }
                 }
@@ -274,7 +274,16 @@ namespace BLL.AdminService
         }
         public contentVms GetPrivacyPolicy()
         {
-            var contactus = db.ContentSettings.Where(p => p.contentType == ContentType.PrivacyPolicy).Select(n => new contentVms
+            var contentVms = db.ContentSettings.Where(p => p.contentType == ContentType.PrivacyPolicy).Select(n => new contentVms
+            {
+                content = n.content,
+                title = n.title,
+            }).FirstOrDefault();
+            return contentVms;
+        }
+        public contentVms GetCookiePolicy()
+        {
+            var contactus = db.ContentSettings.Where(p => p.contentType == ContentType.CookiePolicy).Select(n => new contentVms
             {
                 content = n.content,
                 title = n.title,
@@ -314,7 +323,7 @@ namespace BLL.AdminService
                 }
             }
         }
-        public ResponseDto UpdateTerms(contentVms modal)
+        public ResponseDto UpdateCookiePolicy(contentVms modal)
         {
             if(modal.content == "" || modal.title == "")
             {
@@ -322,7 +331,7 @@ namespace BLL.AdminService
             }
             else
             {
-                var content = db.ContentSettings.Where(p => p.contentType == ContentType.TermsAndConditions).FirstOrDefault();
+                var content = db.ContentSettings.Where(p => p.contentType == ContentType.CookiePolicy).FirstOrDefault();
                 if(content == null)
                 {
                     ContentSettings contentSettings = new ContentSettings
@@ -331,7 +340,7 @@ namespace BLL.AdminService
                         UpdatedAt = currentTime,
                         content = modal.content,
                         title = modal.title,
-                        contentType = ContentType.TermsAndConditions,
+                        contentType = ContentType.CookiePolicy,
                     };
                     db.ContentSettings.Add(contentSettings);
                     db.SaveChanges();
@@ -861,7 +870,6 @@ namespace BLL.AdminService
                 return JsonResponse2(504, ex.Message, null);
             }
         }
-
         public List<ProductDtos> GetProducts()
         {
             try
@@ -893,7 +901,6 @@ namespace BLL.AdminService
                 throw new ValidationException(es.GetBaseException().Message);
             }
         }
-
         public ResponseDto AddProducts(ProductDtos modal)
         {
             if (!ModelState.IsValid)
@@ -1183,6 +1190,215 @@ namespace BLL.AdminService
             db.Entry(entity).State = EntityState.Modified;
             db.SaveChanges();
             return JsonResponse2(200, "success", null);
+        }
+        public List<contactUs> GetContactUs()
+        {
+            try
+            {
+                var contactUs = db.ContactUs.OrderByDescending(p => p.CreatedAt).Select(n => new contactUs
+                {
+                    Id = n.Id,
+                    Status = n.Status,
+                    review = n.Review,
+                    userEmail = n.UserObject.Email,
+                    userImage = n.UserObject.ProfileImageUrl,
+                    subject = n.Subject,
+                    userName = n.UserObject.FullName,
+                    createdAt = n.CreatedAt.ToShortDateString(),
+                });
+                return contactUs.ToList();
+            }
+            catch (Exception es)
+            {
+                throw new ValidationException(es.GetBaseException().Message);
+            }
+        }
+        public ResponseDto ResolveQuery(int Id)
+        {
+            try
+            {
+                var query = db.ContactUs.Find(Id);
+                if (query == null)
+                {
+                    return JsonResponse2(400, "query not found", null);
+                }
+                query.Status = QueryStatus.Resolved;
+                db.Entry(query).State = EntityState.Modified;
+                db.SaveChanges();
+                return JsonResponse2(200, "success", null);
+            }
+            catch (Exception ex)
+            {
+                return JsonResponse2(504, ex.Message, null);
+            }
+        }
+        public ResponseDto UpdateFcm(string Fcm, string Id)
+        {
+            try
+            {
+                var loginUser = db.Users.Find(Id);
+                if (loginUser == null)
+                {
+                    return JsonResponse2(401, "This is a secure Api", null);
+                }
+                loginUser.FcmToken = Fcm;
+                db.Entry(loginUser).State = EntityState.Modified;
+                db.SaveChanges();
+                return JsonResponse2(200, "success", null);
+            }
+            catch (Exception es)
+            {
+                return JsonResponse2(504, es.GetBaseException().Message, null);
+            }
+        }
+        public ResponseDto GetNotifications(string Id)
+        {
+            try
+            {
+                var loginUser = db.Users.Find(Id);
+                if (loginUser == null)
+                {
+                    return JsonResponse2(401, "This is a secure Api", null);
+                }
+                List<NotificationsVms> notification = new List<NotificationsVms>();
+                var notifications = db.Notifications.Where(p => p.NotifyTo == loginUser.Id);
+                foreach (var i in notifications)
+                {
+                    NotificationsVms notificationsVms = new NotificationsVms
+                    {
+                        Id = i.Id,
+                        CreatedAt = i.CreatedAt.ToString(),
+                        Body = i.Body,
+                        IsSeen = i.IsSeen,
+                        NotifyByEmail = i.NotifyByObject.Email,
+                        NotifyById = i.NotifyTo,
+                        NotifyByImage = i.NotifyByObject.ProfileImageUrl,
+                        NotifyByUserName = i.NotifyByObject.UserName,
+                        NotifyToEmail = i.NotitfyToObject.Email,
+                        NotifyToId = i.NotifyTo,
+                        NotifyToImage = i.NotitfyToObject.ProfileImageUrl,
+                        NotifyToUserName = i.NotitfyToObject.UserName,
+                        Title = i.Title,
+                        Type = i.Type,
+                    };
+                    notification.Add(notificationsVms);
+                }
+                return JsonResponse2(200, "success", notification);
+            }
+            catch (Exception es)
+            {
+                return JsonResponse2(504, es.GetBaseException().Message, null);
+            }
+        }
+        public ResponseDto DeleteSingleNotification(int Id, string userId)
+        {
+            try
+            {
+                var loginUser = db.Users.Find(userId);
+                if (loginUser == null)
+                {
+                    return JsonResponse2(401, "This is a secure Api", null);
+                }
+                ///
+                var notificatonSingle = db.Notifications.Find(Id);
+                db.Notifications.Remove(notificatonSingle);
+                db.SaveChanges();
+                List<NotificationsVms> notification = new List<NotificationsVms>();
+                var notifications = db.Notifications.Where(p => p.NotifyTo == loginUser.Id);
+                foreach (var i in notifications)
+                {
+                    NotificationsVms notificationsVms = new NotificationsVms
+                    {
+                        Id = i.Id,
+                        CreatedAt = i.CreatedAt.ToLongDateString(),
+                        Body = i.Body,
+                        IsSeen = i.IsSeen,
+                        NotifyByEmail = i.NotifyByObject.Email,
+                        NotifyById = i.NotifyTo,
+                        NotifyByImage = i.NotifyByObject.ProfileImageUrl,
+                        NotifyByUserName = i.NotifyByObject.UserName,
+                        NotifyToEmail = i.NotitfyToObject.Email,
+                        NotifyToId = i.NotifyTo,
+                        NotifyToImage = i.NotitfyToObject.ProfileImageUrl,
+                        NotifyToUserName = i.NotitfyToObject.UserName,
+                        Title = i.Title,
+                        Type = i.Type,
+                    };
+                    notification.Add(notificationsVms);
+                }
+                return JsonResponse2(200, "success", notification);
+            }
+            catch (Exception es)
+            {
+                return JsonResponse2(504, es.GetBaseException().Message, null);
+            }
+        }
+        public ResponseDto ReadSingleNotification(int Id, string userId)
+        {
+            try
+            {
+                var loginUser = db.Users.Find(userId);
+                if (loginUser == null)
+                {
+                    return JsonResponse2(401, "This is a secure Api", null);
+                }
+                ///
+                var notificatonSingle = db.Notifications.Find(Id);
+                notificatonSingle.IsSeen = true;
+                db.Entry(notificatonSingle).State = EntityState.Modified;
+                db.SaveChanges();
+                return JsonResponse2(200, "success", null);
+            }
+            catch (Exception es)
+            {
+                return JsonResponse2(504, es.GetBaseException().Message, null);
+            }
+        }
+        public ResponseDto GetAndReadAllNotifications(string userId)
+        {
+            try
+            {
+                var loginUser = db.Users.Find(userId);
+                if (loginUser == null)
+                {
+                    return JsonResponse2(401, "This is a secure Api", null);
+                }
+                ///
+                List<NotificationsVms> notification = new List<NotificationsVms>();
+                var notifications = db.Notifications.Where(p => p.NotifyTo == loginUser.Id);
+                foreach (var i in notifications)
+                {
+                    if (i.IsSeen == false)
+                    {
+                        i.IsSeen = true;
+                        db.Entry(i).State = EntityState.Modified;
+                    }
+                    NotificationsVms notificationsVms = new NotificationsVms
+                    {
+                        Id = i.Id,
+                        CreatedAt = i.CreatedAt.ToLongDateString(),
+                        Body = i.Body,
+                        IsSeen = i.IsSeen,
+                        NotifyByEmail = i.NotifyByObject.Email,
+                        NotifyById = i.NotifyTo,
+                        NotifyByImage = i.NotifyByObject.ProfileImageUrl,
+                        NotifyByUserName = i.NotifyByObject.UserName,
+                        NotifyToEmail = i.NotitfyToObject.Email,
+                        NotifyToId = i.NotifyTo,
+                        NotifyToImage = i.NotitfyToObject.ProfileImageUrl,
+                        NotifyToUserName = i.NotitfyToObject.UserName,
+                        Title = i.Title,
+                        Type = i.Type,
+                    };
+                    notification.Add(notificationsVms);
+                }
+                db.SaveChanges();
+                return JsonResponse2(200, "success", notification);
+            }
+            catch (Exception es)
+            {
+                return JsonResponse2(504, es.GetBaseException().Message, null);
+            }
         }
     }
 }
