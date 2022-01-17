@@ -1,16 +1,13 @@
 ﻿@model Entities.AdminDashboard
 @inject piano_pizza.Resources.LocalizationService local
 @{
-    ViewBag.Title = "Index";
     Layout = "~/Areas/SuperAdmin/Views/Shared/_Layout.cshtml";
 }
-
 <style>
     #bar_chart {
         height: 350px !important;
     }
 </style>
-
 <section class="content home">
     <div class="block-header">
         <div class="row">
@@ -25,7 +22,7 @@
     <div class="container-fluid">
         <div class="row clearfix social-widget">
             <div class="col-lg-3 col-md-3 col-6 d-flex">
-                <a href="@Url.Action("Users","User")" style="cursor:pointer" class="card info-box-2 hover-zoom-effect facebook-widget">
+                <a href="/SuperAdmin/Users/Detail" style="cursor:pointer" class="card info-box-2 hover-zoom-effect facebook-widget">
                     <div class="icon">
                         <i class="fas fa-users"></i>
 
@@ -36,7 +33,7 @@
                 </a>
             </div>
             <div class="col-lg-3 col-md-3 col-6 d-flex">
-                <a href="@Url.Action("ViewProduct","Product")" style="cursor:pointer" class="card info-box-2 hover-zoom-effect instagram-widget">
+                <a href="/SuperAdmin/Product/Detail" style="cursor:pointer" class="card info-box-2 hover-zoom-effect instagram-widget">
                     <div class="icon">
                         <i class="fas fa-pizza-slice text-warning"></i>
                     </div>
@@ -46,7 +43,7 @@
                 </a>
             </div>
             <div class="col-lg-3 col-md-3 col-6 d-flex">
-                <a href="@Url.Action("Orders","Order")" style="cursor:pointer" class="card info-box-2 hover-zoom-effect twitter-widget">
+                <a href="/SuperAdmin/Order/Detail" style="cursor:pointer" class="card info-box-2 hover-zoom-effect twitter-widget">
                     <div class="icon">
                         <i class="fas fa-shopping-cart text-warning"></i>
                     </div>
@@ -56,7 +53,7 @@
                 </a>
             </div>
             <div class="col-lg-3 col-md-3 col-6 d-flex">
-                <a href="@Url.Action("Index","Categories")" style="cursor:pointer" class="card info-box-2 hover-zoom-effect google-widget">
+                <a href="/SuperAdmin/Category/Index" style="cursor:pointer" class="card info-box-2 hover-zoom-effect google-widget">
                     <div class="icon">
                         <i class="far fa-question-circle text-secondary"></i>
                     </div>
