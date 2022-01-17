@@ -151,6 +151,47 @@ namespace BLL.AdminService
                 throw new ValidationException(es.GetBaseException().Message);
             }
         }
+        public List<CategoryAndProductsVms> GetCategoriesAndProducts(string BranchName)
+        {
+            try
+            {
+                var branch = db.Branches.Where(p => p.Name == BranchName).FirstOrDefault();
+                if(branch == null)
+                {
+                    return new List<CategoryAndProductsVms>();
+                }
+                var entities = db.Categories.Where(p=>p.Status == EntityStatus.Active && p.BranchId == branch.Id).AsEnumerable().Select(n => new CategoryAndProductsVms
+                {
+                    CreatedAt = n.CreatedAt.ToString("dd-MMM-yyyy hh:mm:ss tt"),
+                    UpdatedAt = n.UpdatedAt != null ? n.UpdatedAt.Value.ToString("dd-MMM-yyyy hh:mm:ss tt") : "-",
+                    Name = n.Name,
+                    Id = n.Id,
+                    BranchName = db.Branches.Find(n.BranchId).Name,
+                    BranchId = n.BranchId,
+                    ProductList = db.Products.Where(p=>p.CategoryId == n.Id && p.Status == EntityStatus.Active).AsEnumerable().Select(a=>new ProductDtos { 
+                        CreatedAt = a.CreatedAt.ToString("dd-MMM-yyyy hh:mm:ss tt"),
+                        BranchId = n.BranchId,
+                        BranchName = db.Branches.Find(n.BranchId).Name,
+                        CategoryId = n.Id,
+                        CategoryName = db.Categories.Find(n.Id).Name,
+                        Description = a.Description,
+                        Id = a.Id,
+                        Logo = a.Logo,
+                        Name = a.Name,
+                        Price = a.Price,
+                        ProductsImages = db.ProductsImages.Where(p=>p.ProductId == a.Id).Select(i=> new ProductsImagesVms { 
+                            Id = i.Id,
+                            Url = i.Image,
+                        }).ToList(),
+                    }).ToList()
+                });
+                return entities.ToList();
+            }
+            catch (Exception es)
+            {
+                throw new ValidationException(es.GetBaseException().Message);
+            }
+        }
         public ResponseDto AddOrUpdateCategory(CategoryAddVms modal)
         {
             if (!ModelState.IsValid)
@@ -1399,6 +1440,68 @@ namespace BLL.AdminService
             {
                 return JsonResponse2(504, es.GetBaseException().Message, null);
             }
+        }
+        public AppInfoVms GetAppInfo()
+        {
+            var info = db.AppInfos.FirstOrDefault();
+            if(info == null)
+            {
+                AppInfo appInfo = new AppInfo
+                {
+                    Address = "some address",
+                    CreatedAt = currentTime,
+                    Email = "admin@piano.com",
+                    FacebookUrl = "https://facebook.com",
+                    GoogleUrl = "https://google.com",
+                    InstagramUrl = "https://instagram.com",
+                    YoutubeUrl = "https://youtube.com",
+                    TwitterUrl = "https://twitter.com",
+                    TelephoneNumber = "+12 123 2345",
+                    UpdatedAt = currentTime,
+                };
+                db.AppInfos.Add(appInfo);
+                db.SaveChanges();
+                var info2 = db.AppInfos.FirstOrDefault();
+                AppInfoVms appInfoVms2 = new AppInfoVms
+                {
+                    FacebookUrl = info2.FacebookUrl,
+                    GoogleUrl = info2.GoogleUrl,
+                    InstagramUrl = info2.InstagramUrl,
+                    TwitterUrl = info2.TwitterUrl,
+                    YoutubeUrl = info2.YoutubeUrl,
+                    Email = info2.Email,
+                    Address = info2.Address,
+                    TelephoneNumber = info2.TelephoneNumber,
+                };
+                return appInfoVms2;
+            }
+            AppInfoVms appInfoVms = new AppInfoVms
+            {
+                FacebookUrl = info.FacebookUrl,
+                GoogleUrl = info.GoogleUrl,
+                InstagramUrl = info.InstagramUrl,
+                TwitterUrl = info.TwitterUrl,
+                YoutubeUrl = info.YoutubeUrl,
+                Email = info.Email,
+                Address = info.Address,
+                TelephoneNumber = info.TelephoneNumber,
+            };
+            return appInfoVms;
+        }
+
+        public ResponseDto SaveAboutAppInfo(aboutappVms modal)
+        {
+            var info = db.AppInfos.FirstOrDefault();
+            info.UpdatedAt = currentTime;
+            info.GoogleUrl = modal.google_link;
+            info.InstagramUrl = modal.instagram_link;
+            info.FacebookUrl = modal.facebook_link;
+            info.TwitterUrl = modal.twitter_link;
+            info.Email = modal.email;
+            info.TelephoneNumber = modal.telephone;
+            db.Entry(info).State = EntityState.Modified;
+            db.SaveChanges();
+            return JsonResponse2(200, "success", null);
         }
     }
 }

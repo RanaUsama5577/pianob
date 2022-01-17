@@ -1,0 +1,43 @@
+﻿@model IEnumerable<Entities.BranchVms>
+@inject piano_pizza.Resources.LocalizationService local
+@{
+    Layout = null;
+}
+<li class="niche-templates">
+    <a href="@Url.Action("Index","Home")">@local.GetLocalizedHtmlString("Home")</a>
+</li>
+@foreach (var i in Model)
+{
+    <li class="active">
+        <a href="@Url.Action("Index","Menu",new {BranchName = i.Name})">@i.Name</a>
+    </li>
+}
+<li class="active">
+    <a href="@Url.Action("Index","Home")">@local.GetLocalizedHtmlString("History")</a>
+</li>
+<li class="active">
+    <a href="@Url.Action("Index","Home")">
+        <span class="headerBtn">@local.GetLocalizedHtmlString("MyOrder")</span>
+    </a>
+</li>
+<li class="active">
+    <a href="#">
+        <span class="selectedLanguage languages">
+            ENG
+        </span>
+    </a>
+</li>
+<li class="active">
+    <a href="#">
+        <span class=" languages">
+            IT
+        </span>
+    </a>
+</li>
+<li class="active">
+    <a href="#">
+        <span class=" languages">
+            NL
+        </span>
+    </a>
+</li>

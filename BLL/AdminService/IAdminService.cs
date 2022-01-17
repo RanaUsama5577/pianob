@@ -63,6 +63,8 @@ namespace BLL.AdminService
         ResponseDto DeleteSingleNotification(int Id, string userId);
         ResponseDto ReadSingleNotification(int Id, string userId);
         ResponseDto GetAndReadAllNotifications(string userId);
-
+        List<CategoryAndProductsVms> GetCategoriesAndProducts(string BranchName);
+        AppInfoVms GetAppInfo();
+        ResponseDto SaveAboutAppInfo(aboutappVms modal);
     }
 }

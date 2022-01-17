@@ -245,3 +245,5 @@ D:\repos\piano-pizza\piano-pizza\obj\Debug\net5.0\ref\piano-pizza.dll
 D:\repos\piano-pizza\piano-pizza\obj\Debug\net5.0\piano-pizza.pdb
 D:\repos\piano-pizza\piano-pizza\obj\Debug\net5.0\piano-pizza.genruntimeconfig.cache
 D:\repos\piano-pizza\piano-pizza\obj\Debug\net5.0\Razor\Areas\SuperAdmin\Views\Product\Ingrendients.cshtml.g.cs
+D:\repos\piano-pizza\piano-pizza\obj\Debug\net5.0\Razor\Views\Home\headerPartial.cshtml.g.cs
+D:\repos\piano-pizza\piano-pizza\obj\Debug\net5.0\Razor\Views\Home\footerPartial.cshtml.g.cs

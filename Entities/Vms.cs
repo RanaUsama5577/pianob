@@ -17,6 +17,11 @@ namespace Entities
         public string Address { get; set; }
         public string TelephoneNumber { get; set; }
         public string Email { get; set; }
+        public string FacebookUrl { get; set; }
+        public string TwitterUrl { get; set; }
+        public string InstagramUrl { get; set; }
+        public string GoogleUrl { get; set; }
+        public string YoutubeUrl { get; set; }
     }
     public class ContentVms
     {
@@ -72,7 +77,6 @@ namespace Entities
         public string Gender { get; set; }
         public int? BranchId { get; set; }
     }
-
     public class ProductDtos
     {
         public int Id { get; set; }
@@ -98,7 +102,6 @@ namespace Entities
         public int Id { get; set; }
         public string Url { get; set; }
     }
-
     public class IngredientAddVms
     {
         public int BranchId { get; set; }
@@ -106,7 +109,6 @@ namespace Entities
         public int? ProductId { get; set; }
         public List<IngredientListVms> Items { get; set; }
     }
-
     public class IngredientListVms
     {
         public int? Id { get; set; }
@@ -183,14 +185,11 @@ namespace Entities
         [EmailAddress]
         public string Email { get; set; }
     }
-
     public class ForgotPasswordLink
     {
         [Required]
         public string Link { get; set; }
     }
-
-
     public class ContactUsVms
     {
         public int Id { get; set; }
@@ -207,7 +206,6 @@ namespace Entities
         public string StringCreatedAt { get; set; }
         public string StringUpdatedAt { get; set; }
     }
-    
     public class UserProfileDtos
     {
         public string Id { get; set; }
@@ -217,25 +215,20 @@ namespace Entities
         public EntityStatus Status { get; set; }
         public string CreatedAt { get; set; }
     }
-
     public class contentVms
     {
         public string content { get; set; }
         public string title { get; set; }
     }
-
     public class aboutappVms
     {
         public string twitter_link { get; set; }
         public string google_link { get; set; }
         public string instagram_link { get; set; }
         public string facebook_link { get; set; }
-        public string website { get; set; }
-        public string version { get; set; }
-        public IFormFile Image { get; set; }
-        public string ImageUrl { get; set; }
+        public string email { get; set; }
+        public string telephone { get; set; }
     }
-
     public class contactUs
     {
         public int Id { get; set; }
@@ -248,4 +241,14 @@ namespace Entities
         public QueryStatus Status { get; set; }
     }
 
+    public class CategoryAndProductsVms
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public int BranchId { get; set; }
+        public string BranchName { get; set; }
+        public string CreatedAt { get; set; }
+        public string UpdatedAt { get; set; }
+        public List<ProductDtos> ProductList { get; set; }
+    }
 }

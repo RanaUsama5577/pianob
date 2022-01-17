@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 
 namespace piano_pizza.Areas.SuperAdmin.Controllers
@@ -23,12 +24,20 @@ namespace piano_pizza.Areas.SuperAdmin.Controllers
         // GET: SuperAdmin/AppContent
         public ActionResult PrivacyPolicy()
         {
-            return View();
+            var appinfo = admin.GetAppInfo();
+            return View(appinfo);
         }
         public JsonResult GetPrivacyPolicy()
         {
             var content = admin.GetPrivacyPolicy();
             return Json(content);
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> SaveAboutApplication([FromForm] aboutappVms modal)
+        {
+            var s = admin.SaveAboutAppInfo(modal);
+            return Json(s);
         }
 
         [HttpPost]

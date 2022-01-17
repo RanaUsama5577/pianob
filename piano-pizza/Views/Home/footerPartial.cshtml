@@ -1,0 +1,43 @@
+﻿@model IEnumerable<Entities.BranchVms>
+@inject piano_pizza.Resources.LocalizationService local
+@{
+    Layout = null;
+}
+@foreach (var i in Model)
+{
+    <div class="column is-4">
+        <div class="widget widget-tags">
+            <h3 class="widget-title ">@i.Name</h3>
+            <div class="widget-links links-with-icons">
+                <ul>
+                    <li>
+                        <span class="" style="float: left;line-height: 2;margin-right: 4px;font-size: 11px;">
+                            <i class="fas fa-chevron-right"></i>
+                        </span>
+                        @if (i.Address.Length > 20)
+                        {
+                            <a href="http://www.google.com/maps/place/@i.Latitude,@i.Longitude" target="_blank" style="font-size: 11px;">@i.Address.Substring(0, 20).....<br></a>
+                        }
+                        else
+                        {
+                            <a href="http://www.google.com/maps/place/@i.Latitude,@i.Longitude" target="_blank" style="font-size: 11px;">@i.Address<br></a>
+                        }
+                    </li>
+                    <li>
+                        <span class="" style="float: left;line-height: 2;margin-right: 4px;font-size: 11px;">
+                            <i class="fas fa-chevron-right"></i>
+                        </span>
+                        <a style="font-size: 11px;" href="tel:+31(0)6 151 44 232">@i.Phone</a>
+                    </li>
+                    <li>
+                        <span class="" style="float: left;line-height: 2;margin-right: 4px;font-size: 11px;">
+                            <i class="fas fa-chevron-right"></i>
+                        </span>
+                        <a style="font-size: 11px;" href="mailto:@i.Email">@i.Email</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!-- .widget -->
+    </div>
+}

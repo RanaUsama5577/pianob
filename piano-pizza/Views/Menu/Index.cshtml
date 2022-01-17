@@ -1,4 +1,5 @@
-﻿@{
+﻿@model IEnumerable<Entities.CategoryAndProductsVms>
+@{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <!-- #header-wrap -->
@@ -32,180 +33,39 @@
                     <div class="works isotope">
                         <ul class="isotope-filter">
                             <li data-filter="*" class="active">show all</li>
-                            <li data-filter=".rosse">Pizze Rosse</li>
-                            <li data-filter=".bianche">Pizze Bianche</li>
-                            <li data-filter=".drinks">Drinks</li>
+                            @foreach (var i in Model)
+                            {
+                                if (i.ProductList.Count() != 0 )
+                                {
+                                    <li data-filter=".@i.Id">@i.Name</li>
+                                }
+                            }
                         </ul>
                         <div class="columns is-variable is-4 is-multiline">
-                            <div class="column is-4 rosse" data-aos="fade">
-                                <div class="work-item">
-                                    <figure class="work-item-img">
-                                        <a href="@Url.Action("Index","Product")">
-                                            <img alt="Joo - Niche Multi-Purpose HTML Template" src="/assets/images/pizza/Page-1-Image-1.png">
-                                        </a>
-                                    </figure>
-                                    <div class="work-item-meta">
-                                        <h3>
-                                            <a href="@Url.Action("Index","Product")">
-                                                Marinara
-                                                <span class="work-price">$3.99</span>
-                                            </a>
-                                        </h3>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit Fuidhir pinnately.</p>
+                            @foreach (var i in Model)
+                            {
+                                foreach (var a in i.ProductList)
+                                {
+                                    <div class="column is-4 @i.Id" data-aos="fade">
+                                        <div class="work-item">
+                                            <figure class="work-item-img">
+                                                <a href="@Url.Action("Index","Product")">
+                                                    <img alt="Joo - Niche Multi-Purpose HTML Template" src="@a.Logo">
+                                                </a>
+                                            </figure>
+                                            <div class="work-item-meta">
+                                                <h3>
+                                                    <a href="@Url.Action("Index","Product")">
+                                                        @a.Name
+                                                        <span class="work-price">$@a.Price</span>
+                                                    </a>
+                                                </h3>
+                                                <p>@a.Description</p>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                            <!-- .work-item -->
-                            <div class="column is-4 bianche" data-aos="fade">
-                                <div class="work-item">
-                                    <figure class="work-item-img">
-                                        <a href="@Url.Action("Index","Product")">
-                                            <img alt="Joo - Niche Multi-Purpose HTML Template" src="/assets/images/pizza/Page-1-Image-1.png">
-                                        </a>
-                                    </figure>
-                                    <div class="work-item-meta">
-                                        <h3>
-                                            <a href="@Url.Action("Index","Product")">
-                                                Margherita
-                                                <span class="work-price">$5.99</span>
-                                            </a>
-                                        </h3>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit Fuidhir pinnately.</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="column is-4 rosse" data-aos="fade">
-                                <div class="work-item">
-                                    <figure class="work-item-img">
-                                        <a href="@Url.Action("Index","Product")">
-                                            <img alt="Joo - Niche Multi-Purpose HTML Template" src="/assets/images/pizza/Page-1-Image-1.png">
-                                        </a>
-                                    </figure>
-                                    <div class="work-item-meta">
-                                        <h3>
-                                            <a href="@Url.Action("Index","Product")">
-                                                Regina
-                                                <span class="work-price">$3.99</span>
-                                            </a>
-                                        </h3>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit Fuidhir pinnately.</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- .work-item -->
-                            <div class="column is-4 drinks" data-aos="fade">
-                                <div class="work-item">
-                                    <figure class="work-item-img">
-                                        <a href="@Url.Action("Index","Product")">
-                                            <img alt="Joo - Niche Multi-Purpose HTML Template" src="/assets/images/menu/4.png">
-                                        </a>
-                                    </figure>
-                                    <div class="work-item-meta">
-                                        <h3>
-                                            <a href="@Url.Action("Index","Product")">
-                                                Drink
-                                                <span class="work-price">$7.99</span>
-                                            </a>
-                                        </h3>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit Fuidhir pinnately.</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- .work-item -->
-                            <div class="column is-4 drinks" data-aos="fade">
-                                <div class="work-item">
-                                    <figure class="work-item-img">
-                                        <a href="@Url.Action("Index","Product")">
-                                            <img alt="Joo - Niche Multi-Purpose HTML Template" src="/assets/images/menu/8.png">
-                                        </a>
-                                    </figure>
-                                    <div class="work-item-meta">
-                                        <h3>
-                                            <a href="@Url.Action("Index","Product")">
-                                                chicken burger
-                                                <span class="work-price">$7.99</span>
-                                            </a>
-                                        </h3>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit Fuidhir pinnately.</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- .work-item -->
-                            <div class="column is-4 drinks" data-aos="fade">
-                                <div class="work-item">
-                                    <figure class="work-item-img">
-                                        <a href="@Url.Action("Index","Product")">
-                                            <img alt="Joo - Niche Multi-Purpose HTML Template" src="/assets/images/menu/8.png">
-                                        </a>
-                                    </figure>
-                                    <div class="work-item-meta">
-                                        <h3>
-                                            <a href="@Url.Action("Index","Product")">
-                                                chicken burger
-                                                <span class="work-price">$7.99</span>
-                                            </a>
-                                        </h3>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit Fuidhir pinnately.</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- .work-item -->
-                            <div class="column is-4 bianche" data-aos="fade">
-                                <div class="work-item">
-                                    <figure class="work-item-img">
-                                        <a href="@Url.Action("Index","Product")">
-                                            <img alt="Joo - Niche Multi-Purpose HTML Template" src="/assets/images/pizza/Page-1-Image-1.png">
-                                        </a>
-                                    </figure>
-                                    <div class="work-item-meta">
-                                        <h3>
-                                            <a href="@Url.Action("Index","Product")">
-                                                beef burger
-                                                <span class="work-price">$5.99</span>
-                                            </a>
-                                        </h3>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit Fuidhir pinnately.</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="column is-4 rosse" data-aos="fade">
-                                <div class="work-item">
-                                    <figure class="work-item-img">
-                                        <a href="#">
-                                            <img alt="Joo - Niche Multi-Purpose HTML Template" src="/assets/images/pizza/Page-1-Image-1.png">
-                                        </a>
-                                    </figure>
-                                    <div class="work-item-meta">
-                                        <h3>
-                                            <a href="@Url.Action("Index","Product")">
-                                                cheese burger
-                                                <span class="work-price">$3.99</span>
-                                            </a>
-                                        </h3>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit Fuidhir pinnately.</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- .work-item -->
-                            <div class="column is-4 bianche" data-aos="fade">
-                                <div class="work-item">
-                                    <figure class="work-item-img">
-                                        <a href="@Url.Action("Index","Product")">
-                                            <img alt="Joo - Niche Multi-Purpose HTML Template" src="/assets/images/pizza/Page-1-Image-1.png">
-                                        </a>
-                                    </figure>
-                                    <div class="work-item-meta">
-                                        <h3>
-                                            <a href="#">
-                                                beef burger
-                                                <span class="work-price">$5.99</span>
-                                            </a>
-                                        </h3>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit Fuidhir pinnately.</p>
-                                    </div>
-                                </div>
-                            </div>
+                                }
+                            }
                         </div>
                         <!-- .columns -->
                     </div>

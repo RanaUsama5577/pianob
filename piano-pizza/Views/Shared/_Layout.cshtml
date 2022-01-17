@@ -1,4 +1,5 @@
 ﻿@inject piano_pizza.Resources.LocalizationService local
+@using Entities;
 <!DOCTYPE html>
 <html lang="en" class="no-js no-svg">
 <head>
@@ -14,11 +15,11 @@
     <link rel="stylesheet" href="/assets/css/customd652.css?v=1557174151243">
     <link rel="stylesheet" href="/custom/custom.css">
     <link href="https://fonts.googleapis.com/css?family=Kalam:700|Oswald:400,500,700|Open+Sans:300,400&amp;v=1557174088386" rel="stylesheet">
-    <link rel="apple-touch-icon" sizes="57x57" href="cropped-b-black-180x180.png">
+    <link rel="apple-touch-icon" sizes="57x57" href="/app-images/cropped-b-black-180x180.png">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="PianoPizza">
-    <link rel="shortcut icon" href="cropped-b-black-180x180.png">
+    <link rel="shortcut icon" href="/app-images/cropped-b-black-180x180.png">
 </head>
 <body class="active-pageloader entertainment restaurant header-sticky hide-on-scroll header-logo-left footer-widgets footer-background dark-color widget-7 header-transparent submenu-show-arrow-right menu-is-uppercase submenu-is-capitalized logo-text-is-capitalized page-header-logo-left">
     <!-- Loader -->
@@ -47,45 +48,8 @@
                         <div class="level-right">
                             <div class="nav-wrap">
                                 <nav class="main-navigation right">
-                                    <ul class="menu">
-                                        <li class="niche-templates">
-                                            <a href="@Url.Action("Index","Home")">@local.GetLocalizedHtmlString("Home")</a>
-                                        </li>
-                                        <li class="active">
-                                            <a href="@Url.Action("Index","Menu")">MAASTRICHT</a>
-                                        </li>
-                                        <li class="active">
-                                            <a href="@Url.Action("Index","Menu")">LEIDEN</a>
-                                        </li>
-                                        <li class="active">
-                                            <a href="@Url.Action("Index","Home")">@local.GetLocalizedHtmlString("History")</a>
-                                        </li>
-                                        <li class="active">
-                                            <a href="@Url.Action("Index","Home")">
-                                                <span class="headerBtn">@local.GetLocalizedHtmlString("MyOrder")</span>
-                                            </a>
-                                        </li>
-                                        <li class="active">
-                                            <a href="#">
-                                                <span class="selectedLanguage languages">
-                                                    ENG
-                                                </span>
-                                            </a>
-                                        </li>
-                                        <li class="active">
-                                            <a href="#">
-                                                <span class=" languages">
-                                                    IT
-                                                </span>
-                                            </a>
-                                        </li>
-                                        <li class="active">
-                                            <a href="#">
-                                                <span class=" languages">
-                                                    NL
-                                                </span>
-                                            </a>
-                                        </li>
+                                    <ul class="menu" id="ul_menu">
+                                        
                                     </ul>
                                 </nav>
                                 <!-- #site-navigation -->
@@ -110,65 +74,7 @@
                                 <img src="/app-images/piano-b-logo-2-1024x1024.png" style="width: 195px;" />
                             </div>
                         </div>
-                        <div class="columns">
-                            <!-- .column -->
-                            <div class="column is-4">
-                                <div class="widget widget-tags">
-                                    <h3 class="widget-title ">@local.GetLocalizedHtmlString("Home")</h3>
-                                    <div class="widget-links links-with-icons">
-                                        <ul>
-                                            <li>
-                                                <span class="" style="float: left;line-height: 2;margin-right: 4px;font-size: 11px;">
-                                                    <i class="fas fa-chevron-right"></i>
-                                                </span>
-                                                <a style="font-size: 11px;" href="#">Tongersestraat 25<br> 6211 LL Maastricht<br></a>
-                                            </li>
-                                            <li>
-                                                <span class="" style="float: left;line-height: 2;margin-right: 4px;font-size: 11px;">
-                                                    <i class="fas fa-chevron-right"></i>
-                                                </span>
-                                                <a style="font-size: 11px;" href="tel:+31(0)6 151 44 232">+31(0)6 151 44 232</a>
-                                            </li>
-                                            <li>
-                                                <span class="" style="float: left;line-height: 2;margin-right: 4px;font-size: 11px;">
-                                                    <i class="fas fa-chevron-right"></i>
-                                                </span>
-                                                <a style="font-size: 11px;" href="mailto:info@pizzeriapianob.com">info@pizzeriapianob.com</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <!-- .widget -->
-                            </div>
-                            <!-- .column -->
-                            <div class="column is-4">
-                                <div class="widget widget-tags">
-                                    <h3 class="widget-title ">LEIDEN</h3>
-                                    <div class="widget-links links-with-icons">
-                                        <ul>
-                                            <li>
-                                                <span class="" style="float: left;line-height: 4;margin-right: 4px;font-size: 11px;">
-                                                    <i class="fas fa-chevron-right"></i>
-                                                </span>
-                                                <a style="font-size: 11px;" href="#">Kaiserstraat 19 <br> 2311 GN <br> Leiden </a>
-                                            </li>
-                                            <li>
-                                                <span class="" style="float: left;line-height: 2;margin-right: 4px;font-size: 11px;">
-                                                    <i class="fas fa-chevron-right"></i>
-                                                </span>
-                                                <a style="font-size: 11px;" href="tel:+31(0)6 879 97 581">+31(0)6 879 97 581</a>
-                                            </li>
-                                            <li>
-                                                <span class="" style="float: left;line-height: 2;margin-right: 4px;font-size: 11px;">
-                                                    <i class="fas fa-chevron-right"></i>
-                                                </span>
-                                                <a style="font-size: 11px;" href="mailto:info@pizzeriapianob.com">info@pizzeriapianob.com</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <!-- .widget -->
-                            </div>
+                        <div class="columns" id="footerTab">
                             <!-- .column -->
                             <div class="column is-5">
                                 <div class="widget widget-links">
@@ -195,5 +101,38 @@
     <script src="/assets/js/scripts.mind652.js?v=1557174151243"></script>
     <script src="/assets/js/customd652.js?v=1557174151243"></script>
     <script src="/custom/custom.js"></script>
+
+    <script>
+        $(function () {
+            GetHeaderPartial();
+            GetFooterPartial();
+        })
+        function GetHeaderPartial() {
+            $.ajax({
+                url: "/Home/headerPartial",
+                type: "GET",
+                data: null,
+                success: function (response) {
+                    $('#ul_menu').html(response);
+                },
+                error: function (result) {
+                    console.log("Save Error", result);
+                }
+            });
+        }
+        function GetFooterPartial() {
+            $.ajax({
+                url: "/Home/footerPartial",
+                type: "GET",
+                data: null,
+                success: function (response) {
+                    $('#footerTab').prepend(response);
+                },
+                error: function (result) {
+                    console.log("Save Error", result);
+                }
+            });
+        }
+    </script>
 </body>
 </html>
