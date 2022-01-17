@@ -1071,11 +1071,116 @@ namespace BLL.AdminService
                     Name = i.Name,
                     Price = i.Price,
                     ProductId = modal.ProductId,
-                    Type = product == true ?IngredientType.CategoryType:IngredientType.ProductType,
+                    Type = product != true ?IngredientType.CategoryType:IngredientType.ProductType,
                     UpdatedAt = currentTime,
                 };
                 db.Ingredients.Add(ingredients);
             }
+            db.SaveChanges();
+            return JsonResponse2(200, "success", null);
+        }
+        public List<IngredientListVms> GetIngredient()
+        {
+            try
+            {
+                var entities = db.Ingredients.Select(n => new IngredientListVms
+                {
+                    CreatedAt = n.CreatedAt.ToShortDateString(),
+                    Name = n.Name,
+                    Status = n.Status,
+                    Id = n.Id,
+                    Price = n.Price,
+                    BranchName = n.CategoriesObject.BranchesObject.Name,
+                    CategoryName = n.CategoriesObject.Name,
+                    ProductName = n.ProductId !=null?n.ProductsObject.Name:"-",
+                });
+                return entities.ToList();
+            }
+            catch (Exception es)
+            {
+                throw new ValidationException(es.GetBaseException().Message);
+            }
+        }
+        public ResponseDto BlockIngredient(int Id)
+        {
+            try
+            {
+                var entity = db.Ingredients.Find(Id);
+                if (entity == null)
+                {
+                    return JsonResponse2(400, "entity not found", null);
+                }
+                else
+                {
+                    entity.Status = EntityStatus.Blocked;
+                    db.Entry(entity).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return JsonResponse2(200, "success", null);
+                }
+            }
+            catch (Exception es)
+            {
+                return JsonResponse2(504, es.GetBaseException().Message, null);
+            }
+        }
+        public ResponseDto UnBlockIngredient(int Id)
+        {
+            try
+            {
+                var entity = db.Ingredients.Find(Id);
+                if (entity == null)
+                {
+                    return JsonResponse2(400, "entity not found", null);
+                }
+                else
+                {
+                    entity.Status = EntityStatus.Active;
+                    db.Entry(entity).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return JsonResponse2(200, "success", null);
+                }
+            }
+            catch (Exception es)
+            {
+                return JsonResponse2(504, es.GetBaseException().Message, null);
+            }
+        }
+        public ResponseDto DeleteIngredient(int Id)
+        {
+            try
+            {
+                var entity = db.Ingredients.Find(Id);
+                if (entity == null)
+                {
+                    return JsonResponse2(400, "entity not found", null);
+                }
+                else
+                {
+                    db.Ingredients.Remove(entity);
+                    db.SaveChanges();
+                    return JsonResponse2(200, "success", null);
+                }
+            }
+            catch (Exception es)
+            {
+                return JsonResponse2(504, es.GetBaseException().Message, null);
+            }
+        }
+        public ResponseDto UpdateIngredient(IngredientListVms modal)
+        {
+            if (!ModelState.IsValid)
+            {
+                var message = string.Join(" | ", ModelState.Values
+                                .SelectMany(v => v.Errors)
+                                .Select(e => e.ErrorMessage));
+
+                return JsonResponse2(400, message, null);
+            }
+            var entity = db.Ingredients.Find(modal.Id);
+            entity.Name = modal.Name;
+            entity.Price = modal.Price;
+            entity.UpdatedAt = currentTime;
+            db.Entry(entity).State = EntityState.Modified;
             db.SaveChanges();
             return JsonResponse2(200, "success", null);
         }

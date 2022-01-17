@@ -115,6 +115,7 @@ namespace Entities
         public string CreatedAt { get; set; }
         public string UpdatedAt { get; set; }
         public string CategoryName { get; set; }
+        public string ProductName { get; set; }
         public string BranchName { get; set; }
         public EntityStatus Status { get; set; }
     }

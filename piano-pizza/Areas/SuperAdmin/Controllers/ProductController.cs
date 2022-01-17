@@ -25,33 +25,8 @@ namespace piano_pizza.Areas.SuperAdmin.Controllers
             admin = adminService;
         }
 
-        // GET: SuperAdmin/Product
-        public ActionResult Category()
-        {
-            return View();
-        }
+        // GET: SuperAdmin/Ingrendients
         
-        public ActionResult AddIngredients()
-        {
-            var products = admin.GetProducts();
-            var cats = admin.GetCategories();
-            var branches = admin.GetBranches();
-            cats = cats.Where(p => p.Status == Entities.Enum.EntityStatus.Active).ToList();
-            branches = branches.Where(p => p.Status == Entities.Enum.EntityStatus.Active).ToList();
-            products = products.Where(p => p.Status == Entities.Enum.EntityStatus.Active).ToList();
-            ViewBag.Branches = new SelectList(branches.ToList(), "Id", "Name");
-            ViewBag.Categories = new SelectList(cats.ToList(), "Id", "Name", "selected", "BranchId");
-            ViewBag.Products = new SelectList(products.ToList(), "Id", "Name", "selected", "CategoryId");
-            return View();
-        }
-
-        [HttpPost]
-        public ActionResult AddIngredients([FromBody] IngredientAddVms modal)
-        {
-            var res = admin.AddIngredients(modal);
-            return Json(res);
-        }
-
         public ActionResult Detail()
         {
             var res = admin.GetProducts();
@@ -136,6 +111,54 @@ namespace piano_pizza.Areas.SuperAdmin.Controllers
         {
             var s = admin.DeleteProductImage(Id);
             return Json(s);
+        }
+
+        public ActionResult Ingrendients()
+        {
+            var res = admin.GetIngredient();
+            return View(res);
+        }
+        public ActionResult AddIngredients()
+        {
+            var products = admin.GetProducts();
+            var cats = admin.GetCategories();
+            var branches = admin.GetBranches();
+            cats = cats.Where(p => p.Status == Entities.Enum.EntityStatus.Active).ToList();
+            branches = branches.Where(p => p.Status == Entities.Enum.EntityStatus.Active).ToList();
+            products = products.Where(p => p.Status == Entities.Enum.EntityStatus.Active).ToList();
+            ViewBag.Branches = new SelectList(branches.ToList(), "Id", "Name");
+            ViewBag.Categories = new SelectList(cats.ToList(), "Id", "Name", "selected", "BranchId");
+            ViewBag.Products = new SelectList(products.ToList(), "Id", "Name", "selected", "CategoryId");
+            return View();
+        }
+        [HttpPost]
+        public ActionResult AddIngredients([FromBody] IngredientAddVms modal)
+        {
+            var res = admin.AddIngredients(modal);
+            return Json(res);
+        }
+
+        public IActionResult BlockIngredient(int Id)
+        {
+            var s = admin.BlockIngredient(Id);
+            return Json(s);
+        }
+        public IActionResult UnBlockIngredient(int Id)
+        {
+            var s = admin.UnBlockIngredient(Id);
+            return Json(s);
+        }
+        public IActionResult DeleteIngredient(int Id)
+        {
+            var s = admin.DeleteIngredient(Id);
+            return Json(s);
+        }
+
+        [HttpPost]
+        public IActionResult UpdateIngredient(IngredientListVms modal)
+        {
+            var res = admin.UpdateIngredient(modal);
+            return Json(res);
         }
     }
 }

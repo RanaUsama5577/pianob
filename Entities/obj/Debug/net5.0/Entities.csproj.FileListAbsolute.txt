@@ -9,3 +9,4 @@ D:\repos\piano-pizza\Entities\obj\Debug\net5.0\Entities.csproj.CoreCompileInputs
 D:\repos\piano-pizza\Entities\obj\Debug\net5.0\Entities.dll
 D:\repos\piano-pizza\Entities\obj\Debug\net5.0\ref\Entities.dll
 D:\repos\piano-pizza\Entities\obj\Debug\net5.0\Entities.pdb
+D:\repos\piano-pizza\Entities\obj\Debug\net5.0\Entities.csproj.AssemblyReference.cache

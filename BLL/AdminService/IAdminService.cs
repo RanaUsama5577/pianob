@@ -50,5 +50,11 @@ namespace BLL.AdminService
         ResponseDto BlockProduct(int Id);
         ResponseDto DeleteProductImage(int Id);
         ResponseDto AddIngredients(IngredientAddVms modal);
+        List<IngredientListVms> GetIngredient();
+        ResponseDto UnBlockIngredient(int Id);
+        ResponseDto BlockIngredient(int Id);
+        ResponseDto DeleteIngredient(int Id);
+        ResponseDto UpdateIngredient(IngredientListVms modal);
+
     }
 }

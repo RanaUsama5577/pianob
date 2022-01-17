@@ -23,13 +23,13 @@
                                 <div class="row mt-4">
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label>@local.GetLocalizedHtmlString("SelectBranch")</label>
+                                            <label>@local.GetLocalizedHtmlString("SelectBranch")*</label>
                                             @Html.DropDownList("BranchId", (IEnumerable<SelectListItem>)ViewBag.Branches, new { @class = "form-group form-float selectLists show-tick w-100 border-light", onchange = "ShowCategories()" })
                                         </div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label>@local.GetLocalizedHtmlString("SelectCategory")</label>
+                                            <label>@local.GetLocalizedHtmlString("SelectCategory")*</label>
                                             <select id="CategoryId" name="CategoryId" class="form-group selectLists form-float show-tick w-100 border-light" onchange="ShowProducts()">
                                             </select>
                                         </div>
@@ -82,6 +82,12 @@
 </section>
 
 <script>
+    $(function () {
+        $('#product').addClass('toggled');
+        $('#AddIngredient').addClass('active');
+        ShowCategories();
+        ShowProducts();
+    })
     function ShowCategories() {
         var s = $('#BranchId').val();
         $('#CategoryId').selectpicker('destroy');
@@ -94,7 +100,9 @@
         var s = $('#CategoryId').val();
         $('#ProductId').selectpicker('destroy');
         var options = $('#ProductSelect > optgroup[label="' + s + '"] > option').clone();
-        $('#ProductId').html(options);
+        $('#ProductId').html("");
+        $('#ProductId').html('<option value="" disabled selected>----Select Product----</option>');
+        $('#ProductId').append(options);
         $('#ProductId').selectpicker();
     }
     function AddForm() {
@@ -105,15 +113,42 @@
             '<a onclick="DeleteThisForm(this)" class="btn btn-raised btn-danger btn-round waves-effect mb-4" style="color:#fff;float: right;margin-bottom: 0px !important;">Remove</a>'+
             '</div>'+
             '<div class="form-group col-md-6 col-sm-12 col-12">' +
-            '<label>Ingredient Name</label>' +
+            '<label>Ingredient Name*</label>' +
             '<input type="text" class="form-control name" placeholder="Enter Name..." required>' +
             '</div>' +
             '<div class="form-group col-md-6 col-sm-12 col-12">' +
-            '<label>Price</label>' +
-            '<input type="number" class="form-control price" placeholder="Enter Price..." required>' +
+            '<label>Price*</label>' +
+            '<input type="number" class="form-control price float_valid" placeholder="Enter Price..." required>' +
             '</div>' +
             '</div>' +
             '</div>');
+        $(".float_valid").keypress(function () {
+            return event.charCode >= 48 && event.charCode <= 57 || event.charCode == 46;
+        });
+        $(".float_valid").keyup(function (elem) {
+            var val = $(this).val();
+
+            var tmp = $(this).val().replace(/^0+/, '0');
+            if (tmp.charAt(0) == 0 && tmp.charAt(1) > 0) {
+                tmp = 0;
+            }
+            $(this).val(tmp);
+
+            var fixer = 0;
+            if (val.includes(".")) {
+                if (tmp.charAt(0) == ".") {
+                    $(this).val(fixer);
+                }
+                // IF DOUBLE MINUS APPEARS
+                else if ((val.match(/\./g).length) > 1) {
+                    $(this).val(fixer);
+                }
+            }
+        });
+        $(".float_valid").on('input', function (elem) {
+            var t = $(this).val();
+            $(this).val((t.indexOf(".") >= 0) ? (t.substr(0, t.indexOf(".")) + t.substr(t.indexOf("."), 3)) : t);
+        });
     }
     function DeleteThisForm(element) {
         $(element).closest('.mb-3').remove();
@@ -134,7 +169,6 @@
             MixinSweet("Please fill all the required fields", "", "error", 2000);
         }
         else {
-            MixinSweet("Form is fine", "", "success", 2000);
             var list = [];
             $('#Form').find(('.form-row')).each(function (i, obj) {
                 var name = "";
@@ -157,8 +191,8 @@
 
             var data = JSON.stringify({
                         'branchId': $('#BranchId').val(),
-                        'categoryId': $('#BranchId').val(),
-                        'productId': $('#BranchId').val(),
+                        'categoryId': $('#CategoryId').val(),
+                        'productId': $('#ProductId').val(),
                         'items': list,
                     });
             $.ajax({
