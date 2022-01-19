@@ -47,6 +47,7 @@ namespace BLL.AdminService
         ResponseDto UnBlockCategory(int Id);
         ResponseDto BlockCategory(int Id);
         List<ProductDtos> GetProducts();
+        ProductAndIngredientDtos ProductDetail(int Id,string BranchName,string CategoryName);
         ResponseDto AddProducts(ProductDtos modal);
         ResponseDto DeleteProduct(int Id);
         ResponseDto UnBlockProduct(int Id);

@@ -14,12 +14,16 @@
     <link rel="stylesheet" href="/assets/css/styles.mind652.css?v=1557174151243">
     <link rel="stylesheet" href="/assets/css/customd652.css?v=1557174151243">
     <link rel="stylesheet" href="/custom/custom.css">
+    <link href="~/assets/toast/toastr.min.css" rel="stylesheet" />
+    <link href="~/assets/toast/toastr-custom.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css?family=Kalam:700|Oswald:400,500,700|Open+Sans:300,400&amp;v=1557174088386" rel="stylesheet">
     <link rel="apple-touch-icon" sizes="57x57" href="/app-images/cropped-b-black-180x180.png">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="PianoPizza">
     <link rel="shortcut icon" href="/app-images/cropped-b-black-180x180.png">
+    <script src="/assets/js/vendor.mind652.js?v=1557174151243"></script>
+
 </head>
 <body class="active-pageloader entertainment restaurant header-sticky hide-on-scroll header-logo-left footer-widgets footer-background dark-color widget-7 header-transparent submenu-show-arrow-right menu-is-uppercase submenu-is-capitalized logo-text-is-capitalized page-header-logo-left">
     <!-- Loader -->
@@ -49,7 +53,6 @@
                             <div class="nav-wrap">
                                 <nav class="main-navigation right">
                                     <ul class="menu" id="ul_menu">
-                                        
                                     </ul>
                                 </nav>
                                 <!-- #site-navigation -->
@@ -80,9 +83,9 @@
                                 <div class="widget widget-links">
                                     <h3 class="widget-title ">Social Links</h3>
                                     <div class="footer-social">
-                                        <a href="#"><i class="fab fa-facebook-f"></i></a>
-                                        <a href="#"><i class="fab fa-instagram"></i></a>
-                                        <a href="#"><i class="fab fa-google-plus-g"></i></a>
+                                        <a id="FBLink" target="_blank" href="#"><i class="fab fa-facebook-f"></i></a>
+                                        <a id="INSTALink" target="_blank" href="#"><i class="fab fa-instagram"></i></a>
+                                        <a id="GGLLink" target="_blank" href="#"><i class="fab fa-google-plus-g"></i></a>
                                     </div>
                                 </div>
                                 <!-- .widget -->
@@ -97,15 +100,18 @@
             <!-- #footer -->
         </div>
     </div>
-    <script src="/assets/js/vendor.mind652.js?v=1557174151243"></script>
+    
     <script src="/assets/js/scripts.mind652.js?v=1557174151243"></script>
     <script src="/assets/js/customd652.js?v=1557174151243"></script>
     <script src="/custom/custom.js"></script>
-
+    <script src="~/assets/number_input/jquery.bootstrap-touchspin.js"></script>
+    <script src="~/assets/number_input/form-number-input.min.js"></script>
+    <script src="~/assets/toast/toastr.min.js"></script>
     <script>
         $(function () {
             GetHeaderPartial();
             GetFooterPartial();
+            GetAppInfo();
         })
         function GetHeaderPartial() {
             $.ajax({
@@ -127,6 +133,21 @@
                 data: null,
                 success: function (response) {
                     $('#footerTab').prepend(response);
+                },
+                error: function (result) {
+                    console.log("Save Error", result);
+                }
+            });
+        }
+        function GetAppInfo() {
+            $.ajax({
+                url: "/Home/GetAppInfo",
+                type: "GET",
+                data: null,
+                success: function (response) {
+                    $('#FBLink').attr('href', response.facebookUrl);
+                    $('#INSTALink').attr('href', response.instagramUrl);
+                    $('#GGLLink').attr('href', response.googleUrl);
                 },
                 error: function (result) {
                     console.log("Save Error", result);

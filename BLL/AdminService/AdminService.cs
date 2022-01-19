@@ -942,6 +942,53 @@ namespace BLL.AdminService
                 throw new ValidationException(es.GetBaseException().Message);
             }
         }
+        public ProductAndIngredientDtos ProductDetail(int Id, string BranchName, string CategoryName)
+        {
+            try
+            {
+                var n = db.Products.Find(Id);
+                
+                var category = db.Categories.Find(n.CategoryId);
+                var branch = db.Branches.Find(category.BranchId);
+                if(category.Name != CategoryName || branch.Name != BranchName)
+                {
+                    throw new ValidationException("Oops we are unable to match your search");
+                }
+                ProductAndIngredientDtos productDtos = new ProductAndIngredientDtos
+                {
+                    CreatedAt = n.CreatedAt.ToShortDateString(),
+                    Name = n.Name,
+                    Status = n.Status,
+                    Id = n.Id,
+                    Description = n.Description,
+                    ImageUrls = db.ProductsImages.Where(p => p.ProductId == n.Id).Select(p => p.Image).ToList(),
+                    ProductsImages = db.ProductsImages.Where(p => p.ProductId == n.Id).Select(a => new ProductsImagesVms
+                    {
+                        Id = a.Id,
+                        Url = a.Image,
+                    }).ToList(),
+                    Logo = n.Logo,
+                    Price = n.Price,
+                    CategoryId = n.CategoryId,
+                    BranchId = category.BranchId,
+                    BranchName = branch.Name,
+                    CategoryName = category.Name,
+                    IngredientLists = db.Ingredients.Where(p => p.ProductId == n.Id || p.CategoryId == category.Id).Select(i => new IngredientListVms
+                    {
+                        Id = i.Id,
+                        CreatedAt = i.CreatedAt.ToShortDateString(),
+                        Status = i.Status,
+                        Name = i.Name,
+                        Price = i.Price,
+                    }).ToList(),
+                };
+                return productDtos;
+            }
+            catch (Exception es)
+            {
+                throw new ValidationException(es.GetBaseException().Message);
+            }
+        }
         public ResponseDto AddProducts(ProductDtos modal)
         {
             if (!ModelState.IsValid)
@@ -1446,21 +1493,6 @@ namespace BLL.AdminService
             var info = db.AppInfos.FirstOrDefault();
             if(info == null)
             {
-                AppInfo appInfo = new AppInfo
-                {
-                    Address = "some address",
-                    CreatedAt = currentTime,
-                    Email = "admin@piano.com",
-                    FacebookUrl = "https://facebook.com",
-                    GoogleUrl = "https://google.com",
-                    InstagramUrl = "https://instagram.com",
-                    YoutubeUrl = "https://youtube.com",
-                    TwitterUrl = "https://twitter.com",
-                    TelephoneNumber = "+12 123 2345",
-                    UpdatedAt = currentTime,
-                };
-                db.AppInfos.Add(appInfo);
-                db.SaveChanges();
                 var info2 = db.AppInfos.FirstOrDefault();
                 AppInfoVms appInfoVms2 = new AppInfoVms
                 {
@@ -1488,7 +1520,6 @@ namespace BLL.AdminService
             };
             return appInfoVms;
         }
-
         public ResponseDto SaveAboutAppInfo(aboutappVms modal)
         {
             var info = db.AppInfos.FirstOrDefault();

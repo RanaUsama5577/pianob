@@ -15,5 +15,6 @@
     <WebStackScaffolding_DependencyDialogWidth>650</WebStackScaffolding_DependencyDialogWidth>
     <NameOfLastUsedPublishProfile>D:\repos\piano-pizza\piano-pizza\Properties\PublishProfiles\FolderProfile.pubxml</NameOfLastUsedPublishProfile>
     <WebStackScaffolding_DbContextTypeFullName>DAL.ApplicationDbContext</WebStackScaffolding_DbContextTypeFullName>
+    <ShowAllFiles>true</ShowAllFiles>
   </PropertyGroup>
 </Project>

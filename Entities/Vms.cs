@@ -11,7 +11,6 @@ namespace Entities
         public string Subject { get; set; }
         public string Review { get; set; }
     }
-
     public class AppInfoVms
     {
         public string Address { get; set; }
@@ -96,6 +95,25 @@ namespace Entities
         public string CategoryName { get; set; }
         public string BranchName { get; set; }
         public EntityStatus Status { get; set; }
+    }
+
+    public class ProductAndIngredientDtos
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public List<string> ImageUrls { get; set; }
+        public List<ProductsImagesVms> ProductsImages { get; set; }
+        public string Description { get; set; }
+        public string Logo { get; set; }
+        public decimal Price { get; set; }
+        public string CreatedAt { get; set; }
+        public string UpdatedAt { get; set; }
+        public int CategoryId { get; set; }
+        public int BranchId { get; set; }
+        public string CategoryName { get; set; }
+        public string BranchName { get; set; }
+        public EntityStatus Status { get; set; }
+        public List<IngredientListVms> IngredientLists { get; set; }
     }
     public class ProductsImagesVms
     {

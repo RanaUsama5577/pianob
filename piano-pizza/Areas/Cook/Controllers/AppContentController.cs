@@ -6,6 +6,7 @@ using System.Web;
 
 namespace piano_pizza.Areas.Cook.Controllers
 {
+    [Area("Cook")]
     public class AppContentController : Controller
     {
         // GET: Cook/AppContent

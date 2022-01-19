@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using BLL.AdminService;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,9 +9,19 @@ namespace piano_pizza.Controllers
 {
     public class ProductController : Controller
     {
-        public IActionResult Index()
+        //Init ASP.NET identity store to handle user sign-in & sign-up 
+        private readonly IAdminService admin;
+
+        public ProductController(IAdminService adminService)
         {
-            return View();
+            admin = adminService;
+        }
+
+        [Route("/Menu/{BranchName}/{CategoryName}/{Id}")]
+        public IActionResult Index(int Id,string BranchName,string CategoryName)
+        {
+            var res = admin.ProductDetail(Id, BranchName, CategoryName);
+            return View(res);
         }
     }
 }

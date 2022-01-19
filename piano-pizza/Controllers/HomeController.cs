@@ -26,6 +26,7 @@ namespace piano_pizza.Controllers
         public IActionResult Index()
         {
             var s = admin.GetBranches();
+            s = s.Where(p => p.Status == Entities.Enum.EntityStatus.Active).ToList();
             return View(s);
         }
 
@@ -41,6 +42,12 @@ namespace piano_pizza.Controllers
             var s = admin.GetBranches();
             s = s.Where(p => p.Status == Entities.Enum.EntityStatus.Active).ToList();
             return PartialView(s);
+        }
+
+        public JsonResult GetAppInfo()
+        {
+            var appInfo = admin.GetAppInfo();
+            return Json(appInfo);
         }
     }
 }
