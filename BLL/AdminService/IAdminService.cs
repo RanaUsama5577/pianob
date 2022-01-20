@@ -15,10 +15,11 @@ namespace BLL.AdminService
         List<BranchVms> GetBranches();
         ResponseDto AddBranch(BranchAddVms modal);
         List<ProfileDtos> GetUsers(UserType userType);
+        List<ProfileDtos> GetStaffUsers(UserType userType,string userid);
         Task<ResponseDto> CreateAdmin();
         Task<ResponseDto> AddStaff(AddStaffDtos modal);
         Task<ResponseDto> Login(LoginViewModel LoginUser);
-        AdminDashboard DashboardStats();
+        AdminDashboard DashboardStats(string UserId);
         contentVms GetTerms();
         contentVms GetPrivacyPolicy();
         contentVms GetCookiePolicy();
@@ -47,6 +48,7 @@ namespace BLL.AdminService
         ResponseDto UnBlockCategory(int Id);
         ResponseDto BlockCategory(int Id);
         List<ProductDtos> GetProducts();
+        List<ProductDtos> GetStaffProducts(string userId);
         ProductAndIngredientDtos ProductDetail(int Id,string BranchName,string CategoryName);
         ResponseDto AddProducts(ProductDtos modal);
         ResponseDto DeleteProduct(int Id);
@@ -67,5 +69,6 @@ namespace BLL.AdminService
         List<CategoryAndProductsVms> GetCategoriesAndProducts(string BranchName);
         AppInfoVms GetAppInfo();
         ResponseDto SaveAboutAppInfo(aboutappVms modal);
+        ResponseDto SaveOrder(SaveOrderData modal,string userId);
     }
 }

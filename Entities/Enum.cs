@@ -20,6 +20,13 @@ namespace Entities
             Cancelled,
         }
 
+        public enum OrderType2
+        {
+            Delivery,
+            Takeway,
+            DineIn,
+        }
+
         public enum IngredientType
         {
             ProductType,

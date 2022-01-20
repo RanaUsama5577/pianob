@@ -32,7 +32,7 @@ namespace piano_pizza.Areas.SuperAdmin.Controllers
         // GET: SuperAdmin/Main
         public ActionResult Index()
         {
-            var res = admin.DashboardStats();
+            var res = admin.DashboardStats(userManager1.GetUserId(HttpContext.User));
             return View(res);
         }
         public ActionResult AdminProfile()

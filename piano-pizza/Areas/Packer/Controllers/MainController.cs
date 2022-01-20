@@ -6,7 +6,7 @@ using System.Web;
 
 namespace piano_pizza.Areas.Packer.Controllers
 {
-    [Area("Receptionist")]
+    [Area("Packer")]
     public class MainController : Controller
     {
         // GET: Packer/Main

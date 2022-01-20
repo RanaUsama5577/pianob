@@ -11,6 +11,7 @@ namespace DAL.Orders
 {
     public class Orders:Base2
     {
+        public string OrderId { get; set; }
         public decimal TotalPrice { get; set; }
         public OrderType Status { get; set; }
 

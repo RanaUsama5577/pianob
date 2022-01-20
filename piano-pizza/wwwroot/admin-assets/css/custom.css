@@ -1,4 +1,8 @@
-﻿.container234 .overlay {
+﻿.dropdown.show .dropdown-menu {
+    min-width: 100% !important;
+}
+
+.container234 .overlay {
     position: absolute;
     top: 0;
     bottom: 0px;

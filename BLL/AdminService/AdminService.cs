@@ -1,6 +1,7 @@
 ﻿using DAL;
 using DAL.Branches;
 using DAL.Categories;
+using DAL.Orders;
 using DAL.Products;
 using Entities;
 using Microsoft.AspNetCore.Hosting;
@@ -111,16 +112,69 @@ namespace BLL.AdminService
                 throw new ValidationException(es.GetBaseException().Message);
             }
         }
-        public AdminDashboard DashboardStats()
+        List<ProfileDtos> IAdminService.GetStaffUsers(UserType userType,string userid)
         {
-            AdminDashboard a = new AdminDashboard
+            try
             {
-                TotalUsers = db.Users.Where(p => p.Status == UserStatus.Active && p.Type != UserType.SuperAdmin).Count(),
-                TotalOrders = db.Orders.Where(p => p.Status != OrderType.Cancelled).Count(),
-                TotalProducts = db.Products.Where(p => p.Status == EntityStatus.Active).Count(),
-                TotalCategories = db.Categories.Where(p => p.Status == EntityStatus.Active).Count(),
-            };
-            return a;
+                var staff = db.Users.Find(userid);
+                var branch = db.Branches.Find(staff.BranchId);
+                var users = db.Users.Where(p => p.Type == userType && p.BranchId == branch.Id).OrderByDescending(p => p.CreatedAt).AsEnumerable().Select(n => new ProfileDtos
+                {
+                    CreatedAt = n.CreatedAt.ToString("dd-MMM-yyyy hh:mm:ss tt"),
+                    Email = n.Email,
+                    FullName = n.FullName,
+                    Phone = n.PhoneNumber,
+                    Username = n.UserName,
+                    Role = n.Type,
+                    ProfileImageUrl = n.ProfileImageUrl,
+                    Status = n.Status,
+                    Id = n.Id,
+                    UpdatedAt = n.UpdatedAt != null ? n.UpdatedAt.Value.ToString("dd-MMM-yyyy hh:mm:ss tt") : "-",
+                    JoiningDate = n.JoiningDate != null ? n.UpdatedAt.Value.ToString("dd-MMM-yyyy hh:mm:ss tt") : "-",
+                    BranchId = n.BranchId,
+                    Gender = n.Gender,
+                    BranchName = n.BranchId != null ? db.Branches.Find(n.BranchId).Name : "-",
+                });
+                return users.ToList();
+            }
+            catch (Exception es)
+            {
+                throw new ValidationException(es.GetBaseException().Message);
+            }
+        }
+        public AdminDashboard DashboardStats(string userId)
+        {
+            var user = db.Users.Find(userId);
+            if(user.Type == UserType.SuperAdmin)
+            {
+                AdminDashboard a = new AdminDashboard
+                {
+                    TotalUsers = db.Users.Where(p => p.Status == UserStatus.Active && p.Type != UserType.SuperAdmin).Count(),
+                    TotalOrders = db.Orders.Where(p => p.Status != OrderType.Cancelled).Count(),
+                    TotalProducts = db.Products.Where(p => p.Status == EntityStatus.Active).Count(),
+                    TotalCategories = db.Categories.Where(p => p.Status == EntityStatus.Active).Count(),
+                };
+                return a;
+            }
+            else
+            {
+                var branch = db.Branches.Find(user.BranchId);
+                if (branch == null)
+                {
+                    throw new ValidationException("user is assigned to no branch");
+                }
+                AdminDashboard a = new AdminDashboard
+                {
+                    TotalOrders = db.Orders.Where(p => p.Status != OrderType.Cancelled).Count(),
+                    TotalProducts = db.Products.Where(p => p.Status == EntityStatus.Active && p.CategoriesObject.BranchId == branch.Id).Count(),
+                    TotalCategories = db.Categories.Where(p => p.Status == EntityStatus.Active && p.BranchId == branch.Id).Count(),
+                    PendingOrders = db.Orders.Where(p=>p.Status == OrderType.Waiting && p.BranchId == branch.Id).Count(),
+                    InProcessOrders = db.Orders.Where(p=>p.Status != OrderType.Waiting || p.Status != OrderType.Cancelled || p.Status != OrderType.Delivered).Where(p=> p.BranchId == branch.Id).Count(),
+                    CompletedOrders = db.Orders.Where(p=>p.Status == OrderType.Delivered && p.BranchId == branch.Id).Count(),
+                    CancelledOrders = db.Orders.Where(p=>p.Status == OrderType.Cancelled && p.BranchId == branch.Id).Count(),
+                };
+                return a;
+            }
         }
         public contentVms GetTerms()
         {
@@ -886,7 +940,23 @@ namespace BLL.AdminService
                 var result = await userManager.CreateAsync(newUser, "1q2w3e4r");
                 if (result.Succeeded)
                 {
-                    var role = nameof(modal.Role);
+                    var role = "";
+                    if (modal.Role == UserType.Receptionist)
+                    {
+                        role = nameof(UserType.Receptionist);
+                    }
+                    if (modal.Role == UserType.Cook)
+                    {
+                        role = nameof(UserType.Cook);
+                    }
+                    if (modal.Role == UserType.Packer)
+                    {
+                        role = nameof(UserType.Packer);
+                    }
+                    if (modal.Role == UserType.Driver)
+                    {
+                        role = nameof(UserType.Driver);
+                    }
                     if (await roleManager.RoleExistsAsync(role))
                     {
                         await userManager.AddToRoleAsync(newUser, role);
@@ -916,6 +986,39 @@ namespace BLL.AdminService
             try
             {
                 var entities = db.Products.Select(n => new ProductDtos
+                {
+                    CreatedAt = n.CreatedAt.ToShortDateString(),
+                    Name = n.Name,
+                    Status = n.Status,
+                    Id = n.Id,
+                    Description = n.Description,
+                    ImageUrls = db.ProductsImages.Where(p => p.ProductId == n.Id).Select(p => p.Image).ToList(),
+                    ProductsImages = db.ProductsImages.Where(p => p.ProductId == n.Id).Select(n => new ProductsImagesVms
+                    {
+                        Id = n.Id,
+                        Url = n.Image,
+                    }).ToList(),
+                    Logo = n.Logo,
+                    Price = n.Price,
+                    CategoryId = n.CategoryId,
+                    BranchId = n.CategoriesObject.BranchId,
+                    BranchName = n.CategoriesObject.BranchesObject.Name,
+                    CategoryName = n.CategoriesObject.Name,
+                }); ;
+                return entities.ToList();
+            }
+            catch (Exception es)
+            {
+                throw new ValidationException(es.GetBaseException().Message);
+            }
+        }
+        public List<ProductDtos> GetStaffProducts(string userId)
+        {
+            try
+            {
+                var staff = db.Users.Find(userId);
+                var branch = db.Branches.Find(staff.BranchId);
+                var entities = db.Products.Where(p=>p.CategoriesObject.BranchId == branch.Id).Select(n => new ProductDtos
                 {
                     CreatedAt = n.CreatedAt.ToShortDateString(),
                     Name = n.Name,
@@ -1185,6 +1288,9 @@ namespace BLL.AdminService
                     Status = n.Status,
                     Id = n.Id,
                     Price = n.Price,
+                    BranchId = n.CategoriesObject.BranchId,
+                    CategoryId = (int)n.CategoryId,
+                    ProductId = n.ProductId,
                     BranchName = n.CategoriesObject.BranchesObject.Name,
                     CategoryName = n.CategoriesObject.Name,
                     ProductName = n.ProductId !=null?n.ProductsObject.Name:"-",
@@ -1533,6 +1639,66 @@ namespace BLL.AdminService
             db.Entry(info).State = EntityState.Modified;
             db.SaveChanges();
             return JsonResponse2(200, "success", null);
+        }
+
+        public ResponseDto SaveOrder(SaveOrderData modal, string userId)
+        {
+            var staff = db.Users.Find(userId);
+            var branch = db.Branches.Find(staff.BranchId);
+            Int32 unixTimestamp = (Int32)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
+            var doc_id = unixTimestamp.ToString();
+
+            var freeCook = db.Users.Where(p => p.Type == UserType.Cook).Select(p=>p.Id).AsEnumerable();
+            var s = db.AssigneesLists.Where(p => p.OrderObject.Status == OrderType.Cooking).Select(p => p.UserId).AsEnumerable();
+            var d = freeCook.Except(s);
+            var CookDefault = "";
+            if(d.Count() > 0)
+            {
+                CookDefault = d.FirstOrDefault();
+            }
+            else
+            {
+                CookDefault = freeCook.FirstOrDefault();
+            }
+            Orders orders = new Orders
+            {
+                Status = OrderType.Waiting,
+                BranchId = branch.Id,
+                CreatedAt = currentTime,
+                TotalPrice = modal.price,
+                UpdatedAt = currentTime,
+                OrderId = doc_id,
+                UserId = CookDefault,
+            };
+            db.Orders.Add(orders);
+            foreach (var i in modal.AllProducts)
+            {
+                Carts carts = new Carts
+                {
+                    Status = CartStatus.OrderConfirmed,
+                    CreatedAt = currentTime,
+                    Price = i.total_price,
+                    ProductId = i.productId,
+                    Quantity = i.quantity,
+                    UpdatedAt = currentTime,
+                };
+                db.Carts.Add(carts);
+                foreach(var a in i.ingredientList)
+                {
+                    CartIngredients cartIngredients = new CartIngredients
+                    {
+                        Status = CartStatus.OrderConfirmed,
+                        CartsObject = carts,
+                        CreatedAt = currentTime,
+                        IngredientId = a.Id,
+                        Price = a.Price,
+                        UpdatedAt = currentTime,
+                    };
+                    db.CartIngredients.Add(cartIngredients);
+                }
+            }
+            db.SaveChanges();
+            return JsonResponse2(200, doc_id, null);
         }
     }
 }

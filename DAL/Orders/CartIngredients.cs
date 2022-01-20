@@ -13,7 +13,6 @@ namespace DAL.Orders
     {
         public decimal Price { get; set; }
         public CartStatus Status { get; set; }
-        public int? OrderId { get; set; }
         
         #region ForienKeys
         

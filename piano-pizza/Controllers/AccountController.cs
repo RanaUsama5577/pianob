@@ -47,6 +47,17 @@ namespace piano_pizza.Controllers
                     return Redirect("/SuperAdmin/Main/Index");
                 }
             }
+            else if (response.Code == 202)
+            {
+                if (returnUrl != null)
+                {
+                    return Redirect(returnUrl);
+                }
+                else
+                {
+                    return Redirect("/receptionist/Main/Index");
+                }
+            }
             else
             {
                 ModelState.AddModelError("", response.ShortMessage);
@@ -68,6 +79,11 @@ namespace piano_pizza.Controllers
         }
 
         public ActionResult ForgotPassword()
+        {
+            return View();
+        }
+
+        public ActionResult AccessDenied()
         {
             return View();
         }

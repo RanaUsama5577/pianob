@@ -434,9 +434,6 @@ namespace DAL.Migrations
                     b.Property<int>("IngredientId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("OrderId")
-                        .HasColumnType("int");
-
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
@@ -493,6 +490,8 @@ namespace DAL.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("OrderId");
+
                     b.HasIndex("ProductId");
 
                     b.HasIndex("UserId");
@@ -515,6 +514,9 @@ namespace DAL.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("OrderId")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
@@ -874,6 +876,10 @@ namespace DAL.Migrations
 
             modelBuilder.Entity("DAL.Orders.Carts", b =>
                 {
+                    b.HasOne("DAL.Orders.Orders", "OrdersObject")
+                        .WithMany()
+                        .HasForeignKey("OrderId");
+
                     b.HasOne("DAL.Products.Products", "ProductsObject")
                         .WithMany()
                         .HasForeignKey("ProductId")
@@ -883,6 +889,8 @@ namespace DAL.Migrations
                     b.HasOne("DAL.ApplicationUser", "UserObject")
                         .WithMany()
                         .HasForeignKey("UserId");
+
+                    b.Navigation("OrdersObject");
 
                     b.Navigation("ProductsObject");
 

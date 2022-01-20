@@ -1,16 +1,12 @@
-﻿
+﻿@model Entities.AdminDashboard;
 @{
-    ViewBag.Title = "Index";
     Layout = "~/Areas/Receptionist/Views/Shared/_Layout.cshtml";
 }
-
-
 <style>
     #bar_chart {
         height: 350px !important;
     }
 </style>
-
 <section class="content home">
     <div class="block-header">
         <div class="row">
@@ -19,39 +15,17 @@
                     Dashboard
                 </h2>
             </div>
-
         </div>
     </div>
     <div class="container-fluid">
         <div class="row clearfix social-widget">
             <div class="col-lg-3 col-md-3 col-6 d-flex">
-                <a href="@Url.Action("Users","User")" style="cursor:pointer" class="card info-box-2 hover-zoom-effect facebook-widget">
+                <a href="@Url.Action("Orders","Order")" style="cursor:pointer" class="card info-box-2 hover-zoom-effect twitter-widget">
                     <div class="icon">
-                        <i class="fas fa-user-tie"></i>
-
+                        <i class="fas fa-shopping-cart text-warning"></i>
                     </div>
                     <div class="content pt-0">
-                        <div class="number">13</div>  <div class="text">Cooks</div>
-                    </div>
-                </a>
-            </div>
-            <div class="col-lg-3 col-md-3 col-6 d-flex">
-                <a href="@Url.Action("PromoCode","Order")" style="cursor:pointer" class="card info-box-2 hover-zoom-effect google-widget">
-                    <div class="icon">
-                        <i class="fas fa-user-tie" style="color:#dee2e6!important"></i>
-                    </div>
-                    <div class="content pt-0">
-                        <div class="number">4</div>  <div class="text">Packers</div>
-                    </div>
-                </a>
-            </div>
-            <div class="col-lg-3 col-md-3 col-6 d-flex">
-                <a href="@Url.Action("ViewProduct","Product")" style="cursor:pointer" class="card info-box-2 hover-zoom-effect instagram-widget">
-                    <div class="icon">
-                        <img src="~/assets/images/Page-2-Image-14-trimmy.jpg" height="35" class="mt-3" />
-                    </div>
-                    <div class="content pt-3">
-                        <div class="number">31</div>   <div class="text">Products</div>
+                        <div class="number">@Model.PendingOrders</div><div class="text">Pending Orders</div>
                     </div>
                 </a>
             </div>
@@ -61,12 +35,30 @@
                         <i class="fas fa-shopping-cart text-warning"></i>
                     </div>
                     <div class="content pt-0">
-                        <div class="number">3</div><div class="text">Orders</div>
+                        <div class="number">@Model.InProcessOrders</div><div class="text">In-process Orders</div>
                     </div>
                 </a>
             </div>
-           
-
+            <div class="col-lg-3 col-md-3 col-6 d-flex">
+                <a href="@Url.Action("Orders","Order")" style="cursor:pointer" class="card info-box-2 hover-zoom-effect twitter-widget">
+                    <div class="icon">
+                        <i class="fas fa-shopping-cart text-warning"></i>
+                    </div>
+                    <div class="content pt-0">
+                        <div class="number">@Model.CompletedOrders</div><div class="text">Completed Orders</div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-lg-3 col-md-3 col-6 d-flex">
+                <a href="@Url.Action("Orders","Order")" style="cursor:pointer" class="card info-box-2 hover-zoom-effect twitter-widget">
+                    <div class="icon">
+                        <i class="fas fa-shopping-cart text-warning"></i>
+                    </div>
+                    <div class="content pt-0">
+                        <div class="number">@Model.CancelledOrders</div><div class="text">Cancelled Orders</div>
+                    </div>
+                </a>
+            </div>
         </div>
         <div class="row mt-0 pt-0">
             <div class="col-12">

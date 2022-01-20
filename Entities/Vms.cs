@@ -39,6 +39,10 @@ namespace Entities
         public int TotalProducts { get; set; }
         public int TotalOrders { get; set; }
         public int TotalCategories { get; set; }
+        public int PendingOrders { get; set; }
+        public int InProcessOrders { get; set; }
+        public int CompletedOrders { get; set; }
+        public int CancelledOrders { get; set; }
     }
     public class ProfileDtos
     {
@@ -96,7 +100,6 @@ namespace Entities
         public string BranchName { get; set; }
         public EntityStatus Status { get; set; }
     }
-
     public class ProductAndIngredientDtos
     {
         public int Id { get; set; }
@@ -135,8 +138,11 @@ namespace Entities
         public string CreatedAt { get; set; }
         public string UpdatedAt { get; set; }
         public string CategoryName { get; set; }
+        public int CategoryId { get; set; }
         public string ProductName { get; set; }
+        public int? ProductId { get; set; }
         public string BranchName { get; set; }
+        public int BranchId { get; set; }
         public EntityStatus Status { get; set; }
     }
     public class CategoryVms
@@ -258,7 +264,6 @@ namespace Entities
         public string createdAt { get; set; }
         public QueryStatus Status { get; set; }
     }
-
     public class CategoryAndProductsVms
     {
         public int Id { get; set; }
@@ -268,5 +273,30 @@ namespace Entities
         public string CreatedAt { get; set; }
         public string UpdatedAt { get; set; }
         public List<ProductDtos> ProductList { get; set; }
+    }
+
+    public class SaveOrderData
+    {
+        public string customer_name { get; set; }
+        public string customer_email { get; set; }
+        public string customer_phone { get; set; }
+        public string table_num { get; set; }
+        public decimal price { get; set; }
+        public OrderType orderType { get; set; }
+        public List<AllProducts> AllProducts { get; set; }
+    }
+    public class AllProducts
+    {
+        public int categoryId { get; set; }
+        public int productId { get; set; }
+        public int quantity { get; set; }
+        public decimal total_price { get; set; }
+        public List<ingredientList> ingredientList { get; set; }
+    }
+    public class ingredientList
+    {
+        public int Id { get; set; }
+        public int quantity { get; set; }
+        public decimal Price { get; set; }
     }
 }

@@ -3,8 +3,7 @@
     ViewBag.Title = "PlaceOrder";
     Layout = "~/Areas/Receptionist/Views/Shared/_Layout.cshtml";
 }
-
-<link rel="stylesheet" type="text/css" href="~/assets/app-assets/css/plugins/forms/extended/form-extended.min.css">
+<link href="~/admin-assets/app-assets/forms/form-extended.min.css" rel="stylesheet" />
 <style>
     .btn-quantity.style-1 {
         width: 90px;
@@ -63,7 +62,7 @@
     }
 
     .bootstrap-touchspin .input-group-btn-vertical .bootstrap-touchspin-up {
-        border-radius: 0 4px 0 0;
+        border-radius: 4px 4px 4px 4px;
         top: 0;
     }
 
@@ -93,7 +92,7 @@
     }
 
     .bootstrap-touchspin .input-group-btn-vertical .bootstrap-touchspin-down {
-        border-radius: 0 0 4px 0;
+        border-radius: 4px 4px 4px 4px;
         bottom: 0;
     }
 
@@ -117,7 +116,7 @@
         <div class="row">
             <div class="col-12">
                 <h2>
-                    Place Order<img src="~/assets/images/piano/Bg-transparent/Ingredient-removebg-preview.png" height="30" class="ml-2" />
+                    Place Order<img src="~/admin-assets/images/piano/Bg-transparent/Ingredient-removebg-preview.png" height="30" class="ml-2" />
                 </h2>
             </div>
 
@@ -155,90 +154,20 @@
 
                             <div class="row mt-4">
                                 <div class="col-12">
-                                    <h5>Amount to Pay <b>$46</b> </h5>
-                                </div>
-                                <div class="col-12 col-sm-12 col-md-4">
-                                    <label>Select Payment Method</label>
-                                    <div>
-                                        <input type="radio" id="Cash" name="Cash" class="mr-1" checked value="">
-                                        <label class="font-13 font-bold"> Cash</label><br>
-                                        <input type="radio" class="mr-1" id="card" name="Cash" value="">
-                                        <label class="font-13 font-bold"> Card</label><br>
-                                    </div>
+                                    <h5>Amount to Pay <b id="TotalPrice">$46</b> </h5>
                                 </div>
                                 <div class="col-12 col-sm-12 col-md-4">
                                     <label>Order type</label>
                                     <div>
                                         <input type="radio" id="Takeaway" name="type" class="mr-1" checked value="">
-                                        <label class="font-13 font-bold"> Takeaway</label><br>
-                                        <input type="radio" class="mr-1" id="receptionist" name="type" value="">
-                                        <label class="font-13 font-bold"> Dine-In</label><br>
+                                        <label for="Takeaway" class="font-13 font-bold"> Takeaway</label><br>
+                                        <input type="radio" class="mr-1" id="dineIn" name="type" value="">
+                                        <label for="dineIn" class="font-13 font-bold"> Dine-In</label><br>
                                     </div>
                                 </div>
                                 <div class="col-12 col-sm-12 col-md-4">
                                     <label>Table Number</label>
-                                    <select class="form-group form-float show-tick w-100 mt-2">
-                                        <option value="" disabled selected>-- Select Table</option>
-                                        <option value="">Table no 01</option>
-                                        <option value="">Table no 02</option>
-                                        <option value="">Table no 03</option>
-                                        <option value="">Table no 04</option>
-
-                                    </select>
-                                </div>
-                            </div>
-                            <div id="cardDiv" style="display:none" class="row mt-3">
-                                <div class="card">
-                                    <div class="card-content collapse show">
-                                        <div class="card-body">
-                                            <div class="row w-100">
-                                                <div class="col-md-6 col-sm-12 col-12">
-                                                    <div class='card-wrapper mb-2 float-left'></div>
-                                                </div>
-                                                <div class="col-md-6 col-sm-12 col-12">
-                                                    <form action="#" class="card-form">
-                                                        <div class="row">
-                                                            <div class="col-md-6 col-sm-12 col-12">
-                                                                <fieldset class="mb-1">
-                                                                    <h5>Card Number</h5>
-                                                                    <div class="form-group">
-                                                                        <input type="text" class="form-control card-number" name="number" id="card-number" maxlength="19" placeholder="Card Number">
-                                                                    </div>
-                                                                </fieldset>
-                                                            </div>
-                                                            <div class="col-md-6 col-sm-12 col-12">
-                                                                <fieldset class="mb-1">
-                                                                    <h5>Card Name</h5>
-                                                                    <div class="form-group">
-                                                                        <input type="text" maxlength="15" class="form-control card-name" name="name" id="card-name" placeholder="Card Holder Name">
-                                                                    </div>
-                                                                </fieldset>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col-md-6 col-sm-12 col-12">
-                                                                <fieldset class="mb-1">
-                                                                    <h5>Expiry Date</h5>
-                                                                    <div class="form-group">
-                                                                        <input type="text" class="form-control card-expiry" name="expiry" id="card-expiry" placeholder="Card Expiry Date">
-                                                                    </div>
-                                                                </fieldset>
-                                                            </div>
-                                                            <div class="col-md-6 col-sm-12 col-12">
-                                                                <fieldset class="mb-1">
-                                                                    <h5>CVC</h5>
-                                                                    <div class="form-group">
-                                                                        <input type="text" class="form-control card-cvc" name="cvc" id="card-cvc" maxlength="16" placeholder="Card CVC Number">
-                                                                    </div>
-                                                                </fieldset>
-                                                            </div>
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                    </div>
+                                    <input type="text" class="form-control" id="tableNumber" />
                                 </div>
                             </div>
                             <hr />
@@ -250,19 +179,19 @@
                                 <div class="col-12 col-sm-12 col-md-4">
                                     <div class="form-group form-float">
                                         <label>Name</label>
-                                        <input type="text" class="form-control mt-1" placeholder="Name" required>
+                                        <input type="text" class="form-control mt-1" id="customer_name" placeholder="Name" required>
                                     </div>
                                 </div>
                                 <div class="col-12 col-sm-12 col-md-4">
                                     <div class="form-group form-float">
                                         <label>E-mail</label>
-                                        <input type="email" class="form-control mt-1" placeholder="E-mail" required>
+                                        <input type="email" class="form-control mt-1" id="customer_email" placeholder="E-mail" required>
                                     </div>
                                 </div>
                                 <div class="col-12 col-sm-12 col-md-4">
                                     <div class="form-group form-float">
                                         <label>Phone Number</label>
-                                        <input type="number" class="form-control mt-1" placeholder="Phone Number" required>
+                                        <input type="number" class="form-control mt-1" id="customer_phone" placeholder="Phone Number" required>
                                     </div>
                                 </div>
                             </div>
@@ -285,51 +214,82 @@
 
                             <div class="row mt-4">
                                 <div class="col-12">
-                                    <img src="~/assets/images/piano/cooking.png" class="d-flex m-auto" height="100" />
-                                    <span class="font-22 d-flex justify-content-center">Your order has been received!</span>
+                                    <img src="/admin-assets/images/piano/cooking.png" class="d-flex m-auto" height="100" />
+                                    <span class="font-22 d-flex justify-content-center">Your have successfully added a new order received!</span>
                                     <br />
-                                    <p class="text-center font-18">Your Order Number: #123456 </p>
-                                    <p class="text-center font-18">You will receive a confirmation email with your order number along with information how to track your order.</p>
+                                    <p id="OrderId" class="text-center font-18">Your Order Number: #123456 </p>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- #END# Basic Validation -->
-            <div class="modal fade bs-example-modal-md mt-5" id="ingredients" tabindex="-1" role="dialog" aria-labelledby="ingredients" aria-hidden="true">
-                <div class="modal-dialog modal-md">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="formModal">Ingredients</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">×</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <input class="mt-1 mr-2" type="checkbox" id="topping" name="topping" value=""><label>Extra Topping:</label><span class="float-right">$25</span>
-                                </div>
-                                <div class="col-md-12">
-                                    <input class="mt-1 mr-2" type="checkbox" id="topping" name="topping" value=""><label>Extra Topping:</label><span class="float-right">$25</span>
-                                </div>
-                                <div class="col-md-12">
-                                    <input class="mt-1 mr-2" type="checkbox" id="topping" name="topping" value=""><label>Extra Topping:</label><span class="float-right">$25</span>
-                                </div>
-                            </div>
-
+        </div>
+    </div>
+    <div style="display:none">
+        <select id="CategorySelect">
+            @foreach (var i in (IEnumerable<SelectListItem>)ViewBag.Categories)
+            {
+                <option value="@i.Value">@i.Text</option>
+            }
+        </select>
+        <select id="ProductSelect">
+            @foreach (var i in (IEnumerable<Entities.ProductDtos>)ViewBag.Products)
+            {
+                <optgroup label="@i.CategoryId">
+                    <option data-price="@i.Price" value="@i.Id">@i.Name</option>
+                </optgroup>
+            }
+        </select>
+        <div id="AllIngredients">
+            @foreach (var i in (List<Entities.IngredientListVms>)ViewBag.Ingredients)
+            {
+                <div class="row ml-3 @i.CategoryId">
+                    <div class="col-md-3">
+                        <div class="checkbox" style="margin-bottom: 0;line-height: 2.4;">
+                            <input id="i-@i.Id" data-id="@i.Id" data-price="@i.Price" class="ingredient_name" type="checkbox">
+                            <label for="i-@i.Id" style="line-height: 1.5;">@i.Name</label>
                         </div>
                     </div>
-                </div><!-- /.modal -->
-            </div>
+                    <div class="col-md-2">
+                        <div class="quantity btn-quantity style-1 m-auto">
+                            <div class="input-group  bootstrap-touchspin bootstrap-touchspin-injected">
+                                <input id="demo_vertical2" type="text" value="0" name="demo_vertical2" class="form-control">
+                                <span class="input-group-btn-vertical">
+                                    <button onclick="IngredientUpFunction(this)" class="btn btn-primary bootstrap-touchspin-up " type="button">+</button>
+                                    <button onclick="IngredientDownFunction(this)" class="btn btn-primary bootstrap-touchspin-down " type="button">-</button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
         </div>
     </div>
 </section>
 
+<div class="row ml-3" id="IngrdientClone" style="display:none;">
+    <div class="col-md-3">
+        <div class="checkbox" style="margin-bottom: 0;line-height: 2.4;">
+            <input id="remember_me" type="checkbox">
+            <label for="remember_me" style="line-height: 1.5;">Olives</label>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="quantity btn-quantity style-1 m-auto">
+            <div class="input-group  bootstrap-touchspin bootstrap-touchspin-injected">
+                <input id="demo_vertical2" type="text" value="0" name="demo_vertical2" class="form-control">
+                <span class="input-group-btn-vertical">
+                    <button onclick="UpFunction(this)" class="btn btn-primary bootstrap-touchspin-up " type="button">+</button>
+                    <button onclick="DownFunction(this)" class="btn btn-primary bootstrap-touchspin-down " type="button">-</button>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
 
-<script src="~/assets/app-assets/vendors/js/forms/extended/card/jquery.card.js" type="text/javascript"></script>
-<script src="~/assets/app-assets/js/scripts/forms/extended/form-card.min.js" type="text/javascript"></script>
+<script src="~/admin-assets/app-assets/forms/jquery.card.js"></script>
+<script src="~/admin-assets/app-assets/forms/form-card.min.js"></script>
 
 <script>
     $(document).ready(function () {
@@ -342,91 +302,266 @@
             }
         });
     });
-
-
-
     $('#num1').on('click', function () {
         //$("#targetDIV").empty();
-
         var targetDiv = $("#targetDIV");
-
-
-        targetDiv.append('<div class="p-2 mt-1">' +
-
+        var cats = ShowCategories();
+        var timestamp = new Date().getTime().toString();
+        targetDiv.append('<div class="p-2 mt-1 sectionClone">' +
             '<div class="form-row">' +
-
             '<div class="col-md-3"><label>Select Category</label>' +
-            '<select class="form-control form-float show-tick w-100">' +
+            '<select onchange="ChangeProducts(this)" id="a-' + timestamp+'" class="form-float show-tick w-100">' +
             '<option value="" disabled selected>-- Select Category</option>' +
-            '<option value="10">PIZZE SPECIALI</option>' +
-            '<option value="20">DRINKS</option>' +
             '</select>' +
             '</div>' +
-
             '<div class= "col-md-3" > <label>Select Product</label>' +
-            '<select class= "form-control form-float show-tick w-100" > ' +
+            '<select id="p-' + timestamp +'" class= "form-float show-tick w-100" > ' +
             '<option value = "" disabled selected > --Select Product</option > ' +
-            '<option value = "10"> Lazania Pizza</option > ' +
-            '<option value = "20"> Kabab Pizza</option > ' +
             '</select> ' +
             '</div> ' +
-
-
-
             '<div class="col-md-2">' +
             '<div class="quantity btn-quantity style-1 m-auto">' +
             '<label>Quantity</label>' +
-            '<div class="input-group  bootstrap-touchspin bootstrap-touchspin-injected"><input id="demo_vertical2" type="text" value="1" name="demo_vertical2" class="form-control"><span class="input-group-btn-vertical"><button class="btn btn-primary bootstrap-touchspin-up " type="button">+</button><button class="btn btn-primary bootstrap-touchspin-down " type="button">-</button></span></div>' +
+            '<div class="input-group  bootstrap-touchspin bootstrap-touchspin-injected"><input id="demo_vertical2" type="text" value="1" name="demo_vertical2" class="form-control"><span class="input-group-btn-vertical"><button onclick="UpFunction(this)" class="btn btn-primary bootstrap-touchspin-up " type="button">+</button><button onclick="DownFunction(this)" class="btn btn-primary bootstrap-touchspin-down " type="button">-</button></span></div>' +
             '</div>' +
             '</div>' +
-
-            '<div class= "col-md-2">' +
-            '<div style="margin-top:35px!important">' +
-            '<a class="btn-sm btn-primary m-auto text-white" style="cursor:pointer!important" data-toggle="modal" data-target="#ingredients">Add Ingredients</a>' +
+            '<div class="col-md-12 mt-4 mb-3" id="Ingredients">' +
+            '</div>' +
+            '<div class="col-md-12 m-auto">' +
+            '<button onclick="RemoveSection(this)" class="btn btn-primary">Remove</button>' +
             '</div> ' +
             '</div>' +
-
-
-            '<div class="col-md-2 m-auto">' +
-            '<label>Total Price</label>' +
-            '<p class="mt-2">$25</p>' +
-            '</div>' +
-
-            '</div>' +
             '<hr>' +
-
             '</div>');
-
-        $(".bootstrap-touchspin-down").click(function () {
-            var itemCount = $('#demo_vertical2').val();
-            itemCount -= 1;
-            if (itemCount >= 0) {
-                document.getElementById('demo_vertical2').value = itemCount;
-            }
-        });
-        $(".bootstrap-touchspin-up").click(function () {
-            var itemCount = $('#demo_vertical2').val();
-            var count = parseInt(itemCount);
-            count = count + 1;
-            if (itemCount <= 9999) {
-                document.getElementById('demo_vertical2').value = count;
-            }
-        });
+        $('#a-' + timestamp).selectpicker('destroy');
+        $('#a-' + timestamp).html(cats);
+        $('#a-' + timestamp).selectpicker();
+        var Id = 'a-' + timestamp;
+        var Id2 = 'p-' + timestamp;
+        ShowProducts(Id, Id2);
+        $('#a-' + timestamp).attr('id', 'CategoryId');
+        $('#p-' + timestamp).attr('id','ProductId');
     });
-
+    function ChangeProducts(element) {
+        var select = $(element).closest('.col-md-3').next().find('select');
+        $(select).selectpicker('destroy');
+        ShowChangeProducts(element, select);
+        $(select).selectpicker();
+    }
+    function UpFunction(element) {
+        var input = $(element).parent().siblings('#demo_vertical2');
+        var itemCount = $(element).parent().siblings('#demo_vertical2').val();
+        var itemCount = parseInt(itemCount);
+        itemCount += 1;
+        if (itemCount <= 99) {
+            $(input).val(itemCount);
+        }
+    }
+    function DownFunction(element) {
+        var input = $(element).parent().siblings('#demo_vertical2');
+        var itemCount = $(element).parent().siblings('#demo_vertical2').val();
+        var itemCount = parseInt(itemCount);
+        itemCount -= 1;
+        if (itemCount > 0) {
+            $(input).val(itemCount);
+        }
+    }
+    function RemoveSection(element) {
+        $(element).closest('.sectionClone').remove();
+    }
     function next() {
+        var getProductsData = OrderCheck();
+        $('#TotalPrice').html("$" + getProductsData.price);
         $("#AddItem").addClass("d-none");
         $("#pay").removeClass("d-none");
     }
+    function ShowCategories() {
+        var options = $('#CategorySelect > option').clone();
+        return options;
+    }
+    function ShowIngredients(catId,element) {
+        var clone = $('#AllIngredients').find('.' + catId).clone();
+        clone.each(function () {
+            var Id = $(this).find('input[type="checkbox"]').attr('data-id');
+            var timestamp = new Date().getTime().toString();
+            $(this).find('input[type="checkbox"]').attr('id', timestamp + "-" + Id);
+            $(this).find('label').attr('for', timestamp + "-" + Id);
+        })
+        var check = $(element).closest('.col-md-3').siblings('#Ingredients');
+        console.log(check);
+        $(element).closest('.col-md-3').siblings('#Ingredients').html(clone);
 
+        $('.ingredient_name').on('click', function () {
+            if ($(this).prop('checked')) {
+                $(this).closest('.col-md-3').siblings('.col-md-2').find('#demo_vertical2').val(1);
+            }
+            else {
+                $(this).closest('.col-md-3').siblings('.col-md-2').find('#demo_vertical2').val(0);
+            }
+        })
+    }
+    function IngredientUpFunction(element) {
+        var input = $(element).parent().siblings('#demo_vertical2');
+        var itemCount = $(element).parent().siblings('#demo_vertical2').val();
+        var itemCount = parseInt(itemCount);
+        itemCount += 1;
+        if (itemCount <= 99) {
+            $(input).val(itemCount);
+        }
+        $(element).closest('.col-md-2').prev('.col-md-3').find('input').prop('checked', true);
+    }
+    function IngredientDownFunction(element) {
+        var input = $(element).parent().siblings('#demo_vertical2');
+        var itemCount = $(element).parent().siblings('#demo_vertical2').val();
+        var itemCount = parseInt(itemCount);
+        itemCount -= 1;
+        if (itemCount >= 0) {
+            $(input).val(itemCount);
+        }
+        if (itemCount == 0) {
+            $(element).closest('.col-md-2').prev('.col-md-3').find('input').prop('checked', false);
+        }
+    }
+    function ShowProducts(Id, Id2) {
+        var s = $('#' + Id).val();
+        var element = $('#' + Id);
+        ShowIngredients(s, element);
+        $('#' + Id2).selectpicker('destroy');
+        var options = $('#ProductSelect > optgroup[label="' + s + '"] > option').clone();
+        $('#' + Id2).html("");
+        $('#' + Id2).append(options);
+        $('#' + Id2).selectpicker();
+    }
+    function ShowChangeProducts(element, element2) {
+        var s = $(element).val();
+        ShowIngredients(s, element);
+        $(element2).selectpicker('destroy');
+        var options = $('#ProductSelect > optgroup[label="' + s + '"] > option').clone();
+        $(element2).html("");
+        $(element2).append(options);
+        $(element2).selectpicker();
+    }
     function back() {
-
         $("#pay").addClass('d-none');
         $("#AddItem").removeClass('d-none');
     }
 
     function PlaceOrder() {
+        if ($('#Takeaway').prop("checked")) {
+            var orderType = 1;
+        }
+        else {
+            var orderType = 2;
+        }
+        var tableNumber = $('#tableNumber').val();
+        var customer_name = $('#customer_name').val();
+        var customer_email = $('#customer_email').val();
+        var customer_phone = $('#customer_phone').val();
+        var getProductsData = OrderCheck();
+        getProductsData.orderType = orderType;
+        getProductsData.table_num = tableNumber;
+        getProductsData.customer_name = customer_name;
+        getProductsData.customer_email = customer_email;
+        getProductsData.customer_phone = customer_phone;
+        console.log("collected",getProductsData);
+        var data = JSON.stringify({
+            'orderType': orderType,
+            'customer_name': customer_name,
+            'customer_email': customer_email,
+            'customer_phone': customer_phone,
+            'table_num': tableNumber,
+            'AllProducts': getProductsData.AllProducts,
+            'price': getProductsData.price,
+        });
+        console.log("data",data);
+        $.ajax({
+            type: 'POST',
+            url: '/Receptionist/Orders/PlaceOrder',
+            data: data,
+            async: true,
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            success: function (data) {
+                console.log("Api",data);
+                if (data.code == 200) {
+                    TimerSweet("Order Placed!", "", "success", 2000);
+                    $("#pay").addClass('d-none');
+                    $("#confirmation").removeClass('d-none');
+                    $('#OrderId').html("Your Order Number: #" + data.shortMessage);
+                }
+                else {
+                    sweetMessage("Error!", data.shortMessage, "error");
+                }
+            },
+            error: function (error) {
+                return error;
+            },
+        });
+    }
+</script>
+<script>
+    function OrderCheck() {
+        var allData = [];
+        var Allprice = 0;
+        $('.sectionClone').each(function (index) {
+            var categoryId = $(this).find('#CategoryId').val();
+            var productId = $(this).find('#ProductId').val();
+            var price = $(this).find('#ProductId').find('option[value="' + productId + '"]').attr('data-price');
+            var quantity = $(this).find('#demo_vertical2').val();
+            var total_price = parseFloat(price) * parseInt(quantity);
+            var ingredients = $(this).find('#Ingredients').find('input:checked');
+            var listIn = [];
+            var IngredientsPrice = 0;
+            ingredients.each(function (index2) {
+                var Id = $(this).attr('id');
+                Id = Id.split('-');
+                var price2 = $(this).attr('data-price');
+                var Inquantity = $(this).closest('.col-md-3').siblings('.col-md-2').find('#demo_vertical2').val();
+                var finalPrice = parseFloat(price2) * parseInt(Inquantity);
+                var list = {
+                    Id: Id[1],
+                    quantity: Inquantity,
+                    Price: finalPrice,
+                }
+                listIn.push(list);
+                IngredientsPrice += finalPrice;
+            })
+            total_price += IngredientsPrice;
+            var data = {
+                categoryId: categoryId,
+                productId: productId,
+                quantity: quantity,
+                ingredientList: listIn,
+                total_price: total_price,
+            };
+            allData.push(data);
+            Allprice += total_price;
+        });
+        var data2 = {
+            AllProducts: allData,
+            price: Allprice,
+        }
+        return data2;
+    }
+    function OrderCheck2() {
         $("#pay").addClass('d-none');
         $("#confirmation").removeClass('d-none');
+        if ($('#Takeaway').prop("checked")) {
+            var orderType = 1;
+        }
+        else {
+            var orderType = 2;
+        }
+        var tableNumber = $('#tableNumber').val();
+        var customer_name = $('#customer_name').val();
+        var customer_email = $('#customer_email').val();
+        var customer_phone = $('#customer_phone').val();
+        var getProductsData = OrderCheck();
+        getProductsData.orderType = orderType;
+        getProductsData.table_num = tableNumber;
+        getProductsData.customer_name = customer_name;
+        getProductsData.customer_email = customer_email;
+        getProductsData.customer_phone = customer_phone;
+        console.log(getProductsData);
     }
 </script>
