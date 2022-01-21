@@ -70,5 +70,7 @@ namespace BLL.AdminService
         AppInfoVms GetAppInfo();
         ResponseDto SaveAboutAppInfo(aboutappVms modal);
         ResponseDto SaveOrder(SaveOrderData modal,string userId);
+        List<GetOrderdetails> GetOrderdetails(string userId);
+        List<AllProducts> GetOrderProducts(int Id);
     }
 }

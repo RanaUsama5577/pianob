@@ -1,4 +1,6 @@
-﻿<!doctype html>
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject piano_pizza.Resources.LocalizationService local
+<!doctype html>
 <html class="no-js " lang="en">
 <head>
     <meta charset="utf-8">
@@ -47,7 +49,7 @@
         <div class="col-12">
             <div class="navbar-header text-center">
                 <a href="javascript:void(0);" class="bars"></a>
-                <a class="navbar-brand"><img src="~/admin-assets/images/Login/Piano-b-black.png" height="50"></a>
+                <a class="navbar-brand"><img src="/admin-assets/images/Login/Piano-b-black.png" height="50"></a>
             </div>
             <ul class="nav navbar-nav navbar-left">
                 <li><a href="javascript:void(0);" class="ls-toggle-btn" data-close="true"><i class="zmdi zmdi-swap"></i></a></li>
@@ -59,25 +61,18 @@
                         <div class="notify"><span class="heartbit"></span><span class="point"></span></div>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-right slideDown">
-                        <li class="header">NOTIFICATIONS</li>
+                        <li class="header">@local.GetLocalizedHtmlString("NOTIFICATIONS")</li>
                         <li class="body">
-                            <ul class="menu list-unstyled">
-                                <li>
-                                    <a href="javascript:void(0);">
-                                        <div class="icon-circle bg-blue"><i class="zmdi zmdi-account"></i></div>
-                                        <div class="menu-info">
-                                            <h4>8 New Members joined</h4>
-                                            <p><i class="zmdi zmdi-time"></i> 14 mins ago </p>
-                                        </div>
-                                    </a>
-                                </li>
+                            <ul class="menu list-unstyled" id="NotificationAppend">
                             </ul>
                         </li>
-                        <li class="footer"> <a href="javascript:void(0);">View All Notifications</a> </li>
+                        <li class="footer"> <a id="ReadAll" onclick="ReadAllNotifications()" href="javascript:void(0);">@local.GetLocalizedHtmlString("ReadAllNotifications")</a></li>
                     </ul>
                 </li>
+
                 @*<--Logout-->*@
-                <li><a href="/Account/SignIn" class="mega-menu mr-3" data-close="true"><i class="zmdi zmdi-power"></i></a></li>
+                <li><a href="@Url.Action("Logout","Account")" class="mega-menu mr-3" data-close="true"><i class="zmdi zmdi-power"></i></a></li>
+
             </ul>
         </div>
     </nav>
@@ -88,39 +83,36 @@
             <ul class="list">
                 <li>
                     <div class="user-info">
-                        <div class="image"><img src="~/admin-assets/images/profile_av.jpg" /></div>
+                        <div class="image"><img class="imageUrl" src="/user_icon.jpg" /></div>
                         <div class="detail mt-2">
                             <div class="d-flex flex-row" style="justify-content: center;">
-                                <p class="mt-1">Receptionist</p>
-                                <a href="/Receptionist/Users/ReceptionistProfile" class="mt-n2" title="Profile"><i class="zmdi zmdi-account-circle"></i></a>
+                                <p id="nav-user-name" class="mt-1"></p>
+                                <a href="/Receptionist/Main/ReceptionistProfile" class="mt-n2" title="Profile"><i class="zmdi zmdi-account-circle"></i></a>
                             </div>
                         </div>
                     </div>
-
                 </li>
                 <li class="header">MAIN</li>
                 <li id="dash">
-                    <a href="/Receptionist/Main/Index"><i class="fas fa-desktop"></i><span>Dashboard</span></a>
+                    <a href="/Receptionist/Main/Index"><i class="fas fa-desktop"></i><span>@local.GetLocalizedHtmlString("Dashboard")</span></a>
                 </li>
-
                 <li>
-                    <a id="staff" href="javascript:void(0);" class="menu-toggle"><i class="fas fa-user-tie"></i><span>Staff</span> </a>
+                    <a id="staff" href="javascript:void(0);" class="menu-toggle"><i class="fas fa-user-tie"></i><span>@local.GetLocalizedHtmlString("Staff")</span> </a>
                     <ul class="ml-menu">
-                        <li id="CookDtls"><a href="/Receptionist/Staff/Cook">Cook Detail</a></li>
-                        <li id="PackerDtls"><a href="/Receptionist/Staff/Packer">Packers Detail</a></li>
-                        <li id="DriverDtls"><a href="/Receptionist/Staff/Driver">Drivers Detail</a></li>
+                        <li id="CookDtls"><a href="/Receptionist/Staff/Cook">@local.GetLocalizedHtmlString("CookDetails")</a></li>
+                        <li id="PackerDtls"><a href="/Receptionist/Staff/Packer">@local.GetLocalizedHtmlString("PackerDetails")</a></li>
+                        <li id="DriverDtls"><a href="/Receptionist/Staff/Driver">@local.GetLocalizedHtmlString("DriverDetails")</a></li>
                     </ul>
                 </li>
-
                 <li id="order">
-                    <a href="javascript:void(0);" class="menu-toggle"><i class="fas fa-shopping-cart"></i><span>Order</span> </a>
+                    <a href="javascript:void(0);" class="menu-toggle"><i class="fas fa-shopping-cart"></i><span>@local.GetLocalizedHtmlString("Order")</span> </a>
                     <ul class="ml-menu">
-                        <li id="PlaceOrder"><a href="/Receptionist/Orders/PlaceOrder">Place Order</a></li>
-                        <li id="OrderDetails"><a href="/Receptionist/Orders/Detail">Orders Detail</a></li>
+                        <li id="PlaceOrder"><a href="/Receptionist/Orders/PlaceOrder">@local.GetLocalizedHtmlString("Place Order")</a></li>
+                        <li id="OrderDetails"><a href="/Receptionist/Orders/Detail">@local.GetLocalizedHtmlString("Details")</a></li>
                     </ul>
                 </li>
                 <li id="product">
-                    <a href="/Receptionist/Products/ProductsDetail"><i class="fas fa-pizza-slice"></i><span>Products</span> </a>
+                    <a href="/Receptionist/Products/ProductsDetail"><i class="fas fa-pizza-slice"></i><span>@local.GetLocalizedHtmlString("Product")</span> </a>
                 </li>
             </ul>
         </div>
@@ -165,6 +157,149 @@
         $(function () {
             $('.input-images-1').imageUploader();
         });
+    </script>
+    <script>
+        $(function () {
+            GetProfile();
+            GetNotifications();
+        })
+        function GetProfile() {
+            var response = getLayoutResponeFromUrl('GET', '/Receptionist/Main/GetProfile');
+            if (response.code == 200) {
+                var data = response.result;
+                $('#nav-user-name').html("Hello " + data.fullName);
+                $('#Username').val(data.fullName);
+                $('.imageUrl').attr('src', data.profileImageUrl);
+                $('#EmailUserId').html(data.email);
+            }
+            else {
+                console.log("Error!", response.shortMessage);
+            }
+        }
+
+        function GetNotifications() {
+            var response = getLayoutResponeFromUrl('GET', '/Receptionist/Settings/GetNotifications');
+            if (response.code == 200) {
+                $('#NotificationAppend').html("");
+                var data = response.result;
+                var count = 0;
+                console.log(data);
+                data.forEach(function (item) {
+                    if (item.type == 0) {
+                        var href = "/Receptionist/Users/Index";
+                    }
+                    if (item.isSeen == false) {
+                        count++;
+                        var notification = '<li>' +
+                            '<a onclick="ReadNotification(' + item.id + ',\'' + href + '\')" href="javascript:void(0);">' +
+                            '<div class="icon-circle bg-blue"><i class="zmdi zmdi-notifications-none"></i></div>' +
+                            '<div class="menu-info">' +
+                            '<h4>' + item.body + '</h4>' +
+                            '<p><i class="zmdi zmdi-time"></i>' + item.createdAt + '</p>' +
+                            '</div>' +
+                            '</a>' +
+                            '</li>';
+                    }
+                    else {
+                        var notification = '<li>' +
+                            '<a onclick="ReadNotification(' + item.id + ',\'' + href + '\')" href="javascript:void(0);">' +
+                            '<div class="icon-circle bg-blue"><i class="zmdi zmdi-notifications-none"></i></div>' +
+                            '<div class="menu-info">' +
+                            '<h4>' + item.body + '</h4>' +
+                            '<p><i class="zmdi zmdi-time"></i>' + item.createdAt + '</p>' +
+                            '</div>' +
+                            '</a>' +
+                            '</li>';
+                    }
+                    $('#NotificationAppend').append(notification);
+                })
+                if (count > 0) {
+                    $('.notify').show();
+                }
+                else {
+                    $('.notify').hide();
+                    $('#ReadAll').hide();
+                    var notification = '<li>' +
+                        '<a href="javascript:void(0);">' +
+                        '<div class="icon-circle bg-blue"><i class="zmdi zmdi-notifications-none"></i></div>' +
+                        '<div class="menu-info">' +
+                        '<h4>No notification to show</h4>' +
+                        '</div>' +
+                        '</a>' +
+                        '</li>';
+                    $('#NotificationAppend').prepend(notification);
+                }
+                //$(".dropdown-list-icons").getNiceScroll().resize();
+            }
+            else {
+                console.log("Error!", response.ShortMessage);
+            }
+        }
+
+        function ReadNotification(Id, Href) {
+            var response = getLayoutResponeFromUrl('GET', '/Receptionist/Settings/ReadNotification?Id=' + Id);
+            if (response.Code == 200) {
+                window.location.href = Href;
+            }
+            else {
+                console.log("Error!", response.ShortMessage);
+            }
+        }
+
+        function ReadAllNotifications() {
+            var response = getLayoutResponeFromUrl('GET', '/Receptionist/Settings/ReadAllNotification');
+            if (response.Code == 200) {
+                GetNotifications();
+            }
+            else {
+                console.log("Error!", response.ShortMessage);
+            }
+        }
+
+        //function UpdateFcm() {
+        //    messaging.requestPermission()
+        //        .then(function () {
+        //            console.log("Have Permission");
+        //            return messaging.getToken();
+        //        })
+        //        .then(function (token) {
+        //            console.log(token);
+        //            var response = getLayoutResponeFromUrl('GET', '/SuperAdmin/Settings/UpdateFcm?Fcm=' + token);
+        //            if (response.Code == 200) {
+        //                console.log("Fcm Updated");
+        //            }
+        //            else {
+        //                console.log("Error!", response.ShortMessage);
+        //            }
+        //        })
+        //        .catch(function (error) {
+        //            console.log("Error", error);
+        //        });
+        //}
+    </script>
+    <!--Ajax-->
+    <script>
+        var getLayoutResponeFromUrl = function (requestType, requestUrl, requestData) {
+            var response;
+            $.ajax({
+                type: requestType,
+                url: requestUrl,
+                data: requestData,
+                data: requestData,
+                async: false,
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    response = data;
+                    console.log(data);
+                },
+                error: function (error) {
+                    console.log(error);
+                    return error;
+                },
+            });
+            return response;
+        }
     </script>
 </body>
 

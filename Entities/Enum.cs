@@ -13,7 +13,6 @@ namespace Entities
             Cooking,
             ReadyForPacking,
             Packing,
-            Packed,
             ReadyToDeliver,
             OnTheWay,
             Delivered,

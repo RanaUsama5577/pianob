@@ -169,7 +169,7 @@ namespace BLL.AdminService
                     TotalProducts = db.Products.Where(p => p.Status == EntityStatus.Active && p.CategoriesObject.BranchId == branch.Id).Count(),
                     TotalCategories = db.Categories.Where(p => p.Status == EntityStatus.Active && p.BranchId == branch.Id).Count(),
                     PendingOrders = db.Orders.Where(p=>p.Status == OrderType.Waiting && p.BranchId == branch.Id).Count(),
-                    InProcessOrders = db.Orders.Where(p=>p.Status != OrderType.Waiting || p.Status != OrderType.Cancelled || p.Status != OrderType.Delivered).Where(p=> p.BranchId == branch.Id).Count(),
+                    InProcessOrders = db.Orders.Where(p=>p.Status != OrderType.Waiting && p.Status != OrderType.Cancelled && p.Status != OrderType.Delivered).Where(p=> p.BranchId == branch.Id).Count(),
                     CompletedOrders = db.Orders.Where(p=>p.Status == OrderType.Delivered && p.BranchId == branch.Id).Count(),
                     CancelledOrders = db.Orders.Where(p=>p.Status == OrderType.Cancelled && p.BranchId == branch.Id).Count(),
                 };
@@ -1004,7 +1004,7 @@ namespace BLL.AdminService
                     BranchId = n.CategoriesObject.BranchId,
                     BranchName = n.CategoriesObject.BranchesObject.Name,
                     CategoryName = n.CategoriesObject.Name,
-                }); ;
+                });
                 return entities.ToList();
             }
             catch (Exception es)
@@ -1640,7 +1640,6 @@ namespace BLL.AdminService
             db.SaveChanges();
             return JsonResponse2(200, "success", null);
         }
-
         public ResponseDto SaveOrder(SaveOrderData modal, string userId)
         {
             var staff = db.Users.Find(userId);
@@ -1651,24 +1650,31 @@ namespace BLL.AdminService
             var freeCook = db.Users.Where(p => p.Type == UserType.Cook).Select(p=>p.Id).AsEnumerable();
             var s = db.AssigneesLists.Where(p => p.OrderObject.Status == OrderType.Cooking).Select(p => p.UserId).AsEnumerable();
             var d = freeCook.Except(s);
-            var CookDefault = "";
-            if(d.Count() > 0)
+            string CookDefault = null;
+            var type = OrderType.Waiting;
+            if (d.Count() > 0)
             {
                 CookDefault = d.FirstOrDefault();
+                type = OrderType.Cooking;
             }
-            else
+            else if(freeCook.Count() > 0)
             {
                 CookDefault = freeCook.FirstOrDefault();
+                type = OrderType.Cooking;
             }
             Orders orders = new Orders
             {
-                Status = OrderType.Waiting,
+                Status = type,
                 BranchId = branch.Id,
                 CreatedAt = currentTime,
                 TotalPrice = modal.price,
                 UpdatedAt = currentTime,
                 OrderId = doc_id,
-                UserId = CookDefault,
+                AssigneeId = CookDefault,
+                CreatedBy = userId,
+                PhoneNumber = modal.customer_phone,
+                UserEmail = modal.customer_email,
+                Username = modal.customer_name,
             };
             db.Orders.Add(orders);
             foreach (var i in modal.AllProducts)
@@ -1681,6 +1687,7 @@ namespace BLL.AdminService
                     ProductId = i.productId,
                     Quantity = i.quantity,
                     UpdatedAt = currentTime,
+                    OrdersObject = orders,
                 };
                 db.Carts.Add(carts);
                 foreach(var a in i.ingredientList)
@@ -1693,6 +1700,7 @@ namespace BLL.AdminService
                         IngredientId = a.Id,
                         Price = a.Price,
                         UpdatedAt = currentTime,
+                        Quantity = a.quantity,
                     };
                     db.CartIngredients.Add(cartIngredients);
                 }
@@ -1700,5 +1708,47 @@ namespace BLL.AdminService
             db.SaveChanges();
             return JsonResponse2(200, doc_id, null);
         }
+        public List<GetOrderdetails> GetOrderdetails(string userId)
+        {
+            var staff = db.Users.Find(userId);
+            var branch = db.Branches.Find(staff.BranchId);
+            var entities = db.Orders.Where(p => p.BranchId == branch.Id).Select(n => new GetOrderdetails
+            {
+                CreatedAt = n.CreatedAt.ToShortDateString(),
+                OrderId = n.OrderId,
+                Status = n.Status,
+                Id = n.Id,
+                TotalPrice = n.TotalPrice,
+                BranchId = n.BranchId,
+                BranchName = branch.Name,
+                AssigneeId = n.AssigneeId,
+                AssigneeName = n.AssigneeId != null?n.AssignedObject.Email:"",
+                PhoneNumber = n.PhoneNumber,
+                UserEmail = n.UserEmail,
+                UserId = n.UserId,
+                Username = n.Username,
+            });
+            return entities.ToList();
+        }
+        public List<AllProducts> GetOrderProducts(int Id)
+        {
+            var order = db.Orders.Find(Id);
+            var entities = db.Carts.Where(p => p.OrderId == order.Id).Select(n => new AllProducts
+            {
+                productId = n.ProductId,
+                productImage = n.ProductsObject.Logo,
+                productName = n.ProductsObject.Name,
+                quantity = n.Quantity,
+                total_price = n.Price,
+                ingredientList = db.CartIngredients.Where(a=>a.CartId == n.Id).Select(m=>new ingredientList { 
+                    Id = m.Id,
+                    ingredientName = m.IngredientObject.Name,
+                    Price = m.Price,
+                    quantity = m.Quantity,
+                }).ToList(),
+            });;
+            return entities.ToList();
+        }
+
     }
 }

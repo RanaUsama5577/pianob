@@ -32,7 +32,8 @@ namespace piano_pizza.Areas.Receptionist.Controllers
         // GET: Receptionist/Orders
         public ActionResult Detail()
         {
-            return View();
+            var orders = admin.GetOrderdetails(userManager1.GetUserId(HttpContext.User));
+            return View(orders);
         }
        
         public ActionResult PlaceOrder()
@@ -48,8 +49,21 @@ namespace piano_pizza.Areas.Receptionist.Controllers
             return View();
         }
 
+        public ActionResult GetProducts(int Id)
+        {
+            var products = admin.GetOrderProducts(Id);
+            ResponseDto responseDto = new ResponseDto
+            {
+                ShortMessage = "success",
+                Code = 200,
+                Result = products,
+            };
+            return Json(responseDto);
+        }
+        
+
         [HttpPost]
-        public ActionResult PlaceOrder([FromBody] SaveOrderData modal)
+        public async Task<ActionResult> PlaceOrder([FromBody] SaveOrderData modal)
         {
             var save = admin.SaveOrder(modal, userManager1.GetUserId(HttpContext.User));
             return Json(save);

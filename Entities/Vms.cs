@@ -274,7 +274,6 @@ namespace Entities
         public string UpdatedAt { get; set; }
         public List<ProductDtos> ProductList { get; set; }
     }
-
     public class SaveOrderData
     {
         public string customer_name { get; set; }
@@ -288,7 +287,10 @@ namespace Entities
     public class AllProducts
     {
         public int categoryId { get; set; }
+        public string categoryName { get; set; }
         public int productId { get; set; }
+        public string productName { get; set; }
+        public string productImage { get; set; }
         public int quantity { get; set; }
         public decimal total_price { get; set; }
         public List<ingredientList> ingredientList { get; set; }
@@ -296,7 +298,25 @@ namespace Entities
     public class ingredientList
     {
         public int Id { get; set; }
+        public string ingredientName { get; set; }
         public int quantity { get; set; }
         public decimal Price { get; set; }
     }
+    public class GetOrderdetails
+    {
+        public int Id { get; set; }
+        public string OrderId { get; set; }
+        public decimal TotalPrice { get; set; }
+        public OrderType Status { get; set; }
+        public string UserId { get; set; }
+        public string AssigneeId { get; set; }
+        public string AssigneeName { get; set; }
+        public int BranchId { get; set; }
+        public string BranchName { get; set; }
+        public string Username { get; set; }
+        public string PhoneNumber { get; set; }
+        public string UserEmail { get; set; }
+        public string CreatedAt { get; set; }
+    }
+
 }

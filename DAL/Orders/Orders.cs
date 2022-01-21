@@ -12,6 +12,9 @@ namespace DAL.Orders
     public class Orders:Base2
     {
         public string OrderId { get; set; }
+        public string Username { get; set; }
+        public string PhoneNumber { get; set; }
+        public string UserEmail { get; set; }
         public decimal TotalPrice { get; set; }
         public OrderType Status { get; set; }
 
@@ -26,5 +29,9 @@ namespace DAL.Orders
         [ForeignKey("BranchesObject")]
         public int BranchId { get; set; }
         public virtual Branch BranchesObject { get; set; }
+
+        [ForeignKey("CreatorObject")]
+        public string CreatedBy { get; set; }
+        public virtual ApplicationUser CreatorObject { get; set; }
     }
 }

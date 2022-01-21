@@ -198,7 +198,7 @@
 
                             <div class="d-flex flex-row float-right">
                                 <button onclick="back()" class="btn btn-raised btn-secondary btn-round waves-effect mb-4 mt-4" style="float:right">Previous</button>
-                                <button onclick="PlaceOrder()" class="btn btn-raised btn-primary btn-round waves-effect mb-4 mt-4" style="float:right" type="submit">Place Order</button>
+                                <button id="PlaceOrderBtn" onclick="PlaceOrder()" class="btn btn-raised btn-primary btn-round waves-effect mb-4 mt-4" style="float:right" type="submit">Place Order</button>
                             </div>
                         </div>
                     </div>
@@ -473,7 +473,8 @@
             'AllProducts': getProductsData.AllProducts,
             'price': getProductsData.price,
         });
-        console.log("data",data);
+        console.log("data", data);
+        $('#PlaceOrderBtn').addClass('btn-progress');
         $.ajax({
             type: 'POST',
             url: '/Receptionist/Orders/PlaceOrder',
@@ -488,6 +489,7 @@
                     $("#pay").addClass('d-none');
                     $("#confirmation").removeClass('d-none');
                     $('#OrderId').html("Your Order Number: #" + data.shortMessage);
+                    $('#PlaceOrderBtn').removeClass('btn-progress');
                 }
                 else {
                     sweetMessage("Error!", data.shortMessage, "error");

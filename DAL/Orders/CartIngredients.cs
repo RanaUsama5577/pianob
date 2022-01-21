@@ -12,6 +12,7 @@ namespace DAL.Orders
     public class CartIngredients : Base2
     {
         public decimal Price { get; set; }
+        public int Quantity { get; set; }
         public CartStatus Status { get; set; }
         
         #region ForienKeys
@@ -21,7 +22,7 @@ namespace DAL.Orders
         public virtual Ingredients IngredientObject { get; set; }
 
         [ForeignKey("CartsObject")]
-        public int? CartId { get; set; }
+        public int CartId { get; set; }
         public virtual Carts CartsObject { get; set; }
 
         [ForeignKey("UserObject")]
