@@ -10,6 +10,8 @@ using System.Threading.Tasks;
 
 namespace piano_pizza.Areas.Receptionist.Controllers
 {
+    [Area("Receptionist")]
+    [Authorize(Roles = "Receptionist")]
     public class SettingsController : Controller
     {
         //Init ASP.NET identity store to handle user sign-in & sign-up 

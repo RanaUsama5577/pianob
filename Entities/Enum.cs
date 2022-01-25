@@ -19,6 +19,13 @@ namespace Entities
             Cancelled,
         }
 
+        public enum WorkerStatus
+        {
+            Waiting,
+            Working,
+            Completed,
+        }
+
         public enum OrderType2
         {
             Delivery,

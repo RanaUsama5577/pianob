@@ -24,6 +24,7 @@
                             <button id="pending" class="btn-sm btn-primary FilterButton rounded font-12 mt-2">Waitng</button>
                             <button id="cooking" class="btn-sm btn-primary FilterButton rounded font-12 mt-2">In-process</button>
                             <button id="ready_for_pack" class="btn-sm btn-primary FilterButton rounded font-12 mt-2">Ready for Pack</button>
+                            <button id="packing" class="btn-sm btn-primary FilterButton rounded font-12 mt-2">Packing</button>
                             <button id="packed" class="btn-sm btn-primary FilterButton rounded font-12 mt-2">Packed</button>
                             <button id="ontheway" class="btn-sm btn-primary FilterButton rounded font-12 mt-2">On the Way</button>
                             <button id="delivered" class="btn-sm btn-primary FilterButton rounded font-12 mt-2">delivered</button>
@@ -69,7 +70,7 @@
                                                 <td class="align-middle">$@i.TotalPrice</td>
                                                 <td class="align-middle">
                                                     <span class="text-warning">Waiting </span>
-                                                    <a data-toggle="modal" data-target="#assignOrder" style="cursor:pointer" title="Assign Cook" class="bg-white text-secondary border-0  rounded fas fa-user-tie text-white"></a>
+                                                    <a onclick="AssignStaff('@Entities.Enum.UserType.Cook',@i.OrderId,@i.Id)" style="cursor:pointer" title="Assign Cook" data-toggle="tooltip" class="bg-white text-secondary border-0  rounded fas fa-user-tie text-white"></a>
                                                 </td>
                                             </tr>
                                         }
@@ -92,6 +93,7 @@
                                                 <td class="align-middle">$@i.TotalPrice</td>
                                                 <td class="align-middle">
                                                     <span class="col-cyan">Cooking</span>
+                                                    <a onclick="AssignStaff('@Entities.Enum.UserType.Cook',@i.OrderId,@i.Id)" style="cursor:pointer" title="Assign Cook" data-toggle="tooltip" class="bg-white text-secondary border-0  rounded fas fa-user-tie text-white"></a>
                                                 </td>
                                             </tr>
                                         }
@@ -113,7 +115,8 @@
                                                 <td class="align-middle">@i.CreatedAt</td>
                                                 <td class="align-middle">$@i.TotalPrice</td>
                                                 <td class="align-middle">
-                                                    <span class="col-light-blue">Ready for Pack </span><a data-toggle="modal" data-target="#assignOrder" style="cursor:pointer" title="Assign Delivery Boy" class="bg-white text-secondary border-0  rounded fas fa-user-tie text-white"></a>
+                                                    <span class="col-light-blue">Ready for Pack </span>
+                                                    <a onclick="AssignStaff('@Entities.Enum.UserType.Packer',@i.OrderId,@i.Id)" style="cursor:pointer" title="Assign Packer" data-toggle="tooltip" class="bg-white text-secondary border-0  rounded fas fa-user-tie text-white"></a>
                                                 </td>
                                             </tr>
                                         }
@@ -135,7 +138,8 @@
                                                 <td class="align-middle">@i.CreatedAt</td>
                                                 <td class="align-middle">$@i.TotalPrice</td>
                                                 <td class="align-middle">
-                                                    <span class="col-light-blue">Ready for Pack </span>
+                                                    <span class="col-light-blue">Packing </span>
+                                                    <a onclick="AssignStaff('@Entities.Enum.UserType.Packer',@i.OrderId,@i.Id)" style="cursor:pointer" title="Assign Packer" data-toggle="tooltip" class="bg-white text-secondary border-0  rounded fas fa-user-tie text-white"></a>
                                                 </td>
                                             </tr>
                                         }
@@ -158,6 +162,7 @@
                                                 <td class="align-middle">$@i.TotalPrice</td>
                                                 <td class="align-middle">
                                                     <span class="text-primary">Ready To Deliver</span>
+                                                    <a onclick="AssignStaff('@Entities.Enum.UserType.Driver',@i.OrderId,@i.Id)" style="cursor:pointer" title="Assign Packer" data-toggle="tooltip" class="bg-white text-secondary border-0  rounded fas fa-user-tie text-white"></a>
                                                 </td>
                                             </tr>
                                         }
@@ -247,22 +252,21 @@
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-12">
+                                <input type="hidden" id="TempId" />
                                 <div class="d-flex flex-row">
-                                    <label>Order Id:<span class="ml-2">#123456</span></label>
+                                    <label>Order Id:<span class="ml-2" id="TempOrderId">#123456</span></label>
                                 </div>
                             </div>
                             <div class="col-12">
-                                <label>Select Cook</label>
-                                <select class="form-group form-float show-tick w-100">
-                                    <option value="" disabled selected>-- Select Cook</option>
-                                    <option value="">Alex Doe</option>
-                                    <option value="">John Doe</option>
+                                <label>Select User</label>
+                                <select class="form-group form-float show-tick w-100 select2" id="UserAppend">
+                                    
                                 </select>
                             </div>
                         </div>
 
                         <div>
-                            <button onclick="Status()" class="btn btn-success float-right right">Assign</button>
+                            <button onclick="AssignFunction()" class="btn btn-success float-right right">Assign</button>
                         </div>
 
                     </div>
@@ -294,7 +298,7 @@
                                 <tbody id="dataTable2" class="no-wrap">
                                 </tbody>
                                 <tfoot>
-                                    <tr><th rowspan="1" colspan="5">Total Bill</th><th rowspan="1" colspan="1">$31.00</th></tr>
+                                    <tr><th colspan="4">Total Bill</th><th rowspan="1" colspan="1" id="TotalPrice">$31.00</th></tr>
                                 </tfoot>
                             </table>
                         </div>
@@ -334,23 +338,22 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <label>Extra Topping:</label><span class="float-right">$25</span>
-                            </div>
-                            <div class="col-md-12">
-                                <label>Extra Topping:</label><span class="float-right">$25</span>
-                            </div>
-                            <div class="col-md-12">
-                                <label>Extra Topping:</label><span class="float-right">$25</span>
-                            </div>
-                        </div>
+                        <div class="row" id="IngredientsBody">
 
                     </div>
                 </div>
             </div><!-- /.modal -->
         </div>
     </div>
+
+        <select id="UserSelect">
+            @foreach (var i in (IEnumerable<Entities.ProfileDtos>)ViewBag.Users)
+            {
+                <optgroup label="@i.Role">
+                    <option data-id="@i.Id" value="@i.Id">@i.Email</option>
+                </optgroup>
+            }
+        </select>
 </section>
 
 <script>
@@ -400,6 +403,19 @@
         );
         table.draw();
     });
+    $("#packing").click(function () {
+        $('#packing').removeClass('FilterButton');
+        $('#packing').siblings().addClass('FilterButton');
+        var table = $('#table-1').DataTable();
+        $.fn.dataTable.ext.search.pop();
+        table.draw();
+        $.fn.dataTable.ext.search.push(
+            function (settings, data, dataIndex) {
+                return $(table.row(dataIndex).node()).attr('data-row') == "4";
+            }
+        );
+        table.draw();
+    });
     $("#packed").click(function () {
         $('#packed').removeClass('FilterButton');
         $('#packed').siblings().addClass('FilterButton');
@@ -408,7 +424,7 @@
         table.draw();
         $.fn.dataTable.ext.search.push(
             function (settings, data, dataIndex) {
-                return $(table.row(dataIndex).node()).attr('data-row') == "4";
+                return $(table.row(dataIndex).node()).attr('data-row') == "5";
             }
         );
         table.draw();
@@ -421,7 +437,7 @@
         table.draw();
         $.fn.dataTable.ext.search.push(
             function (settings, data, dataIndex) {
-                return $(table.row(dataIndex).node()).attr('data-row') == "5";
+                return $(table.row(dataIndex).node()).attr('data-row') == "6";
             }
         );
         table.draw();
@@ -434,7 +450,7 @@
         table.draw();
         $.fn.dataTable.ext.search.push(
             function (settings, data, dataIndex) {
-                return $(table.row(dataIndex).node()).attr('data-row') == "6";
+                return $(table.row(dataIndex).node()).attr('data-row') == "7";
             }
         );
         table.draw();
@@ -447,7 +463,7 @@
         table.draw();
         $.fn.dataTable.ext.search.push(
             function (settings, data, dataIndex) {
-                return $(table.row(dataIndex).node()).attr('data-row') == "7";
+                return $(table.row(dataIndex).node()).attr('data-row') == "8";
             }
         );
         table.draw();
@@ -462,20 +478,38 @@
             if (result.length > 0) {
                 $("#table-2").DataTable().destroy();
                 $("#dataTable2").html('');
+                var price = 0;
                 result.forEach(function (doc) {
                     count++;
                     var data = doc;
+                    console.log("list", data.ingredientList);
+                    var s = "";
+                    var srCount = 0;
+                    data.ingredientList.forEach(function(item){
+                        s += `<input type="hidden" data-product="${data.productId}" id="p-${srCount}-${data.productId}" value="${item.price}">`;
+                        s += `<input type="hidden" data-product="${data.productId}" id="n-${srCount}-${data.productId}" value="${item.ingredientName}">`;
+                        s += `<input type="hidden" data-product="${data.productId}" id="q-${srCount}-${data.productId}" value="${item.quantity}">`;
+                        srCount++;
+                    })
+
                     var image = `<div class="image-link">
                                     <a class="image-popup-vertical-fit" href="${data.productImage}">
                         <img class="img-responsive thumbnail" src ="${data.productImage}" width="35" height="30">
                                     </a>
                                 </div>`;
-                    var ingredients = `<a class="ingredients" style="cursor:pointer" data-toggle="modal" data-target="#ingredients">
-                                                <img src="~/admin-assets/images/piano/Bg-transparent/Ingredient-removebg-preview.png" height="35" />
+                    if (data.ingredientList.length != 0) {
+                        var ingredients = `<a class="ingredients" style="cursor:pointer" onclick="GetProductsIngredients(${data.productId},${data.ingredientList.length},this)">
+                                                <img src="/admin-assets/images/piano/Bg-transparent/Page-2-Image-14-removebg-preview.png" height="35" />
                                             </a>`;
-                    var row = '<tr><td>' + image + '</td><td>' + data.productName + '</td><td>' + ingredients + '</td><td>' + data.quantity + '</td><td>' + data.total_price + '</td></tr>';
+                    }
+                    else {
+                        var ingredients = 0;
+                    }
+                    var row = '<tr><td>' + image + '</td><td>' + data.productName + '</td><td  class="text-center">' + ingredients + s+  '</td><td>' + data.quantity + '</td><td>$' + data.total_price + '</td></tr>';
+                    price += data.total_price;
                     $('#dataTable2').append(row);
                 })
+                $('#TotalPrice').html("$" + price);
                 $('#table-2').DataTable();
                 $('#PrdDtls').modal("show");
             }
@@ -483,6 +517,45 @@
         else {
             console.log(response);
             sweetMessage("Error!", response.shortMessage + "<br>" + response.result, "error");
+        }
+    }
+    function GetProductsIngredients(productId, num,element) {
+        console.log(productId, num);
+        $('#IngredientsBody').html("");
+        for (var i = 0; i < num; i++) {
+            var price = $('#p-' + i + "-" + productId).val();
+            var quantity = $('#q-' + i + "-" + productId).val();
+            var name = $('#n-' + i + "-" + productId).val();
+
+            $('#IngredientsBody').append(` <div class="col-md-12">
+                                <label>${name}:</label><span class="float-right">${price} (${quantity})</span>
+                            </div>`);
+        }
+        $('#ingredients').modal('show');
+    }
+
+    function AssignStaff(num, OrderId, Id) {
+        $('#UserAppend').selectpicker('destroy');
+        var s = $('#UserSelect > optgroup[label="' + num + '"] > option').clone();
+        $('#UserAppend').html(s);
+        $('#TempId').val(Id);
+        $('#TempOrderId').html("#" + OrderId);
+        
+        $('#UserAppend').select2();
+        $('#assignOrder').modal('show');
+    }
+    function AssignFunction() {
+        var userSelect = $('#UserAppend').val();
+        var orderId = $('#TempId').val();
+        var response = getResponseFromUrl('Get', '/receptionist/Orders/AssignPerson?Id=' + orderId + '&userId=' + userSelect, null, false);
+        if (response.code == 200) {
+            MixinSweet("Successfully assigned", "", "success", 2000);
+            setTimeout(function () {
+                location.reload();
+            }, 1000);
+        }
+        else {
+            sweetMessage(res.shortMessage, "", "warning");
         }
     }
 </script>

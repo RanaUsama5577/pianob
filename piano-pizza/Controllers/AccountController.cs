@@ -58,6 +58,39 @@ namespace piano_pizza.Controllers
                     return Redirect("/receptionist/Main/Index");
                 }
             }
+            else if (response.Code == 203)
+            {
+                if (returnUrl != null)
+                {
+                    return Redirect(returnUrl);
+                }
+                else
+                {
+                    return Redirect("/cook/Main/Index");
+                }
+            }
+            else if (response.Code == 204)
+            {
+                if (returnUrl != null)
+                {
+                    return Redirect(returnUrl);
+                }
+                else
+                {
+                    return Redirect("/packer/Main/Index");
+                }
+            }
+            else if (response.Code == 205)
+            {
+                if (returnUrl != null)
+                {
+                    return Redirect(returnUrl);
+                }
+                else
+                {
+                    return Redirect("/deliveryperson/Main/Index");
+                }
+            }
             else
             {
                 ModelState.AddModelError("", response.ShortMessage);

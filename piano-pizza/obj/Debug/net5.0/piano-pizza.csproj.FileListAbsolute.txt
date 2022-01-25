@@ -166,14 +166,11 @@ D:\repos\piano-pizza\piano-pizza\obj\Debug\net5.0\scopedcss\bundle\piano-pizza.s
 D:\repos\piano-pizza\piano-pizza\obj\Debug\net5.0\piano-pizza.TagHelpers.input.cache
 D:\repos\piano-pizza\piano-pizza\obj\Debug\net5.0\piano-pizza.TagHelpers.output.cache
 D:\repos\piano-pizza\piano-pizza\obj\Debug\net5.0\piano-pizza.RazorCoreGenerate.cache
-D:\repos\piano-pizza\piano-pizza\obj\Debug\net5.0\Razor\Areas\Cook\Views\AppContent\Cookies.cshtml.g.cs
-D:\repos\piano-pizza\piano-pizza\obj\Debug\net5.0\Razor\Areas\Cook\Views\AppContent\PrivacyPolicy.cshtml.g.cs
 D:\repos\piano-pizza\piano-pizza\obj\Debug\net5.0\Razor\Areas\Cook\Views\Main\CookProfile.cshtml.g.cs
 D:\repos\piano-pizza\piano-pizza\obj\Debug\net5.0\Razor\Areas\Cook\Views\Main\Index.cshtml.g.cs
 D:\repos\piano-pizza\piano-pizza\obj\Debug\net5.0\Razor\Areas\Cook\Views\Orders\AssignOrders.cshtml.g.cs
 D:\repos\piano-pizza\piano-pizza\obj\Debug\net5.0\Razor\Areas\Cook\Views\Orders\CompletedOrder.cshtml.g.cs
 D:\repos\piano-pizza\piano-pizza\obj\Debug\net5.0\Razor\Areas\Cook\Views\Shared\_Layout.cshtml.g.cs
-D:\repos\piano-pizza\piano-pizza\obj\Debug\net5.0\Razor\Areas\Cook\Views\Staff\PackersDetail.cshtml.g.cs
 D:\repos\piano-pizza\piano-pizza\obj\Debug\net5.0\Razor\Areas\Identity\Pages\_ViewStart.cshtml.g.cs
 D:\repos\piano-pizza\piano-pizza\obj\Debug\net5.0\Razor\Areas\Packer\Views\AppContent\Cookies.cshtml.g.cs
 D:\repos\piano-pizza\piano-pizza\obj\Debug\net5.0\Razor\Areas\Packer\Views\AppContent\PrivacyPolicy.cshtml.g.cs

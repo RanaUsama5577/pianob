@@ -1,3 +1,103 @@
+
+
+#toast-container > div {
+    opacity: 1!important;
+}
+    .ecommerce-application .checkout-items .ecommerce-card .item-quantity {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+}
+
+.bootstrap-touchspin.input-group {
+    width: 8.4rem;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+}
+
+.bootstrap-touchspin.input-group {
+    width: 8.4rem;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+}
+
+    .bootstrap-touchspin.input-group > .input-group-btn:first-child {
+        left: 12px !important;
+        position: inherit;
+    }
+
+.bootstrap-touchspin .bootstrap-touchspin-injected {
+    margin: 0 !important;
+}
+
+    .bootstrap-touchspin .bootstrap-touchspin-injected .bootstrap-touchspin-down, .bootstrap-touchspin .bootstrap-touchspin-injected .bootstrap-touchspin-up {
+        padding: 0;
+        min-width: 20px;
+        min-height: 20px;
+        border-radius: 0.357rem !important;
+    }
+
+.input-group .btn {
+    position: inherit;
+    z-index: 2;
+}
+
+.bootstrap-touchspin.input-group .form-control {
+    padding: 5px;
+    height: auto;
+    border: 0;
+    background-color: #F8F8F8;
+    border-radius: 0.357rem !important;
+    text-align: center;
+    font-weight: 500;
+}
+
+.bootstrap-touchspin.input-group .form-control {
+    padding: 5px;
+    height: auto;
+    border: 0;
+    background-color: #F8F8F8;
+    border-radius: 0.357rem !important;
+    text-align: center;
+    font-weight: 500;
+    position: relative;
+}
+
+.btn-primary {
+    background-color: #2e2d31 !important;
+    color: #FFF !important;
+    border-color: #2e2d31;
+}
+
+.columns:last-child {
+    margin-bottom: 0px !important;
+}
+
+.input-group > .form-control, .input-group > .form-select {
+    position: relative;
+    -webkit-box-flex: 1;
+    -webkit-flex: 1 1 auto;
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    width: 1%;
+    min-width: 0;
+}
+
+.bootstrap-touchspin.input-group > .input-group-btn:last-child {
+    right: 12px !important;
+    position: inherit;
+}
+
+
 .columns:last-child {
      margin-bottom: 0px!important; 
 }

@@ -1,13 +1,7 @@
-﻿
+﻿@model Entities.GetStaffDashboardStats
 @{
     Layout = "~/Areas/Cook/Views/Shared/_Layout.cshtml";
 }
-
-<style>
-    #bar_chart {
-        min-height: 415px !important;
-    }
-</style>
 <section class="content home">
     <div class="block-header">
         <div class="row">
@@ -16,101 +10,251 @@
                     Dashboard
                 </h2>
             </div>
-
         </div>
     </div>
     <div class="container-fluid">
-        <div class="row clearfix social-widget">
-            <div class="col-sm-12 col-md-8 col-12">
-                <div class="card mb-0 pb-0 shadow height">
-                    <div class="header">
-                        <h2><strong>Orders</strong> Detail</h2>
-                        <ul class="header-dropdown">
-                            <li class="dropdown">
-                                <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <i class="zmdi zmdi-more"></i> </a>
-                            </li>
+        <div class="row">
+            @if (Model.OrderDetails.Count > 0 && Model.OrderDetails.Any(p=>p.WorkerStatus != Entities.Enum.WorkerStatus.Working))
+            {
+                <div class="col-12">
+                    <button onclick="StartOrder()" class="btn btn-primary mb-4 px-5 bg-black font-19"><img src="~/admin-assets/images/cooking (1).png" height="20" />Start Order</button>
+                </div>
+            }
+            <div class="col-lg-8 col-sm-12 col-12">
+                <div class="row">
+                    @foreach (var i in Model.OrderDetails)
+                    {
+                        if (i.WorkerStatus == Entities.Enum.WorkerStatus.Waiting)
+                        {
+                            <div class="col-md-6 col-12 d-flex">
+                                <div class="card project_widget p-1">
+                                    <div class="pw_img m-auto d-flex">
+                                        <img class="img-responsive w-25 m-auto" src="/cooking.png" alt="About the image">
+                                    </div>
+                                    <div class="pw_content mt-30">
+                                        <div class="pw_header d-flex">
+                                            <div>
+                                                <h6>Order Id: #@i.OrderId</h6>
+                                                <small class="text-muted">Datetime: @i.CreatedAt</small>
+                                            </div>
+                                            <a class="ml-auto mt-3 cursor-pointer" onclick="GetProductsDetails(@i.Id)"><u>Details</u></a>
+                                        </div>
+                                        <div class="pw_meta d-flex">
+                                            <span>Amount: $@i.TotalPrice</span>
+                                            <span class="text-danger ml-auto">Not Started</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="col-md-6 col-12 d-flex">
+                                <div class="card project_widget p-1">
+                                    <div class="pw_img m-auto d-flex">
+                                        <img class="img-responsive w-25 m-auto" src="/cooking.png" alt="About the image">
+                                    </div>
+
+                                    <div class="d-flex mt-1">
+                                        <div class="m-auto">
+                                            @*<a title="Defect Order" class="cursor-pointer btn-sm btn-default waves-effect waves-float waves-black"><i class="fas fa-redo font-20 col-grey"></i> </a>*@
+                                            <a onclick="MarkOrderAsCooked(@i.Id)" data-toggle="tooltip" title="Mark order as cooked" class="cursor-pointer ml-3 btn-sm btn-default waves-effect waves-float waves-black"><i class="far fa-check-circle font-20 text-success"></i></a>
+                                        </div>
+                                    </div>
+
+                                    <div class="pw_content">
+                                        <div class="pw_header d-flex">
+                                            <div>
+                                                <h6>Order Id: #@i.OrderId</h6>
+                                                <small class="text-muted">Datetime: @i.CreatedAt</small>
+                                            </div>
+                                            <a class="ml-auto mt-3 cursor-pointer" onclick="GetProductsDetails(@i.Id)"><u>Details</u></a>
+                                        </div>
+                                        <div class="pw_meta d-flex">
+                                            <span>Amount: $@i.TotalPrice</span>
+                                            <span class="text-warning ml-auto">In-process</span>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+                <div hidden class="card">
+                    <div class="body">
+                        <ul class="pagination pagination-primary m-b-0">
+                            <li class="page-item"><a class="page-link" href="#"><i class="zmdi zmdi-arrow-left"></i></a></li>
+                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item"><a class="page-link" href="#">4</a></li>
+                            <li class="page-item"><a class="page-link" href="#"><i class="zmdi zmdi-arrow-right"></i></a></li>
                         </ul>
                     </div>
-                    <div class="body">
-                        <canvas id="bar_chart" height="150"></canvas>
-                    </div>
                 </div>
             </div>
-            <div class="col-sm-12 col-md-4 col-12">
-                <div class="w-100 mt-2">
+
+            <div class="col-lg-4 col-sm-12 col-12">
+                <div class="w-100">
                     <a href="@Url.Action("Orders","Order")" style="cursor:pointer" class="card info-box-2 hover-zoom-effect twitter-widget">
                         <div class="icon">
-                            <img src="~/assets/images/food-cover.png" class="mt-4 mb-2" height="35" />
+                            <img src="~/admin-assets/images/food-cover.png" class="mt-4 mb-2" height="35" />
                         </div>
                         <div class="content mb-2">
-                            <div class="number">9</div><div class="text">Waiting Orders</div>
+                            <div class="number">@Model.TotalOrders</div><div class="text">Assigned Orders</div>
                         </div>
                     </a>
                 </div>
 
-                <div class="w-100">
+                <div class="w-100 mt-43">
                     <a href="@Url.Action("Orders","Order")" style="cursor:pointer" class="card info-box-2 hover-zoom-effect twitter-widget">
                         <div class="icon">
-                            <img src="~/assets/images/piano/cooking.png" class="mt-4 mb-2" height="35" />
+                            <img src="~/admin-assets/images/piano/cooking.png" class="mt-4 mb-2" height="35" />
                         </div>
                         <div class="content mb-2">
-                            <div class="number">6</div><div class="text">Assigned Orders</div>
+                            <div class="number">@Model.InProcessOrder</div><div class="text">In-process Orders</div>
                         </div>
                     </a>
                 </div>
 
-                <div class="w-100">
+                <div class="w-100 mt-43">
                     <a href="@Url.Action("Orders","Order")" style="cursor:pointer" class="card info-box-2 hover-zoom-effect twitter-widget">
                         <div class="icon">
-                            <img src="~/assets/images/piano/cooking.png" class="mt-4 mb-2" height="35" />
+                            <img src="~/admin-assets/images/piano/cooking.png" class="mt-4 mb-2" height="35" />
                         </div>
                         <div class="content mb-2">
-                            <div class="number">3</div><div class="text">Completed Orders</div>
+                            <div class="number">@Model.Completed</div><div class="text">Completed Orders</div>
                         </div>
                     </a>
                 </div>
+
             </div>
-          
         </div>
+    </div>
 
+    <div class="modal fade bs-example-modal-md mt-5" id="PrdDtls" tabindex="-1" role="dialog" aria-labelledby="PrdDtls" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="formModal">Products Detail</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row" id="AppendProducts">
+
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="float-right">
+                                <b>Total Bill: </b> <span id="TotalPrice">800</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div><!-- /.modal -->
     </div>
 </section>
 
 <script>
+    $("[data-toggle='tooltip']").tooltip();
     $('#Dash').addClass('active');
     $('#Dash').addClass('open');
 </script>
 
 <script>
-    $(function () {
-        new Chart(document.getElementById("bar_chart").getContext("2d"), getChartJs());
-    });
-
-    function getChartJs(type) {
-        var config = null;
-
-
-
-        config = {
-            type: 'bar',
-            width: '30',
-            data: {
-                labels: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
-                datasets: [{
-                    label: "Cooked Orders",
-                    data: [28, 48, 40, 19, 86, 27, 90, 19, 86, 27, 90, 3],
-                    backgroundColor: '#3b5998',
-                    strokeColor: "rgba(255,118,118,0.1)",
-                }]
-            },
-            options: {
-                responsive: true,
-                legend: false
+    function GetProductsDetails(Id) {
+        var response = getResponseFromUrl('Get', '/cook/main/GetProducts?Id=' + Id, null, false);
+        if (response.code == 200) {
+            var result = response.result;
+            if (result.length > 0) {
+                var price = 0;
+                $('#AppendProducts').html("");
+                result.forEach(function (doc) {
+                    var data = doc;
+                    console.log("list", data.ingredientList);
+                    var s = "";
+                    data.ingredientList.forEach(function (item) {
+                        s += `<div class="flex-row">
+                                            <small class="text-muted"><b><i class="fas fa-circle font-8 mr-2"></i>${item.ingredientName}: </b></small> <small class="ml-2">${item.quantity} Qty</small>
+                                        </div>`;
+                    });
+                    var product = `<div class="col-12">
+                            <div class="card project_widget p-1">
+                                <div class="d-flex">
+                                    <img class="img-responsive" width="70" height="70" src="${data.productImage}" alt="About the image">
+                                    <div class="ml-3 mt-2">
+                                        <p class="mb-0">${data.productName}</p>
+                                        ${s}
+                                    </div>
+                                    <div class="ml-auto">
+                                        <span>${data.quantity} Qty</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>`;
+                    price += data.total_price;
+                    $('#AppendProducts').append(product);
+                })
+                $('#TotalPrice').html("$" + price);
+                $('#PrdDtls').modal("show");
             }
         }
-
-
-        return config;
+        else {
+            console.log(response);
+            sweetMessage("Error!", response.shortMessage + "<br>" + response.result, "error");
+        }
     }
 </script>
+<script>
+    function StartOrder() {
+        var response = getResponseFromUrl('Get', '/cook/main/startOrder', null, false);
+        if (response.code == 200) {
+            MixinSweet("Success", "", "success", 2000);
+            setTimeout(function () {
+                location.reload();
+            }, 2000);
+        }
+        else {
+            MixinSweet(response.shortMessage, "", "success", 2000);
+        }
+    }
+    function MarkOrderAsCooked(Id) {
 
+        var response = getResponseFromUrl('Get', '/cook/main/MarkOrderAsCooked?Id=' +  Id, null, false);
+        if (response.code == 200) {
+            MixinSweet("Success", "", "success", 2000);
+            setTimeout(function () {
+                location.reload();
+            }, 2000);
+        }
+        else {
+            MixinSweet(response.shortMessage, "", "success", 2000);
+        }
+    }
+</script>
+<!--Ajax-->
+<script>
+    var getResponseFromUrl = function (requestType, requestUrl, requestData, async) {
+        var response;
+        $.ajax({
+            type: requestType,
+            url: requestUrl,
+            data: requestData,
+            async: false,
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                response = data;
+            },
+            error: function (error) {
+                return error;
+            },
+        });
+        return response;
+    }
+</script>

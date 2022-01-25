@@ -32,7 +32,9 @@ namespace piano_pizza.Areas.Receptionist.Controllers
         // GET: Receptionist/Orders
         public ActionResult Detail()
         {
+            var users = admin.GetAllStaffUsers(userManager1.GetUserId(HttpContext.User));
             var orders = admin.GetOrderdetails(userManager1.GetUserId(HttpContext.User));
+            ViewBag.Users = users;
             return View(orders);
         }
        
@@ -67,6 +69,11 @@ namespace piano_pizza.Areas.Receptionist.Controllers
         {
             var save = admin.SaveOrder(modal, userManager1.GetUserId(HttpContext.User));
             return Json(save);
+        }
+        public ActionResult AssignPerson(int Id,string userId)
+        {
+            var res = admin.AssignPerson(Id, userId);
+            return Json(res);
         }
     }
 }

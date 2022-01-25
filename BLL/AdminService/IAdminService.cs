@@ -15,7 +15,8 @@ namespace BLL.AdminService
         List<BranchVms> GetBranches();
         ResponseDto AddBranch(BranchAddVms modal);
         List<ProfileDtos> GetUsers(UserType userType);
-        List<ProfileDtos> GetStaffUsers(UserType userType,string userid);
+        List<ProfileDtos> GetStaffUsers(UserType userType, string userid);
+        List<ProfileDtos> GetAllStaffUsers(string userid);
         Task<ResponseDto> CreateAdmin();
         Task<ResponseDto> AddStaff(AddStaffDtos modal);
         Task<ResponseDto> Login(LoginViewModel LoginUser);
@@ -72,5 +73,10 @@ namespace BLL.AdminService
         ResponseDto SaveOrder(SaveOrderData modal,string userId);
         List<GetOrderdetails> GetOrderdetails(string userId);
         List<AllProducts> GetOrderProducts(int Id);
+        GetStaffDashboardStats GetStaffOrderdetails(string userId);
+        ResponseDto StartFirstOrder(string userId);
+        ResponseDto MarkOrderAsCooked(int orderId,string userId);
+        ResponseDto AssignPerson(int orderId,string userId);
+        List<GetOrderdetails> StaffCompletedOrders(string userId);
     }
 }

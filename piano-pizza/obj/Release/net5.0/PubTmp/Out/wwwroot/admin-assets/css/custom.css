@@ -1,4 +1,18 @@
-﻿.container234 .overlay {
+﻿.btn-progress {
+    position: relative;
+    background-image: url("/spinner-white.svg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 30px;
+    color: transparent !important;
+    pointer-events: none
+}
+
+.dropdown.show .dropdown-menu {
+    min-width: 100% !important;
+}
+
+.container234 .overlay {
     position: absolute;
     top: 0;
     bottom: 0px;

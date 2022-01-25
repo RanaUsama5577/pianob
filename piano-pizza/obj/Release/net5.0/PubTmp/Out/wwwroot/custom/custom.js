@@ -1,4 +1,4 @@
-$(function () {
+﻿$(function () {
     setTimeout(function(){
         $(".customloader").fadeOut("slow");
     },2000);
@@ -17,3 +17,21 @@ $(function () {
         );
     }); 
 })
+var n = "rtl" === $("html").attr("data-textdirection");
+function ShowToast(message, code) {
+    if (code == "error") {
+        return toastr.error("", message, { closeButton: !0, tapToDismiss: !1 });
+    }
+    if (code == "success") {
+        return toastr.success("", message, { closeButton: !0, tapToDismiss: !1 });
+    }
+    if (code == "warning") {
+        return toastr.warning("", message, { closeButton: !0, tapToDismiss: !1 });
+    }
+    if (code == "info") {
+        return toastr.info("", message, { closeButton: !0, tapToDismiss: !1 });
+    }
+}
+function RemoveItem() {
+    toastr.error("", "Removed Item 🗑️", { closeButton: !0, tapToDismiss: !1 });
+}

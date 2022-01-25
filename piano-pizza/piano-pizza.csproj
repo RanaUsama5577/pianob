@@ -29,6 +29,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="Areas\Cook\Views\Main\CookProfile.cshtml" />
+    <None Include="Areas\Cook\Views\Main\Index.cshtml" />
+    <None Include="Areas\Cook\Views\Orders\AssignOrders.cshtml" />
+    <None Include="Areas\Cook\Views\Orders\CompletedOrder.cshtml" />
+    <None Include="Areas\Cook\Views\Shared\_Layout.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <EmbeddedResource Update="Resources\ApplicationResource.en-US.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
     </EmbeddedResource>

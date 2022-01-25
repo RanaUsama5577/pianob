@@ -1,7 +1,7 @@
 
 
 #toast-container > div {
-    opacity: 1!important;
+    opacity: 1 !important;
 }
     .ecommerce-application .checkout-items .ecommerce-card .item-quantity {
     display: -webkit-box;

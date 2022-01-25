@@ -318,5 +318,32 @@ namespace Entities
         public string UserEmail { get; set; }
         public string CreatedAt { get; set; }
     }
+    public class GetStaffOrderdetails
+    {
+        public int Id { get; set; }
+        public string OrderId { get; set; }
+        public decimal TotalPrice { get; set; }
+        public OrderType Status { get; set; }
+        public string UserId { get; set; }
+        public string AssigneeId { get; set; }
+        public string AssigneeName { get; set; }
+        public int BranchId { get; set; }
+        public string BranchName { get; set; }
+        public string Username { get; set; }
+        public string UserEmail { get; set; }
+        public string CreatedAt { get; set; }
+        public decimal Latitude { get; set; }
+        public decimal Longitude { get; set; }
+        public string PhoneNumber { get; set; }
+        public string Address { get; set; }
+        public WorkerStatus WorkerStatus { get; set; }
 
+    }
+    public class GetStaffDashboardStats
+    {
+        public int TotalOrders { get; set; }
+        public int InProcessOrder { get; set; }
+        public int Completed { get; set; }
+        public List<GetStaffOrderdetails> OrderDetails { get; set; }
+    }
 }
