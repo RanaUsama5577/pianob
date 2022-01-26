@@ -1,0 +1,302 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject piano_pizza.Resources.LocalizationService local
+<!doctype html>
+<html class="no-js " lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <meta name="description" content="Responsive Bootstrap 4 and web Application ui kit.">
+    <title>Pionob</title>
+    <link rel="icon" href="/admin-assets/images/piano/cropped-b-black-180x180.png"> <!-- Favicon-->
+
+    <link href="~/admin-assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+
+    <link href="~/admin-assets/plugins/jvectormap/jquery-jvectormap-2.0.3.min.css" rel="stylesheet" />
+
+    <link href="~/admin-assets/plugins/bootstrap-select/css/bootstrap-select.css" rel="stylesheet" />
+
+    <link href="~/admin-assets/plugins/jquery-datatable/dataTables.bootstrap4.min.css" rel="stylesheet" />
+
+    <link href="~/admin-assets/plugins/light-gallery/css/lightgallery.css" rel="stylesheet" />
+
+    <link href="~/admin-assets/plugins/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css" rel="stylesheet" />
+    <link href="~/admin-assets/css/sweetalert2.min.css" rel="stylesheet" />
+
+    <link href="~/admin-assets/css/jquery.steps.css" rel="stylesheet" />
+    <!-- JQuery DataTable Css -->
+    <link href="~/admin-assets/css/image-uploader.min.css" rel="stylesheet" />
+
+    <link href="~/admin-assets/css/main.css" rel="stylesheet" />
+    <link href="~/admin-assets/css/color_skins.css" rel="stylesheet" />
+    <link href="~/admin-assets/css/custom.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css" integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <script src="~/admin-assets/bundles/libscripts.bundle.js"></script> <!-- Lib Scripts Plugin Js ( jquery.v3.2.1, Bootstrap4 js) -->
+
+</head>
+<body class="theme-black">
+    <!-- Page Loader -->
+    <div class="page-loader-wrapper">
+        <div class="loader">
+            <div class="m-t-30"><img src="/admin-assets/images/Login/Piano-b-black.png" height="48"></div>
+            <p>Please wait...</p>
+        </div>
+    </div>
+    <!-- Overlay For Sidebars -->
+    <div class="overlay"></div>
+
+    <!-- Top Bar -->
+    <nav class="navbar">
+        <div class="col-12">
+            <div class="navbar-header text-center">
+                <a href="javascript:void(0);" class="bars"></a>
+                <a class="navbar-brand"><img src="/admin-assets/images/Login/Piano-b-black.png" height="50"></a>
+            </div>
+            <ul class="nav navbar-nav navbar-left">
+                <li><a href="javascript:void(0);" class="ls-toggle-btn" data-close="true"><i class="zmdi zmdi-swap"></i></a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button">
+                        <i class="zmdi zmdi-notifications"></i>
+                        <div class="notify"><span class="heartbit"></span><span class="point"></span></div>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-right slideDown">
+                        <li class="header">@local.GetLocalizedHtmlString("NOTIFICATIONS")</li>
+                        <li class="body">
+                            <ul class="menu list-unstyled" id="NotificationAppend">
+                            </ul>
+                        </li>
+                        <li class="footer"> <a id="ReadAll" onclick="ReadAllNotifications()" href="javascript:void(0);">@local.GetLocalizedHtmlString("ReadAllNotifications")</a></li>
+                    </ul>
+                </li>
+
+                @*<--Logout-->*@
+                <li><a href="@Url.Action("Logout","Account")" class="mega-menu mr-3" data-close="true"><i class="zmdi zmdi-power"></i></a></li>
+
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Left Sidebar -->
+    <aside id="leftsidebar" class="sidebar">
+        <div class="menu">
+            <ul class="list">
+                <li>
+                    <div class="user-info">
+                        <div class="image"><img class="imageUrl" src="/user_icon.jpg" /></div>
+                        <div class="detail mt-2">
+                            <div class="d-flex flex-row" style="justify-content: center;">
+                                <p id="nav-user-name" class="mt-1"></p>
+                                <a href="/PackerStaff/Main/packerProfile" class="mt-n2" title="Profile"><i class="zmdi zmdi-account-circle"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="header">MAIN</li>
+                <li id="dash">
+                    <a href="/PackerStaff/Main/Index"><i class="fas fa-desktop"></i><span>Dashboard</span></a>
+                </li>
+
+
+                <li class="header">Management</li>
+
+                <li id="completeOrder">
+                    <a href="/PackerStaff/Orders/CompletedOrder">
+                        <img src="~/admin-assets/images/food-pack (1).png" class="mb-1" height="20" /><span>Completed Orders</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </aside>
+    <div>
+        @RenderBody()
+
+    </div>
+    @RenderSection("scripts", required: false)
+
+    <!-- Main Content -->
+
+    <script src="~/admin-assets/bundles/vendorscripts.bundle.js"></script> <!-- slimscroll, waves Scripts Plugin Js -->
+    <!-- Jquery DataTable Plugin Js -->
+    <script src="~/admin-assets/js/jquery.validate.js"></script>
+    <script src="~/admin-assets/js/jquery.steps.js"></script>
+
+    <script src="~/admin-assets/plugins/chartjs/Chart.bundle.js"></script> <!-- Chart Plugins Js -->
+
+    <script src="~/admin-assets/plugins/momentjs/moment.js"></script> <!-- Moment Plugin Js -->
+    <script src="~/admin-assets/plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js"></script>
+
+    <script src="~/admin-assets/plugins/light-gallery/js/lightgallery-all.min.js"></script>
+    <script src="~/admin-assets/bundles/mainscripts.bundle.js"></script>
+
+    <script src="~/admin-assets/js/pages/forms/form-wizard.js"></script>
+
+    <script src="~/admin-assets/bundles/datatablescripts.bundle.js"></script>
+    <script src="~/admin-assets/plugins/jquery-datatable/buttons/dataTables.buttons.min.js"></script>
+    <script src="~/admin-assets/plugins/jquery-datatable/buttons/buttons.bootstrap4.min.js"></script>
+    <script src="~/admin-assets/plugins/jquery-datatable/buttons/buttons.colVis.min.js"></script>
+    <script src="~/admin-assets/plugins/jquery-datatable/buttons/buttons.flash.min.js"></script>
+    <script src="~/admin-assets/plugins/jquery-datatable/buttons/buttons.html5.min.js"></script>
+    <script src="~/admin-assets/js/pages/tables/jquery-datatable.js"></script>
+    <script src="~/admin-assets/js/sweetalert2.min.js"></script>
+
+    <script src="~/admin-assets/summernote/dist/summernote.js"></script>
+    <script src="~/admin-assets/js/image-uploader.min.js"></script>
+
+    <script src="~/admin-assets/js/pages/medias/image-gallery.js"></script>
+    <script src="~/admin-assets/js/pages/forms/basic-form-elements.js"></script>
+    <script src="~/custom/custom.js"></script>
+    <script src="~/custom.js"></script>
+    <script>
+        $(function () {
+            $('.input-images-1').imageUploader();
+        });
+    </script>
+    <script>
+        $(function () {
+            GetProfile();
+            GetNotifications();
+        })
+        function GetProfile() {
+            var response = getLayoutResponeFromUrl('GET', '/PackerStaff/Main/GetProfile');
+            if (response.code == 200) {
+                var data = response.result;
+                $('#nav-user-name').html("Hello " + data.fullName);
+                $('#Username').val(data.fullName);
+                $('.imageUrl').attr('src', data.profileImageUrl);
+                $('#EmailUserId').html(data.email);
+            }
+            else {
+                console.log("Error!", response.shortMessage);
+            }
+        }
+
+        function GetNotifications() {
+            var response = getLayoutResponeFromUrl('GET', '/PackerStaff/Settings/GetNotifications');
+            if (response.code == 200) {
+                $('#NotificationAppend').html("");
+                var data = response.result;
+                var count = 0;
+                console.log(data);
+                data.forEach(function (item) {
+                    if (item.type == 0) {
+                        var href = "";
+                    }
+                    if (item.isSeen == false) {
+                        count++;
+                        var notification = '<li>' +
+                            '<a onclick="ReadNotification(' + item.id + ',\'' + href + '\')" href="javascript:void(0);">' +
+                            '<div class="icon-circle bg-blue"><i class="zmdi zmdi-notifications-none"></i></div>' +
+                            '<div class="menu-info">' +
+                            '<h4>' + item.body + '</h4>' +
+                            '<p><i class="zmdi zmdi-time"></i>' + item.createdAt + '</p>' +
+                            '</div>' +
+                            '</a>' +
+                            '</li>';
+                    }
+                    else {
+                        var notification = '<li>' +
+                            '<a onclick="ReadNotification(' + item.id + ',\'' + href + '\')" href="javascript:void(0);">' +
+                            '<div class="icon-circle bg-blue"><i class="zmdi zmdi-notifications-none"></i></div>' +
+                            '<div class="menu-info">' +
+                            '<h4>' + item.body + '</h4>' +
+                            '<p><i class="zmdi zmdi-time"></i>' + item.createdAt + '</p>' +
+                            '</div>' +
+                            '</a>' +
+                            '</li>';
+                    }
+                    $('#NotificationAppend').append(notification);
+                })
+                if (count > 0) {
+                    $('.notify').show();
+                }
+                else {
+                    $('.notify').hide();
+                    $('#ReadAll').hide();
+                    var notification = '<li>' +
+                        '<a href="javascript:void(0);">' +
+                        '<div class="icon-circle bg-blue"><i class="zmdi zmdi-notifications-none"></i></div>' +
+                        '<div class="menu-info">' +
+                        '<h4>No notification to show</h4>' +
+                        '</div>' +
+                        '</a>' +
+                        '</li>';
+                    $('#NotificationAppend').prepend(notification);
+                }
+                //$(".dropdown-list-icons").getNiceScroll().resize();
+            }
+            else {
+                console.log("Error!", response.ShortMessage);
+            }
+        }
+
+        function ReadNotification(Id, Href) {
+            var response = getLayoutResponeFromUrl('GET', '/PackerStaff/Settings/ReadNotification?Id=' + Id);
+            if (response.Code == 200) {
+                window.location.href = Href;
+            }
+            else {
+                console.log("Error!", response.ShortMessage);
+            }
+        }
+
+        function ReadAllNotifications() {
+            var response = getLayoutResponeFromUrl('GET', '/PackerStaff/Settings/ReadAllNotification');
+            if (response.Code == 200) {
+                GetNotifications();
+            }
+            else {
+                console.log("Error!", response.ShortMessage);
+            }
+        }
+
+        //function UpdateFcm() {
+        //    messaging.requestPermission()
+        //        .then(function () {
+        //            console.log("Have Permission");
+        //            return messaging.getToken();
+        //        })
+        //        .then(function (token) {
+        //            console.log(token);
+        //            var response = getLayoutResponeFromUrl('GET', '/SuperAdmin/Settings/UpdateFcm?Fcm=' + token);
+        //            if (response.Code == 200) {
+        //                console.log("Fcm Updated");
+        //            }
+        //            else {
+        //                console.log("Error!", response.ShortMessage);
+        //            }
+        //        })
+        //        .catch(function (error) {
+        //            console.log("Error", error);
+        //        });
+        //}
+    </script>
+    <!--Ajax-->
+    <script>
+        var getLayoutResponeFromUrl = function (requestType, requestUrl, requestData) {
+            var response;
+            $.ajax({
+                type: requestType,
+                url: requestUrl,
+                data: requestData,
+                data: requestData,
+                async: false,
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    response = data;
+                    console.log(data);
+                },
+                error: function (error) {
+                    console.log(error);
+                    return error;
+                },
+            });
+            return response;
+        }
+    </script>
+</body>
+
+</html>

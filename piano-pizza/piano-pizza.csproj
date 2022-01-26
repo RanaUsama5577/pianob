@@ -23,6 +23,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Areas\Driver\Data\" />
+    <Folder Include="Areas\Driver\Models\" />
+    <Folder Include="Areas\PackerStaff\Data\" />
+    <Folder Include="Areas\PackerStaff\Models\" />
     <Folder Include="Areas\SuperAdmin\Data\" />
     <Folder Include="Areas\SuperAdmin\Models\" />
     <Folder Include="wwwroot\Images\" />

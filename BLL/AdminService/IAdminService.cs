@@ -1,6 +1,7 @@
 ﻿using DAL;
 using Entities;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,8 @@ namespace BLL.AdminService
         List<BranchVms> GetBranches();
         ResponseDto AddBranch(BranchAddVms modal);
         List<ProfileDtos> GetUsers(UserType userType);
+        Task<ResponseDto> ForgotPassword([FromForm] ForgotPasswordVMS model);
+        Task<ResponseDto> ResetPassword([FromForm] ResetPasswordVMS model);
         List<ProfileDtos> GetStaffUsers(UserType userType, string userid);
         List<ProfileDtos> GetAllStaffUsers(string userid);
         Task<ResponseDto> CreateAdmin();
@@ -76,6 +79,7 @@ namespace BLL.AdminService
         GetStaffDashboardStats GetStaffOrderdetails(string userId);
         ResponseDto StartFirstOrder(string userId);
         ResponseDto MarkOrderAsCooked(int orderId,string userId);
+        ResponseDto MarkOrderAsPacked(int orderId,string userId);
         ResponseDto AssignPerson(int orderId,string userId);
         List<GetOrderdetails> StaffCompletedOrders(string userId);
     }

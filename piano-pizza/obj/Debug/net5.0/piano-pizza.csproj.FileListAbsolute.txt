@@ -1,5 +1,4 @@
 D:\repos\piano-pizza\piano-pizza\bin\Debug\net5.0\Areas\Cook\Views\web.config
-D:\repos\piano-pizza\piano-pizza\bin\Debug\net5.0\Areas\Packer\Views\web.config
 D:\repos\piano-pizza\piano-pizza\bin\Debug\net5.0\Areas\Receptionist\Views\web.config
 D:\repos\piano-pizza\piano-pizza\bin\Debug\net5.0\Areas\SuperAdmin\Views\web.config
 D:\repos\piano-pizza\piano-pizza\bin\Debug\net5.0\appsettings.Development.json
@@ -172,14 +171,10 @@ D:\repos\piano-pizza\piano-pizza\obj\Debug\net5.0\Razor\Areas\Cook\Views\Orders\
 D:\repos\piano-pizza\piano-pizza\obj\Debug\net5.0\Razor\Areas\Cook\Views\Orders\CompletedOrder.cshtml.g.cs
 D:\repos\piano-pizza\piano-pizza\obj\Debug\net5.0\Razor\Areas\Cook\Views\Shared\_Layout.cshtml.g.cs
 D:\repos\piano-pizza\piano-pizza\obj\Debug\net5.0\Razor\Areas\Identity\Pages\_ViewStart.cshtml.g.cs
-D:\repos\piano-pizza\piano-pizza\obj\Debug\net5.0\Razor\Areas\Packer\Views\AppContent\Cookies.cshtml.g.cs
-D:\repos\piano-pizza\piano-pizza\obj\Debug\net5.0\Razor\Areas\Packer\Views\AppContent\PrivacyPolicy.cshtml.g.cs
-D:\repos\piano-pizza\piano-pizza\obj\Debug\net5.0\Razor\Areas\Packer\Views\Main\DeliveryPerson.cshtml.g.cs
-D:\repos\piano-pizza\piano-pizza\obj\Debug\net5.0\Razor\Areas\Packer\Views\Main\Index.cshtml.g.cs
-D:\repos\piano-pizza\piano-pizza\obj\Debug\net5.0\Razor\Areas\Packer\Views\Main\PackerProfile.cshtml.g.cs
-D:\repos\piano-pizza\piano-pizza\obj\Debug\net5.0\Razor\Areas\Packer\Views\Order\AssignOrders.cshtml.g.cs
-D:\repos\piano-pizza\piano-pizza\obj\Debug\net5.0\Razor\Areas\Packer\Views\Order\CompletedOrder.cshtml.g.cs
-D:\repos\piano-pizza\piano-pizza\obj\Debug\net5.0\Razor\Areas\Packer\Views\Shared\_Layout.cshtml.g.cs
+D:\repos\piano-pizza\piano-pizza\obj\Debug\net5.0\Razor\Areas\PackerStaff\Views\Main\Index.cshtml.g.cs
+D:\repos\piano-pizza\piano-pizza\obj\Debug\net5.0\Razor\Areas\PackerStaff\Views\Main\PackerProfile.cshtml.g.cs
+D:\repos\piano-pizza\piano-pizza\obj\Debug\net5.0\Razor\Areas\PackerStaff\Views\Orders\CompletedOrder.cshtml.g.cs
+D:\repos\piano-pizza\piano-pizza\obj\Debug\net5.0\Razor\Areas\PackerStaff\Views\Shared\_Layout.cshtml.g.cs
 D:\repos\piano-pizza\piano-pizza\obj\Debug\net5.0\Razor\Areas\Receptionist\Views\Main\Index.cshtml.g.cs
 D:\repos\piano-pizza\piano-pizza\obj\Debug\net5.0\Razor\Areas\Receptionist\Views\Main\ReceptionistProfile.cshtml.g.cs
 D:\repos\piano-pizza\piano-pizza\obj\Debug\net5.0\Razor\Areas\Receptionist\Views\Orders\Detail.cshtml.g.cs
@@ -241,3 +236,10 @@ D:\repos\piano-pizza\piano-pizza\obj\Debug\net5.0\piano-pizza.dll
 D:\repos\piano-pizza\piano-pizza\obj\Debug\net5.0\ref\piano-pizza.dll
 D:\repos\piano-pizza\piano-pizza\obj\Debug\net5.0\piano-pizza.pdb
 D:\repos\piano-pizza\piano-pizza\obj\Debug\net5.0\piano-pizza.genruntimeconfig.cache
+D:\repos\piano-pizza\piano-pizza\obj\Debug\net5.0\Razor\Areas\Driver\Views\Shared\_Layout.cshtml.g.cs
+D:\repos\piano-pizza\piano-pizza\obj\Debug\net5.0\Razor\Areas\Driver\Views\Main\Index.cshtml.g.cs
+D:\repos\piano-pizza\piano-pizza\obj\Debug\net5.0\Razor\Areas\Driver\Views\Main\DriverProfile.cshtml.g.cs
+D:\repos\piano-pizza\piano-pizza\obj\Debug\net5.0\Razor\Areas\Driver\Views\Orders\CompletedOrder.cshtml.g.cs
+D:\repos\piano-pizza\piano-pizza\obj\Debug\net5.0\Razor\Views\PartialForgotPassword.cshtml.g.cs
+D:\repos\piano-pizza\piano-pizza\obj\Debug\net5.0\Razor\Views\Account\ResetPassword.cshtml.g.cs
+D:\repos\piano-pizza\piano-pizza\obj\Debug\net5.0\Razor\Views\Account\SuccessResetPassword.cshtml.g.cs

@@ -97,7 +97,7 @@
 
             <div class="col-lg-4 col-sm-12 col-12">
                 <div class="w-100">
-                    <a href="@Url.Action("Orders","Order")" style="cursor:pointer" class="card info-box-2 hover-zoom-effect twitter-widget">
+                    <a class="card info-box-2 hover-zoom-effect twitter-widget">
                         <div class="icon">
                             <img src="~/admin-assets/images/food-cover.png" class="mt-4 mb-2" height="35" />
                         </div>
@@ -108,7 +108,7 @@
                 </div>
 
                 <div class="w-100 mt-43">
-                    <a href="@Url.Action("Orders","Order")" style="cursor:pointer" class="card info-box-2 hover-zoom-effect twitter-widget">
+                    <a class="card info-box-2 hover-zoom-effect twitter-widget">
                         <div class="icon">
                             <img src="~/admin-assets/images/piano/cooking.png" class="mt-4 mb-2" height="35" />
                         </div>
@@ -119,7 +119,7 @@
                 </div>
 
                 <div class="w-100 mt-43">
-                    <a href="@Url.Action("Orders","Order")" style="cursor:pointer" class="card info-box-2 hover-zoom-effect twitter-widget">
+                    <a class="card info-box-2 hover-zoom-effect twitter-widget">
                         <div class="icon">
                             <img src="~/admin-assets/images/piano/cooking.png" class="mt-4 mb-2" height="35" />
                         </div>
@@ -212,49 +212,83 @@
 </script>
 <script>
     function StartOrder() {
-        var response = getResponseFromUrl('Get', '/cook/main/startOrder', null, false);
-        if (response.code == 200) {
-            MixinSweet("Success", "", "success", 2000);
-            setTimeout(function () {
-                location.reload();
-            }, 2000);
-        }
-        else {
-            MixinSweet(response.shortMessage, "", "success", 2000);
-        }
+        Swal.fire({
+            title: 'Are you sure you start working?',
+            text: "",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            showLoaderOnConfirm: true,
+            preConfirm: (ref) => {
+                return new Promise(async function (resolve, reject) {
+                    var response = await getResponseFromUrl('Get', '/cook/main/startOrder', null, true);
+                    if (response.code == 200) {
+                        MixinSweet("Success", "", "success", 2000);
+                        setTimeout(function () {
+                            location.reload();
+                        }, 2000);
+                    }
+                    else {
+                        MixinSweet(response.shortMessage, "", "success", 2000);
+                    }
+                })
+            },
+            confirmButtonText: 'Confirm!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+            }
+        })
     }
     function MarkOrderAsCooked(Id) {
-
-        var response = getResponseFromUrl('Get', '/cook/main/MarkOrderAsCooked?Id=' +  Id, null, false);
-        if (response.code == 200) {
-            MixinSweet("Success", "", "success", 2000);
-            setTimeout(function () {
-                location.reload();
-            }, 2000);
-        }
-        else {
-            MixinSweet(response.shortMessage, "", "success", 2000);
-        }
+        Swal.fire({
+            title: 'Are you sure you start working?',
+            text: "",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            showLoaderOnConfirm: true,
+            preConfirm: (ref) => {
+                return new Promise(async function (resolve, reject) {
+                    var response = await getResponseFromUrl('Get', '/cook/main/MarkOrderAsCooked?Id=' + Id, null, true);
+                    if (response.code == 200) {
+                        MixinSweet("Success", "", "success", 2000);
+                        setTimeout(function () {
+                            location.reload();
+                        }, 2000);
+                    }
+                    else {
+                        MixinSweet(response.shortMessage, "", "success", 2000);
+                    }
+                })
+            },
+            confirmButtonText: 'Confirm!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+            }
+        })
+        
     }
 </script>
 <!--Ajax-->
 <script>
     var getResponseFromUrl = function (requestType, requestUrl, requestData, async) {
         var response;
-        $.ajax({
+        return $.ajax({
             type: requestType,
             url: requestUrl,
             data: requestData,
-            async: false,
+            async: async,
             processData: false,
             contentType: false,
             success: function (data) {
                 response = data;
+                return response;
             },
             error: function (error) {
                 return error;
             },
         });
-        return response;
     }
 </script>
