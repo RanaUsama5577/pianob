@@ -243,3 +243,8 @@ D:\repos\piano-pizza\piano-pizza\obj\Debug\net5.0\Razor\Areas\Driver\Views\Order
 D:\repos\piano-pizza\piano-pizza\obj\Debug\net5.0\Razor\Views\PartialForgotPassword.cshtml.g.cs
 D:\repos\piano-pizza\piano-pizza\obj\Debug\net5.0\Razor\Views\Account\ResetPassword.cshtml.g.cs
 D:\repos\piano-pizza\piano-pizza\obj\Debug\net5.0\Razor\Views\Account\SuccessResetPassword.cshtml.g.cs
+D:\repos\piano-pizza\piano-pizza\obj\Debug\net5.0\Razor\Views\Order\Cart.cshtml.g.cs
+D:\repos\piano-pizza\piano-pizza\obj\Debug\net5.0\Razor\Views\Order\History.cshtml.g.cs
+D:\repos\piano-pizza\piano-pizza\obj\Debug\net5.0\Razor\Views\Order\MyOrder.cshtml.g.cs
+D:\repos\piano-pizza\piano-pizza\obj\Debug\net5.0\Razor\Views\Order\HistoryOrderDetails.cshtml.g.cs
+D:\repos\piano-pizza\piano-pizza\obj\Debug\net5.0\Razor\Views\Order\MyOrderDetails.cshtml.g.cs

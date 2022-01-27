@@ -2,6 +2,9 @@
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<link href="~/orderassets/assets/css/bootstrap.min.css" rel="stylesheet">
+<!-- Custom Stylesheet -->
+<link href="~/orderassets/assets/css/style.css" rel="stylesheet">
 <!-- #header-wrap -->
 <div id="header-bottom-wrap" class="is-clearfix">
     <div id="header-bottom" class="site-header-bottom">
@@ -52,11 +55,30 @@
                                     @foreach (var i in Model.IngredientLists)
                                     {
                                         <li>
-                                            <div class="ps-checkbox mb-0">
-                                                <input class="form-control" type="checkbox" id="create-account">
-                                                <label for="create-account">@i.Name</label>
-                                                <span style="float: right;">@i.Price</span>
+
+                                            <div class="row">
+                                                <div class="col-sm-5 col-12">
+                                                    <div class="ps-checkbox">
+                                                        <input class="form-control" type="checkbox" id="create-account">
+                                                        <label for="create-account">@i.Name</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-7 col-12 d-flex flex-row mt-n3">
+                                                    <div class="input-group bootstrap-touchspin m-0" style="display: flex;position: relative;margin:auto">
+                                                        <span class="input-group-btn bootstrap-touchspin-injected" style="">
+                                                            <button class="btn btn-primary bootstrap-touchspin-down disabled-max-min rounded-circle" type="button">-</button>
+                                                        </span>
+                                                        <input type="text" class="quantity-counter form-control" readonly="" value="1" style="">
+                                                        <span class="input-group-btn bootstrap-touchspin-injected" style="">
+                                                            <button class="btn btn-primary bootstrap-touchspin-up rounded-circle" type="button">+</button>
+                                                        </span>
+                                                    </div>
+
+                                                    <span class="ml-auto pt-4">@i.Price</span>
+                                                </div>
                                             </div>
+
+
                                         </li>
                                     }
                                 </ul>
@@ -65,17 +87,17 @@
                                     <div class="quantity-counter-wrapper">
                                         <div class="input-group bootstrap-touchspin" style="display: flex;position: relative;">
                                             <span class="input-group-btn bootstrap-touchspin-injected" style="">
-                                                <button class="btn btn-primary bootstrap-touchspin-down disabled-max-min" type="button">-</button>
+                                                <button class="btn btn-primary bootstrap-touchspin-down disabled-max-min rounded-circle" type="button">-</button>
                                             </span>
-                                            <input type="text" class="quantity-counter form-control" readonly value="1" style="">
+                                            <input type="text" class="quantity-counter form-control" readonly="" value="1" style="">
                                             <span class="input-group-btn bootstrap-touchspin-injected" style="">
-                                                <button class="btn btn-primary bootstrap-touchspin-up" type="button">+</button>
+                                                <button class="btn btn-primary bootstrap-touchspin-up rounded-circle" type="button">+</button>
                                             </span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <a style="background-color: #2d2929;" class="button" href="@Url.Action("Index","Order")">Add To Cart</a>
+                            <a style="background-color: #2d2929;" class="button" href="@Url.Action("Cart","Order")">Add To Cart</a>
                         </div>
                     </div>
                 </div>
@@ -88,7 +110,7 @@
     $(function () {
         $('.bootstrap-touchspin-up').on('click', function () {
             var s = parseInt($(this).parent().siblings('input').val()) + 1;
-                $(this).parent().siblings('input').val(s > 50 ? 50:s);
+            $(this).parent().siblings('input').val(s > 50 ? 50 : s);
         })
         $('.bootstrap-touchspin-down').on('click', function () {
             var s = parseInt($(this).parent().siblings('input').val()) - 1;

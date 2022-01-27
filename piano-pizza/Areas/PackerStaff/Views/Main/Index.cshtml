@@ -169,6 +169,7 @@
 <script>
     function GetProductsDetails(Id) {
         var response = getResponseFromUrl('Get', '/packerStaff/main/GetProducts?Id=' + Id, null, false);
+        response = response.responseJSON;
         if (response.code == 200) {
             var result = response.result;
             if (result.length > 0) {

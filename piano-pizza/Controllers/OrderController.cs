@@ -12,5 +12,26 @@ namespace piano_pizza.Controllers
         {
             return View();
         }
+
+        public IActionResult Cart()
+        {
+            return View();
+        }
+        public IActionResult History()
+        {
+            return View();
+        }
+        public IActionResult MyOrder()
+        {
+            return View();
+        }
+        public IActionResult HistoryOrderDetails()
+        {
+            return View();
+        }
+        public IActionResult MyOrderDetails()
+        {
+            return View();
+        }
     }
 }

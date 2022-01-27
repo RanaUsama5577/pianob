@@ -1,0 +1,255 @@
+﻿
+@{
+    ViewData["Title"] = "Cart";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/orderassets/assets/css/bootstrap.min.css" rel="stylesheet">
+<!-- Custom Stylesheet -->
+<link href="~/orderassets/assets/css/style.css" rel="stylesheet">
+<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+
+<div id="header-bottom-wrap" class="is-clearfix">
+    <div id="header-bottom" class="site-header-bottom">
+        <div id="header-bottom-inner" class="site-header-bottom-inner ">
+            <section class="hero slider is-clearfix ">
+                <div style="background-image: url('/app-images/home.jpg');background-repeat: no-repeat;background-size: cover;height: 200px;position: relative;background-position: center center;">
+                </div>
+                <div style="position: absolute;width: 100%;height: 100%;background-color: #000000;opacity: 0.5;transition: background 0.3s, border-radius 0.3s, opacity 0.3s;">
+                </div>
+                <div style="text-align: center;position: absolute;width: 100%;">
+                    <h2 style="color: #fff;font-size: 36px;margin-top: 138px;font-family: 'LIBRE FRANKLIN', sans-serif;" class="">Cart </h2>
+                </div>
+            </section>
+            <!-- .slider -->
+        </div>
+        <!-- #header-bottom-inner -->
+    </div>
+    <!-- #header-bottom -->
+</div>
+
+<div id="content-main-wrap" class="is-clearfix">
+    <div id="content-area" class="site-content-area">
+        <div id="content-area-inner" class="site-content-area-inner">
+
+
+            <div class="container py-5">
+                <div class="row">
+                    <div class="col-lg-8 col-md-12 col-12">
+
+                        <div class="row rounded p-3 shadow-sm">
+                            <div class="col-lg-5 col-md-12 col-12 d-flex justify-content-center">
+                                <img src="~/assets/images/pizza/pizza3.jpg" style="max-width:200px;max-height:200px" />
+                            </div>
+
+                            <div class="col-lg-7 col-md-12 col-12 d-flex flex-row">
+                                <div>
+                                    <p class="mb-0">Lazania Pizza</p>
+                                    <p>Thin Crust lazania pizza.</p>
+
+                                    <div class="flex-row d-flex mb-2">
+                                        <span>2 Qty</span>
+                                        <div class="input-group bootstrap-touchspin d-flex ml-3" style="display: flex;position: relative;">
+                                            <span class="input-group-btn bootstrap-touchspin-injected" style="">
+                                                <button class="btn btn-primary bootstrap-touchspin-down disabled-max-min rounded-circle" type="button">-</button>
+                                            </span>
+                                            <input type="text" class="quantity-counter form-control" readonly="" value="1" style="">
+                                            <span class="input-group-btn bootstrap-touchspin-injected" style="">
+                                                <button class="btn btn-primary bootstrap-touchspin-up rounded-circle" type="button">+</button>
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <button class="main-section-btn rounded mt-1">Update</button>
+                                    <button class="main-section-btn rounded mt-1" data-toggle="modal" data-target="#addIngredient">Ingredients</button>
+
+                                    <div class="flex-row mt-3">
+                                        <small class="text-muted"><b><i class="fas fa-circle font-8 mr-2"></i> Extra Mayo: </b></small> <small class="ml-2">2 Qty</small>
+                                    </div>
+                                    <div class="flex-row">
+                                        <small class="text-muted"><b><i class="fas fa-circle font-8 mr-2"></i>Extra Cheese: </b></small><small class="ml-2">1 Qty</small>
+                                    </div>
+
+                                    <div class="flex-row">
+                                        <small class="text-muted"><b><i class="fas fa-circle font-8 mr-2"></i>Extra Suase: </b></small><small class="ml-2">5 Qty</small>
+                                    </div>
+                                </div>
+                                <div class="ml-auto">
+                                    <span>$90</span>
+                                    <a class="ml-3"><i class="fas fa-times"></i></a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row rounded p-3 shadow-sm mt-2">
+                            <div class="col-lg-5 col-md-12 col-12 d-flex justify-content-center">
+                                <img src="~/assets/images/pizza/pizza3.jpg" style="max-width:200px;max-height:200px" />
+                            </div>
+
+                            <div class="col-lg-7 col-md-12 col-12 d-flex flex-row">
+                                <div>
+                                    <p class="mb-0">Lazania Pizza</p>
+                                    <p>Thin Crust lazania pizza.</p>
+
+                                    <div class="flex-row d-flex mb-2">
+                                        <span>2 Qty</span>
+                                        <div class="input-group bootstrap-touchspin d-flex ml-3" style="display: flex;position: relative;">
+                                            <span class="input-group-btn bootstrap-touchspin-injected" style="">
+                                                <button class="btn btn-primary bootstrap-touchspin-down disabled-max-min rounded-circle" type="button">-</button>
+                                            </span>
+                                            <input type="text" class="quantity-counter form-control" readonly="" value="1" style="">
+                                            <span class="input-group-btn bootstrap-touchspin-injected" style="">
+                                                <button class="btn btn-primary bootstrap-touchspin-up rounded-circle" type="button">+</button>
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <button class="main-section-btn rounded mt-1">Update</button>
+                                    <button class="main-section-btn rounded mt-1" data-toggle="modal" data-target="#addIngredient">Ingredients</button>
+
+                                    <div class="flex-row mt-3">
+                                        <small class="text-muted"><b><i class="fas fa-circle font-8 mr-2"></i> Extra Mayo: </b></small> <small class="ml-2">2 Qty</small>
+                                    </div>
+                                    <div class="flex-row">
+                                        <small class="text-muted"><b><i class="fas fa-circle font-8 mr-2"></i>Extra Cheese: </b></small><small class="ml-2">1 Qty</small>
+                                    </div>
+
+                                    <div class="flex-row">
+                                        <small class="text-muted"><b><i class="fas fa-circle font-8 mr-2"></i>Extra Suase: </b></small><small class="ml-2">5 Qty</small>
+                                    </div>
+                                </div>
+                                <div class="ml-auto">
+                                    <span>$90</span>
+                                    <a class="ml-3"><i class="fas fa-times"></i></a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row rounded p-3 shadow-sm mt-2">
+
+                            <div class="col-lg-5 col-md-12 col-12 d-flex justify-content-center">
+                                <img src="~/assets/images/pizza/pizza3.jpg" style="max-width:200px;max-height:200px" />
+                            </div>
+
+                            <div class="col-lg-7 col-md-12 col-12 d-flex flex-row">
+                                <div>
+                                    <p class="mb-0">Lazania Pizza</p>
+                                    <p>Thin Crust lazania pizza.</p>
+
+                                    <div class="flex-row d-flex mb-2">
+                                        <span>2 Qty</span>
+                                        <div class="input-group bootstrap-touchspin d-flex ml-3" style="display: flex;position: relative;">
+                                            <span class="input-group-btn bootstrap-touchspin-injected" style="">
+                                                <button class="btn btn-primary bootstrap-touchspin-down disabled-max-min rounded-circle" type="button">-</button>
+                                            </span>
+                                            <input type="text" class="quantity-counter form-control" readonly="" value="1" style="">
+                                            <span class="input-group-btn bootstrap-touchspin-injected" style="">
+                                                <button class="btn btn-primary bootstrap-touchspin-up rounded-circle" type="button">+</button>
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <button class="main-section-btn rounded mt-1">Update</button>
+                                    <button class="main-section-btn rounded mt-1" data-toggle="modal" data-target="#addIngredient">Ingredients</button>
+
+                                    <div class="flex-row mt-3">
+                                        <small class="text-muted"><b><i class="fas fa-circle font-8 mr-2"></i> Extra Mayo: </b></small> <small class="ml-2">2 Qty</small>
+                                    </div>
+                                    <div class="flex-row">
+                                        <small class="text-muted"><b><i class="fas fa-circle font-8 mr-2"></i>Extra Cheese: </b></small><small class="ml-2">1 Qty</small>
+                                    </div>
+
+                                    <div class="flex-row">
+                                        <small class="text-muted"><b><i class="fas fa-circle font-8 mr-2"></i>Extra Suase: </b></small><small class="ml-2">5 Qty</small>
+                                    </div>
+                                </div>
+                                <div class="ml-auto">
+                                    <span>$90</span>
+                                    <a class="ml-3"><i class="fas fa-times"></i></a>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="col-lg-4 col-md-12 col-12">
+                        <div class="p-3 shadow-sm">
+                            <h2 class="mb-2">Summary</h2>
+                            @*<span>Enter Promo Code<i class="fas fa-tag ml-2"></i></span>
+                                <input type="text" class="form-control w-100 mb-2" placeholder="Enter promo code" />*@
+
+                            <div class="d-flex flex-row">
+                                <p><b>Subtotal: </b></p>
+                                <span class="ml-auto">$90.00</span>
+                            </div>
+
+                            <div class="d-flex flex-row">
+                                <p><b>Delivery Charges: </b></p>
+                                <span class="ml-auto">$8.00</span>
+                            </div>
+
+                            <div class="d-flex flex-row">
+                                <p><b>Discounted Price: </b></p>
+
+                                <div class="ml-auto flex-column d-flex">
+                                    <span><del>$98.00</del></span>
+                                    <span>$80.00</span>
+                                </div>
+                            </div>
+
+                            <hr />
+                            <div class="d-flex flex-row">
+                                <p><b>Total: </b></p>
+                                <span class="ml-auto">$98.00</span>
+                            </div>
+
+                            <hr />
+
+                            <button class="main-section-btn rounded w-100 p-2">Checkout</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="modal fade bs-example-modal-md mt-5" style="opacity:1!important" id="addIngredient" tabindex="1" role="dialog" aria-labelledby="addIngredient" aria-hidden="true">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="formModal">Ingredients</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <input class="mt-1 mr-2" type="checkbox" id="topping" name="topping" value=""><label>Extra Topping:</label><span class="float-right">$25</span>
+                        </div>
+                        <div class="col-md-12">
+                            <input class="mt-1 mr-2" type="checkbox" id="topping" name="topping" value=""><label>Extra Topping:</label><span class="float-right">$25</span>
+                        </div>
+                        <div class="col-md-12">
+                            <input class="mt-1 mr-2" type="checkbox" id="topping" name="topping" value=""><label>Extra Topping:</label><span class="float-right">$25</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div><!-- /.modal -->
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.bootstrap-touchspin-up').on('click', function () {
+            var s = parseInt($(this).parent().siblings('input').val()) + 1;
+            $(this).parent().siblings('input').val(s > 50 ? 50 : s);
+        })
+        $('.bootstrap-touchspin-down').on('click', function () {
+            var s = parseInt($(this).parent().siblings('input').val()) - 1;
+            $(this).parent().siblings('input').val(s <= 1 ? 1 : s);
+        })
+    })
+</script>
