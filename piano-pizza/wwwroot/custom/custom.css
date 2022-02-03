@@ -281,10 +281,15 @@ header .site-logo .stickyImage{
     display: none;
 }
 
-header .main-navigation li a{
+header .main-navigation li > a{
     font-weight: 400;
     color: #fff !important;
 }
+header .main-navigation li .open-left li a {
+    font-weight: 400;
+    color: #797979 !important;
+}
+
 #header-wrap .hide-on-scroll  .main-navigation li a{
     font-weight: 400;
     color: rgb(41, 39, 39) !important;
@@ -316,18 +321,18 @@ header .main-navigation li a .headerBtn{
 header .main-navigation li a .languages{
     margin: 3px;
 }
-header .main-navigation li a .selectedLanguage{
+header .main-navigation li a .selectedLanguage {
     background: #ffffff;
     color: #101011 !important;
     padding: 7px;
-    border-radius: 50%;
+    border-radius: 23%;
 }
 
-#header-wrap .hide-on-scroll .main-navigation li a .selectedLanguage{
+#header-wrap .hide-on-scroll .main-navigation li a .selectedLanguage {
     background: #0f0f0f;
     color: #ffffff !important;
     padding: 7px;
-    border-radius: 50%;
+    border-radius: 23%;
 }
 
 #header-wrap .responsive-on-scroll .main-navigation li a .selectedLanguage{

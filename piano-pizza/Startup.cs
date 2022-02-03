@@ -120,15 +120,16 @@ namespace piano_pizza
                     name: "default",
                     pattern: "Cook/{controller=Main}/{action=Index}/{id?}");
 
-                endpoints.MapAreaControllerRoute(
-                    areaName: "Packer",
-                    name: "default",
-                    pattern: "Packer/{controller=Main}/{action=Index}/{id?}");
 
                 endpoints.MapAreaControllerRoute(
                     areaName: "PackerStaff",
                     name: "default",
                     pattern: "PackerStaff/{controller=Main}/{action=Index}/{id?}");
+
+                endpoints.MapAreaControllerRoute(
+                    areaName: "Driver",
+                    name: "default",
+                    pattern: "Driver/{controller=Main}/{action=Index}/{id?}");
 
                 endpoints.MapAreaControllerRoute(
                     areaName: "Receptionist",

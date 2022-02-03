@@ -8,7 +8,7 @@
     <div class="block-header">
         <div class="row">
             <div class="col-12">
-                <h5>@local.GetLocalizedHtmlString("DriverDetail")</h5>
+                <h5>@local.GetLocalizedHtmlString("Driver Detail")</h5>
             </div>
         </div>
     </div>
@@ -24,7 +24,7 @@
                             <button id="block" class="btn-sm btn-primary FilterButton rounded font-12 mt-2">@local.GetLocalizedHtmlString("Blocked")</button>
                             <button id="left" class="btn-sm btn-primary FilterButton rounded font-12 mt-2">@local.GetLocalizedHtmlString("Left")</button>
                         </div>
-                        <a href="/SuperAdmin/Staff/AddStaff?type=4" class="btn-sm btn-primary float-right text-white mt-n4" style="cursor:pointer">@local.GetLocalizedHtmlString("AddDriver")</a>
+                        <a href="/SuperAdmin/Staff/AddStaff?type=4" class="btn-sm btn-primary float-right text-white mt-n4" style="cursor:pointer">@local.GetLocalizedHtmlString("Add Driver")</a>
                     </div>
                     <div class="body">
                         <div class="table-responsive">
@@ -34,9 +34,9 @@
                                         <th>@local.GetLocalizedHtmlString("Branch")</th>
                                         <th>@local.GetLocalizedHtmlString("User")</th>
                                         <th>@local.GetLocalizedHtmlString("Gender")</th>
-                                        <th>@local.GetLocalizedHtmlString("PhoneNumber")</th>
-                                        <th class="text-center">@local.GetLocalizedHtmlString("AssignedOrders")</th>
-                                        <th>@local.GetLocalizedHtmlString("JoiningDate")</th>
+                                        <th>@local.GetLocalizedHtmlString("Phone Number")</th>
+                                        <th class="text-center">@local.GetLocalizedHtmlString("Assigned Orders")</th>
+                                        <th>@local.GetLocalizedHtmlString("Joining Date")</th>
                                         <th>@local.GetLocalizedHtmlString("Status")</th>
                                         <th class="text-center">@local.GetLocalizedHtmlString("Action")</th>
                                     </tr>
@@ -312,7 +312,7 @@
                 return new Promise(async function (resolve, reject) {
                     var response = getResponseFromUrl('GET', '/SuperAdmin/Users/LeftUser?id=' + doc_id);
                     if (response.code == 200) {
-                        TimerSweet("Staff Unblocked!", 'Staff is successfully fired', "success", 2000);
+                        TimerSweet("Staff Fired!", 'Staff is successfully fired', "success", 2000);
                         setTimeout(function () {
                             location.reload();
                         }, 2000);

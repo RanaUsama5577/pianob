@@ -7,7 +7,7 @@
     <div class="block-header">
         <div class="row">
             <div class="col-12">
-                <h5>@local.GetLocalizedHtmlString("CookDetail")</h5>
+                <h5>@local.GetLocalizedHtmlString("Cook Detail")</h5>
             </div>
         </div>
     </div>
@@ -23,7 +23,7 @@
                             <button id="block" class="btn-sm btn-primary FilterButton rounded font-12 mt-2">@local.GetLocalizedHtmlString("Blocked")</button>
                             <button id="left" class="btn-sm btn-primary FilterButton rounded font-12 mt-2">@local.GetLocalizedHtmlString("Left")</button>
                         </div>
-                        <a href="/SuperAdmin/Staff/AddStaff?type=2" class="btn-sm btn-primary float-right text-white mt-n4 " style="cursor:pointer">@local.GetLocalizedHtmlString("AddCook")</a>
+                        <a href="/SuperAdmin/Staff/AddStaff?type=2" class="btn-sm btn-primary float-right text-white mt-n4 " style="cursor:pointer">@local.GetLocalizedHtmlString("Add Cook")</a>
                     </div>
                     <div class="body">
                         <div class="table-responsive">
@@ -33,9 +33,9 @@
                                         <th>@local.GetLocalizedHtmlString("Branch")</th>
                                         <th>@local.GetLocalizedHtmlString("User")</th>
                                         <th>@local.GetLocalizedHtmlString("Gender")</th>
-                                        <th>@local.GetLocalizedHtmlString("PhoneNumber")</th>
-                                        <th class="text-center">@local.GetLocalizedHtmlString("AssignedOrders")</th>
-                                        <th>@local.GetLocalizedHtmlString("JoiningDate")</th>
+                                        <th>@local.GetLocalizedHtmlString("Phone Number")</th>
+                                        <th class="text-center">@local.GetLocalizedHtmlString("Assigned Orders")</th>
+                                        <th>@local.GetLocalizedHtmlString("Joining Date")</th>
                                         <th>@local.GetLocalizedHtmlString("Status")</th>
                                         <th class="text-center">@local.GetLocalizedHtmlString("Action")</th>
                                     </tr>
@@ -61,7 +61,7 @@
                                                 <td>@i.Gender</td>
                                                 <td>@i.Phone</td>
                                                 <td class="align-middle text-center">
-                                                    <a class="description" style="cursor:pointer" data-toggle="modal" data-target="#OrderDtls"><img src="~/admin-assets/images/piano/Bg-transparent/Page-2-Image-14-removebg-preview.png" height="35" /></a>
+                                                    <a class="description" style="cursor:pointer"><img src="~/admin-assets/images/piano/Bg-transparent/Page-2-Image-14-removebg-preview.png" height="35" /></a>
                                                 </td>
                                                 <td>@i.JoiningDate</td>
                                                 <td>
@@ -163,8 +163,8 @@
                             <table class="table js-basic-example dataTable">
                                 <thead class="no-wrap">
                                     <tr>
-                                        <th>@local.GetLocalizedHtmlString("OrderId")</th>
-                                        <th class="text-center">@local.GetLocalizedHtmlString("ProductsDetail")</th>
+                                        <th>@local.GetLocalizedHtmlString("Order Id")</th>
+                                        <th class="text-center">@local.GetLocalizedHtmlString("Products Detail")</th>
                                         <th data-breakpoints="xs">@local.GetLocalizedHtmlString("Amount")</th>
                                         <th data-breakpoints="xs">@local.GetLocalizedHtmlString("Datetime")</th>
                                     </tr>
@@ -193,7 +193,7 @@
 
                                 </tbody>
                                 <tfoot>
-                                    <tr><th rowspan="1" colspan="3">@local.GetLocalizedHtmlString("TotalBill")</th><th rowspan="1" colspan="1">$31.00</th></tr>
+                                    <tr><th rowspan="1" colspan="3">@local.GetLocalizedHtmlString("Total Bill")</th><th rowspan="1" colspan="1">$31.00</th></tr>
                                 </tfoot>
                             </table>
                         </div>
@@ -206,7 +206,7 @@
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="formModal">@local.GetLocalizedHtmlString("ProductsDetail")</h5>
+                        <h5 class="modal-title" id="formModal">@local.GetLocalizedHtmlString("Products Detail")</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">×</span>
                         </button>
@@ -217,7 +217,7 @@
                                 <thead class="no-wrap">
                                     <tr>
                                         <th>@local.GetLocalizedHtmlString("Image")</th>
-                                        <th>@local.GetLocalizedHtmlString("ProductName")</th>
+                                        <th>@local.GetLocalizedHtmlString("Product Name")</th>
                                         <th data-breakpoints="sm xs">@local.GetLocalizedHtmlString("Detail")</th>
                                         <th data-breakpoints="sm xs" class="text-center">@local.GetLocalizedHtmlString("Ingredients")</th>
                                         <th data-breakpoints="xs">@local.GetLocalizedHtmlString("Quantity")</th>
@@ -263,7 +263,7 @@
 
                                 </tbody>
                                 <tfoot>
-                                    <tr><th rowspan="1" colspan="5">@local.GetLocalizedHtmlString("TotalBill")</th><th rowspan="1" colspan="1">$31.00</th></tr>
+                                    <tr><th rowspan="1" colspan="5">@local.GetLocalizedHtmlString("Total Bill")</th><th rowspan="1" colspan="1">$31.00</th></tr>
                                 </tfoot>
                             </table>
                         </div>

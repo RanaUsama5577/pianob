@@ -14,7 +14,7 @@
     </div>
     <div class="container-fluid">
         <div class="row">
-            @if (Model.OrderDetails.Count > 0 && Model.OrderDetails.Any(p=>p.WorkerStatus != Entities.Enum.WorkerStatus.Working))
+            @if (Model.OrderDetails.Count() > 0 && !Model.OrderDetails.Any(p => p.WorkerStatus == Entities.Enum.WorkerStatus.Working))
             {
                 <div class="col-12">
                     <button onclick="StartOrder()" class="btn btn-primary mb-4 px-5 bg-black font-19"><img src="~/admin-assets/images/cooking (1).png" height="20" />Start Order</button>
@@ -74,7 +74,10 @@
                                             <span>Amount: $@i.TotalPrice</span>
                                             <span class="text-warning ml-auto">In-process</span>
                                         </div>
-
+                                        <div class="pw_meta" style="padding-top: 0px;" >
+                                            <span id="Timer"></span>
+                                        </div>
+                                        <input type="hidden" class="Timers" id="start-@i.Id" value="@i.StartTime"/>
                                     </div>
                                 </div>
                             </div>
@@ -165,7 +168,67 @@
     $('#Dash').addClass('active');
     $('#Dash').addClass('open');
 </script>
+<script>
+    $(function () {
+        $('.Timers').each(function (index, obj) {
+            var s = $(obj).val();
+            s = new Date(s);
+            var newTime = new Date();
+            var different = newTime.getTime() - s.getTime();
 
+            console.log("startDate : " + s);
+            console.log("endDate : " + newTime);
+            console.log("different : " + different);
+
+            var secondsInMilli = 1000;
+            var minutesInMilli = secondsInMilli * 60;
+            var hoursInMilli = minutesInMilli * 60;
+
+            var elapsedHours = different / hoursInMilli;
+            different = different % hoursInMilli;
+
+            var elapsedMinutes = different / minutesInMilli;
+            different = different % minutesInMilli;
+            elapsedMinutes += parseInt(elapsedHours) * 60;
+            var elapsedSeconds = different / secondsInMilli;
+            console.log("%d hours, %d minutes, %d seconds%n",
+                elapsedHours, elapsedMinutes, elapsedSeconds);
+            var objectToUpdate = $(obj).siblings('.pw_meta').find('#Timer');
+            startTimer(elapsedMinutes, elapsedSeconds, objectToUpdate);
+        })
+    })
+    function startTimer(duration, elapsedSeconds, display) {
+        var timer = duration * 60;
+        var seconds = elapsedSeconds;
+        var hours = 0;
+        var minutes = duration;
+        var count = 0;
+        setInterval(function () {
+            console.log("timer", timer);
+            minutes = parseInt(timer / 60, 10);
+            seconds = parseInt(timer % 60, 10);
+            if (minutes > 60) {
+                hours = parseInt(minutes / 60);
+                hours = hours < 10 ? "0" + hours : hours;
+            }
+            minutes = minutes < 10 ? "0" + minutes : minutes;
+            seconds = seconds < 10 ? "0" + seconds : seconds;
+            var displayMinutes = parseInt(minutes);
+            displayMinutes = displayMinutes > 60 ? displayMinutes % 60 : displayMinutes;
+            if (hours > 0) {
+                $(display).html(hours + ":" + displayMinutes + ":" + seconds);
+            }
+            else {
+                $(display).html(displayMinutes + ":" + seconds);
+            }
+
+            if (++timer < 0) {
+                timer = minutes;
+            }
+            count++;
+        }, 1000);
+    }
+</script>
 <script>
     function GetProductsDetails(Id) {
         var response = getResponseFromUrl2('Get', '/cook/main/GetProducts?Id=' + Id, null, false);

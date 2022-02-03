@@ -7,7 +7,7 @@ namespace Entities
 {
     public class Enum
     {
-        public enum OrderType
+        public enum OrderStatus
         {
             Waiting,
             Cooking,
@@ -26,7 +26,7 @@ namespace Entities
             Completed,
         }
 
-        public enum OrderType2
+        public enum OrderType
         {
             Delivery,
             Takeway,

@@ -19,7 +19,8 @@ namespace DAL.Orders
         public string Address { get; set; }
         public decimal Latitude { get; set; }
         public decimal Longitude { get; set; }
-        public OrderType Status { get; set; }
+        public OrderStatus Status { get; set; }
+        public OrderType Type { get; set; }
 
         [ForeignKey("UserObject")]
         public string UserId { get; set; }

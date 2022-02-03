@@ -40,10 +40,9 @@ namespace piano_pizza.Areas.Receptionist.Controllers
        
         public ActionResult PlaceOrder()
         {
-            var products = admin.GetProducts();
-            var cats = admin.GetCategories();
-            var ingrednients = admin.GetIngredient();
-            cats = cats.Where(p => p.Status == Entities.Enum.EntityStatus.Active).ToList();
+            var products = admin.GetStaffProducts(userManager1.GetUserId(HttpContext.User));
+            var cats = admin.GetStaffCategories(userManager1.GetUserId(HttpContext.User));
+            var ingrednients = admin.GetStaffIngredient(userManager1.GetUserId(HttpContext.User));
             products = products.Where(p => p.Status == Entities.Enum.EntityStatus.Active).ToList();
             ViewBag.Categories = new SelectList(cats.ToList(), "Id", "Name");
             ViewBag.Products = products.ToList();

@@ -1,4 +1,6 @@
 ﻿using BLL.AdminService;
+using Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using piano_pizza.Models;
@@ -49,5 +51,6 @@ namespace piano_pizza.Controllers
             var appInfo = admin.GetAppInfo();
             return Json(appInfo);
         }
+
     }
 }

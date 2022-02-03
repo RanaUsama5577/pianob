@@ -8,7 +8,7 @@
         <div class="row">
             <div class="col-12">
                 <h2>
-                    @local.GetLocalizedHtmlString("ProductDetails")
+                    @local.GetLocalizedHtmlString("Product Details")
                 </h2>
             </div>
         </div>
@@ -33,7 +33,7 @@
                             <table class="table js-basic-example dataTable">
                                 <thead class="no-wrap">
                                     <tr>
-                                        <th>@local.GetLocalizedHtmlString("ProductName")</th>
+                                        <th>@local.GetLocalizedHtmlString("Product Name")</th>
                                         <th>@local.GetLocalizedHtmlString("Logo")</th>
                                         <th>@local.GetLocalizedHtmlString("Image")</th>
                                         <th>@local.GetLocalizedHtmlString("Category")</th>
@@ -242,13 +242,13 @@
                                 </div>
                                 <div id="SelectBranch" class="col-md-6">
                                     <div class="form-group">
-                                        <label>@local.GetLocalizedHtmlString("SelectBranch")</label>
+                                        <label>@local.GetLocalizedHtmlString("Select Branch")</label>
                                         @Html.DropDownList("BranchId", (IEnumerable<SelectListItem>)ViewBag.Branches, new { @class = "form-group form-float show-tick w-100 border-light", onchange = "ShowCategories()" })
                                     </div>
                                 </div>
                                 <div id="SelectBranch" class="col-md-6">
                                     <div class="form-group">
-                                        <label>@local.GetLocalizedHtmlString("SelectCategory")</label>
+                                        <label>@local.GetLocalizedHtmlString("Select Category")</label>
                                         <select id="CategoryId" name="CategoryId" class="form-group form-float show-tick w-100 border-light">
                                         </select>
                                     </div>

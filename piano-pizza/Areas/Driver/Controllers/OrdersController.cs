@@ -15,7 +15,7 @@ using System.IO;
 
 namespace piano_pizza.Areas.Driver.Controllers
 {
-    //[Area("Driver")]
+    [Area("Driver")]
     [Authorize(Roles = "Driver")]
     public class OrdersController : Controller
     {

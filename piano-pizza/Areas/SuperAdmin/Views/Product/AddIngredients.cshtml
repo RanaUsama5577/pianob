@@ -7,7 +7,7 @@
         <div class="row">
             <div class="col-12">
                 <h2>
-                    @local.GetLocalizedHtmlString("AddIngredients")<img src="~/admin-assets/images/piano/Bg-transparent/Ingredient-removebg-preview.png" height="30" class="ml-2" />
+                    @local.GetLocalizedHtmlString("Add Ingredients")<img src="~/admin-assets/images/piano/Bg-transparent/Ingredient-removebg-preview.png" height="30" class="ml-2" />
                 </h2>
             </div>
         </div>
@@ -23,20 +23,20 @@
                                 <div class="row mt-4">
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label>@local.GetLocalizedHtmlString("SelectBranch")*</label>
+                                            <label>@local.GetLocalizedHtmlString("Select Branch")*</label>
                                             @Html.DropDownList("BranchId", (IEnumerable<SelectListItem>)ViewBag.Branches, new { @class = "form-group form-float selectLists show-tick w-100 border-light", onchange = "ShowCategories()" })
                                         </div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label>@local.GetLocalizedHtmlString("SelectCategory")*</label>
+                                            <label>@local.GetLocalizedHtmlString("Select Category")*</label>
                                             <select id="CategoryId" name="CategoryId" class="form-group selectLists form-float show-tick w-100 border-light" onchange="ShowProducts()">
                                             </select>
                                         </div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label>@local.GetLocalizedHtmlString("SelectProduct")</label>
+                                            <label>@local.GetLocalizedHtmlString("Select Product")</label>
                                             <select id="ProductId" name="ProductId" class="form-group  form-float show-tick w-100 border-light">
                                             </select>
                                         </div>

@@ -29,30 +29,29 @@
                                 <thead class="no-wrap">
                                     <tr>
                                         <th>Order Id</th>
-                                        <th>Customer Name</th>
                                         <th>Email</th>
-                                        <th>Phone</th>
-                                        <th>Products Detail</th>
                                         <th data-breakpoints="sm xs">Datetime</th>
                                         <th data-breakpoints="sm xs">Amount</th>
+                                        <th>Products Detail</th>
+                                        <th>Elapsed Time</th>
+                                        <th>Start Time</th>
+                                        <th>End Time</th>
                                     </tr>
                                 </thead>
-
                                 <tbody class="no-wrap">
                                     @foreach (var i in Model)
                                     {
                                         <tr data-row="1">
                                             <td>#@i.OrderId</td>
-                                            <td>
-                                                <span class="w-space-no ml-2">@i.Username</span>
-                                            </td>
                                             <td>@i.UserEmail</td>
-                                            <td>@i.PhoneNumber</td>
+                                            <td class="align-middle">@i.CreatedAt</td>
+                                            <td class="align-middle">$@i.TotalPrice</td>
                                             <td class="align-middle text-center">
                                                 <a class="description" style="cursor:pointer" onclick="GetProductsDetails(@i.Id)"><img src="~/admin-assets/images/piano/Bg-transparent/Page-2-Image-14-removebg-preview.png" height="35" /></a>
                                             </td>
-                                            <td class="align-middle">@i.CreatedAt</td>
-                                            <td class="align-middle">$@i.TotalPrice</td>
+                                            <td class="align-middle">@i.ElaspedTime</td>
+                                            <td class="align-middle">@i.StartTime</td>
+                                            <td class="align-middle">@i.EndTime</td>
                                         </tr>
                                     }
                                 </tbody>

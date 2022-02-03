@@ -20,6 +20,7 @@ namespace BLL.AdminService
         Task<ResponseDto> ResetPassword([FromForm] ResetPasswordVMS model);
         List<ProfileDtos> GetStaffUsers(UserType userType, string userid);
         List<ProfileDtos> GetAllStaffUsers(string userid);
+        List<StaffOrderReports> GetOrderStaffReports(int Id);
         Task<ResponseDto> CreateAdmin();
         Task<ResponseDto> AddStaff(AddStaffDtos modal);
         Task<ResponseDto> Login(LoginViewModel LoginUser);
@@ -47,6 +48,7 @@ namespace BLL.AdminService
         ResponseDto UnBlockBranch(int Id);
         ResponseDto LeftUser(string Id);
         List<CategoryVms> GetCategories();
+        List<CategoryVms> GetStaffCategories(string userId);
         ResponseDto AddOrUpdateCategory(CategoryAddVms modal);
         ResponseDto DeleteCategory(int Id);
         ResponseDto UnBlockCategory(int Id);
@@ -61,6 +63,7 @@ namespace BLL.AdminService
         ResponseDto DeleteProductImage(int Id);
         ResponseDto AddIngredients(IngredientAddVms modal);
         List<IngredientListVms> GetIngredient();
+        List<IngredientListVms> GetStaffIngredient(string userId);
         ResponseDto UnBlockIngredient(int Id);
         ResponseDto BlockIngredient(int Id);
         ResponseDto DeleteIngredient(int Id);
@@ -82,5 +85,7 @@ namespace BLL.AdminService
         ResponseDto MarkOrderAsPacked(int orderId,string userId);
         ResponseDto AssignPerson(int orderId,string userId);
         List<GetOrderdetails> StaffCompletedOrders(string userId);
+        ResponseDto StartDeliveringOrder(string userId, int orderId);
+        ResponseDto MarkOrderAsDelivered(int orderId, string userId);
     }
 }

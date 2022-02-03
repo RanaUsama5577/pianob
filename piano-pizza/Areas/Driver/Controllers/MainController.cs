@@ -15,7 +15,7 @@ using System.IO;
 
 namespace piano_pizza.Areas.Driver.Controllers
 {
-    //[Area("Driver")]
+    [Area("Driver")]
     [Authorize (Roles = "Driver")]
     public class MainController : Controller
     {
@@ -47,15 +47,15 @@ namespace piano_pizza.Areas.Driver.Controllers
             return Json(responseDto);
         }
         
-        public ActionResult StartOrder()
+        public ActionResult StartOrder(int Id)
         {
-            var res = admin.StartFirstOrder(userManager1.GetUserId(HttpContext.User));
+            var res = admin.StartDeliveringOrder(userManager1.GetUserId(HttpContext.User), Id);
             return Json(res);
         }
 
-        public ActionResult MarkOrderAsCooked(int Id)
+        public ActionResult MarkOrderAsDelivered(int Id)
         {
-            var res = admin.MarkOrderAsCooked(Id, userManager1.GetUserId(HttpContext.User));
+            var res = admin.MarkOrderAsDelivered(Id, userManager1.GetUserId(HttpContext.User));
             return Json(res);
         }
 

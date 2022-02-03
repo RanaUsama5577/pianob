@@ -47,11 +47,10 @@
                                         <th data-breakpoints="sm xs">Status</th>
                                     </tr>
                                 </thead>
-
                                 <tbody class="no-wrap">
                                     @foreach (var i in Model)
                                     {
-                                        if (i.Status == Entities.Enum.OrderType.Waiting)
+                                        if (i.Status == Entities.Enum.OrderStatus.Waiting)
                                         {
                                             <tr data-row="1">
                                                 <td>#@i.OrderId</td>
@@ -70,11 +69,11 @@
                                                 <td class="align-middle">$@i.TotalPrice</td>
                                                 <td class="align-middle">
                                                     <span class="text-warning">Waiting </span>
-                                                    <a onclick="AssignStaff('@Entities.Enum.UserType.Cook',@i.OrderId,@i.Id)" style="cursor:pointer" title="Assign Cook" data-toggle="tooltip" class="bg-white text-secondary border-0  rounded fas fa-user-tie text-white"></a>
+                                                    <a onclick="AssignStaff('@Entities.Enum.UserType.Cook','@i.OrderId',@i.Id)" style="cursor:pointer" title="Assign Cook" data-toggle="tooltip" class="bg-white text-secondary border-0  rounded fas fa-user-tie text-white"></a>
                                                 </td>
                                             </tr>
                                         }
-                                        else if (i.Status == Entities.Enum.OrderType.Cooking)
+                                        else if (i.Status == Entities.Enum.OrderStatus.Cooking)
                                         {
                                             <tr data-row="2">
                                                 <td>#@i.OrderId</td>
@@ -93,11 +92,11 @@
                                                 <td class="align-middle">$@i.TotalPrice</td>
                                                 <td class="align-middle">
                                                     <span class="col-cyan">Cooking</span>
-                                                    <a onclick="AssignStaff('@Entities.Enum.UserType.Cook',@i.OrderId,@i.Id)" style="cursor:pointer" title="Assign Cook" data-toggle="tooltip" class="bg-white text-secondary border-0  rounded fas fa-user-tie text-white"></a>
+                                                    <a onclick="AssignStaff('@Entities.Enum.UserType.Cook','@i.OrderId',@i.Id)" style="cursor:pointer" title="Assign Cook" data-toggle="tooltip" class="bg-white text-secondary border-0  rounded fas fa-user-tie text-white"></a>
                                                 </td>
                                             </tr>
                                         }
-                                        else if (i.Status == Entities.Enum.OrderType.ReadyForPacking)
+                                        else if (i.Status == Entities.Enum.OrderStatus.ReadyForPacking)
                                         {
                                             <tr data-row="3">
                                                 <td>#@i.OrderId</td>
@@ -116,11 +115,11 @@
                                                 <td class="align-middle">$@i.TotalPrice</td>
                                                 <td class="align-middle">
                                                     <span class="col-light-blue">Ready for Pack </span>
-                                                    <a onclick="AssignStaff('@Entities.Enum.UserType.Packer',@i.OrderId,@i.Id)" style="cursor:pointer" title="Assign Packer" data-toggle="tooltip" class="bg-white text-secondary border-0  rounded fas fa-user-tie text-white"></a>
+                                                    <a onclick="AssignStaff('@Entities.Enum.UserType.Packer','@i.OrderId',@i.Id)" style="cursor:pointer" title="Assign Packer" data-toggle="tooltip" class="bg-white text-secondary border-0  rounded fas fa-user-tie text-white"></a>
                                                 </td>
                                             </tr>
                                         }
-                                        else if (i.Status == Entities.Enum.OrderType.Packing)
+                                        else if (i.Status == Entities.Enum.OrderStatus.Packing)
                                         {
                                             <tr data-row="4">
                                                 <td>#@i.OrderId</td>
@@ -130,7 +129,7 @@
                                                 <td>@i.UserEmail</td>
                                                 <td>@i.PhoneNumber</td>
                                                 <td class="align-middle text-center">
-                                                    <a class="description" style="cursor:pointer" data-toggle="modal" data-target="#PrdDtls"><img src="~/admin-assets/images/piano/Bg-transparent/Page-2-Image-14-removebg-preview.png" height="35" /></a>
+                                                    <a class="description" style="cursor:pointer" onclick="GetProductsDetails(@i.Id)"><img src="~/admin-assets/images/piano/Bg-transparent/Page-2-Image-14-removebg-preview.png" height="35" /></a>
                                                 </td>
                                                 <td>
                                                     <span class="w-space-no ml-2 text-warning">@i.AssigneeName</span>
@@ -139,11 +138,11 @@
                                                 <td class="align-middle">$@i.TotalPrice</td>
                                                 <td class="align-middle">
                                                     <span class="col-light-blue">Packing </span>
-                                                    <a onclick="AssignStaff('@Entities.Enum.UserType.Packer',@i.OrderId,@i.Id)" style="cursor:pointer" title="Assign Packer" data-toggle="tooltip" class="bg-white text-secondary border-0  rounded fas fa-user-tie text-white"></a>
+                                                    <a onclick="AssignStaff('@Entities.Enum.UserType.Packer','@i.OrderId',@i.Id)" style="cursor:pointer" title="Assign Packer" data-toggle="tooltip" class="bg-white text-secondary border-0  rounded fas fa-user-tie text-white"></a>
                                                 </td>
                                             </tr>
                                         }
-                                        else if (i.Status == Entities.Enum.OrderType.ReadyToDeliver)
+                                        else if (i.Status == Entities.Enum.OrderStatus.ReadyToDeliver)
                                         {
                                             <tr data-row="5">
                                                 <td>#@i.OrderId</td>
@@ -153,7 +152,7 @@
                                                 <td>@i.UserEmail</td>
                                                 <td>@i.PhoneNumber</td>
                                                 <td class="align-middle text-center">
-                                                    <a class="description" style="cursor:pointer" data-toggle="modal" data-target="#PrdDtls"><img src="~/admin-assets/images/piano/Bg-transparent/Page-2-Image-14-removebg-preview.png" height="35" /></a>
+                                                    <a class="description" style="cursor:pointer" onclick="GetProductsDetails(@i.Id)"><img src="~/admin-assets/images/piano/Bg-transparent/Page-2-Image-14-removebg-preview.png" height="35" /></a>
                                                 </td>
                                                 <td>
                                                     <span class="w-space-no ml-2 text-warning">Unassigned</span>
@@ -162,11 +161,11 @@
                                                 <td class="align-middle">$@i.TotalPrice</td>
                                                 <td class="align-middle">
                                                     <span class="text-primary">Ready To Deliver</span>
-                                                    <a onclick="AssignStaff('@Entities.Enum.UserType.Driver',@i.OrderId,@i.Id)" style="cursor:pointer" title="Assign Packer" data-toggle="tooltip" class="bg-white text-secondary border-0  rounded fas fa-user-tie text-white"></a>
+                                                    <a onclick="AssignStaff('@Entities.Enum.UserType.Driver','@i.OrderId',@i.Id)" style="cursor:pointer" title="Assign Packer" data-toggle="tooltip" class="bg-white text-secondary border-0  rounded fas fa-user-tie text-white"></a>
                                                 </td>
                                             </tr>
                                         }
-                                        else if (i.Status == Entities.Enum.OrderType.OnTheWay)
+                                        else if (i.Status == Entities.Enum.OrderStatus.OnTheWay)
                                         {
                                             <tr data-row="6">
                                                 <td>#@i.OrderId</td>
@@ -176,7 +175,7 @@
                                                 <td>@i.UserEmail</td>
                                                 <td>@i.PhoneNumber</td>
                                                 <td class="align-middle text-center">
-                                                    <a class="description" style="cursor:pointer" data-toggle="modal" data-target="#PrdDtls"><img src="~/admin-assets/images/piano/Bg-transparent/Page-2-Image-14-removebg-preview.png" height="35" /></a>
+                                                    <a class="description" style="cursor:pointer" onclick="GetProductsDetails(@i.Id)"><img src="~/admin-assets/images/piano/Bg-transparent/Page-2-Image-14-removebg-preview.png" height="35" /></a>
                                                 </td>
                                                 <td>
                                                     <span class="w-space-no ml-2 text-warning">@i.AssigneeName</span>
@@ -188,7 +187,7 @@
                                                 </td>
                                             </tr>
                                         }
-                                        else if (i.Status == Entities.Enum.OrderType.Delivered)
+                                        else if (i.Status == Entities.Enum.OrderStatus.Delivered)
                                         {
                                             <tr data-row="7">
                                                 <td>#@i.OrderId</td>
@@ -198,7 +197,7 @@
                                                 <td>@i.UserEmail</td>
                                                 <td>@i.PhoneNumber</td>
                                                 <td class="align-middle text-center">
-                                                    <a class="description" style="cursor:pointer" data-toggle="modal" data-target="#PrdDtls"><img src="~/admin-assets/images/piano/Bg-transparent/Page-2-Image-14-removebg-preview.png" height="35" /></a>
+                                                    <a class="description" style="cursor:pointer" onclick="GetProductsDetails(@i.Id)"><img src="~/admin-assets/images/piano/Bg-transparent/Page-2-Image-14-removebg-preview.png" height="35" /></a>
                                                 </td>
                                                 <td>
                                                     <span class="w-space-no ml-2 text-warning">-</span>
@@ -210,7 +209,7 @@
                                                 </td>
                                             </tr>
                                         }
-                                        else if (i.Status == Entities.Enum.OrderType.Cancelled)
+                                        else if (i.Status == Entities.Enum.OrderStatus.Cancelled)
                                         {
                                             <tr data-row="8">
                                                 <td>#@i.OrderId</td>
@@ -220,7 +219,7 @@
                                                 <td>@i.UserEmail</td>
                                                 <td>@i.PhoneNumber</td>
                                                 <td class="align-middle text-center">
-                                                    <a class="description" style="cursor:pointer" data-toggle="modal" data-target="#PrdDtls"><img src="~/admin-assets/images/piano/Bg-transparent/Page-2-Image-14-removebg-preview.png" height="35" /></a>
+                                                    <a class="description" style="cursor:pointer"onclick="GetProductsDetails(@i.Id)"><img src="~/admin-assets/images/piano/Bg-transparent/Page-2-Image-14-removebg-preview.png" height="35" /></a>
                                                 </td>
                                                 <td>
                                                     <span class="w-space-no ml-2 text-warning">-</span>
@@ -266,7 +265,7 @@
                         </div>
 
                         <div>
-                            <button onclick="AssignFunction()" class="btn btn-success float-right right">Assign</button>
+                            <button onclick="AssignFunction(this)" class="btn btn-success float-right right">Assign</button>
                         </div>
 
                     </div>
@@ -346,14 +345,18 @@
         </div>
     </div>
 
-        <select id="UserSelect">
-            @foreach (var i in (IEnumerable<Entities.ProfileDtos>)ViewBag.Users)
-            {
-                <optgroup label="@i.Role">
-                    <option data-id="@i.Id" value="@i.Id">@i.Email</option>
-                </optgroup>
-            }
-        </select>
+        <div style="display:none;">
+            <select id="UserSelect">
+                @foreach (var i in (IEnumerable<Entities.ProfileDtos>)ViewBag.Users)
+                {
+                    <optgroup label="@i.Role">
+                        <option data-id="@i.Id" value="@i.Id">@i.Email</option>
+                    </optgroup>
+                }
+            </select>
+        </div>
+        
+    </div>
 </section>
 
 <script>
@@ -472,6 +475,7 @@
 <script>
     function GetProductsDetails(Id) {
         var response = getResponseFromUrl('Get', '/receptionist/Orders/GetProducts?Id=' + Id, null, false);
+        response = response.responseJSON;
         if (response.code == 200) {
             var result = response.result;
             var count = 0;
@@ -533,7 +537,6 @@
         }
         $('#ingredients').modal('show');
     }
-
     function AssignStaff(num, OrderId, Id) {
         $('#UserAppend').selectpicker('destroy');
         var s = $('#UserSelect > optgroup[label="' + num + '"] > option').clone();
@@ -544,12 +547,15 @@
         $('#UserAppend').select2();
         $('#assignOrder').modal('show');
     }
-    function AssignFunction() {
+    async function AssignFunction(element) {
         var userSelect = $('#UserAppend').val();
         var orderId = $('#TempId').val();
-        var response = getResponseFromUrl('Get', '/receptionist/Orders/AssignPerson?Id=' + orderId + '&userId=' + userSelect, null, false);
+        $(element).addClass('btn-progress');
+        var response = await getResponseFromUrl('Get', '/receptionist/Orders/AssignPerson?Id=' + orderId + '&userId=' + userSelect, null, true);
         if (response.code == 200) {
             MixinSweet("Successfully assigned", "", "success", 2000);
+            $(element).removeClass('btn-progress');
+            $('#assignOrder').modal('hide');
             setTimeout(function () {
                 location.reload();
             }, 1000);
@@ -563,20 +569,20 @@
 <script>
     var getResponseFromUrl = function (requestType, requestUrl, requestData, async) {
         var response;
-        $.ajax({
+        return $.ajax({
             type: requestType,
             url: requestUrl,
             data: requestData,
-            async: false,
+            async: async,
             processData: false,
             contentType: false,
             success: function (data) {
                 response = data;
+                return response;
             },
             error: function (error) {
                 return error;
             },
         });
-        return response;
     }
 </script>

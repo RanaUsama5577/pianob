@@ -1,4 +1,7 @@
-﻿.select2-container {
+﻿.cursor-pointer{
+    cursor:pointer;
+}
+.select2-container {
     width: 100% !important;
 }
 .btn-progress {
@@ -75,7 +78,4 @@
 }
 .none_border{
     border:none;
-}
-.modal {
-    top: 51px!important;
 }

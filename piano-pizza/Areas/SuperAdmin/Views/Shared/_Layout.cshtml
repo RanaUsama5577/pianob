@@ -2,8 +2,6 @@
 @inject piano_pizza.Resources.LocalizationService local
 <!doctype html>
 <html class="no-js " lang="en">
-
-<!-- Mirrored from www.wrraptheme.com/templates/compass/html/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 29 Sep 2021 10:47:42 GMT -->
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
@@ -12,29 +10,30 @@
     <title>Pionob</title>
     <link rel="icon" href="/admin-assets/images/piano/cropped-b-black-180x180.png"> <!-- Favicon-->
 
-    <link href="~/admin-assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="/admin-assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
 
-    <link href="~/admin-assets/plugins/jvectormap/jquery-jvectormap-2.0.3.min.css" rel="stylesheet" />
+    <link href="/admin-assets/plugins/jvectormap/jquery-jvectormap-2.0.3.min.css" rel="stylesheet" />
 
-    <link href="~/admin-assets/plugins/bootstrap-select/css/bootstrap-select.css" rel="stylesheet" />
+    <link href="/admin-assets/plugins/bootstrap-select/css/bootstrap-select.css" rel="stylesheet" />
 
-    <link href="~/admin-assets/plugins/jquery-datatable/dataTables.bootstrap4.min.css" rel="stylesheet" />
+    <link href="/admin-assets/plugins/jquery-datatable/dataTables.bootstrap4.min.css" rel="stylesheet" />
 
-    <link href="~/admin-assets/plugins/light-gallery/css/lightgallery.css" rel="stylesheet" />
+    <link href="/admin-assets/plugins/light-gallery/css/lightgallery.css" rel="stylesheet" />
 
-    <link href="~/admin-assets/plugins/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css" rel="stylesheet" />
+    <link href="/admin-assets/plugins/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css" rel="stylesheet" />
 
-    <link href="~/admin-assets/css/sweetalert2.min.css" rel="stylesheet" />
+    <link href="/admin-assets/css/sweetalert2.min.css" rel="stylesheet" />
     <!-- JQuery DataTable Css -->
-    <link href="~/admin-assets/css/image-uploader.min.css" rel="stylesheet" />
-    <link href="~/fileuploader/file-upload-with-preview.min.css" rel="stylesheet" />
-    <link href="~/admin-assets/css/main.css" rel="stylesheet" />
-    <link href="~/admin-assets/css/color_skins.css" rel="stylesheet" />
-    <link href="~/admin-assets/css/custom.css" rel="stylesheet" />
+    <link href="/admin-assets/css/image-uploader.min.css" rel="stylesheet" />
+    <link href="/fileuploader/file-upload-with-preview.min.css" rel="stylesheet" />
+    <link href="/admin-assets/css/main.css" rel="stylesheet" />
+    <link href="/admin-assets/css/color_skins.css" rel="stylesheet" />
+    <link href="/admin-assets/css/custom.css" rel="stylesheet" />
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css" integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-    <script src="~/admin-assets/bundles/libscripts.bundle.js"></script> <!-- Lib Scripts Plugin Js ( jquery.v3.2.1, Bootstrap4 js) -->
+    <script src="~/admin-assets/bundles/libscripts.bundle.js"></script> 
+
 
 </head>
 <body class="theme-black">
@@ -104,21 +103,21 @@
 
                 <li class="header">@local.GetLocalizedHtmlString("Management")</li>
                 <li id="Usr">
-                    <a href="/SuperAdmin/Users/Detail"><i class="fas fa-users"></i><span>@local.GetLocalizedHtmlString("Users")</span> </a>
+                    <a href="/SuperAdmin/Users/Detail"><i class="fas fa-users"></i><span>@local.GetLocalizedHtmlString("Customers")</span> </a>
                 </li>
 
                 <li>
                     <a id="staff" href="javascript:void(0);" class="menu-toggle"><i class="fas fa-user-tie"></i><span>@local.GetLocalizedHtmlString("Staff")</span> </a>
                     <ul class="ml-menu">
-                        <li id="RecepDtls"><a href="/SuperAdmin/Staff/ReceptionistDetails">@local.GetLocalizedHtmlString("ReceptionistDetails") </a></li>
-                        <li id="CookDtls"><a href="/SuperAdmin/Staff/CookDetails">@local.GetLocalizedHtmlString("CookDetails")</a></li>
-                        <li id="PackerDtls"><a href="/SuperAdmin/Staff/PackerDetails">@local.GetLocalizedHtmlString("PackerDetails")</a></li>
-                        <li id="DriverDtls"><a href="/SuperAdmin/Staff/DriverDetails">@local.GetLocalizedHtmlString("DriverDetails")</a></li>
+                        <li id="RecepDtls"><a href="/SuperAdmin/Staff/ReceptionistDetails">@local.GetLocalizedHtmlString("Receptionist Details") </a></li>
+                        <li id="CookDtls"><a href="/SuperAdmin/Staff/CookDetails">@local.GetLocalizedHtmlString("Cook Details")</a></li>
+                        <li id="PackerDtls"><a href="/SuperAdmin/Staff/PackerDetails">@local.GetLocalizedHtmlString("Packer Details")</a></li>
+                        <li id="DriverDtls"><a href="/SuperAdmin/Staff/DriverDetails">@local.GetLocalizedHtmlString("Driver Details")</a></li>
                     </ul>
                 </li>
 
                 <li id="Branch">
-                    <a href="/SuperAdmin/Branch/Details"><i class="fas fa-building"></i><span>@local.GetLocalizedHtmlString("BranchDetails")</span> </a>
+                    <a href="/SuperAdmin/Branch/Details"><i class="fas fa-building"></i><span>@local.GetLocalizedHtmlString("Branch Details")</span> </a>
                 </li>
 
                 <li id="Category">
@@ -128,37 +127,26 @@
                 <li>
                     <a id="product" href="javascript:void(0);" class="menu-toggle"><i class="fas fa-pizza-slice"></i><span>@local.GetLocalizedHtmlString("Product")</span> </a>
                     <ul class="ml-menu">
-                        <li id="ProductsA"><a href="/SuperAdmin/Product/Detail">@local.GetLocalizedHtmlString("ProductsDetail") </a></li>
+                        <li id="ProductsA"><a href="/SuperAdmin/Product/Detail">@local.GetLocalizedHtmlString("Products Detail") </a></li>
                         <li id="IngrendientsA"><a href="/SuperAdmin/Product/Ingrendients">@local.GetLocalizedHtmlString("Ingredients") </a></li>
-                        <li id="AddIngredient"><a href="/SuperAdmin/Product/AddIngredients">@local.GetLocalizedHtmlString("AddIngredients")</a></li>
+                        <li id="AddIngredient"><a href="/SuperAdmin/Product/AddIngredients">@local.GetLocalizedHtmlString("Add Ingredients")</a></li>
                     </ul>
                 </li>
                 <li id="order">
-                    <a href="javascript:void(0);" class="menu-toggle"><i class="fas fa-shopping-cart"></i><span>@local.GetLocalizedHtmlString("Order") </span> </a>
-                    <ul class="ml-menu">
-                        <li id="orderDtls">
-                            <a href="/SuperAdmin/Order/Detail"><span>@local.GetLocalizedHtmlString("Details") </span> </a>
-                        </li>
-                        <li id="orderRating">
-                            <a href="/SuperAdmin/Main/Ratings"><span>@local.GetLocalizedHtmlString("Ratings")</span> </a>
-                        </li>
-                    </ul>
-                </li>
-                <li id="payment">
-                    <a href="/SuperAdmin/Order/Payment"><i class="fas fa-hand-holding-usd"></i><span>@local.GetLocalizedHtmlString("Payments")</span> </a>
+                    <a href="/SuperAdmin/Order/Detail"><i class="fas fa-shopping-cart"></i><span>@local.GetLocalizedHtmlString("Orders")</span> </a>
                 </li>
                 <li id="Query">
                     <a href="/SuperAdmin/Main/Queries"><i class="far fa-question-circle"></i><span>@local.GetLocalizedHtmlString("Queries")</span> </a>
                 </li>
                 <li class="header">Content</li>
                 <li>
-                    <a id="AppData" href="javascript:void(0);" class="menu-toggle"><i class="far fa-file-alt"></i><span>@local.GetLocalizedHtmlString("AppData")</span> </a>
+                    <a id="AppData" href="javascript:void(0);" class="menu-toggle"><i class="far fa-file-alt"></i><span>@local.GetLocalizedHtmlString("App Data")</span> </a>
                     <ul class="ml-menu">
                         <li id="privacy">
-                            <a href="/SuperAdmin/AppContent/PrivacyPolicy">@local.GetLocalizedHtmlString("PrivacyPolicy")</a>
+                            <a href="/SuperAdmin/AppContent/PrivacyPolicy">@local.GetLocalizedHtmlString("Privacy Policy")</a>
                         </li>
                         <li id="cookie">
-                            <a href="/SuperAdmin/AppContent/CookiePolicy">@local.GetLocalizedHtmlString("CookiePolicy")</a>
+                            <a href="/SuperAdmin/AppContent/CookiePolicy">@local.GetLocalizedHtmlString("Cookie Policy")</a>
                         </li>
                     </ul>
                 </li>

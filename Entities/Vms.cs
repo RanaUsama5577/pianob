@@ -284,6 +284,15 @@ namespace Entities
         public OrderType orderType { get; set; }
         public List<AllProducts> AllProducts { get; set; }
     }
+    public class StaffOrderReports
+    {
+        public string staffEmail { get; set; }
+        public string staffImage { get; set; }
+        public string minutesSpent { get; set; }
+        public string endTime { get; set; }
+        public string startTime { get; set; }
+        public string orderId { get; set; }
+    }
     public class AllProducts
     {
         public int categoryId { get; set; }
@@ -307,7 +316,7 @@ namespace Entities
         public int Id { get; set; }
         public string OrderId { get; set; }
         public decimal TotalPrice { get; set; }
-        public OrderType Status { get; set; }
+        public OrderStatus Status { get; set; }
         public string UserId { get; set; }
         public string AssigneeId { get; set; }
         public string AssigneeName { get; set; }
@@ -317,13 +326,17 @@ namespace Entities
         public string PhoneNumber { get; set; }
         public string UserEmail { get; set; }
         public string CreatedAt { get; set; }
+        public string StartTime { get; set; }
+        public string EndTime { get; set; }
+        public string ElaspedTime { get; set; }
+        public DateTime UpdatedAt { get; set; }
     }
     public class GetStaffOrderdetails
     {
         public int Id { get; set; }
         public string OrderId { get; set; }
         public decimal TotalPrice { get; set; }
-        public OrderType Status { get; set; }
+        public OrderStatus Status { get; set; }
         public string UserId { get; set; }
         public string AssigneeId { get; set; }
         public string AssigneeName { get; set; }
@@ -337,6 +350,7 @@ namespace Entities
         public string PhoneNumber { get; set; }
         public string Address { get; set; }
         public WorkerStatus WorkerStatus { get; set; }
+        public DateTime? StartTime { get; set; }
 
     }
     public class GetStaffDashboardStats

@@ -227,7 +227,7 @@ namespace BLL.AdminService
                 AdminDashboard a = new AdminDashboard
                 {
                     TotalUsers = db.Users.Where(p => p.Status == UserStatus.Active && p.Type != UserType.SuperAdmin).Count(),
-                    TotalOrders = db.Orders.Where(p => p.Status != OrderType.Cancelled).Count(),
+                    TotalOrders = db.Orders.Where(p => p.Status != OrderStatus.Cancelled).Count(),
                     TotalProducts = db.Products.Where(p => p.Status == EntityStatus.Active).Count(),
                     TotalCategories = db.Categories.Where(p => p.Status == EntityStatus.Active).Count(),
                 };
@@ -242,13 +242,13 @@ namespace BLL.AdminService
                 }
                 AdminDashboard a = new AdminDashboard
                 {
-                    TotalOrders = db.Orders.Where(p => p.Status != OrderType.Cancelled).Count(),
+                    TotalOrders = db.Orders.Where(p => p.Status != OrderStatus.Cancelled).Count(),
                     TotalProducts = db.Products.Where(p => p.Status == EntityStatus.Active && p.CategoriesObject.BranchId == branch.Id).Count(),
                     TotalCategories = db.Categories.Where(p => p.Status == EntityStatus.Active && p.BranchId == branch.Id).Count(),
-                    PendingOrders = db.Orders.Where(p=>p.Status == OrderType.Waiting && p.BranchId == branch.Id).Count(),
-                    InProcessOrders = db.Orders.Where(p=>p.Status != OrderType.Waiting && p.Status != OrderType.Cancelled && p.Status != OrderType.Delivered).Where(p=> p.BranchId == branch.Id).Count(),
-                    CompletedOrders = db.Orders.Where(p=>p.Status == OrderType.Delivered && p.BranchId == branch.Id).Count(),
-                    CancelledOrders = db.Orders.Where(p=>p.Status == OrderType.Cancelled && p.BranchId == branch.Id).Count(),
+                    PendingOrders = db.Orders.Where(p=>p.Status == OrderStatus.Waiting && p.BranchId == branch.Id).Count(),
+                    InProcessOrders = db.Orders.Where(p=>p.Status != OrderStatus.Waiting && p.Status != OrderStatus.Cancelled && p.Status != OrderStatus.Delivered).Where(p=> p.BranchId == branch.Id).Count(),
+                    CompletedOrders = db.Orders.Where(p=>p.Status == OrderStatus.Delivered && p.BranchId == branch.Id).Count(),
+                    CancelledOrders = db.Orders.Where(p=>p.Status == OrderStatus.Cancelled && p.BranchId == branch.Id).Count(),
                 };
                 return a;
             }
@@ -269,6 +269,29 @@ namespace BLL.AdminService
                 {
                     CreatedAt = n.CreatedAt.ToString("dd-MMM-yyyy hh:mm:ss tt"),
                     UpdatedAt = n.UpdatedAt != null?n.UpdatedAt.Value.ToString("dd-MMM-yyyy hh:mm:ss tt"):"-",
+                    Name = n.Name,
+                    Status = n.Status,
+                    Id = n.Id,
+                    BranchName = db.Branches.Find(n.BranchId).Name,
+                    BranchId = n.BranchId,
+                });
+                return entities.ToList();
+            }
+            catch (Exception es)
+            {
+                throw new ValidationException(es.GetBaseException().Message);
+            }
+        }
+        public List<CategoryVms> GetStaffCategories(string userId)
+        {
+            try
+            {
+                var staff = db.Users.Find(userId);
+                var branch = db.Branches.Find(staff.BranchId);
+                var entities = db.Categories.Where(p=>p.BranchId == branch.Id && p.Status == EntityStatus.Active).AsEnumerable().Select(n => new CategoryVms
+                {
+                    CreatedAt = n.CreatedAt.ToString("dd-MMM-yyyy hh:mm:ss tt"),
+                    UpdatedAt = n.UpdatedAt != null ? n.UpdatedAt.Value.ToString("dd-MMM-yyyy hh:mm:ss tt") : "-",
                     Name = n.Name,
                     Status = n.Status,
                     Id = n.Id,
@@ -1014,7 +1037,7 @@ namespace BLL.AdminService
                     BranchId = branch.Id,
                     UpdatedAt = currentTime,
                 };
-                var result = await userManager.CreateAsync(newUser, "1q2w3e4r");
+                var result = await userManager.CreateAsync(newUser,modal.Password);
                 if (result.Succeeded)
                 {
                     var role = "";
@@ -1379,6 +1402,33 @@ namespace BLL.AdminService
                 throw new ValidationException(es.GetBaseException().Message);
             }
         }
+        public List<IngredientListVms> GetStaffIngredient(string userId)
+        {
+            try
+            {
+                var staff = db.Users.Find(userId);
+                var branch = db.Branches.Find(staff.BranchId);
+                var entities = db.Ingredients.Where(p => p.Status == EntityStatus.Active && p.CategoriesObject.BranchId == branch.Id).Select(n => new IngredientListVms
+                {
+                    CreatedAt = n.CreatedAt.ToShortDateString(),
+                    Name = n.Name,
+                    Status = n.Status,
+                    Id = n.Id,
+                    Price = n.Price,
+                    BranchId = n.CategoriesObject.BranchId,
+                    CategoryId = (int)n.CategoryId,
+                    ProductId = n.ProductId,
+                    BranchName = n.CategoriesObject.BranchesObject.Name,
+                    CategoryName = n.CategoriesObject.Name,
+                    ProductName = n.ProductId != null ? n.ProductsObject.Name : "-",
+                });
+                return entities.ToList();
+            }
+            catch (Exception es)
+            {
+                throw new ValidationException(es.GetBaseException().Message);
+            }
+        }
         public ResponseDto BlockIngredient(int Id)
         {
             try
@@ -1727,30 +1777,30 @@ namespace BLL.AdminService
             Int32 unixTimestamp = (Int32)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
             var doc_id = unixTimestamp.ToString();
 
-            var freeCook = db.Users.Where(p => p.Type == UserType.Cook && p.Status == UserStatus.Active).Select(p=>p.Id).AsEnumerable();
-            var s = db.AssigneesLists.Where(p => p.OrderObject.Status == OrderType.Cooking).Select(p => p.UserId).AsEnumerable();
-            var sab = db.AssigneesLists.Where(p => p.OrderObject.Status == OrderType.Cooking).AsEnumerable();
+            var freeCook = db.Users.Where(p => p.Type == UserType.Cook && p.Status == UserStatus.Active && p.BranchId == branch.Id).Select(p=>p.Id).AsEnumerable();
+            var s = db.AssigneesLists.Where(p => p.OrderObject.Status == OrderStatus.Cooking && p.OrderObject.BranchId == branch.Id).Select(p => p.UserId).AsEnumerable();
             var d = freeCook.Except(s);
             string CookDefault = null;
-            var type = OrderType.Waiting;
+            var type = OrderStatus.Waiting;
             if (d.Count() > 0)
             {
                 CookDefault = d.FirstOrDefault();
-                type = OrderType.Cooking;
+                type = OrderStatus.Cooking;
             }
             else if(freeCook.Count() > 0)
             {
                 CookDefault = freeCook.FirstOrDefault();
-                type = OrderType.Cooking;
+                type = OrderStatus.Cooking;
             }
             Orders orders = new Orders
             {
                 Status = type,
+                Type = modal.orderType,
                 BranchId = branch.Id,
                 CreatedAt = currentTime,
                 TotalPrice = modal.price,
                 UpdatedAt = currentTime,
-                OrderId = doc_id,
+                OrderId = "PB-" + doc_id,
                 AssigneeId = CookDefault,
                 CreatedBy = userId,
                 PhoneNumber = modal.customer_phone,
@@ -1803,7 +1853,7 @@ namespace BLL.AdminService
                 }
             }
             db.SaveChanges();
-            return JsonResponse2(200, doc_id, null);
+            return JsonResponse2(200, "PB-" + doc_id, null);
         }
         public List<GetOrderdetails> GetOrderdetails(string userId)
         {
@@ -1814,24 +1864,48 @@ namespace BLL.AdminService
 
             };
             var staff = db.Users.Find(userId);
-            var branch = db.Branches.Find(staff.BranchId);
-            var entities = db.Orders.Where(p => p.BranchId == branch.Id).Select(n => new GetOrderdetails
+            if(staff.Type == UserType.SuperAdmin)
             {
-                CreatedAt = n.CreatedAt.ToShortDateString(),
-                OrderId = n.OrderId,
-                Status = n.Status,
-                Id = n.Id,
-                TotalPrice = n.TotalPrice,
-                BranchId = n.BranchId,
-                BranchName = branch.Name,
-                AssigneeId = n.AssigneeId,
-                AssigneeName = n.AssigneeId != null?n.AssignedObject.Email:"",
-                PhoneNumber = n.PhoneNumber,
-                UserEmail = n.UserEmail,
-                UserId = n.UserId,
-                Username = n.Username,
-            });
-            return entities.ToList();
+                var entities = db.Orders.Select(n => new GetOrderdetails
+                {
+                    CreatedAt = n.CreatedAt.ToShortDateString(),
+                    OrderId = n.OrderId,
+                    UpdatedAt = n.UpdatedAt.Value,
+                    Status = n.Status,
+                    Id = n.Id,
+                    TotalPrice = n.TotalPrice,
+                    BranchId = n.BranchId,
+                    BranchName = n.BranchesObject.Name,
+                    AssigneeId = n.AssigneeId,
+                    AssigneeName = n.AssigneeId != null ? n.AssignedObject.Email : "",
+                    PhoneNumber = n.PhoneNumber,
+                    UserEmail = n.UserEmail,
+                    UserId = n.UserId,
+                    Username = n.Username,
+                });
+                return entities.ToList();
+            }
+            else
+            {
+                var branch = db.Branches.Find(staff.BranchId);
+                var entities = db.Orders.Where(p => p.BranchId == branch.Id).Select(n => new GetOrderdetails
+                {
+                    CreatedAt = n.CreatedAt.ToShortDateString(),
+                    OrderId = n.OrderId,
+                    Status = n.Status,
+                    Id = n.Id,
+                    TotalPrice = n.TotalPrice,
+                    BranchId = n.BranchId,
+                    BranchName = branch.Name,
+                    AssigneeId = n.AssigneeId,
+                    AssigneeName = n.AssigneeId != null ? n.AssignedObject.Email : "",
+                    PhoneNumber = n.PhoneNumber,
+                    UserEmail = n.UserEmail,
+                    UserId = n.UserId,
+                    Username = n.Username,
+                });
+                return entities.ToList();
+            }
         }
         public List<AllProducts> GetOrderProducts(int Id)
         {
@@ -1874,6 +1948,7 @@ namespace BLL.AdminService
                 Latitude = n.Latitude,
                 Longitude = n.Longitude,
                 Address = n.Address,
+                StartTime = db.AssigneesLists.Where(p => p.OrderId == n.Id && p.UserId == n.AssigneeId).FirstOrDefault().StartTime,
                 WorkerStatus = db.AssigneesLists.Where(p=>p.OrderId == n.Id && p.UserId == n.AssigneeId).FirstOrDefault().Status,
             });
 
@@ -1899,6 +1974,7 @@ namespace BLL.AdminService
                     return JsonResponse2(400, "There are no orders in queue", null);
                 }
                 assigny.Status = WorkerStatus.Working;
+                assigny.StartTime = currentTime;
                 db.Entry(assigny).State = EntityState.Modified;
                 db.SaveChanges();
                 return JsonResponse2(200, "success",null);
@@ -1910,31 +1986,34 @@ namespace BLL.AdminService
         }
         public ResponseDto MarkOrderAsCooked(int orderId,string userId)
         {
+            var staff = db.Users.Find(userId);
+            var branch = db.Branches.Find(staff.BranchId);
             var order = db.Orders.Find(orderId);
             if (order != null)
             {
-                var freePacker = db.Users.Where(p => p.Type == UserType.Packer && p.Status == UserStatus.Active).Select(p => p.Id).AsEnumerable();
-                var s = db.AssigneesLists.Where(p => p.OrderObject.Status == OrderType.Packing).Select(p => p.UserId).AsEnumerable();
+                var freePacker = db.Users.Where(p => p.Type == UserType.Packer && p.Status == UserStatus.Active && p.BranchId == branch.Id).Select(p => p.Id).AsEnumerable();
+                var s = db.AssigneesLists.Where(p => p.OrderObject.Status == OrderStatus.Packing && p.OrderObject.BranchId == branch.Id).Select(p => p.UserId).AsEnumerable();
                 var d = freePacker.Except(s);
                 string PackerDefault = null;
-                var type = OrderType.ReadyForPacking;
+                var type = OrderStatus.ReadyForPacking;
                 if (d.Count() > 0)
                 {
                     PackerDefault = d.FirstOrDefault();
-                    type = OrderType.Packing;
+                    type = OrderStatus.Packing;
                 }
                 else if (freePacker.Count() > 0)
                 {
                     PackerDefault = freePacker.FirstOrDefault();
-                    type = OrderType.Packing;
+                    type = OrderStatus.Packing;
                 }
                 order.Status = type;
                 order.AssigneeId = PackerDefault;
                 db.Entry(order).State = EntityState.Modified;
                 var assign = db.AssigneesLists.Where(p => p.OrderId == orderId && p.UserId == userId).FirstOrDefault();
                 assign.Status = WorkerStatus.Completed;
+                assign.EndTime = currentTime;
                 db.Entry(assign).State = EntityState.Modified;
-                if(type == OrderType.Packing)
+                if(type == OrderStatus.Packing)
                 {
                     AssigneesList assigneesList = new AssigneesList
                     {
@@ -1958,38 +2037,79 @@ namespace BLL.AdminService
         }
         public ResponseDto MarkOrderAsPacked(int orderId, string userId)
         {
+            var staff = db.Users.Find(userId);
+            var branch = db.Branches.Find(staff.BranchId);
             var order = db.Orders.Find(orderId);
             if (order != null)
             {
-                var freeDriver = db.Users.Where(p => p.Type == UserType.Driver && p.Status == UserStatus.Active).Select(p => p.Id).AsEnumerable();
-                var s = db.AssigneesLists.Where(p => p.OrderObject.Status == OrderType.ReadyToDeliver || p.OrderObject.Status == OrderType.OnTheWay).Select(p => p.UserId).AsEnumerable();
-                var d = freeDriver.Except(s);
-                string DriverDefault = null;
-                var type = OrderType.ReadyToDeliver;
-                if (d.Count() > 0)
+                if(order.Type == OrderType.Delivery)
                 {
-                    DriverDefault = d.FirstOrDefault();
+                    var freeDriver = db.Users.Where(p => p.Type == UserType.Driver && p.Status == UserStatus.Active && p.BranchId == branch.Id).Select(p => p.Id).AsEnumerable();
+                    var s = db.AssigneesLists.Where(p => p.OrderObject.BranchId == branch.Id).Where(p => p.OrderObject.Status == OrderStatus.ReadyToDeliver || p.OrderObject.Status == OrderStatus.OnTheWay).Select(p => p.UserId).AsEnumerable();
+                    var d = freeDriver.Except(s);
+                    string DriverDefault = null;
+                    var type = OrderStatus.ReadyToDeliver;
+                    if (d.Count() > 0)
+                    {
+                        DriverDefault = d.FirstOrDefault();
+                    }
+                    order.Status = type;
+                    order.AssigneeId = DriverDefault;
+                    db.Entry(order).State = EntityState.Modified;
+                    var assign = db.AssigneesLists.Where(p => p.OrderId == orderId && p.UserId == userId).FirstOrDefault();
+                    assign.Status = WorkerStatus.Completed;
+                    assign.EndTime = currentTime;
+                    db.Entry(assign).State = EntityState.Modified;
+                    if (DriverDefault != null)
+                    {
+                        AssigneesList assigneesList = new AssigneesList
+                        {
+                            StartTime = currentTime,
+                            Status = WorkerStatus.Waiting,
+                            CreatedAt = currentTime,
+                            EndTime = currentTime,
+                            OrderId = order.Id,
+                            UpdatedAt = currentTime,
+                            UserId = DriverDefault,
+                        };
+                        db.AssigneesLists.Add(assigneesList);
+                    }
+                    db.SaveChanges();
                 }
-                order.Status = type;
-                order.AssigneeId = DriverDefault;
+                else
+                {
+                    order.Status = OrderStatus.Delivered;
+                    order.AssigneeId = null;
+                    order.UpdatedAt = currentTime;
+                    db.Entry(order).State = EntityState.Modified;
+                    var assign = db.AssigneesLists.Where(p => p.OrderId == orderId && p.UserId == userId).FirstOrDefault();
+                    assign.Status = WorkerStatus.Completed;
+                    assign.EndTime = currentTime;
+                    db.Entry(assign).State = EntityState.Modified;
+                    db.SaveChanges();
+                }
+                return JsonResponse2(200, "success", null);
+            }
+            else
+            {
+                return JsonResponse2(400, "There are no orders in queue", null);
+            }
+        }
+        public ResponseDto MarkOrderAsDelivered(int orderId, string userId)
+        {
+            var staff = db.Users.Find(userId);
+            var branch = db.Branches.Find(staff.BranchId);
+            var order = db.Orders.Find(orderId);
+            if (order != null)
+            {
+                order.Status = OrderStatus.Delivered;
+                order.UpdatedAt = currentTime;
+                order.AssigneeId = null;
                 db.Entry(order).State = EntityState.Modified;
                 var assign = db.AssigneesLists.Where(p => p.OrderId == orderId && p.UserId == userId).FirstOrDefault();
                 assign.Status = WorkerStatus.Completed;
+                assign.EndTime = currentTime;
                 db.Entry(assign).State = EntityState.Modified;
-                if (DriverDefault != null)
-                {
-                    AssigneesList assigneesList = new AssigneesList
-                    {
-                        StartTime = currentTime,
-                        Status = WorkerStatus.Waiting,
-                        CreatedAt = currentTime,
-                        EndTime = currentTime,
-                        OrderId = order.Id,
-                        UpdatedAt = currentTime,
-                        UserId = DriverDefault,
-                    };
-                    db.AssigneesLists.Add(assigneesList);
-                }
                 db.SaveChanges();
                 return JsonResponse2(200, "success", null);
             }
@@ -2006,25 +2126,26 @@ namespace BLL.AdminService
                 var user = db.Users.Find(userId);
                 
                 var type = order.Status;
-                if(type == OrderType.Waiting || type == OrderType.Cooking)
+                if(type == OrderStatus.Waiting || type == OrderStatus.Cooking)
                 {
-                    order.Status = OrderType.Cooking;
+                    order.Status = OrderStatus.Cooking;
                 }
-                else if (type == OrderType.ReadyForPacking || type == OrderType.Packing)
+                else if (type == OrderStatus.ReadyForPacking || type == OrderStatus.Packing)
                 {
-                    order.Status = OrderType.Packing;
+                    order.Status = OrderStatus.Packing;
                 }
 
-                else if (type == OrderType.ReadyToDeliver)
+                else if (type == OrderStatus.ReadyToDeliver)
                 {
-                    order.Status = OrderType.OnTheWay;
+                    order.Status = OrderStatus.ReadyToDeliver;
                 }
-                if(type == OrderType.Packing || type == OrderType.Cooking)
+                if(type == OrderStatus.Packing || type == OrderStatus.Cooking)
                 {
-                    var previosAssign = db.AssigneesLists.Where(p => p.OrderId == orderId && p.Status != WorkerStatus.Completed && (p.OrderObject.Status == OrderType.Cooking || p.OrderObject.Status == OrderType.Packing)).FirstOrDefault();
+                    var previosAssign = db.AssigneesLists.Where(p => p.OrderId == orderId && p.Status != WorkerStatus.Completed && (p.OrderObject.Status == OrderStatus.Cooking || p.OrderObject.Status == OrderStatus.Packing)).FirstOrDefault();
                     if(previosAssign != null)
                     {
                         previosAssign.Status = WorkerStatus.Completed;
+                        previosAssign.EndTime = currentTime;
                         db.Entry(previosAssign).State = EntityState.Modified;
                     }
                 } 
@@ -2056,23 +2177,62 @@ namespace BLL.AdminService
         {
             var staff = db.Users.Find(userId);
             var branch = db.Branches.Find(staff.BranchId);
-            var s = db.AssigneesLists.Where(p => p.Status == WorkerStatus.Completed && p.UserId == userId).Select(p=>p.OrderObject).Select(n => new GetOrderdetails
+            var s = db.AssigneesLists.Where(p => p.Status == WorkerStatus.Completed && p.UserId == userId).AsEnumerable().Select(n => new GetOrderdetails
             {
-                CreatedAt = n.CreatedAt.ToShortDateString(),
-                OrderId = n.OrderId,
-                Status = n.Status,
-                Id = n.Id,
-                TotalPrice = n.TotalPrice,
-                BranchId = n.BranchId,
+                CreatedAt = db.Orders.Find(n.OrderId).CreatedAt.ToString("dd-MMM-yyyy hh:mm:ss tt"),
+                OrderId = db.Orders.Find(n.OrderId).OrderId,
+                Status = db.Orders.Find(n.OrderId).Status,
+                Id = db.Orders.Find(n.OrderId).Id,
+                TotalPrice = db.Orders.Find(n.OrderId).TotalPrice,
+                BranchId = db.Orders.Find(n.OrderId).BranchId,
                 BranchName = branch.Name,
-                AssigneeId = n.AssigneeId,
-                AssigneeName = n.AssigneeId != null ? n.AssignedObject.Email : "",
-                PhoneNumber = n.PhoneNumber,
-                UserEmail = n.UserEmail,
-                UserId = n.UserId,
-                Username = n.Username,
+                PhoneNumber = db.Orders.Find(n.OrderId).PhoneNumber,
+                UserEmail = db.Orders.Find(n.OrderId).UserEmail,
+                UserId = db.Orders.Find(n.OrderId).UserId,
+                Username = db.Orders.Find(n.OrderId).Username,
+                ElaspedTime = (n.EndTime.Value - n.StartTime).Hours + ":" + (n.EndTime.Value - n.StartTime).Minutes + ":" + (n.EndTime.Value - n.StartTime).Seconds,
+                StartTime = n.StartTime.ToString("dd-MMM-yyyy hh:mm:ss tt"),
+                EndTime = n.EndTime.Value.ToString("dd-MMM-yyyy hh:mm:ss tt"),
             });
             return s.ToList();
+        }
+        public ResponseDto StartDeliveringOrder(string userId,int orderId)
+        {
+            var staff = db.Users.Find(userId);
+            var branch = db.Branches.Find(staff.BranchId);
+            var order = db.Orders.Find(orderId);
+            if (order != null)
+            {
+                var assigny = db.AssigneesLists.Where(p => p.OrderId == order.Id && p.Status == WorkerStatus.Waiting).FirstOrDefault();
+                if (assigny == null)
+                {
+                    return JsonResponse2(400, "There are no orders in queue", null);
+                }
+                assigny.Status = WorkerStatus.Working;
+                db.Entry(assigny).State = EntityState.Modified;
+                order.Status = OrderStatus.OnTheWay;
+                db.Entry(order).State = EntityState.Modified;
+                db.SaveChanges();
+                return JsonResponse2(200, "success", null);
+            }
+            else
+            {
+                return JsonResponse2(400, "There are no orders in queue", null);
+            }
+        }
+        public List<StaffOrderReports> GetOrderStaffReports(int Id)
+        {
+            var order = db.Orders.Find(Id);
+            var entities = db.AssigneesLists.Where(p => p.OrderId == order.Id && p.Status == WorkerStatus.Completed).AsEnumerable().Select(n => new StaffOrderReports
+            {
+                staffEmail = db.Users.Find(n.UserId).Email,
+                staffImage = db.Users.Find(n.UserId).ProfileImageUrl,
+                orderId = db.Orders.Find(n.OrderId).OrderId,
+                minutesSpent = (n.EndTime.Value - n.StartTime).Hours + ":" + (n.EndTime.Value - n.StartTime).Minutes + ":" + (n.EndTime.Value - n.StartTime).Seconds,
+                startTime = n.StartTime.ToString("dd-MMM-yyyy hh:mm:ss tt"),
+                endTime = n.EndTime.Value.ToString("dd-MMM-yyyy hh:mm:ss tt"),
+            });
+            return entities.ToList();
         }
     }
 }

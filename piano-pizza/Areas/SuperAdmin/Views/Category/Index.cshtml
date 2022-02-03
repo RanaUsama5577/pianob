@@ -107,7 +107,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="title" id="defaultModalLabel">@local.GetLocalizedHtmlString("AddCategory")</h4>
+                        <h4 class="title" id="defaultModalLabel">@local.GetLocalizedHtmlString("Add Category")</h4>
                     </div>
                     <div class="modal-body">
                         <form class="needs-validation" novalidate id="Form">
@@ -116,7 +116,7 @@
                             <div class="row">
                                 <div id="SelectBranch" class="col-md-12">
                                     <div class="form-group">
-                                        <label>@local.GetLocalizedHtmlString("SelectBranch")</label>
+                                        <label>@local.GetLocalizedHtmlString("Select Branch")</label>
                                         @Html.DropDownList("BranchId", (IEnumerable<SelectListItem>)ViewBag.Branches, new { @class = "form-group form-float show-tick w-100 border-light" })
                                     </div>
                                 </div>

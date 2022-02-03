@@ -14,12 +14,6 @@
     </div>
     <div class="container-fluid">
         <div class="row">
-            @if (Model.OrderDetails.Count > 0 && Model.OrderDetails.Any(p => p.WorkerStatus != Entities.Enum.WorkerStatus.Working))
-            {
-                <div class="col-12">
-                    <button onclick="StartOrder()" class="btn btn-primary mb-4 px-5 bg-black font-19"><img src="~/admin-assets/images/Drivering (1).png" height="20" />Start Order</button>
-                </div>
-            }
             <div class="col-lg-8 col-sm-12 col-12">
                 <div class="row">
                     @foreach (var i in Model.OrderDetails)
@@ -29,9 +23,22 @@
                             <div class="col-md-6 col-12 d-flex">
                                 <div class="card project_widget p-1">
                                     <div class="pw_img m-auto d-flex">
-                                        <img class="img-responsive w-25 m-auto" src="/Drivering.png" alt="About the image">
+                                        <img class="img-responsive w-25 m-auto" src="~/admin-assets/images/piano/Bg-transparent/Page-2-Image-14-removebg-preview.png" alt="About the image">
                                     </div>
-                                    <div class="pw_content mt-30">
+                                    <div class="d-flex mt-1">
+                                        <div class="m-auto">
+                                            @if (i.Latitude == 0)
+                                            {
+
+                                            }
+                                            else
+                                            {
+                                                <a title="Get location" data-toggle1="tooltip" data-toggle="modal" data-target="#myModal" class="cursor-pointer mr-3 btn-sm btn-default waves-effect waves-float waves-black" data-lat='@i.Latitude' data-lng='@i.Longitude'><img src="~/admin-assets/images/piano/google-maps.png" width="22" /></a>
+                                            }
+                                            <a onclick="StartOrderDelivering(@i.Id)" data-toggle="tooltip" title="start order deliver" class="cursor-pointer btn-sm btn-default waves-effect waves-float waves-black"><img src="~/admin-assets/images/piano/delivery-man.png" width="25" height="25" /></a>
+                                        </div>
+                                    </div>
+                                    <div class="pw_content">
                                         <div class="pw_header d-flex">
                                             <div>
                                                 <h6>Order Id: #@i.OrderId</h6>
@@ -52,16 +59,21 @@
                             <div class="col-md-6 col-12 d-flex">
                                 <div class="card project_widget p-1">
                                     <div class="pw_img m-auto d-flex">
-                                        <img class="img-responsive w-25 m-auto" src="/Drivering.png" alt="About the image">
+                                        <img class="img-responsive w-25 m-auto" src="~/admin-assets/images/piano/Bg-transparent/Page-2-Image-14-removebg-preview.png" alt="About the image">
                                     </div>
-
                                     <div class="d-flex mt-1">
                                         <div class="m-auto">
-                                            @*<a title="Defect Order" class="cursor-pointer btn-sm btn-default waves-effect waves-float waves-black"><i class="fas fa-redo font-20 col-grey"></i> </a>*@
-                                            <a onclick="MarkOrderAsCooked(@i.Id)" data-toggle="tooltip" title="Mark order as cooked" class="cursor-pointer ml-3 btn-sm btn-default waves-effect waves-float waves-black"><i class="far fa-check-circle font-20 text-success"></i></a>
+                                            @if (i.Latitude == 0)
+                                            {
+
+                                            }
+                                            else
+                                            {
+                                                <a title="Get location" data-toggle1="tooltip" data-toggle="modal" data-target="#myModal" class="cursor-pointer mr-3 btn-sm btn-default waves-effect waves-float waves-black" data-lat='@i.Latitude' data-lng='@i.Longitude'><img src="~/admin-assets/images/piano/google-maps.png" width="22" /></a>
+                                            }
+                                            <a onclick="MarkOrderAsDelivered(@i.Id)" data-toggle="tooltip" title="Mark order as completed" class="cursor-pointer ml-3 btn-sm btn-default waves-effect waves-float waves-black"><i class="far fa-check-circle font-20 text-success"></i></a>
                                         </div>
                                     </div>
-
                                     <div class="pw_content">
                                         <div class="pw_header d-flex">
                                             <div>
@@ -72,9 +84,8 @@
                                         </div>
                                         <div class="pw_meta d-flex">
                                             <span>Amount: $@i.TotalPrice</span>
-                                            <span class="text-warning ml-auto">In-process</span>
+                                            <span class="text-warning ml-auto">On-the-way</span>
                                         </div>
-
                                     </div>
                                 </div>
                             </div>
@@ -94,12 +105,11 @@
                     </div>
                 </div>
             </div>
-
             <div class="col-lg-4 col-sm-12 col-12">
                 <div class="w-100">
                     <a class="card info-box-2 hover-zoom-effect twitter-widget">
                         <div class="icon">
-                            <img src="~/admin-assets/images/food-cover.png" class="mt-4 mb-2" height="35" />
+                            <img src="~/admin-assets/images/food-pack (2).png" class="mt-4 mb-2" height="35" />
                         </div>
                         <div class="content mb-2">
                             <div class="number">@Model.TotalOrders</div><div class="text">Assigned Orders</div>
@@ -110,7 +120,7 @@
                 <div class="w-100 mt-43">
                     <a class="card info-box-2 hover-zoom-effect twitter-widget">
                         <div class="icon">
-                            <img src="~/admin-assets/images/piano/Drivering.png" class="mt-4 mb-2" height="35" />
+                            <img src="~/admin-assets/images/piano/delivery-man.png" class="mt-4 mb-2" height="35" />
                         </div>
                         <div class="content mb-2">
                             <div class="number">@Model.InProcessOrder</div><div class="text">In-process Orders</div>
@@ -121,7 +131,7 @@
                 <div class="w-100 mt-43">
                     <a class="card info-box-2 hover-zoom-effect twitter-widget">
                         <div class="icon">
-                            <img src="~/admin-assets/images/piano/Drivering.png" class="mt-4 mb-2" height="35" />
+                            <img src="~/admin-assets/images/piano/delivery-man.png" class="mt-4 mb-2" height="35" />
                         </div>
                         <div class="content mb-2">
                             <div class="number">@Model.Completed</div><div class="text">Completed Orders</div>
@@ -158,10 +168,34 @@
             </div>
         </div><!-- /.modal -->
     </div>
-</section>
 
+    <div class="modal fade bs-example-modal-md mt-5" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModal" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="formModal">Location</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12 modal_body_map">
+                            <div class="location-map" id="location-map">
+                                <div style="width: 600px; height: 400px;" id="map_canvas"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- /.modal -->
+    </div>
+</section>
+<script async defer type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCt7JTzt_AoYGTPLoHIwYt8vw0vkjErorc&libraries=places&callback=initMap"></script>
+
+<script src="/admin-assets/js/map.js"></script>
 <script>
-    $("[data-toggle='tooltip']").tooltip();
+    $("[data-toggle1='tooltip']").tooltip();
     $('#Dash').addClass('active');
     $('#Dash').addClass('open');
 </script>
@@ -169,6 +203,7 @@
 <script>
     function GetProductsDetails(Id) {
         var response = getResponseFromUrl('Get', '/Driver/main/GetProducts?Id=' + Id, null, false);
+        response = response.responseJSON;
         if (response.code == 200) {
             var result = response.result;
             if (result.length > 0) {
@@ -211,7 +246,7 @@
     }
 </script>
 <script>
-    function StartOrder() {
+    function StartOrderDelivering(Id) {
         Swal.fire({
             title: 'Are you sure you start working?',
             text: "",
@@ -222,12 +257,12 @@
             showLoaderOnConfirm: true,
             preConfirm: (ref) => {
                 return new Promise(async function (resolve, reject) {
-                    var response = await getResponseFromUrl('Get', '/Driver/main/startOrder', null, true);
+                    var response = await getResponseFromUrl('Get', '/Driver/main/startOrder?Id=' + Id, null, true);
                     if (response.code == 200) {
                         MixinSweet("Success", "", "success", 2000);
                         setTimeout(function () {
                             location.reload();
-                        }, 2000);
+                        }, 1000);
                     }
                     else {
                         MixinSweet(response.shortMessage, "", "success", 2000);
@@ -240,9 +275,9 @@
             }
         })
     }
-    function MarkOrderAsCooked(Id) {
+    function MarkOrderAsDelivered(Id) {
         Swal.fire({
-            title: 'Are you sure you start working?',
+            title: 'Are you sure you want to mark this order as delivered?',
             text: "",
             icon: 'warning',
             showCancelButton: true,
@@ -251,7 +286,7 @@
             showLoaderOnConfirm: true,
             preConfirm: (ref) => {
                 return new Promise(async function (resolve, reject) {
-                    var response = await getResponseFromUrl('Get', '/Driver/main/MarkOrderAsCooked?Id=' + Id, null, true);
+                    var response = await getResponseFromUrl('Get', '/Driver/main/MarkOrderAsDelivered?Id=' + Id, null, true);
                     if (response.code == 200) {
                         MixinSweet("Success", "", "success", 2000);
                         setTimeout(function () {
@@ -280,6 +315,7 @@
             url: requestUrl,
             data: requestData,
             async: async,
+            dataType: 'JSON',
             processData: false,
             contentType: false,
             success: function (data) {

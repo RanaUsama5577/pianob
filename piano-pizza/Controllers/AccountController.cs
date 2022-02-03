@@ -104,7 +104,18 @@ namespace piano_pizza.Controllers
                 }
                 else
                 {
-                    return Redirect("/deliveryperson/Main/Index");
+                    return Redirect("/Driver/Main/Index");
+                }
+            }
+            else if (response.Code == 206)
+            {
+                if (returnUrl != null)
+                {
+                    return Redirect(returnUrl);
+                }
+                else
+                {
+                    return Redirect("/Home/Index");
                 }
             }
             else
