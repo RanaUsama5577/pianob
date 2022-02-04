@@ -154,15 +154,17 @@
 
                             <div class="row mt-4">
                                 <div class="col-12">
-                                    <h5>Amount to Pay <b id="TotalPrice">$46</b> </h5>
+                                    <h5>Amount to Pay <b id="TotalPrice"></b> </h5>
                                 </div>
                                 <div class="col-12 col-sm-12 col-md-4">
                                     <label>Order type</label>
                                     <div>
-                                        <input type="radio" id="Takeaway" name="type" class="mr-1" checked value="">
+                                        <input onclick="ToggleMap()" type="radio" id="Takeaway" name="type" class="mr-1" checked value="">
                                         <label for="Takeaway" class="font-13 font-bold"> Takeaway</label><br>
-                                        <input type="radio" class="mr-1" id="dineIn" name="type" value="">
+                                        <input onclick="ToggleMap()" type="radio" class="mr-1" id="dineIn" name="type" value="">
                                         <label for="dineIn" class="font-13 font-bold"> Dine-In</label><br>
+                                        <input onclick="ToggleMap()" type="radio" class="mr-1" id="delivery" name="type" value="">
+                                        <label for="delivery" class="font-13 font-bold"> Delivery</label><br>
                                     </div>
                                 </div>
                                 <div class="col-12 col-sm-12 col-md-4">
@@ -192,6 +194,23 @@
                                     <div class="form-group form-float">
                                         <label>Phone Number</label>
                                         <input type="number" class="form-control mt-1" id="customer_phone" placeholder="Phone Number" required>
+                                    </div>
+                                </div>
+                                <div class="col-12 mt-2" id="OrderLocation">
+                                    <div class="form-group">
+                                        <label>Order Delivery Location</label>
+                                        <div class="input-group">
+                                            <input type="hidden" class="form-control" name="Latitude" id="lat" value="-33.878358" />
+                                            <input type="hidden" class="form-control" name="Longitude" id="lng" value="151.1835443" />
+                                            <input style="width:90%;z-index:2147483647;" id="autocomplete_search" name="Address" type="text" class="form-control rounded" placeholder="Search Location" />
+                                            <br />
+                                            <div class="form-group" style="width: 100%;">
+                                                <div id="map" style="width:100%; height:400px;padding:10px;margin-top:10px;"></div>
+                                                <button hidden id="MyLocator" style="background-color: rgb(255, 255, 255);box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px -1px;display: block;border: 0px;margin: 0px; padding: 0px;text-transform: none;position: relative;cursor: pointer;user-select: none;overflow: hidden;width: 40px;height: 40px;top: -250px;float: right;right: 11px;">
+                                                </button>
+                                            </div>
+                                            <label id="lab" style=" position: relative;top: -69px;font-size: 16px;font-weight: 500;"></label>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -290,9 +309,152 @@
 
 <script src="~/admin-assets/app-assets/forms/jquery.card.js"></script>
 <script src="~/admin-assets/app-assets/forms/form-card.min.js"></script>
+<script async defer type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCt7JTzt_AoYGTPLoHIwYt8vw0vkjErorc&libraries=places&callback=initMap"></script>
+<script type="text/javascript">
+    var marker;
+    var map;
+    var radius = 10000;
+    var geocoder;
+    function initMap(latitude, longitude) {
+        search_lat = "";
+        search_lng = "";
+        formattedAddress = "";
+        latitude = parseFloat(latitude) ?? -33.878358;
+        longitude = parseFloat(longitude) ?? 151.1835443;
+        var input = document.getElementById('autocomplete_search');
+        map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 11,
+            center: { lat: latitude, lng: longitude }
+        });
+        // var geoloccontrol = new klokantech.GeolocationControl(map, 11);
+        marker = new google.maps.Marker({
+            map: map,
+            draggable: true,
+            zoom: 11,
+            animation: google.maps.Animation.DROP,
+            position: { lat: latitude, lng: longitude }
+        });
+        marker.addListener('click', toggleBounce);
+        markerCoords(marker);
+        geocoder = new google.maps.Geocoder();
+        var autocomplete = new google.maps.places.Autocomplete(input);
+        autocomplete.addListener('place_changed', function () {
+            var place = autocomplete.getPlace();
+            // place variable will have all the information you are looking for.
+            $('#lat').val(place.geometry['location'].lat());
+            $('#long').val(place.geometry['location'].lng());
+            search_lat = place.geometry['location'].lat();
+            search_lng = place.geometry['location'].lng();
+            $("#address").html(place.formatted_address);
+            $("#autocomplete_search").val(place.formatted_address);
 
+            //setCountryStateCity(place, false);
+            // SETTING LAT LNG
+            $("#lat").val(search_lat);
+            $("#lng").val(search_lng);
+            map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 18,
+                center: { lat: search_lat, lng: search_lng }
+            });
+            marker = new google.maps.Marker({
+                map: map,
+                draggable: true,
+                zoom: 18,
+                animation: google.maps.Animation.DROP,
+                position: { lat: search_lat, lng: search_lng }
+            });
+            marker.addListener('click', toggleBounce);
+            markerCoords(marker);
+            var latlng = new google.maps.LatLng(search_lat, search_lng);
+            map.setCenter(latlng);
+            console.log('init Map', search_lat);
+        });
+    }
+    function toggleBounce() {
+        if (marker.getAnimation() !== null) {
+            marker.setAnimation(null);
+        } else {
+            marker.setAnimation(google.maps.Animation.BOUNCE);
+        }
+    }
+    function markerCoords(markerobject) {
+        google.maps.event.addListener(markerobject, 'dragend', function (evt) {
+            var newlat = evt.latLng.lat().toFixed(3);
+            var newlng = evt.latLng.lng().toFixed(3);
+            geocoder.geocode({
+                latLng: new google.maps.LatLng(newlat, newlng)
+            }, function (responses) {
+                if (responses && responses.length > 0) {
+                    //setCountryStateCity(responses, true);
+                    $("#address").html(responses[0].formatted_address);
+                    $("#autocomplete_search").val(responses[0].formatted_address);
+                }
+                else {
+                    console.log('Cannot determine address at this location.');
+                }
+            });
+            $("#lat").val(newlat);
+            $("#lng").val(newlng);
+            console.log(newlat, " drag value");
+
+        });
+    }
+    $("#MyLocator").on("click", function () {
+        getLocation();
+    })
+    function getLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition);
+        }
+        else {
+            var latitude = "-33.878358";
+            var longitude = "151.1835443";
+            $("#lat").val("-33.878358");
+            $("#lng").val("151.1835443");
+            map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 18,
+                center: { lat: latitude, lng: longitude }
+            });
+            marker = new google.maps.Marker({
+                map: map,
+                draggable: true,
+                zoom: 2,
+                animation: google.maps.Animation.DROP,
+                position: { lat: latitude, lng: longitude }
+            });
+            marker.addListener('click', toggleBounce);
+            //radius = 1000;
+            markerCoords(marker);
+            var latlng = new google.maps.LatLng(latitude, longitude);
+            map.setCenter(latlng);
+            $("#autocomplete_search").val(map.formatted_address);
+            alert("Geolocation is not supported by this browser.");
+        }
+    }
+    function showPosition(position) {
+        map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 18,
+            center: { lat: position.coords.latitude, lng: position.coords.longitude }
+        });
+        marker = new google.maps.Marker({
+            map: map,
+            draggable: true,
+            zoom: 2,
+            animation: google.maps.Animation.DROP,
+            position: { lat: position.coords.latitude, lng: position.coords.longitude }
+        });
+        marker.addListener('click', toggleBounce);
+        markerCoords(marker);
+        var latlng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+        map.setCenter(latlng);
+        $("#lat").val(position.coords.latitude);
+        $("#lng").val(position.coords.longitude);
+        console.log("Show position ", position.coords.latitude);
+    }
+</script>
 <script>
     $(document).ready(function () {
+        $('#OrderLocation').hide();
         $('input[type="radio"]').click(function () {
             if ($('#card').prop("checked") == true) {
                 $('#cardDiv').css("display", "flex");
@@ -310,12 +472,12 @@
         targetDiv.append('<div class="p-2 mt-1 sectionClone">' +
             '<div class="form-row">' +
             '<div class="col-md-3"><label>Select Category</label>' +
-            '<select onchange="ChangeProducts(this)" id="a-' + timestamp+'" class="form-float show-tick w-100">' +
+            '<select onchange="ChangeProducts(this)" id="a-' + timestamp + '" class="form-float show-tick w-100">' +
             '<option value="" disabled selected>-- Select Category</option>' +
             '</select>' +
             '</div>' +
             '<div class= "col-md-3" > <label>Select Product</label>' +
-            '<select id="p-' + timestamp +'" class= "form-float show-tick w-100" > ' +
+            '<select id="p-' + timestamp + '" class= "form-float show-tick w-100" > ' +
             '<option value = "" disabled selected > --Select Product</option > ' +
             '</select> ' +
             '</div> ' +
@@ -340,7 +502,7 @@
         var Id2 = 'p-' + timestamp;
         ShowProducts(Id, Id2);
         $('#a-' + timestamp).attr('id', 'CategoryId');
-        $('#p-' + timestamp).attr('id','ProductId');
+        $('#p-' + timestamp).attr('id', 'ProductId');
     });
     function ChangeProducts(element) {
         var select = $(element).closest('.col-md-3').next().find('select');
@@ -371,6 +533,10 @@
     }
     function next() {
         var getProductsData = OrderCheck();
+        if (getProductsData.price == 0) {
+            MixinSweet("", "Please select some products", "info", 2000);
+            return false;
+        }
         $('#TotalPrice').html("$" + getProductsData.price);
         $("#AddItem").addClass("d-none");
         $("#pay").removeClass("d-none");
@@ -379,7 +545,7 @@
         var options = $('#CategorySelect > option').clone();
         return options;
     }
-    function ShowIngredients(catId,element) {
+    function ShowIngredients(catId, element) {
         var clone = $('#AllIngredients').find('.' + catId).clone();
         clone.each(function () {
             var Id = $(this).find('input[type="checkbox"]').attr('data-id');
@@ -445,31 +611,39 @@
         $("#pay").addClass('d-none');
         $("#AddItem").removeClass('d-none');
     }
-
     function PlaceOrder() {
-        if ($('#Takeaway').prop("checked")) {
-            var orderType = 1;
-        }
-        else {
-            var orderType = 2;
-        }
+        
         var tableNumber = $('#tableNumber').val();
         var customer_name = $('#customer_name').val();
         var customer_email = $('#customer_email').val();
         var customer_phone = $('#customer_phone').val();
         var getProductsData = OrderCheck();
-        getProductsData.orderType = orderType;
+        
         getProductsData.table_num = tableNumber;
         getProductsData.customer_name = customer_name;
         getProductsData.customer_email = customer_email;
         getProductsData.customer_phone = customer_phone;
-        console.log("collected",getProductsData);
+        if ($('#Takeaway').prop("checked")) {
+            var orderType = 1;
+        }
+        else if ($('#dineIn').prop("checked")) {
+            var orderType = 2;
+        }
+        else {
+            var orderType = 0;
+            var latitude = $('#lat').val();
+            var longitude = $('#lng').val();
+        }
+        getProductsData.orderType = orderType;
+        console.log("collected", getProductsData);
         var data = JSON.stringify({
             'orderType': orderType,
             'customer_name': customer_name,
             'customer_email': customer_email,
             'customer_phone': customer_phone,
             'table_num': tableNumber,
+            'longitude': longitude,
+            'latitude': latitude,
             'AllProducts': getProductsData.AllProducts,
             'price': getProductsData.price,
         });
@@ -483,7 +657,7 @@
             contentType: 'application/json; charset=utf-8',
             dataType: 'json',
             success: function (data) {
-                console.log("Api",data);
+                console.log("Api", data);
                 if (data.code == 200) {
                     TimerSweet("Order Placed!", "", "success", 2000);
                     $("#pay").addClass('d-none');
@@ -499,6 +673,14 @@
                 return error;
             },
         });
+    }
+    function ToggleMap() {
+        if ($('#delivery').prop("checked")) {
+            $('#OrderLocation').show();
+        }
+        else {
+            $('#OrderLocation').hide();
+        }
     }
 </script>
 <script>

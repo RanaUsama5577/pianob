@@ -31,6 +31,7 @@ namespace piano_pizza.Areas.Driver.Controllers
         // GET: Receptionist/Main
         public ActionResult Index()
         {
+            ViewBag.currentime = DateTime.Now;
             var res = admin.GetStaffOrderdetails(userManager1.GetUserId(HttpContext.User));
             return View(res);
         }

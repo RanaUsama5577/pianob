@@ -69,6 +69,7 @@ namespace piano_pizza.Areas.Receptionist.Controllers
             var save = admin.SaveOrder(modal, userManager1.GetUserId(HttpContext.User));
             return Json(save);
         }
+
         public ActionResult AssignPerson(int Id,string userId)
         {
             var res = admin.AssignPerson(Id, userId);

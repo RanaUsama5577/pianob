@@ -1,4 +1,10 @@
-﻿.btn-progress {
+﻿.cursor-pointer{
+    cursor:pointer;
+}
+.select2-container {
+    width: 100% !important;
+}
+.btn-progress {
     position: relative;
     background-image: url("/spinner-white.svg");
     background-position: center;
@@ -72,7 +78,4 @@
 }
 .none_border{
     border:none;
-}
-.modal {
-    top: 51px!important;
 }

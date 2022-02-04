@@ -281,6 +281,8 @@ namespace Entities
         public string customer_phone { get; set; }
         public string table_num { get; set; }
         public decimal price { get; set; }
+        public decimal latitude { get; set; }
+        public decimal longitude { get; set; }
         public OrderType orderType { get; set; }
         public List<AllProducts> AllProducts { get; set; }
     }

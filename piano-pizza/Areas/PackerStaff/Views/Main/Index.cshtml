@@ -173,7 +173,7 @@
         $('.Timers').each(function (index, obj) {
             var s = $(obj).val();
             s = new Date(s);
-            var newTime = new Date();
+            var newTime = new Date('@ViewBag.currentime');
             var different = newTime.getTime() - s.getTime();
 
             console.log("startDate : " + s);

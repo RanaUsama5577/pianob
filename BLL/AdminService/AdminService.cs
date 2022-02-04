@@ -1792,6 +1792,13 @@ namespace BLL.AdminService
                 CookDefault = freeCook.FirstOrDefault();
                 type = OrderStatus.Cooking;
             }
+            decimal latitude = 0;
+            decimal longitude = 0;
+            if (modal.orderType == OrderType.Delivery)
+            {
+                latitude = modal.latitude;
+                longitude = modal.longitude;
+            }
             Orders orders = new Orders
             {
                 Status = type,
@@ -1806,6 +1813,8 @@ namespace BLL.AdminService
                 PhoneNumber = modal.customer_phone,
                 UserEmail = modal.customer_email,
                 Username = modal.customer_name,
+                Latitude = latitude,
+                Longitude = longitude,
             };
             db.Orders.Add(orders);
             if(CookDefault != null)
@@ -2095,29 +2104,6 @@ namespace BLL.AdminService
                 return JsonResponse2(400, "There are no orders in queue", null);
             }
         }
-        public ResponseDto MarkOrderAsDelivered(int orderId, string userId)
-        {
-            var staff = db.Users.Find(userId);
-            var branch = db.Branches.Find(staff.BranchId);
-            var order = db.Orders.Find(orderId);
-            if (order != null)
-            {
-                order.Status = OrderStatus.Delivered;
-                order.UpdatedAt = currentTime;
-                order.AssigneeId = null;
-                db.Entry(order).State = EntityState.Modified;
-                var assign = db.AssigneesLists.Where(p => p.OrderId == orderId && p.UserId == userId).FirstOrDefault();
-                assign.Status = WorkerStatus.Completed;
-                assign.EndTime = currentTime;
-                db.Entry(assign).State = EntityState.Modified;
-                db.SaveChanges();
-                return JsonResponse2(200, "success", null);
-            }
-            else
-            {
-                return JsonResponse2(400, "There are no orders in queue", null);
-            }
-        }
         public ResponseDto AssignPerson(int orderId, string userId)
         {
             var order = db.Orders.Find(orderId);
@@ -2209,9 +2195,34 @@ namespace BLL.AdminService
                     return JsonResponse2(400, "There are no orders in queue", null);
                 }
                 assigny.Status = WorkerStatus.Working;
+                assigny.StartTime = currentTime;
                 db.Entry(assigny).State = EntityState.Modified;
                 order.Status = OrderStatus.OnTheWay;
+                order.UpdatedAt = currentTime;
                 db.Entry(order).State = EntityState.Modified;
+                db.SaveChanges();
+                return JsonResponse2(200, "success", null);
+            }
+            else
+            {
+                return JsonResponse2(400, "There are no orders in queue", null);
+            }
+        }
+        public ResponseDto MarkOrderAsDelivered(int orderId, string userId)
+        {
+            var staff = db.Users.Find(userId);
+            var branch = db.Branches.Find(staff.BranchId);
+            var order = db.Orders.Find(orderId);
+            if (order != null)
+            {
+                order.Status = OrderStatus.Delivered;
+                order.UpdatedAt = currentTime;
+                order.AssigneeId = null;
+                db.Entry(order).State = EntityState.Modified;
+                var assign = db.AssigneesLists.Where(p => p.OrderId == orderId && p.UserId == userId).FirstOrDefault();
+                assign.Status = WorkerStatus.Completed;
+                assign.EndTime = currentTime;
+                db.Entry(assign).State = EntityState.Modified;
                 db.SaveChanges();
                 return JsonResponse2(200, "success", null);
             }
