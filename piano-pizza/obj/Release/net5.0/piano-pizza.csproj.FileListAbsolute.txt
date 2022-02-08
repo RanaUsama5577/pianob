@@ -167,7 +167,6 @@ D:\repos\piano-pizza\piano-pizza\obj\Release\net5.0\piano-pizza.TagHelpers.outpu
 D:\repos\piano-pizza\piano-pizza\obj\Release\net5.0\piano-pizza.RazorCoreGenerate.cache
 D:\repos\piano-pizza\piano-pizza\obj\Release\net5.0\Razor\Areas\Cook\Views\Main\CookProfile.cshtml.g.cs
 D:\repos\piano-pizza\piano-pizza\obj\Release\net5.0\Razor\Areas\Cook\Views\Main\Index.cshtml.g.cs
-D:\repos\piano-pizza\piano-pizza\obj\Release\net5.0\Razor\Areas\Cook\Views\Orders\AssignOrders.cshtml.g.cs
 D:\repos\piano-pizza\piano-pizza\obj\Release\net5.0\Razor\Areas\Cook\Views\Orders\CompletedOrder.cshtml.g.cs
 D:\repos\piano-pizza\piano-pizza\obj\Release\net5.0\Razor\Areas\Cook\Views\Shared\_Layout.cshtml.g.cs
 D:\repos\piano-pizza\piano-pizza\obj\Release\net5.0\Razor\Areas\Identity\Pages\_ViewStart.cshtml.g.cs
