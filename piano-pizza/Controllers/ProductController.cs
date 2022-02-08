@@ -1,4 +1,5 @@
 ﻿using BLL.AdminService;
+using Entities;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -22,6 +23,12 @@ namespace piano_pizza.Controllers
         {
             var res = admin.ProductDetail(Id, BranchName, CategoryName);
             return View(res);
+        }
+
+        [HttpPost]
+        public IActionResult AddToCart([FromBody] AddToCart model)
+        {
+            return Json(model);
         }
     }
 }

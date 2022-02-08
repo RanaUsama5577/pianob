@@ -674,6 +674,10 @@ namespace BLL.AdminService
                         {
                             return JsonResponse2(205, "success", null);
                         }
+                        else if (user.Type == UserType.User)
+                        {
+                            return JsonResponse2(206, "success", null);
+                        }
                         else
                         {
                             return JsonResponse2(400, "Not allowed to sign in admin panel", null);
@@ -687,6 +691,54 @@ namespace BLL.AdminService
                 else
                 {
                     return JsonResponse2(400, "Invalid user email or username!", null);
+                }
+            }
+            catch (Exception ex)
+            {
+                return JsonResponse2(501, ex.GetBaseException().Message, null);
+            }
+        }
+        async Task<ResponseDto> IAdminService.Register(LoginViewModel LoginUser)
+        {
+            try
+            {
+                if (LoginUser.Email == null)
+                {
+                    return JsonResponse2(400, "Email is required!", null);
+                }
+                //Check Validations
+                if (!ModelState.IsValid)
+                {
+                    var message = string.Join(" | ", ModelState.Values
+                                    .SelectMany(v => v.Errors)
+                                    .Select(e => e.ErrorMessage));
+                    return JsonResponse2(400, message, null);
+                }
+                ApplicationUser applicationUser = new ApplicationUser
+                {
+                    Status = UserStatus.Active,
+                    CreatedAt = currentTime,
+                    Email = LoginUser.Email,
+                    FullName = LoginUser.Name,
+                    Type = UserType.User,
+                    RegisteredAt = currentTime,
+                    UserName = LoginUser.Username,
+                    UpdatedAt = currentTime,
+                    ProfileImageUrl = "default-user-icon-4.jpg",
+                };
+                var result = await userManager.CreateAsync(applicationUser, LoginUser.Password);
+                if (result.Succeeded)
+                {
+                    return JsonResponse2(200, "Sucess! Account registered with " + applicationUser.Email + "!", null);
+                }
+                else
+                {
+                    List<string> errorList = new List<string>();
+                    foreach (var error in result.Errors)
+                    {
+                        errorList.Add(error.Description);
+                    }
+                    return JsonResponse2(402, "Validation Error", errorList);
                 }
             }
             catch (Exception ex)

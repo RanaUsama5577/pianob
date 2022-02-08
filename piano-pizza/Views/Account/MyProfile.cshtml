@@ -1,0 +1,187 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<!-- #header-wrap -->
+<div id="header-bottom-wrap" class="is-clearfix">
+    <div id="header-bottom" class="site-header-bottom">
+        <div id="header-bottom-inner" class="site-header-bottom-inner ">
+            <section class="hero slider is-clearfix ">
+                <div style="background-image: url('/app-images/home.jpg');background-repeat: no-repeat;background-size: cover;height: 200px;position: relative;background-position: center center;">
+                </div>
+                <div style="position: absolute;width: 100%;height: 100%;background-color: #000000;opacity: 0.5;transition: background 0.3s, border-radius 0.3s, opacity 0.3s;">
+                </div>
+                <div style="text-align: center;position: absolute;width: 100%;">
+                    <h2 style="color: #fff;font-size: 36px;margin-top: 138px;font-family: 'LIBRE FRANKLIN', sans-serif;" class="">My Profile</h2>
+                </div>
+            </section>
+            <!-- .slider -->
+        </div>
+        <!-- #header-bottom-inner -->
+    </div>
+    <!-- #header-bottom -->
+</div>
+
+<!-- import content layouts and modules -->
+<div id="content-main-wrap" class="is-clearfix">
+    <div id="content-area" class="site-content-area">
+        <div id="content-area-inner" class="site-content-area-inner">
+            <section class="section  is-clearfix">
+                <div class="container">
+                    <br>
+                    <div class="columns is-variable is-multiline">
+                        <div class="column is-three-fifths is-offset-one-fifth">
+                            <div class="tabs-list">
+                                <div class="tabs is-boxed is-centered">
+                                    <ul>
+                                        <li class="is-active">
+                                            <a>
+                                                <span class="icon">
+                                                    <i class="fas fa-cog"></i>
+                                                </span>
+                                                <span>Settings</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a>
+                                                <span class="icon">
+                                                    <i class="fas fa-lock"></i>
+                                                </span>
+                                                <span>Password</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <!-- .tabs -->
+                                <div class="tabs-content">
+                                    <div class="tab-block content">
+                                        <br>
+                                        <h4>Change your name</h4>
+                                        <form action="#" id="editBasicForm">
+                                            <div class="field">
+                                                <div class="control">
+                                                    <input class="input" id="Username" type="text" placeholder="Text input">
+                                                </div>
+                                            </div>
+                                            <div class="field is-grouped">
+                                                <div class="control">
+                                                    <button class="button is-small">Save Changes</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <!-- .tab-block -->
+                                    <!-- .tab-block -->
+                                    <div class="tab-block content">
+                                        <br>
+                                        <h4>Change your password</h4>
+                                        <form action="#" id="editPasswordForm">
+                                            <div class="field">
+                                                <div class="control is-expanded">
+                                                    <input class="input" type="password" id="current_password" name="current_password" placeholder="Old Password">
+                                                </div>
+                                            </div>
+                                            <div class="field">
+                                                <div class="control is-expanded">
+                                                    <input class="input" type="password" id="new_password" name="new_password" placeholder="New Password">
+                                                </div>
+                                            </div>
+                                            <div class="field">
+                                                <div class="control is-expanded">
+                                                    <input class="input" type="password" id="confirm_password" name="confirm_password" placeholder="Repeat New Password">
+                                                </div>
+                                            </div>
+                                            <!-- .field -->
+                                            <div class="field ">
+                                                <div class="control">
+                                                    <button class="button is-small">Change password</button>
+                                                </div>
+                                            </div>
+                                            <!-- .field -->
+                                        </form>
+                                    </div>
+                                </div>
+                                <!-- .tabs-content -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+        <!-- #content-area-inner -->
+    </div>
+    <!-- #content-area -->
+</div>
+<!-- #content-main-wrap -->
+<input type="hidden" id="EmailUserId"/>
+<script>
+    $(function () {
+        GetProfile();
+    })
+    function GetProfile() {
+        var response = getResponseFromUrl('GET', '/Account/GetProfile');
+        if (response.code == 200) {
+            var data = response.result;
+            $('#Username').val(data.fullName);
+            $('#EmailUserId').html(data.email);
+        }
+        else {
+            console.log("Error!", response.shortMessage);
+        }
+    }
+    $('#editBasicForm').submit(function (e) {
+        e.preventDefault();
+        var UserName = $('#Username').val();
+        var response = getResponseFromUrl('GET', '/Account/UpdateProfile?Name=' + UserName, null, false);
+        if (response.code == 200) {
+            MixinSweet("Profile Updated!", 'Profile is successfully updated', "success", 2000);
+            GetProfile();
+        }
+        else {
+            sweetMessage("Error!", response.msg, "error");
+        }
+    })
+    $('#editPasswordForm').submit(function (e) {
+        e.preventDefault();
+        var form = new FormData(document.getElementById('editPasswordForm'));
+        if ($('#new_password').val() != $('#confirm_password').val()) {
+            sweetMessage("Warning!", "Password and confirm password should be same", "warning");
+            return false;
+        }
+        else if ($('#new_password').val() == "" || $('#confirm_password').val() == "" || $('#current_password').val() == "") {
+            sweetMessage("Warning!", "Please provide password", "warning");
+            return false;
+        }
+        var response = getResponseFromUrl('POST', '/Account/ChangePassword', form, true);
+        if (response.code == 200) {
+            MixinSweet("Password Updated!", 'Passsword is successfully updated', "success", 2000);
+            GetProfile();
+            document.getElementById('editPasswordForm').reset();
+        }
+        else {
+            console.log(response);
+            sweetMessage("Error!", response.shortMessage + "<br>" + response.result, "error");
+        }
+    })
+</script>
+
+<!--Ajax-->
+<script>
+    var getResponseFromUrl = function (requestType, requestUrl, requestData, async) {
+        var response;
+        $.ajax({
+            type: requestType,
+            url: requestUrl,
+            data: requestData,
+            async: false,
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                response = data;
+            },
+            error: function (error) {
+                return error;
+            },
+        });
+        return response;
+    }
+</script>

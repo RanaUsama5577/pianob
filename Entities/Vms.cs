@@ -274,6 +274,7 @@ namespace Entities
         public string UpdatedAt { get; set; }
         public List<ProductDtos> ProductList { get; set; }
     }
+
     public class SaveOrderData
     {
         public string customer_name { get; set; }
@@ -285,6 +286,13 @@ namespace Entities
         public decimal longitude { get; set; }
         public OrderType orderType { get; set; }
         public List<AllProducts> AllProducts { get; set; }
+    }
+    public class AddToCart
+    {
+        public int productId { get; set; }
+        public int quantity { get; set; }
+        public decimal price { get; set; }
+        public List<ingredientList> AllIngredients { get; set; }
     }
     public class StaffOrderReports
     {

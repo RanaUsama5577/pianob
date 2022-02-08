@@ -24,6 +24,7 @@ namespace BLL.AdminService
         Task<ResponseDto> CreateAdmin();
         Task<ResponseDto> AddStaff(AddStaffDtos modal);
         Task<ResponseDto> Login(LoginViewModel LoginUser);
+        Task<ResponseDto> Register(LoginViewModel LoginUser);
         AdminDashboard DashboardStats(string UserId);
         contentVms GetTerms();
         contentVms GetPrivacyPolicy();

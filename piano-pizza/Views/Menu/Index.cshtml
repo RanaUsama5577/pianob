@@ -46,7 +46,7 @@
                             {
                                 foreach (var a in i.ProductList)
                                 {
-                                    <div class="column is-4 @i.Id" data-aos="fade">
+                                    <div class="column is-4 @i.Id" >
                                         <div class="work-item">
                                             <figure class="work-item-img">
                                                 <a href="@Url.Action("Index","Product",new {CategoryName = i.Name,Id = a.Id,BranchName = i.BranchName})">

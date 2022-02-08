@@ -53,6 +53,12 @@ namespace Entities
         [EmailAddress]
         public string Email { get; set; }
 
+        [Display(Name = "Name")]
+        public string Name { get; set; }
+
+        [Display(Name = "Username")]
+        public string Username { get; set; }
+
         [Required]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]

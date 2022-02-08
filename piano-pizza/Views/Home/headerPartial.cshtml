@@ -4,12 +4,16 @@
     Layout = null;
 }
 <li class="niche-templates">
-    <a href="@Url.Action("Index","Home")">@local.GetLocalizedHtmlString("Home")</a>
+    <a href="@Url.Action("Index","Home")">
+        <span>@local.GetLocalizedHtmlString("Home")</span>
+    </a>
 </li>
 @foreach (var i in Model)
 {
     <li class="active">
-        <a href="@Url.Action("Index","Menu",new {BranchName = i.Name})">@i.Name</a>
+        <a href="@Url.Action("Index","Menu",new {BranchName = i.Name})">
+            <span>@i.Name</span>
+        </a>
     </li>
 }
 

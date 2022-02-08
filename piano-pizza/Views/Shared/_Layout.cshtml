@@ -22,6 +22,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="PianoPizza">
     <link rel="shortcut icon" href="/app-images/cropped-b-black-180x180.png">
+    <link href="~/sweet alert/sweetalert2.min.css" rel="stylesheet" />
     <script src="/assets/js/vendor.mind652.js?v=1557174151243"></script>
 
 </head>
@@ -56,17 +57,25 @@
                                         @if (!User.Identity.IsAuthenticated)
                                         {
                                             <li class="active">
-                                                <a href="@Url.Action("Login","Account")">@local.GetLocalizedHtmlString("Login")</a>
+                                                <a href="@Url.Action("Signin","Account")">@local.GetLocalizedHtmlString("Login/Signup")</a>
                                             </li>
                                         }
                                         else
                                         {
                                             <li class="active">
-                                                <a href="@Url.Action("History","Order")">@local.GetLocalizedHtmlString("History")</a>
+                                                <a href="@Url.Action("Cart","Order")">
+                                                    <span class="">@local.GetLocalizedHtmlString("Cart")</span>
+                                                </a>
+                                            </li>
+                                            <li class="active">
+                                                <a href="@Url.Action("History","Order")">
+                                                    <span class="">@local.GetLocalizedHtmlString("History")</span>
+
+                                                </a>
                                             </li>
                                             <li class="active">
                                                 <a href="@Url.Action("MyOrder","Order")">
-                                                    <span class="headerBtn">@local.GetLocalizedHtmlString("My Order")</span>
+                                                    <span class="">@local.GetLocalizedHtmlString("My Order")</span>
                                                 </a>
                                             </li>
                                             <li class="active">
@@ -76,10 +85,10 @@
                                                 </a>
                                                 <ul class="open-left">
                                                     <li>
-                                                        <a href="#">My Profile</a>
+                                                        <a href="@Url.Action("MyProfile","Account")">My Profile</a>
                                                     </li>
                                                     <li>
-                                                        <a href="@Url.Action("Logout","Account")">Logout</a>
+                                                        <a href="@Url.Action("LogoutUser","Account")">Logout</a>
                                                     </li>
                                                 </ul>
                                             </li>
@@ -152,13 +161,15 @@
             <!-- #footer -->
         </div>
     </div>
-    
+
     <script src="/assets/js/scripts.mind652.js?v=1557174151243"></script>
     <script src="/assets/js/customd652.js?v=1557174151243"></script>
     <script src="/custom/custom.js"></script>
     <script src="~/assets/number_input/jquery.bootstrap-touchspin.js"></script>
     <script src="~/assets/number_input/form-number-input.min.js"></script>
     <script src="~/assets/toast/toastr.min.js"></script>
+    <script src="~/sweet alert/sweetalert2.min.js"></script>
+    <script src="~/custom.js"></script>
     <script>
         $(function () {
             GetHeaderPartial();
@@ -174,6 +185,15 @@
                 data: null,
                 success: function (response) {
                     $('#ul_menu').prepend(response);
+
+                    var element = $('#ul_menu').find("[href='" + location.pathname + "']");
+                    if (element.length != 0) {
+                        element.find('span').addClass('headerBtn');
+                    }
+                    else {
+                        var element = $('#ul_menu').find("[href='/']");
+                        element.find('span').addClass('headerBtn');
+                    }
                 },
                 error: function (result) {
                     console.log("Save Error", result);

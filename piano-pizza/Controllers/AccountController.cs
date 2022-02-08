@@ -32,11 +32,14 @@ namespace piano_pizza.Controllers
         private readonly HttpContext _context;
         private readonly ICompositeViewEngine _viewEngine;
         private readonly ITempDataProvider _tempDataProvider;
-        public AccountController(IAdminService adminService, ITempDataProvider tempDataProvider, ICompositeViewEngine viewEngine, IHttpContextAccessor accessor)
+        //Init ASP.NET identity store to handle user sign-in & sign-up 
+        private readonly UserManager<ApplicationUser> userManager1;
+        public AccountController(IAdminService adminService, ITempDataProvider tempDataProvider, ICompositeViewEngine viewEngine, IHttpContextAccessor accessor, UserManager<ApplicationUser> userManager)
         {
             admin = adminService;
             _context = accessor.HttpContext;
             _viewEngine = viewEngine;
+            this.userManager1 = userManager;
             _tempDataProvider = tempDataProvider;
         }
 
@@ -125,6 +128,107 @@ namespace piano_pizza.Controllers
             }
         }
 
+        // GET: SuperAdmin/Signin
+        public ActionResult Signin()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<JsonResult> Signin(LoginViewModel LoginUser, string returnUrl)
+        {
+            var response = await admin.Login(LoginUser);
+            if (response.Code != 400 && response.Code != 501)
+            {
+                if (returnUrl != null)
+                {
+                    ResponseDto responseDto = new ResponseDto
+                    {
+                        Code = 200,
+                        ShortMessage = returnUrl,
+                        Result = null,
+                    };
+                    return Json(responseDto);
+                }
+                else
+                {
+                    ResponseDto responseDto = new ResponseDto
+                    {
+                        Code = 200,
+                        ShortMessage = "/Home/Index",
+                        Result = null,
+                    };
+                    return Json(responseDto);
+                }
+            }
+            else
+            {
+                ModelState.AddModelError("", response.ShortMessage);
+                ResponseDto responseDto = new ResponseDto
+                {
+                    Code = 400,
+                    ShortMessage = response.ShortMessage,
+                    Result = LoginUser,
+                };
+                return Json(responseDto);
+            }
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<JsonResult> Signup(LoginViewModel LoginUser, string returnUrl)
+        {
+            var response = await admin.Register(LoginUser);
+            if (response.Code != 400 && response.Code != 501 && response.Code != 402)
+            {
+                if (returnUrl != null)
+                {
+                    ResponseDto responseDto = new ResponseDto
+                    {
+                        Code = 200,
+                        ShortMessage = returnUrl,
+                        Result = null,
+                    };
+                    return Json(responseDto);
+                }
+                else
+                {
+                    ResponseDto responseDto = new ResponseDto
+                    {
+                        Code = 200,
+                        ShortMessage = "/Home/Index",
+                        Result = null,
+                    };
+                    return Json(responseDto);
+                }
+            }
+            else if (response.Code == 400 || response.Code == 501)
+            {
+                ModelState.AddModelError("", response.ShortMessage);
+                ResponseDto responseDto = new ResponseDto
+                {
+                    Code = 400,
+                    ShortMessage = response.ShortMessage,
+                    Result = response.Result,
+                };
+                return Json(responseDto);
+            }
+            else
+            {
+                ModelState.AddModelError("", response.ShortMessage);
+                ResponseDto responseDto = new ResponseDto
+                {
+                    Code = 402,
+                    ShortMessage = response.ShortMessage,
+                    Result = response.Result,
+                };
+                return Json(responseDto);
+            }
+        }
+
         public async Task<IActionResult> Logout()
         {
             var logout = await admin.Logout();
@@ -136,6 +240,24 @@ namespace piano_pizza.Controllers
             {
                 return RedirectToAction("Login", "Account");
             }
+        }
+
+        public async Task<IActionResult> LogoutUser()
+        {
+            var logout = await admin.Logout();
+            if (logout.Code == 200)
+            {
+                return RedirectToAction("Signin", "Account");
+            }
+            else
+            {
+                return RedirectToAction("Signin", "Account");
+            }
+        }
+
+        public ActionResult MyProfile()
+        {
+            return View();
         }
 
         public IActionResult ForgotPassword(string returnUrl)
@@ -289,6 +411,56 @@ namespace piano_pizza.Controllers
         public ActionResult AccessDenied()
         {
             return View();
+        }
+
+        public IActionResult UpdateProfile(string Name)
+        {
+            var user = admin.UpdateProfile(Name, userManager1.GetUserId(HttpContext.User));
+            ProfileDtos profile = new ProfileDtos
+            {
+                FullName = user.FullName,
+                Email = user.Email,
+                ProfileImageUrl = user.ProfileImageUrl,
+            };
+            return JsonResponse(200, "success", profile);
+        }
+        
+        // POST: /Manage/ChangePassword
+        [HttpPost]
+        public async Task<JsonResult> ChangePassword(UpdatePasswordVms model)
+        {
+            try
+            {
+                var response = await admin.ChangePassword(model, userManager1.GetUserId(HttpContext.User));
+                return Json(response);
+            }
+            catch (Exception ex)
+            {
+                return JsonResponse(501, ex.GetBaseException().Message, null);
+            }
+        }
+        
+        public IActionResult GetProfile()
+        {
+            var user = admin.getLoginUser(userManager1.GetUserId(HttpContext.User));
+            ProfileDtos profile = new ProfileDtos
+            {
+                FullName = user.FullName,
+                Email = user.Email,
+                ProfileImageUrl = user.ProfileImageUrl,
+            };
+            return JsonResponse(200, "success", profile);
+        }
+        
+        internal JsonResult JsonResponse(int errorCode, string message, object responseData)
+        {
+            ResponseDto response = new ResponseDto
+            {
+                Code = errorCode,
+                ShortMessage = message,
+                Result = responseData,
+            };
+            return Json(response);
         }
     }
 }

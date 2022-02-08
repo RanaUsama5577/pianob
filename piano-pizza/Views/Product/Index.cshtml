@@ -55,30 +55,26 @@
                                     @foreach (var i in Model.IngredientLists)
                                     {
                                         <li>
-
                                             <div class="row">
                                                 <div class="col-sm-5 col-12">
                                                     <div class="ps-checkbox">
-                                                        <input class="form-control" type="checkbox" id="create-account">
-                                                        <label for="create-account">@i.Name</label>
+                                                        <input class="form-control" data-ingredient="@i.Id" data-price="@i.Price" type="checkbox" id="c-@i.Id">
+                                                        <label for="c-@i.Id">@i.Name</label>
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-7 col-12 d-flex flex-row mt-n3">
                                                     <div class="input-group bootstrap-touchspin m-0" style="display: flex;position: relative;margin:auto">
-                                                        <span class="input-group-btn bootstrap-touchspin-injected" style="">
-                                                            <button class="btn btn-primary bootstrap-touchspin-down disabled-max-min rounded-circle" type="button">-</button>
+                                                        <span  class="input-group-btn bootstrap-touchspin-injected" style="">
+                                                            <button onclick="IngredientDownFunction(this)" class="btn btn-primary bootstrap-touchspin-down disabled-max-min rounded-circle" type="button">-</button>
                                                         </span>
-                                                        <input type="text" class="quantity-counter form-control" readonly="" value="1" style="">
+                                                        <input id="val-@i.Id" type="text" class="quantity-counter form-control" readonly="" value="1" style="">
                                                         <span class="input-group-btn bootstrap-touchspin-injected" style="">
-                                                            <button class="btn btn-primary bootstrap-touchspin-up rounded-circle" type="button">+</button>
+                                                            <button onclick="IngredientUpFunction(this)" class="btn btn-primary bootstrap-touchspin-up rounded-circle" type="button">+</button>
                                                         </span>
                                                     </div>
-
                                                     <span class="ml-auto pt-4">@i.Price</span>
                                                 </div>
                                             </div>
-
-
                                         </li>
                                     }
                                 </ul>
@@ -87,17 +83,24 @@
                                     <div class="quantity-counter-wrapper">
                                         <div class="input-group bootstrap-touchspin" style="display: flex;position: relative;">
                                             <span class="input-group-btn bootstrap-touchspin-injected" style="">
-                                                <button class="btn btn-primary bootstrap-touchspin-down disabled-max-min rounded-circle" type="button">-</button>
+                                                <button class="btn btn-primary touch-down bootstrap-touchspin-down disabled-max-min rounded-circle" type="button">-</button>
                                             </span>
-                                            <input type="text" class="quantity-counter form-control" readonly="" value="1" style="">
+                                            <input id="Quantity" type="text" class="quantity-counter form-control" readonly="" value="1" style="">
                                             <span class="input-group-btn bootstrap-touchspin-injected" style="">
-                                                <button class="btn btn-primary bootstrap-touchspin-up rounded-circle" type="button">+</button>
+                                                <button class="btn btn-primary touch-up bootstrap-touchspin-up rounded-circle" type="button">+</button>
                                             </span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <a style="background-color: #2d2929;" class="button" href="@Url.Action("Cart","Order")">Add To Cart</a>
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <a onclick="AddToCart()" href="#" style="background-color: #2d2929;" class="button">Add To Cart</a>
+                            }
+                            else
+                            {
+                                <a style="background-color: #2d2929;" class="button" href="@Url.Action("Signin","Account")">Add To Cart</a>
+                            }
                         </div>
                     </div>
                 </div>
@@ -108,13 +111,75 @@
 </div>
 <script>
     $(function () {
-        $('.bootstrap-touchspin-up').on('click', function () {
+        $('.touch-up').on('click', function () {
             var s = parseInt($(this).parent().siblings('input').val()) + 1;
             $(this).parent().siblings('input').val(s > 50 ? 50 : s);
         })
-        $('.bootstrap-touchspin-down').on('click', function () {
+        $('.touch-down').on('click', function () {
             var s = parseInt($(this).parent().siblings('input').val()) - 1;
-            $(this).parent().siblings('input').val(s <= 1 ? 1 : s);
+            $(this).parent().siblings('input').val(s <= 0 ? 1 : s);
         })
     })
+    function IngredientUpFunction(element) {
+        var input = $(element).parent().siblings('.quantity-counter');
+        var itemCount = $(element).parent().siblings('.quantity-counter').val();
+        var itemCount = parseInt(itemCount);
+        itemCount += 1;
+        if (itemCount <= 99) {
+            $(input).val(itemCount);
+        }
+        $(element).closest('.col-sm-7').prev('.col-sm-5').find('input').prop('checked', true);
+    }
+    function IngredientDownFunction(element) {
+        var input = $(element).parent().siblings('.quantity-counter');
+        var itemCount = $(element).parent().siblings('.quantity-counter').val();
+        var itemCount = parseInt(itemCount);
+        itemCount -= 1;
+        if (itemCount >= 0) {
+            $(input).val(itemCount);
+        }
+        if (itemCount == 0) {
+            $(element).closest('.col-sm-7').prev('.col-sm-5').find('input').prop('checked', false);
+        }
+    }
+</script>
+
+<script>
+    function AddToCart() {
+        var pushs = [];
+        var quantity = 0;
+        $('input[type="checkbox"]:checked').each(function (index, obj) {
+            var ingredient = $(obj).attr('data-ingredient');
+            quantity = $('#val-' + ingredient).val();
+            var data = {
+                Id: parseInt(ingredient),
+                quantity: parseInt(quantity),
+            };
+            pushs.push(data);
+        })
+        console.log(pushs);
+        var product_data = JSON.stringify({
+            'allIngredients': pushs,
+            'quantity': quantity,
+            'price': '@Model.Price',
+            'productId': '@Model.Id',
+        });
+
+        $.ajax({
+            type: 'POST',
+            url: '/Product/AddToCart',
+            data: product_data,
+            async: true,
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            success: function (data) {
+                console.log("Api", data);
+            },
+            error: function (error) {
+                return error;
+            },
+        });
+    }
+
+
 </script>
