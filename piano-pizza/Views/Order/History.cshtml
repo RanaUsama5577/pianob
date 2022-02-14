@@ -1,11 +1,7 @@
-﻿
+﻿@model IEnumerable<Entities.GetOrderdetails>
 @{
-    ViewData["Title"] = "History";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-
-
 <link href="~/orderassets/assets/css/bootstrap.min.css" rel="stylesheet">
 <!-- Custom Stylesheet -->
 <link href="~/orderassets/assets/css/style.css" rel="stylesheet">
@@ -37,176 +33,56 @@
 <div id="content-main-wrap" class="is-clearfix">
     <div id="content-area" class="site-content-area">
         <div id="content-area-inner" class="site-content-area-inner">
-
-
             <!-- your previous order -->
             <section class="recent-order section-padding">
                 <div class="container">
                     <div class="row">
-                        <div class="col-12">
-                            <div class="section-header-left">
-                                <h3 class="text-light-black header-title title">Previous Orders</h3>
+                        @if (Model.Count() == 0)
+                        {
+                            <div class="col-md-12" style="text-align: center;">
+                                <img src="~/empty cart.gif" />
                             </div>
+                        }
+                        else
+                        {
+                    <div class="col-12">
+                        <div class="section-header-left">
+                            <h3 class="text-light-black header-title title">Previous Orders</h3>
                         </div>
-                        <div class="col-lg-4 col-md-6 col-sm-6 mt-2">
-                            <div class="product-box mb-md-20 border-0 shadow-sm p-2">
-                                <div class="product-img">
-                                    <a href="restaurant.html">
-                                        <img src="/assets/images/menu/cooking.png" class="w-25 d-flex m-auto" alt="product-img">
-                                    </a>
-                                </div>
-                                <div class="product-caption">
-                                    <div class="d-flex flex-row">
-                                        <h6 class="product-title"><a href="restaurant.html" class="text-light-black ">#123456</a></h6>
-                                        <p class="ml-auto mb-0">$120.00</p>
+                    </div>
+                        }
+                        @foreach (var i in Model)
+                        {
+                            
+                            <div class="col-lg-4 col-md-6 col-sm-6 mt-2">
+                                <div class="product-box mb-md-20 border-0 shadow-sm p-2">
+                                    <div class="product-img">
+                                        <a href="restaurant.html">
+                                            <img src="/assets/images/menu/cooking.png" class="w-25 d-flex m-auto" alt="product-img">
+                                        </a>
                                     </div>
+                                    <div class="product-caption">
+                                        <div class="d-flex flex-row">
+                                            <h6 class="product-title"><a href="restaurant.html" class="text-light-black ">#@i.OrderId</a></h6>
+                                            <p class="ml-auto mb-0">$@i.TotalPrice</p>
+                                        </div>
 
-                                    <div class="d-flex flex-row">
-                                        <p class="text-light-white">Maastrict, Lahore</p>
-
-                                        <p class="ml-auto mb-0">27 Dec 2012 10:51 PM</p>
-                                    </div>
-                                    <div class="product-btn">
-                                        <a href="@Url.Action("HistoryOrderDetails","Order")" class="btn-first white-btn full-width  fw-600">Order Details</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-4 col-md-6 col-sm-6 mt-2">
-                            <div class="product-box mb-md-20 border-0 shadow-sm p-2">
-                                <div class="product-img">
-                                    <a href="restaurant.html">
-                                        <img src="/assets/images/menu/cooking.png" class="w-25 d-flex m-auto" alt="product-img">
-                                    </a>
-                                </div>
-                                <div class="product-caption">
-                                    <div class="d-flex flex-row">
-                                        <h6 class="product-title"><a href="restaurant.html" class="text-light-black ">#123456</a></h6>
-                                        <p class="ml-auto mb-0">$120.00</p>
-                                    </div>
-
-                                    <div class="d-flex flex-row">
-                                        <p class="text-light-white">Maastrict, Lahore</p>
-
-                                        <p class="ml-auto mb-0">27 Dec 2012 10:51 PM</p>
-                                    </div>
-                                    <div class="product-btn">
-                                        <a href="@Url.Action("HistoryOrderDetails","Order")" class="btn-first white-btn full-width fw-600">Order Details</a>
+                                        <div class="d-flex flex-row">
+                                            <p class="ml-auto mb-0">@i.CreatedAt</p>
+                                        </div>
+                                        <div class="product-btn">
+                                            <a href="@Url.Action("HistoryOrderDetails","Order",new { Id = i.Id})" class="btn-first white-btn full-width fw-600">Order Details</a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-
-                        <div class="col-lg-4 col-md-6 col-sm-6 mt-2">
-                            <div class="product-box mb-md-20 border-0 shadow-sm p-2">
-                                <div class="product-img">
-                                    <a href="restaurant.html">
-                                        <img src="/assets/images/menu/cooking.png" class="w-25 d-flex m-auto" alt="product-img">
-                                    </a>
-                                </div>
-                                <div class="product-caption">
-                                    <div class="d-flex flex-row">
-                                        <h6 class="product-title"><a href="restaurant.html" class="text-light-black ">#123456</a></h6>
-                                        <p class="ml-auto mb-0">$120.00</p>
-                                    </div>
-
-                                    <div class="d-flex flex-row">
-                                        <p class="text-light-white">Maastrict, Lahore</p>
-
-                                        <p class="ml-auto mb-0">27 Dec 2012 10:51 PM</p>
-                                    </div>
-                                    <div class="product-btn">
-                                        <a href="@Url.Action("HistoryOrderDetails","Order")" class="btn-first white-btn full-width fw-600">Order Details</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-4 col-md-6 col-sm-6 mt-2">
-                            <div class="product-box mb-md-20 border-0 shadow-sm p-2">
-                                <div class="product-img">
-                                    <a href="restaurant.html">
-                                        <img src="/assets/images/menu/cooking.png" class="w-25 d-flex m-auto" alt="product-img">
-                                    </a>
-                                </div>
-                                <div class="product-caption">
-                                    <div class="d-flex flex-row">
-                                        <h6 class="product-title"><a href="restaurant.html" class="text-light-black ">#123456</a></h6>
-                                        <p class="ml-auto mb-0">$120.00</p>
-                                    </div>
-
-                                    <div class="d-flex flex-row">
-                                        <p class="text-light-white">Maastrict, Lahore</p>
-
-                                        <p class="ml-auto mb-0">27 Dec 2012 10:51 PM</p>
-                                    </div>
-                                    <div class="product-btn">
-                                        <a href="@Url.Action("HistoryOrderDetails","Order")" class="btn-first white-btn full-width fw-600">Order Details</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-4 col-md-6 col-sm-6 mt-2">
-                            <div class="product-box mb-md-20 border-0 shadow-sm p-2">
-                                <div class="product-img">
-                                    <a href="restaurant.html">
-                                        <img src="/assets/images/menu/cooking.png" class="w-25 d-flex m-auto" alt="product-img">
-                                    </a>
-                                </div>
-                                <div class="product-caption">
-                                    <div class="d-flex flex-row">
-                                        <h6 class="product-title"><a href="restaurant.html" class="text-light-black ">#123456</a></h6>
-                                        <p class="ml-auto mb-0">$120.00</p>
-                                    </div>
-
-                                    <div class="d-flex flex-row">
-                                        <p class="text-light-white">Maastrict, Lahore</p>
-
-                                        <p class="ml-auto mb-0">27 Dec 2012 10:51 PM</p>
-                                    </div>
-                                    <div class="product-btn">
-                                        <a href="@Url.Action("HistoryOrderDetails","Order")" class="btn-first white-btn full-width fw-600">Order Details</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-4 col-md-6 col-sm-6 mt-2">
-                            <div class="product-box mb-md-20 border-0 shadow-sm p-2">
-                                <div class="product-img">
-                                    <a href="restaurant.html">
-                                        <img src="/assets/images/menu/cooking.png" class="w-25 d-flex m-auto" alt="product-img">
-                                    </a>
-                                </div>
-                                <div class="product-caption">
-                                    <div class="d-flex flex-row">
-                                        <h6 class="product-title"><a href="restaurant.html" class="text-light-black ">#123456</a></h6>
-                                        <p class="ml-auto mb-0">$120.00</p>
-                                    </div>
-
-                                    <div class="d-flex flex-row">
-                                        <p class="text-light-white">Maastrict, Lahore</p>
-
-                                        <p class="ml-auto mb-0">27 Dec 2012 10:51 PM</p>
-                                    </div>
-                                    <div class="product-btn">
-                                        <a href="@Url.Action("HistoryOrderDetails","Order")" class="btn-first white-btn full-width fw-600">Order Details</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
+                        }
                     </div>
                 </div>
             </section>
             <!-- your previous order -->
-
         </div>
     </div>
-
-
 </div>
 
 

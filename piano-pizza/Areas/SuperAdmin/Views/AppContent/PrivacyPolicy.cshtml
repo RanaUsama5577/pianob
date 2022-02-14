@@ -39,6 +39,7 @@
                     </div>
                 </div>
             </div>
+
             <div class="col-6 mb-3">
                 <div class="card">
                     <div class="card-body" style="min-height: 0px;">
@@ -54,6 +55,26 @@
                         <a href="@Model.TwitterUrl" target="_blank" id="twitt_link" class=" custombadge">
                             <img style="width:35px" src="/admin-assets/soc/twitter.png">
                         </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 mb-3">
+                <div class="card">
+                    <div class="card-body" style="min-height: 0px;">
+                        <div class="row">
+                            <div class="col-md-6">Delivery Charges</div>
+                            <div id="website_delivery_charges" style="text-align:right;" class="col-md-6">@Model.DeliveryCharges</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 mb-3">
+                <div class="card">
+                    <div class="card-body" style="min-height: 0px;">
+                        <div class="row">
+                            <div class="col-md-6">Service Charges</div>
+                            <div id="website_service_charges" style="text-align:right;" class="col-md-6">@Model.ServiceCharges</div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -111,6 +132,32 @@
                                             </div>
                                         </div>
                                         <input type="text" value="@Model.TelephoneNumber" class="form-control" placeholder="Enter Telephone" id="telephone" name="telephone">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Delivery Charges</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">
+                                                <i class="fas fa-dollar-sign"></i>
+                                            </div>
+                                        </div>
+                                        <input type="text" value="@Model.DeliveryCharges" class="form-control float_valid" placeholder="Enter Delivery Charges" id="delivery_modal" name="delivery_modal">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Service Charges</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">
+                                                <i class="fas fa-dollar-sign"></i>
+                                            </div>
+                                        </div>
+                                        <input type="text" value="@Model.ServiceCharges" class="form-control float_valid" placeholder="Enter Service Charges" id="services_modal" name="services_modal">
                                     </div>
                                 </div>
                             </div>

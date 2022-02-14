@@ -12,7 +12,6 @@ namespace piano_pizza.Controllers
         //Init ASP.NET identity store to handle user sign-in & sign-up 
         private readonly IAdminService admin;
 
-
         public MenuController( IAdminService adminService)
         {
             admin = adminService;

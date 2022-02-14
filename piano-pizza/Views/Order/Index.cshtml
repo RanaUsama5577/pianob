@@ -1,6 +1,50 @@
-﻿@{
+﻿@model IEnumerable<Entities.MyCarts>
+@{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<link href="~/orderassets/assets/css/bootstrap.min.css" rel="stylesheet">
+<!-- Custom Stylesheet -->
+<link href="~/orderassets/assets/css/style.css" rel="stylesheet">
+<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+<style>
+    .form-group > label {
+        margin-bottom: 0px;
+    }
+    .form-control.creditcard {
+        background-position: 98%;
+        background-repeat: no-repeat;
+        background-size: 40px;
+        padding-right: 60px
+    }
+
+        .form-control.creditcard.visa {
+            background-image: url("/app-images/visa.png")
+        }
+
+        .form-control.creditcard.americanexpress {
+            background-image: url("/app-images/americanexpress.png")
+        }
+
+        .form-control.creditcard.dinersclub {
+            background-image: url("/app-images/dinersclub.png")
+        }
+
+        .form-control.creditcard.discover {
+            background-image: url("/app-images/discover.png")
+        }
+
+        .form-control.creditcard.jcb {
+            background-image: url("/app-images/jcb.png")
+        }
+
+        .form-control.creditcard.mastercard {
+            background-image: url("/app-images/mastercard.png")
+        }
+
+        .form-control.creditcard.visa {
+            background-image: url("/app-images/visa.png")
+        }
+</style>
 <!-- #header-wrap -->
 <div id="header-bottom-wrap" class="is-clearfix">
     <div id="header-bottom" class="site-header-bottom">
@@ -33,7 +77,7 @@
                             <h1>Checkout</h1>
                         </div>
                         <div class="ps-section__content">
-                            <form class="ps-form--checkout" action="do_action" method="post">
+                            <div class="ps-form--checkout">
                                 <div class="row">
                                     <div class="col-lg-6">
                                         <div class="ps-form__billing-info">
@@ -46,30 +90,36 @@
                                             </p>
                                             <div class="form-group">
                                                 <div class="ps-checkbox">
-                                                    <input class="form-control" type="checkbox" id="create-account">
-                                                    <label for="create-account">Create an account?</label>
+                                                    <input onclick="ToggleMap()" checked class="form-control" type="radio" name="orderType" id="dineIn">
+                                                    <label for="dineIn">Dine In?</label>
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <div class="ps-checkbox">
-                                                    <input class="form-control" type="checkbox" id="cb01">
-                                                    <label for="cb01">Ship to a different address?</label>
+                                                    <input onclick="ToggleMap()" class="form-control" type="radio" name="orderType" id="takeway">
+                                                    <label for="takeway">Takeway?</label>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="ps-checkbox">
+                                                    <input onclick="ToggleMap()" class="form-control" type="radio" name="orderType" id="delivery">
+                                                    <label for="delivery">Delivery?</label>
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label>
-                                                    VOORNAAM <sup>*</sup>
+                                                    FIRST NAME <sup>*</sup>
                                                 </label>
                                                 <div class="form-group__content">
-                                                    <input class="form-control" type="text">
+                                                    <input class="form-control" id="first_name" type="text">
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label>
-                                                    ACHTERNAAM <sup>*</sup>
+                                                    SURNAME  <sup>*</sup>
                                                 </label>
                                                 <div class="form-group__content">
-                                                    <input class="form-control" type="text">
+                                                    <input class="form-control" id="last_name" type="text">
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -77,69 +127,71 @@
                                                     E-MAIL<sup>*</sup>
                                                 </label>
                                                 <div class="form-group__content">
-                                                    <input class="form-control" type="text">
+                                                    <input class="form-control" id="order_email" type="email">
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label>
-                                                    TELEFOON <sup>*</sup>
+                                                    PHONE  <sup>*</sup>
                                                 </label>
                                                 <div class="form-group__content">
-                                                    <input class="form-control" type="email">
+                                                    <input class="form-control" id="order_phone" type="text">
                                                 </div>
                                             </div>
-                                            <div class="form-group">
-                                                <label>
-                                                    BEZORGTIJD <sup>*</sup>
-                                                </label>
-                                                <div class="form-group__content">
-                                                    <input class="form-control" type="text">
+                                            <div>
+                                                <p>
+                                                    Payment Information
+                                                </p>
+                                                <div class="form-group">
+                                                    <label>
+                                                        Credit Card  <sup>*</sup>
+                                                    </label>
+                                                    <div class="form-group__content">
+                                                        <input class="form-control creditcard" id="cardNumber" type="text">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>
+                                                        Expiry Date <sup>*</sup>
+                                                    </label>
+                                                    <div class="form-group__content">
+                                                        <input class="form-control datemask" id="expiryDate" type="text" placeholder="MM/YYYY">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>
+                                                        CVC <sup>*</sup>
+                                                    </label>
+                                                    <div class="form-group__content">
+                                                        <input class="form-control number_valid" id="Cvc" type="text" maxlength="3">
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <p>
-                                                BEZORGADRES
-                                            </p>
-                                            <div class="form-group">
-                                                <label>
-                                                    POSTCODE <sup>*</sup>
-                                                </label>
-                                                <div class="form-group__content">
-                                                    <input class="form-control" type="text">
+                                            <div id="OrderLocation">
+                                                <p>
+                                                    DELIVERY ADDRESS
+                                                </p>
+                                                <div class="form-group">
+                                                    <label>Order Delivery Location</label>
+                                                    <div class="input-group">
+                                                        <input type="hidden" class="form-control" name="Latitude" id="lat" value="33.34324" />
+                                                        <input type="hidden" class="form-control" name="Longitude" id="lng" value="74.4324" />
+                                                        <input style="width:90%;" value="" id="autocomplete_search" name="Address" type="text" class="form-control rounded" placeholder="Search Location" />
+                                                        <br />
+                                                        <div class="form-group" style="width: 100%;">
+                                                            <div id="map" style="width:100%; height:400px;padding:10px;margin-top:10px;"></div>
+                                                            <button hidden id="MyLocator" style="background-color: rgb(255, 255, 255);box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px -1px;display: block;border: 0px;margin: 0px; padding: 0px;text-transform: none;position: relative;cursor: pointer;user-select: none;overflow: hidden;width: 40px;height: 40px;top: -250px;float: right;right: 11px;">
+                                                            </button>
+                                                        </div>
+                                                        <label id="lab" style=" position: relative;top: -69px;font-size: 16px;font-weight: 500;"></label>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="form-group">
-                                                <label>
-                                                    HUISNUMMER<sup>*</sup>
-                                                </label>
-                                                <div class="form-group__content">
-                                                    <input class="form-control" type="text">
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label>
-                                                    WOONPLAATS<sup>*</sup>
-                                                </label>
-                                                <div class="form-group__content">
-                                                    <input class="form-control" type="text">
-                                                </div>
-                                            </div>
-                                            <p>
-                                                BETALING
-                                            </p>
-                                            <div class="form-group">
-                                                <label>
-                                                    Address<sup>*</sup>
-                                                </label>
-                                                <div class="form-group__content">
-                                                    <input class="form-control" type="text">
-                                                </div>
-                                            </div>
-
                                             <h3 class="mt-40"> Addition information</h3>
                                             <div class="form-group">
                                                 <label>Order Notes</label>
                                                 <div class="form-group__content">
-                                                    <textarea class="form-control" rows="7" placeholder="Notes about your order, e.g. special notes for delivery."></textarea>
+                                                    <textarea class="form-control" id="order_note" rows="7" placeholder="Notes about your order, e.g. special notes for delivery."></textarea>
                                                 </div>
                                             </div>
                                         </div>
@@ -150,14 +202,31 @@
                                                 <h3 class="ps-form__heading" style="font-size: 37px;font-family: 'Libre Franklin';">BESTELLING</h3>
                                                 <div class="content">
                                                     <ul class="list no-margin" style="padding:0px 100px 0px 0px;">
-                                                        <li>Buffalo Mozzarella.<span style="float: right;">5.0</span></li>
-                                                        <li>Mozzarella. <span style="float: right;">2.5</span></li>
-                                                        <li>Parmesan Cheese <span style="float: right;">3.1</span></li>
-                                                        <li>Gorgonzola <span style="float: right;">2.8</span></li>
-                                                        <li>Tuna Fish <span style="float: right;">4.66</span></li>
-                                                        <li>Anchovies <span style="float: right;">1.5</span></li>
+                                                        @{
+                                                            var Price = 0.0m;
+                                                            var TotalPrice = 0.0m;
+                                                        }
+                                                        @foreach (var i in Model)
+                                                        {
+                                                            <li>
+                                                                @i.Name.<span style="float: right;">$@i.Price (@i.Quantity)</span>
+
+                                                                @foreach (var a in i.IngredientLists.Where(p => p.AddedInCart == true))
+                                                                {
+                                                                    <div class="flex-row mt-1 ml-5">
+                                                                        <small class="text-muted"><b><i class="fas fa-circle font-8 mr-2"></i> @a.Name: </b></small> <small class="ml-2">@a.Price  @a.Quantity Qty</small>
+                                                                    </div>
+                                                                }
+                                                            </li>
+                                                            {
+                                                                Price += @i.Price;
+                                                            }
+                                                        }
+                                                        @{
+                                                            TotalPrice = Price + ViewBag.DeliveryCharges + ViewBag.ServiceCharges;
+                                                        }
                                                     </ul>
-                                                    <a class="ps-btn ps-btn--fullwidth" href="#" style="margin-top: 17px;margin-bottom: 18px;">Proceed to checkout</a>
+                                                    <button onclick="CheckPayment(this)" class="ps-btn ps-btn--fullwidth" style="margin-top: 17px;margin-bottom: 18px;">Checkout ($@TotalPrice)</button>
                                                     <div style="text-align: center;">
                                                         <img alt="Piano" src="/app-images/Piano-b-black.png" style="width: 233px;">
                                                     </div>
@@ -166,13 +235,311 @@
                                         </div>
                                     </div>
                                 </div>
-                            </form>
+                            </div>
                         </div>
                     </div>
                 </div>
             </section>
         </div>
     </div>
+
     <!-- #content-area -->
 </div>
+<form id="FormPayment">
 
+</form>
+<script async defer type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCt7JTzt_AoYGTPLoHIwYt8vw0vkjErorc&libraries=places&callback=initMap"></script>
+<script src="~/cleave-js/dist/cleave.min.js"></script>
+
+<script type="text/javascript">
+    var marker;
+    var map;
+    var radius = 10000;
+    var geocoder;
+    function initMap(latitude, longitude) {
+        search_lat = "";
+        search_lng = "";
+        formattedAddress = "";
+        latitude = parseFloat(latitude) ?? -33.878358;
+        longitude = parseFloat(longitude) ?? 151.1835443;
+        var input = document.getElementById('autocomplete_search');
+        map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 11,
+            center: { lat: latitude, lng: longitude }
+        });
+        // var geoloccontrol = new klokantech.GeolocationControl(map, 11);
+        marker = new google.maps.Marker({
+            map: map,
+            draggable: true,
+            zoom: 11,
+            animation: google.maps.Animation.DROP,
+            position: { lat: latitude, lng: longitude }
+        });
+        marker.addListener('click', toggleBounce);
+        markerCoords(marker);
+        geocoder = new google.maps.Geocoder();
+        var autocomplete = new google.maps.places.Autocomplete(input);
+        autocomplete.addListener('place_changed', function () {
+            var place = autocomplete.getPlace();
+            // place variable will have all the information you are looking for.
+            $('#lat').val(place.geometry['location'].lat());
+            $('#long').val(place.geometry['location'].lng());
+            search_lat = place.geometry['location'].lat();
+            search_lng = place.geometry['location'].lng();
+            $("#address").html(place.formatted_address);
+            $("#autocomplete_search").val(place.formatted_address);
+
+            //setCountryStateCity(place, false);
+            // SETTING LAT LNG
+            $("#lat").val(search_lat);
+            $("#lng").val(search_lng);
+            map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 18,
+                center: { lat: search_lat, lng: search_lng }
+            });
+            marker = new google.maps.Marker({
+                map: map,
+                draggable: true,
+                zoom: 18,
+                animation: google.maps.Animation.DROP,
+                position: { lat: search_lat, lng: search_lng }
+            });
+            marker.addListener('click', toggleBounce);
+            markerCoords(marker);
+            var latlng = new google.maps.LatLng(search_lat, search_lng);
+            map.setCenter(latlng);
+            console.log('init Map', search_lat);
+        });
+    }
+    function toggleBounce() {
+        if (marker.getAnimation() !== null) {
+            marker.setAnimation(null);
+        } else {
+            marker.setAnimation(google.maps.Animation.BOUNCE);
+        }
+    }
+    function markerCoords(markerobject) {
+        google.maps.event.addListener(markerobject, 'dragend', function (evt) {
+            var newlat = evt.latLng.lat().toFixed(3);
+            var newlng = evt.latLng.lng().toFixed(3);
+            geocoder.geocode({
+                latLng: new google.maps.LatLng(newlat, newlng)
+            }, function (responses) {
+                if (responses && responses.length > 0) {
+                    //setCountryStateCity(responses, true);
+                    $("#address").html(responses[0].formatted_address);
+                    $("#autocomplete_search").val(responses[0].formatted_address);
+                }
+                else {
+                    console.log('Cannot determine address at this location.');
+                }
+            });
+            $("#lat").val(newlat);
+            $("#lng").val(newlng);
+            console.log(newlat, " drag value");
+
+        });
+    }
+    $("#MyLocator").on("click", function () {
+        getLocation();
+    })
+    function getLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition);
+        }
+        else {
+            var latitude = "-33.878358";
+            var longitude = "151.1835443";
+            $("#lat").val("-33.878358");
+            $("#lng").val("151.1835443");
+            map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 18,
+                center: { lat: latitude, lng: longitude }
+            });
+            marker = new google.maps.Marker({
+                map: map,
+                draggable: true,
+                zoom: 2,
+                animation: google.maps.Animation.DROP,
+                position: { lat: latitude, lng: longitude }
+            });
+            marker.addListener('click', toggleBounce);
+            //radius = 1000;
+            markerCoords(marker);
+            var latlng = new google.maps.LatLng(latitude, longitude);
+            map.setCenter(latlng);
+            $("#autocomplete_search").val(map.formatted_address);
+            alert("Geolocation is not supported by this browser.");
+        }
+    }
+    function showPosition(position) {
+        map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 18,
+            center: { lat: position.coords.latitude, lng: position.coords.longitude }
+        });
+        marker = new google.maps.Marker({
+            map: map,
+            draggable: true,
+            zoom: 2,
+            animation: google.maps.Animation.DROP,
+            position: { lat: position.coords.latitude, lng: position.coords.longitude }
+        });
+        marker.addListener('click', toggleBounce);
+        markerCoords(marker);
+        var latlng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+        map.setCenter(latlng);
+        $("#lat").val(position.coords.latitude);
+        $("#lng").val(position.coords.longitude);
+        console.log("Show position ", position.coords.latitude);
+    }
+    function ToggleMap() {
+        if ($('#delivery').prop("checked")) {
+            $('#OrderLocation').show();
+        }
+        else {
+            $('#OrderLocation').hide();
+        }
+    }
+</script>
+<script>
+    $(function () {
+        $('#OrderLocation').hide();
+
+        var cc_last_type;
+        var cleaveCC = new Cleave('.creditcard', {
+            creditCard: true,
+            onCreditCardTypeChanged: function (type) {
+                if (type !== 'unknown') {
+                    if (type == 'amex') {
+                        type = 'americanexpress';
+                    } else if (type == 'mastercard') {
+                        type = 'mastercard';
+                    } else if (type == 'visa') {
+                        type = 'visa';
+                    } else if (type == 'diners') {
+                        type = 'dinersclub';
+                    } else if (type == 'discover') {
+                        type = 'discover';
+                    } else if (type == 'jcb') {
+                        type = 'jcb';
+                    }
+                    $(".creditcard").removeClass(cc_last_type);
+                    $(".creditcard").addClass(type);
+                    cc_last_type = type;
+                }
+            }
+        });
+
+        var cleaveD = new Cleave('.datemask', {
+            date: true,
+            datePattern: ['m','Y',]
+        });
+    })
+</script>
+<script>
+    function CheckPayment(element) {
+        var GetAllValues = [];
+        var bool = true;
+        $('.ps-form--checkout').find('.form-control:not(#autocomplete_search)').each(function (i, obj) {
+            var values = getDataFromSimpleField($(obj));
+            GetAllValues.push(values);
+            if (GetAllValues.includes(false)) {
+                bool = false;
+            }
+        })
+        if ($('#delivery').prop('checked')) {
+            var values = getDataFromSimpleField($('#autocomplete_search'));
+            GetAllValues.push(values);
+            if (GetAllValues.includes(false)) {
+                bool = false;
+            }
+        }
+        if (bool == false) {
+            MixinSweet("Please fill all the required fields", "", "error", 2000);
+            return false;
+        }
+        $(element).addClass('btn-progress');
+        var cardNumber = $('#cardNumber').val();
+        var Expiry = $('#expiryDate').val();
+        var Cvc = $('#Cvc').val();
+        var customer_name = $('#first_name').val() + " " + $('#last_name').val();
+        var order_email = $('#order_email').val();
+        var order_phone = $('#order_phone').val();
+        var order_note = $('#order_note').val();
+        var address = $('#autocomplete_search').val();
+        Expiry = Expiry.split('/');
+        var formData = new FormData(document.getElementById('FormPayment'));
+        formData.append('cardNumber', cardNumber);
+        formData.append('month', Expiry[0]);
+        formData.append('year', Expiry[1]);
+        formData.append('cvc', Cvc);
+        formData.append('amount', '@TotalPrice');
+        formData.append('sub_total', '@ViewBag.TotalPrice');
+
+        formData.append('customer_name', customer_name);
+        formData.append('customer_email', order_email);
+        formData.append('customer_phone', order_phone);
+        formData.append('customer_note', order_note);
+        formData.append('customer_address', address);
+        if ($('#takeway').prop("checked")) {
+            var orderType = 1;
+        }
+        else if ($('#dineIn').prop("checked")) {
+            var orderType = 2;
+        }
+        else {
+            var orderType = 0;
+            var latitude = $('#lat').val();
+            var longitude = $('#lng').val();
+        }
+        formData.append('latitude', latitude);
+        formData.append('longitude', longitude);
+        formData.append('orderType', orderType);
+        $.ajax({
+            type: 'POST',
+            url: '/Order/PlaceOrder',
+            data: formData,
+            processData: false,
+            contentType: false,
+            async: true,
+            success: function (data) {
+                console.log("Api", data);
+                $(element).removeClass('btn-progress');
+                if (data.code == 200) {
+                    sweetMessage("Order Placed!", "", "success");
+                    window.location.href = '/Home/Index';
+                }
+                else {
+                    sweetMessage("Error!", data.shortMessage, "error");
+                }
+            },
+            error: function (error) {
+                return error;
+            },
+        });
+    }
+    function getDataFromSimpleField(element) {
+        var s = false;
+        var value = $(element).val();
+
+        if (value == "" || value == null || value == undefined) {
+            s = false;
+            $(element).addClass('is-invalid');
+            $(element).removeClass('is-valid');
+        }
+        else if (!value.replace(/\s/g, '')[0].length) {
+            s = false;
+            $(element).addClass('is-invalid');
+            $(element).removeClass('is-valid');
+        }
+        else {
+            s = true;
+            $(element).addClass('is-valid');
+            $(element).removeClass('is-invalid');
+        }
+        if (s == false) {
+            return false;
+        }
+        return true;
+    }
+</script>

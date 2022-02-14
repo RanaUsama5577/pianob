@@ -32,6 +32,9 @@ namespace DAL.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<decimal>("DeliveryCharges")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
 
@@ -43,6 +46,9 @@ namespace DAL.Migrations
 
                     b.Property<string>("InstagramUrl")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("ServiceCharges")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("TelephoneNumber")
                         .HasColumnType("nvarchar(max)");
@@ -527,11 +533,17 @@ namespace DAL.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<decimal>("DeliveryCharges")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<decimal>("Latitude")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<decimal>("Longitude")
                         .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("Note")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("OrderId")
                         .HasColumnType("nvarchar(max)");
@@ -539,8 +551,14 @@ namespace DAL.Migrations
                     b.Property<string>("PhoneNumber")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<decimal>("ServiceCharges")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<int>("Status")
                         .HasColumnType("int");
+
+                    b.Property<decimal>("SubTotal")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<decimal>("TotalPrice")
                         .HasColumnType("decimal(18,2)");

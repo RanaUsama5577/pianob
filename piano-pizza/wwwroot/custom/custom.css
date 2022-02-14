@@ -175,6 +175,15 @@
     transform: rotate(45deg);
     opacity: 1;
 }
+    .ps-checkbox input[type=radio]:checked ~ label:before {
+        background-color: #222222;
+        border-color: #222222;
+    }
+
+    .ps-checkbox input[type=radio]:checked ~ label:after {
+        transform: rotate(45deg);
+        opacity: 1;
+    }
 .ps-section__header {
     text-align: center;
     padding-bottom: 50px;

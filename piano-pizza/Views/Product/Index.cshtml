@@ -47,59 +47,74 @@
                             </h1>
                             <p> @Model.Description </p>
                             <br>
-                            <div class="content">
-                                <h3>
-                                    Additional Ingredients
-                                </h3>
-                                <ul class="list no-margin" style="padding:0px 100px 0px 0px;">
-                                    @foreach (var i in Model.IngredientLists)
-                                    {
-                                        <li>
-                                            <div class="row">
-                                                <div class="col-sm-5 col-12">
-                                                    <div class="ps-checkbox">
-                                                        <input class="form-control" data-ingredient="@i.Id" data-price="@i.Price" type="checkbox" id="c-@i.Id">
-                                                        <label for="c-@i.Id">@i.Name</label>
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-7 col-12 d-flex flex-row mt-n3">
-                                                    <div class="input-group bootstrap-touchspin m-0" style="display: flex;position: relative;margin:auto">
-                                                        <span  class="input-group-btn bootstrap-touchspin-injected" style="">
-                                                            <button onclick="IngredientDownFunction(this)" class="btn btn-primary bootstrap-touchspin-down disabled-max-min rounded-circle" type="button">-</button>
-                                                        </span>
-                                                        <input id="val-@i.Id" type="text" class="quantity-counter form-control" readonly="" value="1" style="">
-                                                        <span class="input-group-btn bootstrap-touchspin-injected" style="">
-                                                            <button onclick="IngredientUpFunction(this)" class="btn btn-primary bootstrap-touchspin-up rounded-circle" type="button">+</button>
-                                                        </span>
-                                                    </div>
-                                                    <span class="ml-auto pt-4">@i.Price</span>
-                                                </div>
-                                            </div>
-                                        </li>
-                                    }
-                                </ul>
-                                <div class="item-quantity" style=" margin-top: 20px;">
-                                    <span class="quantity-title">Qty:</span>
-                                    <div class="quantity-counter-wrapper">
-                                        <div class="input-group bootstrap-touchspin" style="display: flex;position: relative;">
-                                            <span class="input-group-btn bootstrap-touchspin-injected" style="">
-                                                <button class="btn btn-primary touch-down bootstrap-touchspin-down disabled-max-min rounded-circle" type="button">-</button>
-                                            </span>
-                                            <input id="Quantity" type="text" class="quantity-counter form-control" readonly="" value="1" style="">
-                                            <span class="input-group-btn bootstrap-touchspin-injected" style="">
-                                                <button class="btn btn-primary touch-up bootstrap-touchspin-up rounded-circle" type="button">+</button>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            @if (User.Identity.IsAuthenticated)
+                            @if (User.Identity.IsAuthenticated && Model.AddedToCart == true)
                             {
-                                <a onclick="AddToCart()" href="#" style="background-color: #2d2929;" class="button">Add To Cart</a>
+
                             }
                             else
                             {
-                                <a style="background-color: #2d2929;" class="button" href="@Url.Action("Signin","Account")">Add To Cart</a>
+                                <div class="content">
+                                    <h3>
+                                        Additional Ingredients
+                                    </h3>
+                                    <ul class="list no-margin" style="padding:0px 100px 0px 0px;">
+                                        @foreach (var i in Model.IngredientLists)
+                                        {
+                                            <li>
+                                                <div class="row">
+                                                    <div class="col-sm-5 col-12">
+                                                        <div class="ps-checkbox">
+                                                            <input class="form-control" data-ingredient="@i.Id" data-price="@i.Price" type="checkbox" id="c-@i.Id">
+                                                            <label for="c-@i.Id">@i.Name</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-7 col-12 d-flex flex-row mt-n3">
+                                                        <div class="input-group bootstrap-touchspin m-0" style="display: flex;position: relative;margin:auto">
+                                                            <span class="input-group-btn bootstrap-touchspin-injected" style="">
+                                                                <button onclick="IngredientDownFunction(this)" class="btn btn-primary bootstrap-touchspin-down disabled-max-min rounded-circle" type="button">-</button>
+                                                            </span>
+                                                            <input id="val-@i.Id" type="text" class="quantity-counter form-control" readonly="" value="0" style="">
+                                                            <span class="input-group-btn bootstrap-touchspin-injected" style="">
+                                                                <button onclick="IngredientUpFunction(this)" class="btn btn-primary bootstrap-touchspin-up rounded-circle" type="button">+</button>
+                                                            </span>
+                                                        </div>
+                                                        <span class="ml-auto pt-4">@i.Price</span>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        }
+                                    </ul>
+                                    <div class="item-quantity" style=" margin-top: 20px;">
+                                        <span class="quantity-title">Qty:</span>
+                                        <div class="quantity-counter-wrapper">
+                                            <div class="input-group bootstrap-touchspin" style="display: flex;position: relative;">
+                                                <span class="input-group-btn bootstrap-touchspin-injected" style="">
+                                                    <button class="btn btn-primary touch-down bootstrap-touchspin-down disabled-max-min rounded-circle" type="button">-</button>
+                                                </span>
+                                                <input id="Quantity" type="text" class="quantity-counter form-control" readonly="" value="1" style="">
+                                                <span class="input-group-btn bootstrap-touchspin-injected" style="">
+                                                    <button class="btn btn-primary touch-up bootstrap-touchspin-up rounded-circle" type="button">+</button>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                            @if (User.Identity.IsAuthenticated && Model.AddedToCart == false)
+                            {
+                        <button onclick="AddToCart(this,false)" href="#" style="background-color: #2d2929;" class="button SpinnerBtn">
+                            <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                            <span class="spinner-loading ms-25 align-middle">Loading...</span>
+                            <span class="SpinnerText"> Add To Cart</span>
+                        </button>
+                            }
+                            else if (User.Identity.IsAuthenticated && Model.AddedToCart == true)
+                            {
+                                <a href="@Url.Action("Cart","Order")" style="background-color: #2d2929;" class="button">View In Cart</a>
+                            }
+                            else
+                            {
+                                <a style="background-color: #2d2929;" class="button" href="@Url.Action("Signin","Account")">@User.Identity.IsAuthenticated @Model.AddedToCart</a>
                             }
                         </div>
                     </div>
@@ -145,7 +160,8 @@
 </script>
 
 <script>
-    function AddToCart() {
+    function AddToCart(element, n) {
+        $(element).addClass('SpinnerProgressBtn').removeClass('SpinnerBtn');
         var pushs = [];
         var quantity = 0;
         $('input[type="checkbox"]:checked').each(function (index, obj) {
@@ -160,7 +176,8 @@
         console.log(pushs);
         var product_data = JSON.stringify({
             'allIngredients': pushs,
-            'quantity': quantity,
+            'quantity': $('#Quantity').val(),
+            'branchBool': n,
             'price': '@Model.Price',
             'productId': '@Model.Id',
         });
@@ -174,6 +191,31 @@
             dataType: 'json',
             success: function (data) {
                 console.log("Api", data);
+                $(element).addClass('SpinnerBtn').removeClass('SpinnerProgressBtn');
+                if (data.code == 200) {
+                    MixinSweet("Product added to cart!", "", "success", "2000");
+                    setTimeout(function () {
+                        location.reload();
+                    }, 2000);
+                }
+                else if (data.code == 401) {
+                    Swal.fire({
+                        title: data.shortMessage,
+                        text: "",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Confirm!',
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            AddToCart(element,true);
+                        }
+                    })
+                }
+                else {
+                    sweetMessage("Warning!", data.shortMessage, "error");
+                }
             },
             error: function (error) {
                 return error;

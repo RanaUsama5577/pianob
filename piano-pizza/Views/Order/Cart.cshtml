@@ -1,6 +1,5 @@
-﻿
+﻿@model IEnumerable<Entities.MyCarts>
 @{
-    ViewData["Title"] = "Cart";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <link href="~/orderassets/assets/css/bootstrap.min.css" rel="stylesheet">
@@ -30,226 +29,274 @@
 <div id="content-main-wrap" class="is-clearfix">
     <div id="content-area" class="site-content-area">
         <div id="content-area-inner" class="site-content-area-inner">
-
-
             <div class="container py-5">
                 <div class="row">
-                    <div class="col-lg-8 col-md-12 col-12">
+                    @if (Model.Count() == 0)
+                    {
+                        <div class="col-md-12" style="text-align: center;">
+                            <img src="~/empty cart.gif" />
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="col-lg-8 col-md-12 col-12">
+                            @{
+                                var Price = 0.0m;
+                                var TotalPrice = 0.0m;
+                            }
+                            @foreach (var i in Model)
+                            {
+                                <div class="row rounded p-3 shadow-sm mt-2">
+                                    <div class="col-lg-5 col-md-12 col-12 d-flex justify-content-center">
+                                        <img src="@i.Logo" style="max-width:200px;max-height:200px" />
+                                    </div>
+                                    <div class="col-lg-7 col-md-12 col-12 d-flex flex-row">
+                                        <div>
+                                            <p class="mb-0">@i.Name</p>
+                                            <p>@i.Description</p>
 
-                        <div class="row rounded p-3 shadow-sm">
-                            <div class="col-lg-5 col-md-12 col-12 d-flex justify-content-center">
-                                <img src="~/assets/images/pizza/pizza3.jpg" style="max-width:200px;max-height:200px" />
-                            </div>
-
-                            <div class="col-lg-7 col-md-12 col-12 d-flex flex-row">
-                                <div>
-                                    <p class="mb-0">Lazania Pizza</p>
-                                    <p>Thin Crust lazania pizza.</p>
-
-                                    <div class="flex-row d-flex mb-2">
-                                        <span>2 Qty</span>
-                                        <div class="input-group bootstrap-touchspin d-flex ml-3" style="display: flex;position: relative;">
-                                            <span class="input-group-btn bootstrap-touchspin-injected" style="">
-                                                <button class="btn btn-primary bootstrap-touchspin-down disabled-max-min rounded-circle" type="button">-</button>
-                                            </span>
-                                            <input type="text" class="quantity-counter form-control" readonly="" value="1" style="">
-                                            <span class="input-group-btn bootstrap-touchspin-injected" style="">
-                                                <button class="btn btn-primary bootstrap-touchspin-up rounded-circle" type="button">+</button>
-                                            </span>
+                                            <div class="flex-row d-flex mb-2">
+                                                <span>@i.Quantity Qty</span>
+                                            </div>
+                                            <button data-cart="@i.Id" data-quantity="@i.Quantity" onclick="EditCart(this)" class="main-section-btn rounded mt-1 edit">Edit Cart</button>
+                                            <button data-cart="@i.Id" data-quantity="@i.Quantity" onclick="UpdateCart(this)" class="main-section-btn rounded mt-1 SpinnerBtn update">
+                                                <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                                                <span class="spinner-loading ms-25 align-middle">Loading...</span>
+                                                <span class="SpinnerText">Update</span>
+                                            </button>
+                                            <button data-cart="@i.Id" data-quantity="@i.Quantity" onclick="Cancel(this)" class="main-section-btn rounded mt-1 update">Cancel</button>
+                                            <div id="IngredientCard">
+                                                @foreach (var a in i.IngredientLists.Where(p => p.AddedInCart == true))
+                                                {
+                                                    <div class="flex-row mt-3">
+                                                        <small class="text-muted"><b><i class="fas fa-circle font-8 mr-2"></i> @a.Name: </b></small> <small class="ml-2">@a.Quantity Qty</small>
+                                                    </div>
+                                                }
+                                            </div>
+                                            <div style="display:none;" class="mt-4" id="EditCard">
+                                                <div class="item-quantity" style=" margin-top: 20px;">
+                                                    <div class="quantity-title">@i.Name Qty:</div>
+                                                    <div class="quantity-counter-wrapper" style="">
+                                                        <div class="input-group bootstrap-touchspin" style="display: flex;position: relative;">
+                                                            <span class="input-group-btn bootstrap-touchspin-injected" style="">
+                                                                <button class="btn btn-primary touch-down bootstrap-touchspin-down disabled-max-min rounded-circle" type="button">-</button>
+                                                            </span>
+                                                            <input id="Quantity-@i.Id" type="text" class="quantity-counter form-control" readonly="" value="@i.Quantity" style="">
+                                                            <span class="input-group-btn bootstrap-touchspin-injected" style="">
+                                                                <button class="btn btn-primary touch-up bootstrap-touchspin-up rounded-circle" type="button">+</button>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <ul class="list no-margin mt-5" id="EditUl" style="padding:0px 100px 0px 0px;">
+                                                    @foreach (var a in i.IngredientLists)
+                                                    {
+                                                        <li>
+                                                            <div class="row">
+                                                                <div class="col-sm-5 col-12">
+                                                                    <div class="ps-checkbox">
+                                                                        @if (a.AddedInCart == true)
+                                                                        {
+                                                                            <input class="form-control" data-cart="@i.Id" data-ingredient="@a.Id" data-price="@a.Price" checked type="checkbox" id="c-@a.Id">
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            <input class="form-control" data-ingredient="@a.Id" data-price="@a.Price" type="checkbox" id="c-@a.Id">
+                                                                        }
+                                                                        <label for="c-@a.Id">@a.Name</label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-7 col-12 d-flex flex-row mt-n3">
+                                                                    <div class="input-group bootstrap-touchspin m-0" style="display: flex;position: relative;margin:auto">
+                                                                        <span class="input-group-btn bootstrap-touchspin-injected" style="">
+                                                                            <button onclick="IngredientDownFunction(this)" class="btn btn-primary bootstrap-touchspin-down disabled-max-min rounded-circle" type="button">-</button>
+                                                                        </span>
+                                                                        <input id="val-@a.Id" type="text" class="quantity-counter form-control" readonly="" value="@a.Quantity" style="">
+                                                                        <span class="input-group-btn bootstrap-touchspin-injected" style="">
+                                                                            <button onclick="IngredientUpFunction(this)" class="btn btn-primary bootstrap-touchspin-up rounded-circle" type="button">+</button>
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                    }
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="ml-auto">
+                                            <span>$@i.Price</span>
+                                            <button onclick="RemoveItemFromCart(@i.Id)" class="ml-3"><i class="fas fa-times"></i></button>
                                         </div>
                                     </div>
+                                </div>
+                                {
+                                    Price += @i.Price;
+                                }
+                            }
+                        </div>
+                        { 
+                            TotalPrice = Price + ViewBag.DeliveryCharges + ViewBag.ServiceCharges;
+                        }
+                        <div class="col-lg-4 col-md-12 col-12">
+                            <div class="p-3 shadow-sm">
+                                <h2 class="mb-2">Summary</h2>
 
-                                    <button class="main-section-btn rounded mt-1">Update</button>
-                                    <button class="main-section-btn rounded mt-1" data-toggle="modal" data-target="#addIngredient">Ingredients</button>
+                                <div class="d-flex flex-row">
+                                    <p><b>Subtotal: </b></p>
+                                    <span class="ml-auto">$@Price</span>
+                                </div>
 
-                                    <div class="flex-row mt-3">
-                                        <small class="text-muted"><b><i class="fas fa-circle font-8 mr-2"></i> Extra Mayo: </b></small> <small class="ml-2">2 Qty</small>
-                                    </div>
-                                    <div class="flex-row">
-                                        <small class="text-muted"><b><i class="fas fa-circle font-8 mr-2"></i>Extra Cheese: </b></small><small class="ml-2">1 Qty</small>
-                                    </div>
+                                <div class="d-flex flex-row">
+                                    <p><b>Delivery Charges: </b></p>
+                                    <span id="deliveryCharge" class="ml-auto">$@ViewBag.DeliveryCharges</span>
+                                </div>
 
-                                    <div class="flex-row">
-                                        <small class="text-muted"><b><i class="fas fa-circle font-8 mr-2"></i>Extra Suase: </b></small><small class="ml-2">5 Qty</small>
+                                <div class="d-flex flex-row">
+                                    <p><b>Service Charges: </b></p>
+
+                                    <div class="ml-auto flex-column d-flex">
+                                        <span id="serviceCharge">$@ViewBag.ServiceCharges</span>
                                     </div>
                                 </div>
-                                <div class="ml-auto">
-                                    <span>$90</span>
-                                    <a class="ml-3"><i class="fas fa-times"></i></a>
+
+                                <hr />
+                                <div class="d-flex flex-row">
+                                    <p><b>Total: </b></p>
+                                    <span class="ml-auto">$@TotalPrice</span>
                                 </div>
+                                <hr />
+                                <button onclick="window.location.href='/Order/Index'" class="main-section-btn rounded w-100 p-2">Checkout</button>
                             </div>
                         </div>
-
-                        <div class="row rounded p-3 shadow-sm mt-2">
-                            <div class="col-lg-5 col-md-12 col-12 d-flex justify-content-center">
-                                <img src="~/assets/images/pizza/pizza3.jpg" style="max-width:200px;max-height:200px" />
-                            </div>
-
-                            <div class="col-lg-7 col-md-12 col-12 d-flex flex-row">
-                                <div>
-                                    <p class="mb-0">Lazania Pizza</p>
-                                    <p>Thin Crust lazania pizza.</p>
-
-                                    <div class="flex-row d-flex mb-2">
-                                        <span>2 Qty</span>
-                                        <div class="input-group bootstrap-touchspin d-flex ml-3" style="display: flex;position: relative;">
-                                            <span class="input-group-btn bootstrap-touchspin-injected" style="">
-                                                <button class="btn btn-primary bootstrap-touchspin-down disabled-max-min rounded-circle" type="button">-</button>
-                                            </span>
-                                            <input type="text" class="quantity-counter form-control" readonly="" value="1" style="">
-                                            <span class="input-group-btn bootstrap-touchspin-injected" style="">
-                                                <button class="btn btn-primary bootstrap-touchspin-up rounded-circle" type="button">+</button>
-                                            </span>
-                                        </div>
-                                    </div>
-
-                                    <button class="main-section-btn rounded mt-1">Update</button>
-                                    <button class="main-section-btn rounded mt-1" data-toggle="modal" data-target="#addIngredient">Ingredients</button>
-
-                                    <div class="flex-row mt-3">
-                                        <small class="text-muted"><b><i class="fas fa-circle font-8 mr-2"></i> Extra Mayo: </b></small> <small class="ml-2">2 Qty</small>
-                                    </div>
-                                    <div class="flex-row">
-                                        <small class="text-muted"><b><i class="fas fa-circle font-8 mr-2"></i>Extra Cheese: </b></small><small class="ml-2">1 Qty</small>
-                                    </div>
-
-                                    <div class="flex-row">
-                                        <small class="text-muted"><b><i class="fas fa-circle font-8 mr-2"></i>Extra Suase: </b></small><small class="ml-2">5 Qty</small>
-                                    </div>
-                                </div>
-                                <div class="ml-auto">
-                                    <span>$90</span>
-                                    <a class="ml-3"><i class="fas fa-times"></i></a>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row rounded p-3 shadow-sm mt-2">
-
-                            <div class="col-lg-5 col-md-12 col-12 d-flex justify-content-center">
-                                <img src="~/assets/images/pizza/pizza3.jpg" style="max-width:200px;max-height:200px" />
-                            </div>
-
-                            <div class="col-lg-7 col-md-12 col-12 d-flex flex-row">
-                                <div>
-                                    <p class="mb-0">Lazania Pizza</p>
-                                    <p>Thin Crust lazania pizza.</p>
-
-                                    <div class="flex-row d-flex mb-2">
-                                        <span>2 Qty</span>
-                                        <div class="input-group bootstrap-touchspin d-flex ml-3" style="display: flex;position: relative;">
-                                            <span class="input-group-btn bootstrap-touchspin-injected" style="">
-                                                <button class="btn btn-primary bootstrap-touchspin-down disabled-max-min rounded-circle" type="button">-</button>
-                                            </span>
-                                            <input type="text" class="quantity-counter form-control" readonly="" value="1" style="">
-                                            <span class="input-group-btn bootstrap-touchspin-injected" style="">
-                                                <button class="btn btn-primary bootstrap-touchspin-up rounded-circle" type="button">+</button>
-                                            </span>
-                                        </div>
-                                    </div>
-
-                                    <button class="main-section-btn rounded mt-1">Update</button>
-                                    <button class="main-section-btn rounded mt-1" data-toggle="modal" data-target="#addIngredient">Ingredients</button>
-
-                                    <div class="flex-row mt-3">
-                                        <small class="text-muted"><b><i class="fas fa-circle font-8 mr-2"></i> Extra Mayo: </b></small> <small class="ml-2">2 Qty</small>
-                                    </div>
-                                    <div class="flex-row">
-                                        <small class="text-muted"><b><i class="fas fa-circle font-8 mr-2"></i>Extra Cheese: </b></small><small class="ml-2">1 Qty</small>
-                                    </div>
-
-                                    <div class="flex-row">
-                                        <small class="text-muted"><b><i class="fas fa-circle font-8 mr-2"></i>Extra Suase: </b></small><small class="ml-2">5 Qty</small>
-                                    </div>
-                                </div>
-                                <div class="ml-auto">
-                                    <span>$90</span>
-                                    <a class="ml-3"><i class="fas fa-times"></i></a>
-                                </div>
-                            </div>
-                        </div>
-
-
-                    </div>
-                    <div class="col-lg-4 col-md-12 col-12">
-                        <div class="p-3 shadow-sm">
-                            <h2 class="mb-2">Summary</h2>
-                            @*<span>Enter Promo Code<i class="fas fa-tag ml-2"></i></span>
-                                <input type="text" class="form-control w-100 mb-2" placeholder="Enter promo code" />*@
-
-                            <div class="d-flex flex-row">
-                                <p><b>Subtotal: </b></p>
-                                <span class="ml-auto">$90.00</span>
-                            </div>
-
-                            <div class="d-flex flex-row">
-                                <p><b>Delivery Charges: </b></p>
-                                <span class="ml-auto">$8.00</span>
-                            </div>
-
-                            <div class="d-flex flex-row">
-                                <p><b>Discounted Price: </b></p>
-
-                                <div class="ml-auto flex-column d-flex">
-                                    <span><del>$98.00</del></span>
-                                    <span>$80.00</span>
-                                </div>
-                            </div>
-
-                            <hr />
-                            <div class="d-flex flex-row">
-                                <p><b>Total: </b></p>
-                                <span class="ml-auto">$98.00</span>
-                            </div>
-
-                            <hr />
-
-                            <button class="main-section-btn rounded w-100 p-2">Checkout</button>
-                        </div>
-                    </div>
+                    }
                 </div>
             </div>
 
         </div>
     </div>
-
-    <div class="modal fade bs-example-modal-md mt-5" style="opacity:1!important" id="addIngredient" tabindex="1" role="dialog" aria-labelledby="addIngredient" aria-hidden="true">
-        <div class="modal-dialog modal-md">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="formModal">Ingredients</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <input class="mt-1 mr-2" type="checkbox" id="topping" name="topping" value=""><label>Extra Topping:</label><span class="float-right">$25</span>
-                        </div>
-                        <div class="col-md-12">
-                            <input class="mt-1 mr-2" type="checkbox" id="topping" name="topping" value=""><label>Extra Topping:</label><span class="float-right">$25</span>
-                        </div>
-                        <div class="col-md-12">
-                            <input class="mt-1 mr-2" type="checkbox" id="topping" name="topping" value=""><label>Extra Topping:</label><span class="float-right">$25</span>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </div><!-- /.modal -->
-    </div>
 </div>
 
 <script>
     $(function () {
-        $('.bootstrap-touchspin-up').on('click', function () {
+        $('.touch-up').on('click', function () {
             var s = parseInt($(this).parent().siblings('input').val()) + 1;
             $(this).parent().siblings('input').val(s > 50 ? 50 : s);
         })
-        $('.bootstrap-touchspin-down').on('click', function () {
+        $('.touch-down').on('click', function () {
             var s = parseInt($(this).parent().siblings('input').val()) - 1;
-            $(this).parent().siblings('input').val(s <= 1 ? 1 : s);
+            $(this).parent().siblings('input').val(s <= 0 ? 1 : s);
         })
+        $('.update').hide();
     })
+    function IngredientUpFunction(element) {
+        var input = $(element).parent().siblings('.quantity-counter');
+        var itemCount = $(element).parent().siblings('.quantity-counter').val();
+        var itemCount = parseInt(itemCount);
+        itemCount += 1;
+        if (itemCount <= 99) {
+            $(input).val(itemCount);
+        }
+        $(element).closest('.col-sm-7').prev('.col-sm-5').find('input').prop('checked', true);
+    }
+    function IngredientDownFunction(element) {
+        var input = $(element).parent().siblings('.quantity-counter');
+        var itemCount = $(element).parent().siblings('.quantity-counter').val();
+        var itemCount = parseInt(itemCount);
+        itemCount -= 1;
+        if (itemCount >= 0) {
+            $(input).val(itemCount);
+        }
+        if (itemCount == 0) {
+            $(element).closest('.col-sm-7').prev('.col-sm-5').find('input').prop('checked', false);
+        }
+    }
+</script>
+
+<script>
+    function RemoveItemFromCart(Id) {
+        $.ajax({
+            type: 'Get',
+            url: '/Order/RemoveFromCart?Id=' + Id,
+            async: true,
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            success: function (data) {
+                console.log("Api", data);
+                if (data.code == 200) {
+                    MixinSweet("Product removed from cart!", "", "success", "2000");
+                    setTimeout(function () {
+                        location.reload();
+                    }, 2000);
+                }
+                else {
+                    sweetMessage("Warning!", data.shortMessage, "error");
+                }
+            },
+            error: function (error) {
+                return error;
+            },
+        });
+    }
+    function EditCart(element) {
+        $(element).siblings('#IngredientCard').hide();
+        $(element).hide();
+        $(element).siblings('.update').show();
+        $(element).siblings('#EditCard').show();
+    }
+    function Cancel(element) {
+        $(element).siblings('#IngredientCard').show();
+        $(element).hide();
+        $(element).siblings('.edit').show();
+        $(element).siblings('.update').hide();
+        $(element).siblings('#EditCard').hide();
+    }
+    function UpdateCart(element) {
+        var pushs = [];
+        var quantity = 0;
+        $(element).addClass('SpinnerProgressBtn').removeClass('SpinnerBtn');
+        var cartId = $(element).attr('data-cart');
+        quantity = $('#Quantity-' + cartId).val();
+        $(element).siblings('#EditCard').find('ul').find('input[type="checkbox"]:checked').each(function (index, obj) {
+            var ingredient = $(obj).attr('data-ingredient');
+            var quantity2 = $(obj).closest('.col-sm-5').siblings('.col-sm-7').find('#val-' + ingredient).val();
+            var data = {
+                Id: parseInt(ingredient),
+                quantity: parseInt(quantity2),
+            };
+            pushs.push(data);
+        })
+        console.log(pushs);
+        var cart_data = JSON.stringify({
+            'allIngredients': pushs,
+            'quantity': quantity,
+            'cartId': cartId,
+        });
+
+        $.ajax({
+            type: 'POST',
+            url: '/Order/UpdateCart',
+            data: cart_data,
+            async: true,
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            success: function (data) {
+                console.log("Api", data);
+                if (data.code == 200) {
+                    $(element).addClass('SpinnerBtn').removeClass('SpinnerProgressBtn');
+                    MixinSweet("Cart updated!", "", "success", "2000");
+                    setTimeout(function () {
+                        location.reload();
+                    }, 2000);
+                }
+                else {
+                    $(element).removeClass('btn-progress');
+                    sweetMessage("Warning!", data.shortMessage, "error");
+                }
+            },
+            error: function (error) {
+                $(element).removeClass('btn-progress');
+                return error;
+            },
+        });
+    }
 </script>

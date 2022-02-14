@@ -1197,7 +1197,7 @@ namespace BLL.AdminService
                 throw new ValidationException(es.GetBaseException().Message);
             }
         }
-        public ProductAndIngredientDtos ProductDetail(int Id, string BranchName, string CategoryName)
+        public ProductAndIngredientDtos ProductDetail(int Id, string BranchName, string CategoryName,string userId)
         {
             try
             {
@@ -1226,6 +1226,7 @@ namespace BLL.AdminService
                     Price = n.Price,
                     CategoryId = n.CategoryId,
                     BranchId = category.BranchId,
+                    AddedToCart = db.Carts.Where(p=>p.ProductId == n.Id && p.Status == CartStatus.Active && p.UserId == userId).Any(),
                     BranchName = branch.Name,
                     CategoryName = category.Name,
                     IngredientLists = db.Ingredients.Where(p => p.ProductId == n.Id || p.CategoryId == category.Id).Select(i => new IngredientListVms
@@ -1775,20 +1776,22 @@ namespace BLL.AdminService
         }
         public AppInfoVms GetAppInfo()
         {
-            var info = db.AppInfos.FirstOrDefault();
-            if(info != null)
+            var info2 = db.AppInfos.FirstOrDefault();
+            if(info2 != null)
             {
-                var info2 = db.AppInfos.FirstOrDefault();
+                var info = db.AppInfos.FirstOrDefault();
                 AppInfoVms appInfoVms2 = new AppInfoVms
                 {
-                    FacebookUrl = info2.FacebookUrl,
-                    GoogleUrl = info2.GoogleUrl,
-                    InstagramUrl = info2.InstagramUrl,
-                    TwitterUrl = info2.TwitterUrl,
-                    YoutubeUrl = info2.YoutubeUrl,
-                    Email = info2.Email,
-                    Address = info2.Address,
-                    TelephoneNumber = info2.TelephoneNumber,
+                    FacebookUrl = info.FacebookUrl,
+                    GoogleUrl = info.GoogleUrl,
+                    InstagramUrl = info.InstagramUrl,
+                    TwitterUrl = info.TwitterUrl,
+                    YoutubeUrl = info.YoutubeUrl,
+                    Email = info.Email,
+                    Address = info.Address,
+                    ServiceCharges = info.ServiceCharges,
+                    DeliveryCharges = info.DeliveryCharges,
+                    TelephoneNumber = info.TelephoneNumber,
                 };
                 return appInfoVms2;
             }
@@ -1801,6 +1804,8 @@ namespace BLL.AdminService
                 YoutubeUrl = "youtube.com",
                 Email = "piano.com",
                 Address = "USA",
+                ServiceCharges = 12.22m,
+                DeliveryCharges = 12.23m,
                 TelephoneNumber = "+924234234324",
             };
             db.AppInfos.Add(appInfoVms);
@@ -1818,6 +1823,8 @@ namespace BLL.AdminService
             info.TwitterUrl = modal.twitter_link;
             info.Email = modal.email;
             info.TelephoneNumber = modal.telephone;
+            info.ServiceCharges = modal.services_modal;
+            info.DeliveryCharges = modal.delivery_modal;
             db.Entry(info).State = EntityState.Modified;
             db.SaveChanges();
             return JsonResponse2(200, "success", null);
@@ -1984,7 +1991,7 @@ namespace BLL.AdminService
                     Price = m.Price,
                     quantity = m.Quantity,
                 }).ToList(),
-            });;
+            });
             return entities.ToList();
         }
         public GetStaffDashboardStats GetStaffOrderdetails(string userId)
@@ -2294,6 +2301,367 @@ namespace BLL.AdminService
                 minutesSpent = (n.EndTime.Value - n.StartTime).Hours + ":" + (n.EndTime.Value - n.StartTime).Minutes + ":" + (n.EndTime.Value - n.StartTime).Seconds,
                 startTime = n.StartTime.ToString("dd-MMM-yyyy hh:mm:ss tt"),
                 endTime = n.EndTime.Value.ToString("dd-MMM-yyyy hh:mm:ss tt"),
+            });
+            return entities.ToList();
+        }
+
+        ///////////////////// Customer Apis ///////////////////////
+        ///
+        public ResponseDto AddToCart(AddToCart modal, string userId)
+        {
+            var cartscheck = db.Carts.Where(p => p.Status == CartStatus.Active && p.UserId == userId);
+            var product = db.Products.Find(modal.productId);
+            if (cartscheck.Count() > 0)
+            {
+                var productA = db.Products.Find(cartscheck.FirstOrDefault().ProductId);
+                var categoryA = db.Categories.Find(productA.CategoryId);
+                var category = db.Categories.Find(product.CategoryId);
+                if (categoryA.BranchId != category.BranchId)
+                {
+                    if(modal.BranchBool == false)
+                    {
+                        return JsonResponse2(401, "There are already products added in your cart from another branch. If you are willing to continue you previos cart will be removed", null);
+                    }
+                    else
+                    {
+                        var Ids = cartscheck.Select(p => p.Id);
+                        var cartIngredients = db.CartIngredients.Where(p => Ids.Contains(p.CartId));
+                        db.CartIngredients.RemoveRange(cartIngredients);
+                        db.Carts.RemoveRange(cartscheck);
+                    }
+                }
+            }
+            
+            var cartPrice = product.Price * modal.quantity;
+            Carts carts = new Carts
+            {
+                Status = CartStatus.Active,
+                CreatedAt = currentTime,
+                Price = cartPrice,
+                ProductId = product.Id,
+                Quantity = modal.quantity,
+                UpdatedAt = currentTime,
+                UserId = userId,
+            };
+            db.Carts.Add(carts);
+            foreach (var a in modal.AllIngredients)
+            {
+                var ingredient = db.Ingredients.Find(a.Id);
+                var ingredientPrice = ingredient.Price * modal.quantity;
+                CartIngredients cartIngredients = new CartIngredients
+                {
+                    Status = CartStatus.OrderConfirmed,
+                    CartsObject = carts,
+                    CreatedAt = currentTime,
+                    IngredientId = ingredient.Id,
+                    Price = ingredientPrice,
+                    UpdatedAt = currentTime,
+                    Quantity = a.quantity,
+                    UserId = userId,
+                };
+                db.CartIngredients.Add(cartIngredients);
+            }
+            db.SaveChanges();
+            return JsonResponse2(200, "success", null);
+        }
+
+        public List<MyCarts> MyCarts(string userId)
+        {
+            try
+            {
+                var n = db.Carts.Where(p=>p.Status == CartStatus.Active && p.UserId == userId).Select(n => new MyCarts {
+                    Name = n.ProductsObject.Name,
+                    Status = n.ProductsObject.Status,
+                    Id = n.Id,
+                    Description = n.ProductsObject.Description,
+                    ImageUrls = db.ProductsImages.Where(p => p.ProductId == n.Id).Select(p => p.Image).ToList(),
+                    ProductsImages = db.ProductsImages.Where(p => p.ProductId == n.Id).Select(a => new ProductsImagesVms
+                    {
+                        Id = a.Id,
+                        Url = a.Image,
+                    }).ToList(),
+                    Logo = n.ProductsObject.Logo,
+                    Price = n.Price,
+                    CategoryId = n.ProductsObject.CategoryId,
+                    BranchId = n.ProductsObject.CategoriesObject.BranchId,
+                    AddedToCart = db.Carts.Where(p => p.ProductId == n.Id && p.Status == CartStatus.Active && p.UserId == userId).Any(),
+                    BranchName = n.ProductsObject.CategoriesObject.BranchesObject.Name,
+                    CategoryName = n.ProductsObject.CategoriesObject.Name,
+                    CartStatus = n.Status,
+                    Quantity = n.Quantity,
+                    IngredientLists = db.Ingredients.Where(p => p.CategoryId == n.ProductsObject.CategoryId).Select(i => new CartIngredientListVms
+                    {
+                        Id = i.Id,
+                        Status = i.Status,
+                        Name = i.Name,
+                        AddedInCart = db.CartIngredients.Where(p => p.CartId == n.Id && p.IngredientId == i.Id).Any(),
+                        Quantity = db.CartIngredients.Where(p => p.CartId == n.Id && p.IngredientId == i.Id).FirstOrDefault() != null ? db.CartIngredients.Where(p => p.CartId == n.Id && p.IngredientId == i.Id).FirstOrDefault().Quantity : 0,
+                        Price = i.Price,
+                    }).ToList()
+                });
+                return n.ToList();
+            }
+            catch (Exception es)
+            {
+                throw new ValidationException(es.GetBaseException().Message);
+            }
+        }
+
+        public ResponseDto RemoveFromCart(int Id)
+        {
+            try
+            {
+                var cart = db.Carts.Find(Id);
+                if (cart == null)
+                {
+                    return JsonResponse2(401, "Item removed from cart, Refresh you page to see updated cart", null);
+                }
+                var cartIngredients = db.CartIngredients.Where(p => p.CartId == cart.Id);
+                db.CartIngredients.RemoveRange(cartIngredients.ToList());
+                db.Carts.Remove(cart);
+                db.SaveChanges();
+                return JsonResponse2(200, "success", null);
+            }
+            catch (Exception es)
+            {
+                throw new ValidationException(es.GetBaseException().Message);
+            }
+        }
+
+        public ResponseDto GetCart(int Id)
+        {
+            try
+            {
+                var cart = db.Carts.Find(Id);
+                var cartIngredients = db.CartIngredients.Where(p => p.CartId == cart.Id);
+                var product = db.Products.Find(cart.ProductId);
+                ProductAndIngredientDtos2 dtos = new ProductAndIngredientDtos2
+                {
+                    Id = product.Id,
+                    IngredientLists = db.Ingredients.Where(p => p.CategoryId == product.CategoryId).Select(i => new IngredientListVms2
+                    {
+                        Id = i.Id,
+                        Name = i.Name,
+                        Quantity = db.CartIngredients.Where(p=>p.CartId == cart.Id && p.IngredientId == i.Id).FirstOrDefault() != null? db.CartIngredients.Where(p => p.CartId == cart.Id && p.IngredientId == i.Id).FirstOrDefault().Quantity:0,
+                        Price = i.Price,
+                    }).ToList(),
+                    Price = product.Price,
+                    Quantity = cart.Quantity,
+                };
+                return JsonResponse2(200, "success", dtos);
+            }
+            catch (Exception es)
+            {
+                throw new ValidationException(es.GetBaseException().Message);
+            }
+        }
+
+        public ResponseDto UpdateCart(UpdateCart modal, string userId)
+        {
+            var cart = db.Carts.Find(modal.cartId);
+            if(cart == null)
+            {
+                return JsonResponse2(401, "Item removed from cart, Refresh you page to see updated cart", null);
+            }
+            var product = db.Products.Find(cart.ProductId);
+            cart.Price = product.Price * modal.quantity;
+            cart.Quantity = modal.quantity;
+            var cartIngredients = db.CartIngredients.Where(p => p.CartId == cart.Id);
+            db.CartIngredients.RemoveRange(cartIngredients.ToList());
+            db.Entry(cart).State = EntityState.Modified;
+
+            foreach (var a in modal.AllIngredients)
+            {
+                var ingredient = db.Ingredients.Find(a.Id);
+                var ingredientPrice = ingredient.Price * modal.quantity;
+                CartIngredients cartIngredients2 = new CartIngredients
+                {
+                    Status = CartStatus.OrderConfirmed,
+                    CreatedAt = currentTime,
+                    IngredientId = ingredient.Id,
+                    Price = ingredientPrice,
+                    UpdatedAt = currentTime,
+                    Quantity = a.quantity,
+                    UserId = userId,
+                    CartId = cart.Id,
+                };
+                db.CartIngredients.Add(cartIngredients2);
+            }
+            db.SaveChanges();
+            return JsonResponse2(200, "success", null);
+        }
+
+        public ResponseDto SaveOrderCustomer(PlaceOrderCustomer modal, string userId)
+        {
+            var user = db.Users.Find(userId);
+
+            var carts = db.Carts.Where(p => p.UserId == userId && p.Status == CartStatus.Active);
+            var branchId = 0;
+            if(carts.Count() > 0)
+            {
+                var firstcart = carts.FirstOrDefault();
+                var product = db.Products.Find(firstcart.ProductId);
+                var category = db.Categories.Find(product.CategoryId);
+                branchId = category.BranchId;
+            }
+            else
+            {
+                return JsonResponse2(401,"error", null);
+            }
+
+            var branch = db.Branches.Find(branchId);
+            Int32 unixTimestamp = (Int32)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
+            var doc_id = unixTimestamp.ToString();
+
+            var freeCook = db.Users.Where(p => p.Type == UserType.Cook && p.Status == UserStatus.Active && p.BranchId == branch.Id).Select(p => p.Id).AsEnumerable();
+            var s = db.AssigneesLists.Where(p => p.OrderObject.Status == OrderStatus.Cooking && p.OrderObject.BranchId == branch.Id).Select(p => p.UserId).AsEnumerable();
+            var d = freeCook.Except(s);
+            string CookDefault = null;
+            var type = OrderStatus.Waiting;
+            if (d.Count() > 0)
+            {
+                CookDefault = d.FirstOrDefault();
+                type = OrderStatus.Cooking;
+            }
+            else if (freeCook.Count() > 0)
+            {
+                CookDefault = freeCook.FirstOrDefault();
+                type = OrderStatus.Cooking;
+            }
+            decimal latitude = 0;
+            decimal longitude = 0;
+            if (modal.orderType == OrderType.Delivery)
+            {
+                latitude = modal.latitude;
+                longitude = modal.longitude;
+            }
+            var appInfo = db.AppInfos.FirstOrDefault();
+            Orders orders = new Orders
+            {
+                Status = type,
+                Type = modal.orderType,
+                BranchId = branch.Id,
+                CreatedAt = currentTime,
+                SubTotal = modal.sub_total,
+                TotalPrice = modal.amount,
+                UpdatedAt = currentTime,
+                OrderId = "PB-" + doc_id,
+                AssigneeId = CookDefault,
+                CreatedBy = userId,
+                PhoneNumber = modal.customer_phone,
+                UserEmail = modal.customer_email,
+                Username = modal.customer_name,
+                Latitude = latitude,
+                Longitude = longitude,
+                UserId = userId,
+                DeliveryCharges = appInfo.DeliveryCharges,
+                ServiceCharges = appInfo.ServiceCharges,
+                Address = modal.customer_address,
+                Note = modal.customer_note,
+            };
+            db.Orders.Add(orders);
+            if (CookDefault != null)
+            {
+                var Cook = db.Users.Find(CookDefault);
+                AssigneesList assigneesList = new AssigneesList
+                {
+                    StartTime = currentTime,
+                    Status = WorkerStatus.Waiting,
+                    CreatedAt = currentTime,
+                    EndTime = currentTime,
+                    OrderObject = orders,
+                    UpdatedAt = currentTime,
+                    UserId = Cook.Id,
+                };
+                db.AssigneesLists.Add(assigneesList);
+            }
+
+            carts.ToList().ForEach(s => s.Status = CartStatus.OrderConfirmed);
+            carts.ToList().ForEach(s => s.OrdersObject = orders);
+            carts.ToList().ForEach(s => db.Entry(s).State = EntityState.Modified);
+            db.SaveChanges();
+            return JsonResponse2(200, "PB-" + doc_id, null);
+        }
+
+        public List<GetOrderdetails> GetCurrentOrderdetails(string userId)
+        {
+            var entities = db.Orders.Where(p=>p.UserId == userId && p.Status != OrderStatus.Delivered).Select(n => new GetOrderdetails
+            {
+                CreatedAt = n.CreatedAt.ToShortDateString(),
+                OrderId = n.OrderId,
+                UpdatedAt = n.UpdatedAt.Value,
+                Status = n.Status,
+                Id = n.Id,
+                TotalPrice = n.TotalPrice,
+                BranchId = n.BranchId,
+                SubTotal = n.SubTotal,
+                BranchName = n.BranchesObject.Name,
+                PhoneNumber = n.PhoneNumber,
+                UserEmail = n.UserEmail,
+                UserId = n.UserId,
+                Username = n.Username,
+            });
+            return entities.ToList();
+        }
+
+        public GetSingleOrderdetails GetSingleOrderdetails(int orderId)
+        {
+            var n = db.Orders.Find(orderId);
+            GetSingleOrderdetails getSingleOrderdetails = new GetSingleOrderdetails
+            {
+                CreatedAt = n.CreatedAt.ToShortDateString(),
+                OrderId = n.OrderId,
+                UpdatedAt = n.UpdatedAt.Value,
+                Status = n.Status,
+                Id = n.Id,
+                Note = n.Note??"",
+                TotalPrice = n.TotalPrice,
+                BranchId = n.BranchId,
+                Address = n.Address??"",
+                PhoneNumber = n.PhoneNumber,
+                SubTotal = n.SubTotal,
+                UserEmail = n.UserEmail,
+                UserId = n.UserId,
+                DeliveryCharges = n.DeliveryCharges,
+                Type = n.Type,
+                ServiceCharges = n.ServiceCharges,
+                Username = n.Username,
+                AllProducts = db.Carts.Where(p => p.OrderId == orderId).Select(p => new AllProducts
+                {
+                    productId = p.ProductId,
+                    productImage = p.ProductsObject.Logo,
+                    productName = p.ProductsObject.Name,
+                    quantity = p.Quantity,
+                    total_price = p.Price,
+                    ingredientList = db.CartIngredients.Where(a => a.CartId == p.Id).Select(m => new ingredientList
+                    {
+                        Id = m.Id,
+                        ingredientName = m.IngredientObject.Name,
+                        Price = m.Price,
+                        quantity = m.Quantity,
+                    }).ToList(),
+                }).ToList(),
+            };
+            return getSingleOrderdetails;
+        }
+
+        public List<GetOrderdetails> GetOrderHistorydetails(string userId)
+        {
+            var entities = db.Orders.Where(p => p.UserId == userId).Where(p=> p.Status == OrderStatus.Delivered || p.Status == OrderStatus.Cancelled).Select(n => new GetOrderdetails
+            {
+                CreatedAt = n.CreatedAt.ToShortDateString(),
+                OrderId = n.OrderId,
+                UpdatedAt = n.UpdatedAt.Value,
+                Status = n.Status,
+                Id = n.Id,
+                SubTotal = n.SubTotal,
+                TotalPrice = n.TotalPrice,
+                BranchId = n.BranchId,
+                BranchName = n.BranchesObject.Name,
+                PhoneNumber = n.PhoneNumber,
+                UserEmail = n.UserEmail,
+                UserId = n.UserId,
+                Username = n.Username,
             });
             return entities.ToList();
         }

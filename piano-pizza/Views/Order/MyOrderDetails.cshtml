@@ -1,4 +1,5 @@
-﻿@{
+﻿@model Entities.GetSingleOrderdetails;
+@{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <style>
@@ -15,6 +16,10 @@
         #add-listing-tab {
             display: none;
         }
+    }
+    #add-listing-tab .step-steps > li {
+        flex: 0 0 14%!important;
+        max-width: 14%!important;
     }
 </style>
 
@@ -50,52 +55,106 @@
 <div id="content-main-wrap" class="is-clearfix">
     <div id="content-area" class="site-content-area">
         <div id="content-area-inner" class="site-content-area-inner">
-
-
             <div class="container py-5">
                 <div class="row">
                     <div class="col-md-12">
                         <div class="tracking-sec w-100">
                             <div class="tracking-details padding-20 p-relative w-100">
-                                <span class="text-light-white">Estimated Delivery time</span>
-                                <h2 class="text-light-black fw-700 no-margin">9:00pm-9:10pm</h2>
+                                @if (Model.Status == Entities.Enum.OrderStatus.Delivered)
+                                {
+                                    
+                                }
+                                else
+                                {
+                                    <span class="text-light-white">Estimated Delivery time</span>
+                                    <h2 class="text-light-black fw-700 no-margin">35-40 mins</h2>
+                                }
+                                @if (Model.Status == Entities.Enum.OrderStatus.OnTheWay)
+                                {
+                                    <img src="~/61198-delivery-service.gif" width="120" class="d-flex m-auto" />
 
-                                <img src="~/assets/images/menu/animation_200_kymuccx2.gif" width="120" class="d-flex m-auto" />
-                                <p class="text-light-black fw-700 no-margin text-center">Cooking Food</p>
+                                }
+                                else if (Model.Status == Entities.Enum.OrderStatus.Delivered)
+                                {
+                                    <img src="~/order_complete.gif" style="width:200px;" class="d-flex m-auto" />
+                                }
+                                else
+                                {
+                                    <img src="~/assets/images/menu/animation_200_kymuccx2.gif" width="120" class="d-flex m-auto" />
+                                }
+                                <p class="text-light-black fw-700 no-margin text-center">@Model.Status</p>
 
                                 <div id="add-listing-tab" class="step-app">
                                     <ul class="step-steps">
-                                        <li class="done">
+                                        @{
+                                            var s = "done";
+                                            s = Model.Status == Entities.Enum.OrderStatus.Waiting ? "active" : s;
+                                        }
+                                        <li class="@s">
                                             <a href="javascript:void(0)">
                                                 <span class="number"></span>
                                                 <span class="step-name">Waiting</span>
                                             </a>
                                         </li>
-                                        <li class="active">
+                                        @{
+                                            var p = "";
+                                            p = Model.Status == Entities.Enum.OrderStatus.Cooking ? "active" : (int)Model.Status > 1 ? "done" : p;
+                                        }
+                                        <li class="@p">
                                             <a href="javascript:void(0)">
                                                 <span class="number"></span>
                                                 <span class="step-name">In process</span>
                                             </a>
                                         </li>
-                                        <li>
+                                        @{
+                                            var r = "";
+                                            r = Model.Status == Entities.Enum.OrderStatus.ReadyForPacking ? "active" : (int)Model.Status > 2 ? "done" : r;
+                                        }
+                                        <li class="@r">
                                             <a href="javascript:void(0)">
                                                 <span class="number"></span>
                                                 <span class="step-name">Ready for pack</span>
                                             </a>
                                         </li>
-                                        <li>
+                                        @{
+                                            var pac = "";
+                                            pac = Model.Status == Entities.Enum.OrderStatus.Packing ? "active" : (int)Model.Status > 3 ? "done" : pac;
+                                        }
+                                        <li class="@pac">
                                             <a href="javascript:void(0)">
                                                 <span class="number"></span>
-                                                <span class="step-name">Packed</span>
+                                                <span class="step-name">Packing</span>
                                             </a>
                                         </li>
-                                        <li>
-                                            <a href="javascript:void(0)">
-                                                <span class="number"></span>
-                                                <span class="step-name">On the way</span>
-                                            </a>
-                                        </li>
-                                        <li>
+                                        @{
+                                            var rd = "";
+                                            rd = Model.Status == Entities.Enum.OrderStatus.ReadyToDeliver ? "active" : (int)Model.Status > 4 ? "done" : rd;
+                                        }
+                                        @{
+                                            var o = "";
+                                            o = Model.Status == Entities.Enum.OrderStatus.OnTheWay ? "active" : (int)Model.Status > 5 ? "done" : o;
+                                        }
+                                        @if (Model.Type == Entities.Enum.OrderType.Delivery)
+                                        {
+
+                                            <li class="@rd">
+                                                <a href="javascript:void(0)">
+                                                    <span class="number"></span>
+                                                    <span class="step-name">Ready To Deliver</span>
+                                                </a>
+                                            </li>
+                                            <li class="@o">
+                                                <a href="javascript:void(0)">
+                                                    <span class="number"></span>
+                                                    <span class="step-name">On the way</span>
+                                                </a>
+                                            </li>
+                                        }
+                                        @{
+                                            var d = "";
+                                            d = Model.Status == Entities.Enum.OrderStatus.Delivered ? "active" : o;
+                                        }
+                                        <li class="@d">
                                             <a href="javascript:void(0)">
                                                 <span class="number"></span>
                                                 <span class="step-name">Delivered</span>
@@ -110,37 +169,40 @@
                         <div class="recipt-sec padding-20">
                             <div class="recipt-name title u-line full-width mb-xl-20">
                                 <div class="recipt-name-box">
-                                    <h5 class="text-light-black fw-600 mb-2">Pizza Deal</h5>
+                                    <h5 class="text-light-black fw-600 mb-2">#@Model.OrderId</h5>
                                     <p class="text-light-white ">Estimated Delivery time</p>
                                 </div>
-                                <div class="countdown-box">
-                                    <div class="time-box">
-                                        <span id="mb-hours"></span>
+                                @if (Model.Status == Entities.Enum.OrderStatus.Delivered)
+                                {
+                                    <p>Delivered</p>
+                                }
+                                else
+                                {
+                                    <div class="countdown-box">
+                                        <div class="time-box">
+                                            <span id="mb-hours"></span>
+                                        </div>
+                                        <div class="time-box">
+                                            <span id="mb-minutes"></span>
+                                        </div>
+                                        <div class="time-box">
+                                            <span id="mb-seconds"></span>
+                                        </div>
                                     </div>
-                                    <div class="time-box">
-                                        <span id="mb-minutes"></span>
-                                    </div>
-                                    <div class="time-box">
-                                        <span id="mb-seconds"></span>
-                                    </div>
-                                </div>
+                                }
                             </div>
                             <div class="u-line mb-xl-20">
                                 <div class="row">
                                     <div class="col-lg-4">
                                         <div class="recipt-name full-width padding-tb-10 pt-0">
                                             <h5 class="text-light-black fw-600">Delivery (ASAP) to:</h5>
-                                            <span class="text-light-white ">Jhon Deo</span>
-                                            <span class="text-light-white ">Home</span>
-                                            <span class="text-light-white ">314 79th St</span>
-                                            <span class="text-light-white ">Rite Aid, Brooklyn, NY, 11209</span>
-                                            <p class="text-light-white ">(347) 123456789</p>
+                                            <span class="text-light-white ">@Model.Address</span>
                                         </div>
                                     </div>
                                     <div class="col-lg-4">
                                         <div class="recipt-name full-width padding-tb-10 pt-0">
-                                            <h5 class="text-light-black fw-600">Delivery instructions</h5>
-                                            <p class="text-light-white ">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua consectetur adipiscing elit.</p>
+                                            <h5 class="text-light-black fw-600">Note</h5>
+                                            <p class="text-light-white ">@Model.Note</p>
                                         </div>
                                     </div>
                                     <div class="col-lg-4">
@@ -155,94 +217,34 @@
                                     <div class="col-lg-12">
                                         <h5 class="text-light-black fw-600 title ft-15">Your Order</h5>
                                         <p class="title font-19 text-light-white ft-15">
-                                            Nov 15, 2015 8:38pm <span class="text-light-black">Order #123456</span>
+                                            @Model.CreatedAt <span class="text-light-black">Order #@Model.OrderId</span>
                                         </p>
                                     </div>
                                     <div class="col-lg-12 mt-3">
-
-                                        <div class="checkout-product">
-                                            <div class="img-name-value">
-                                                <div class="product-img">
-                                                    <a href="#">
-                                                        <img src="/Images/44.jpg" class="product_width" alt="#">
-                                                    </a>
-                                                </div>
-
-                                                <div class="product-name ml-2">
-                                                    <span><a href="#" class="text-light-white"><span class="text-light-white">2</span> Lazania Pizza</a></span>
-
-                                                    <div class="flex-row">
-                                                        <small class="text-muted"><b><i class="fas fa-circle font-8 mr-2"></i> Extra Mayo: </b></small> <small class="ml-2">2 Qty</small>
+                                        @foreach (var i in Model.AllProducts)
+                                        {
+                                            <div class="checkout-product">
+                                                <div class="img-name-value">
+                                                    <div class="product-img">
+                                                        <a href="#">
+                                                            <img src="@i.productImage" class="product_width" alt="#">
+                                                        </a>
                                                     </div>
-                                                    <div class="flex-row">
-                                                        <small class="text-muted"><b><i class="fas fa-circle font-8 mr-2"></i>Extra Cheese: </b></small><small class="ml-2">1 Qty</small>
-                                                    </div>
-
-                                                    <div class="flex-row">
-                                                        <small class="text-muted"><b><i class="fas fa-circle font-8 mr-2"></i>Extra Suase: </b></small><small class="ml-2">5 Qty</small>
+                                                    <div class="product-name ml-2">
+                                                        <span><a href="#" class="text-light-white"><span class="text-light-white">@i.quantity</span> @i.productName</a></span>
+                                                        @foreach (var a in i.ingredientList)
+                                                        {
+                                                            <div class="flex-row">
+                                                                <small class="text-muted"><b><i class="fas fa-circle font-8 mr-2"></i> @a.ingredientName: </b></small> <small class="ml-2">@a.quantity Qty</small>
+                                                            </div>
+                                                        }
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="price">
-                                                <span class="text-light-white">$15.50</span>
-                                            </div>
-                                        </div>
-
-                                        <div class="checkout-product">
-                                            <div class="img-name-value">
-                                                <div class="product-img">
-                                                    <a href="#">
-                                                        <img src="/Images/33.jpg" class="product_width" alt="#">
-                                                    </a>
-                                                </div>
-
-                                                <div class="product-name ml-2">
-                                                    <span><a href="#" class="text-light-white"><span class="text-light-white">2</span> Kabab Crust</a></span>
-
-                                                    <div class="flex-row">
-                                                        <small class="text-muted"><b><i class="fas fa-circle font-8 mr-2"></i> Extra Mayo: </b></small> <small class="ml-2">2 Qty</small>
-                                                    </div>
-                                                    <div class="flex-row">
-                                                        <small class="text-muted"><b><i class="fas fa-circle font-8 mr-2"></i>Extra Cheese: </b></small><small class="ml-2">1 Qty</small>
-                                                    </div>
-
-                                                    <div class="flex-row">
-                                                        <small class="text-muted"><b><i class="fas fa-circle font-8 mr-2"></i>Extra Suase: </b></small><small class="ml-2">5 Qty</small>
-                                                    </div>
+                                                <div class="price">
+                                                    <span class="text-light-white">$@i.total_price</span>
                                                 </div>
                                             </div>
-                                            <div class="price">
-                                                <span class="text-light-white">$15.50</span>
-                                            </div>
-                                        </div>
-
-                                        <div class="checkout-product">
-                                            <div class="img-name-value">
-                                                <div class="product-img">
-                                                    <a href="#">
-                                                        <img src="/Images/66.jpg" class="product_width" alt="#">
-                                                    </a>
-                                                </div>
-
-                                                <div class="product-name ml-2">
-                                                    <span><a href="#" class="text-light-white"><span class="text-light-white">2</span>Tikka Pizza</a></span>
-
-                                                    <div class="flex-row">
-                                                        <small class="text-muted"><b><i class="fas fa-circle font-8 mr-2"></i> Extra Mayo: </b></small> <small class="ml-2">2 Qty</small>
-                                                    </div>
-                                                    <div class="flex-row">
-                                                        <small class="text-muted"><b><i class="fas fa-circle font-8 mr-2"></i>Extra Cheese: </b></small><small class="ml-2">1 Qty</small>
-                                                    </div>
-
-                                                    <div class="flex-row">
-                                                        <small class="text-muted"><b><i class="fas fa-circle font-8 mr-2"></i>Extra Suase: </b></small><small class="ml-2">5 Qty</small>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="price">
-                                                <span class="text-light-white">$15.50</span>
-                                            </div>
-                                        </div>
+                                        }
                                     </div>
                                 </div>
                             </div>
@@ -260,23 +262,19 @@
                                     <div class="price-table u-line">
                                         <div class="item">
                                             <span class="text-light-white">Item subtotal:</span>
-                                            <span class="text-light-white">$30.5</span>
+                                            <span class="text-light-white">$@Model.SubTotal</span>
                                         </div>
                                         <div class="item">
                                             <span class="text-light-white">Delivery fee:</span>
-                                            <span class="text-light-white">$30.5</span>
+                                            <span class="text-light-white">$@Model.DeliveryCharges</span>
                                         </div>
                                         <div class="item">
-                                            <span class="text-light-white">Tax and fees:</span>
-                                            <span class="text-light-white">$30.5</span>
-                                        </div>
-                                        <div class="item">
-                                            <span class="text-light-white">Driver tip:</span>
-                                            <span class="text-light-white">$30.5</span>
+                                            <span class="text-light-white">Service Charges:</span>
+                                            <span class="text-light-white">$@Model.ServiceCharges</span>
                                         </div>
                                     </div>
                                     <div class="total-price padding-tb-10">
-                                        <h5 class="title text-light-black fw-700 ft-15">Total: <span>$33.36</span></h5>
+                                        <h5 class="title text-light-black fw-700 ft-15">Total: <span>$@Model.TotalPrice</span></h5>
                                     </div>
                                 </div>
 

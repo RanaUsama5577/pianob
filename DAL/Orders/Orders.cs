@@ -16,7 +16,11 @@ namespace DAL.Orders
         public string PhoneNumber { get; set; }
         public string UserEmail { get; set; }
         public decimal TotalPrice { get; set; }
+        public decimal SubTotal { get; set; }
+        public decimal DeliveryCharges { get; set; }
+        public decimal ServiceCharges { get; set; }
         public string Address { get; set; }
+        public string Note { get; set; }
         public decimal Latitude { get; set; }
         public decimal Longitude { get; set; }
         public OrderStatus Status { get; set; }

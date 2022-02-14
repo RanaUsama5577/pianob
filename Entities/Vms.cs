@@ -21,6 +21,8 @@ namespace Entities
         public string InstagramUrl { get; set; }
         public string GoogleUrl { get; set; }
         public string YoutubeUrl { get; set; }
+        public decimal DeliveryCharges { get; set; }
+        public decimal ServiceCharges { get; set; }
     }
     public class ContentVms
     {
@@ -113,6 +115,7 @@ namespace Entities
         public string UpdatedAt { get; set; }
         public int CategoryId { get; set; }
         public int BranchId { get; set; }
+        public bool AddedToCart { get; set; }
         public string CategoryName { get; set; }
         public string BranchName { get; set; }
         public EntityStatus Status { get; set; }
@@ -252,6 +255,8 @@ namespace Entities
         public string facebook_link { get; set; }
         public string email { get; set; }
         public string telephone { get; set; }
+        public decimal delivery_modal { get; set; }
+        public decimal services_modal { get; set; }
     }
     public class contactUs
     {
@@ -274,7 +279,6 @@ namespace Entities
         public string UpdatedAt { get; set; }
         public List<ProductDtos> ProductList { get; set; }
     }
-
     public class SaveOrderData
     {
         public string customer_name { get; set; }
@@ -292,6 +296,7 @@ namespace Entities
         public int productId { get; set; }
         public int quantity { get; set; }
         public decimal price { get; set; }
+        public bool BranchBool { get; set; }
         public List<ingredientList> AllIngredients { get; set; }
     }
     public class StaffOrderReports
@@ -326,6 +331,7 @@ namespace Entities
         public int Id { get; set; }
         public string OrderId { get; set; }
         public decimal TotalPrice { get; set; }
+        public decimal SubTotal { get; set; }
         public OrderStatus Status { get; set; }
         public string UserId { get; set; }
         public string AssigneeId { get; set; }
@@ -369,5 +375,113 @@ namespace Entities
         public int InProcessOrder { get; set; }
         public int Completed { get; set; }
         public List<GetStaffOrderdetails> OrderDetails { get; set; }
+    }
+    public class MyCarts
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public List<string> ImageUrls { get; set; }
+        public List<ProductsImagesVms> ProductsImages { get; set; }
+        public string Description { get; set; }
+        public string Logo { get; set; }
+        public decimal Price { get; set; }
+        public int Quantity { get; set; }
+        public CartStatus CartStatus { get; set; }
+        public string CreatedAt { get; set; }
+        public string UpdatedAt { get; set; }
+        public int CategoryId { get; set; }
+        public int BranchId { get; set; }
+        public bool AddedToCart { get; set; }
+        public string CategoryName { get; set; }
+        public string BranchName { get; set; }
+        public EntityStatus Status { get; set; }
+        public List<CartIngredientListVms> IngredientLists { get; set; }
+    }
+    public class CartIngredientListVms
+    {
+        public int? Id { get; set; }
+        public string Name { get; set; }
+        public decimal Price { get; set; }
+        public string CreatedAt { get; set; }
+        public string UpdatedAt { get; set; }
+        public string CategoryName { get; set; }
+        public int CategoryId { get; set; }
+        public string ProductName { get; set; }
+        public int? ProductId { get; set; }
+        public string BranchName { get; set; }
+        public int BranchId { get; set; }
+        public int Quantity { get; set; }
+        public bool AddedInCart { get; set; }
+        public EntityStatus Status { get; set; }
+    }
+    public class ProductAndIngredientDtos2
+    {
+        public int Id { get; set; }
+        public int Quantity { get; set; }
+        public decimal Price { get; set; }
+        public List<IngredientListVms2> IngredientLists { get; set; }
+    }
+    public class IngredientListVms2
+    {
+        public int? Id { get; set; }
+        public string Name { get; set; }
+        public decimal Price { get; set; }
+        public int Quantity { get; set; }
+    }
+    public class UpdateCart
+    {
+        public int cartId { get; set; }
+        public int quantity { get; set; }
+        public decimal price { get; set; }
+        public List<ingredientList> AllIngredients { get; set; }
+    }
+
+    public class PlaceOrderCustomer
+    {
+        [Required]
+        public string cardNumber { get; set; }
+        [Required]
+        public int month { get; set; }
+        [Required]
+        public int year { get; set; }
+        [Required]
+        public string Cvc { get; set; }
+        [Required]
+        public decimal amount { get; set; }
+        [Required]
+        public decimal sub_total { get; set; }
+        public string customer_name { get; set; }
+        public string customer_email { get; set; }
+        public string customer_phone { get; set; }
+        public string customer_note { get; set; }
+        public string customer_address { get; set; }
+        public decimal latitude { get; set; }
+        public decimal longitude { get; set; }
+        public OrderType orderType { get; set; }
+    }
+    public class GetSingleOrderdetails
+    {
+        public int Id { get; set; }
+        public string OrderId { get; set; }
+        public string Note { get; set; }
+        public string Address { get; set; }
+        public decimal TotalPrice { get; set; }
+        public decimal SubTotal { get; set; }
+        public OrderStatus Status { get; set; }
+        public string UserId { get; set; }
+        public int BranchId { get; set; }
+        public string BranchName { get; set; }
+        public string Username { get; set; }
+        public string PhoneNumber { get; set; }
+        public string UserEmail { get; set; }
+        public string CreatedAt { get; set; }
+        public string StartTime { get; set; }
+        public string EndTime { get; set; }
+        public string ElaspedTime { get; set; }
+        public decimal DeliveryCharges { get; set; }
+        public OrderType Type { get; set; }
+        public decimal ServiceCharges { get; set; }
+        public DateTime UpdatedAt { get; set; }
+        public List<AllProducts> AllProducts { get; set; }
     }
 }

@@ -1,20 +1,16 @@
-﻿
+﻿@model Entities.GetSingleOrderdetails;
 @{
-    ViewData["Title"] = "HistoryOrderDetails";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
 <style>
     .product_width {
         max-width: 80px;
         max-height: 80px;
     }
-
     .ft-15 {
         font-size: 1.5rem !important;
     }
 </style>
-
 <link href="~/orderassets/assets/css/bootstrap.min.css" rel="stylesheet">
 <!-- Custom Stylesheet -->
 <link href="~/orderassets/assets/css/style.css" rel="stylesheet">
@@ -39,12 +35,9 @@
     </div>
     <!-- #header-bottom -->
 </div>
-
 <div id="content-main-wrap" class="is-clearfix">
     <div id="content-area" class="site-content-area">
         <div id="content-area-inner" class="site-content-area-inner">
-
-
             <div class="container py-5">
                 <div class="row">
                     <div class="col-md-12">
@@ -55,17 +48,13 @@
                                     <div class="col-lg-4">
                                         <div class="recipt-name full-width padding-tb-10 pt-0">
                                             <h5 class="text-light-black fw-600">Deliverd to:</h5>
-                                            <span class="text-light-white ">Jhon Deo</span>
-                                            <span class="text-light-white ">Home</span>
-                                            <span class="text-light-white ">314 79th St</span>
-                                            <span class="text-light-white ">Rite Aid, Brooklyn, NY, 11209</span>
-                                            <p class="text-light-white ">(347) 123456789</p>
+                                            <span class="text-light-white ">@Model.Address</span>
                                         </div>
                                     </div>
                                     <div class="col-lg-4">
                                         <div class="recipt-name full-width padding-tb-10 pt-0">
                                             <h5 class="text-light-black fw-600">Delivery instructions</h5>
-                                            <p class="text-light-white ">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua consectetur adipiscing elit.</p>
+                                            <p class="text-light-white ">@Model.Note</p>
                                         </div>
                                     </div>
                                     <div class="col-lg-4">
@@ -80,94 +69,34 @@
                                     <div class="col-lg-12">
                                         <h5 class="text-light-black fw-600 title ft-15">Your Order</h5>
                                         <p class="title font-19 text-light-white ft-15">
-                                            Nov 15, 2015 8:38pm <span class="text-light-black">Order #123456</span>
+                                            @Model.CreatedAt <span class="text-light-black">Order #@Model.OrderId</span>
                                         </p>
                                     </div>
                                     <div class="col-lg-12 mt-3">
-
-                                        <div class="checkout-product">
-                                            <div class="img-name-value">
-                                                <div class="product-img">
-                                                    <a href="#">
-                                                        <img src="/Images/44.jpg" class="product_width" alt="#">
-                                                    </a>
-                                                </div>
-
-                                                <div class="product-name ml-2">
-                                                    <span><a href="#" class="text-light-white"><span class="text-light-white">2</span> Lazania Pizza</a></span>
-
-                                                    <div class="flex-row">
-                                                        <small class="text-muted"><b><i class="fas fa-circle font-8 mr-2"></i> Extra Mayo: </b></small> <small class="ml-2">2 Qty</small>
+                                        @foreach (var i in Model.AllProducts)
+                                        {
+                                            <div class="checkout-product">
+                                                <div class="img-name-value">
+                                                    <div class="product-img">
+                                                        <a href="#">
+                                                            <img src="@i.productImage" class="product_width" alt="#">
+                                                        </a>
                                                     </div>
-                                                    <div class="flex-row">
-                                                        <small class="text-muted"><b><i class="fas fa-circle font-8 mr-2"></i>Extra Cheese: </b></small><small class="ml-2">1 Qty</small>
-                                                    </div>
-
-                                                    <div class="flex-row">
-                                                        <small class="text-muted"><b><i class="fas fa-circle font-8 mr-2"></i>Extra Suase: </b></small><small class="ml-2">5 Qty</small>
+                                                    <div class="product-name ml-2">
+                                                        <span><a href="#" class="text-light-white"><span class="text-light-white">@i.quantity</span> @i.productName</a></span>
+                                                        @foreach (var a in i.ingredientList)
+                                                        {
+                                                            <div class="flex-row">
+                                                                <small class="text-muted"><b><i class="fas fa-circle font-8 mr-2"></i> @a.ingredientName: </b></small> <small class="ml-2">@a.quantity Qty</small>
+                                                            </div>
+                                                        }
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="price">
-                                                <span class="text-light-white">$15.50</span>
-                                            </div>
-                                        </div>
-
-                                        <div class="checkout-product">
-                                            <div class="img-name-value">
-                                                <div class="product-img">
-                                                    <a href="#">
-                                                        <img src="/Images/33.jpg" class="product_width" alt="#">
-                                                    </a>
-                                                </div>
-
-                                                <div class="product-name ml-2">
-                                                    <span><a href="#" class="text-light-white"><span class="text-light-white">2</span> Kabab Crust</a></span>
-
-                                                    <div class="flex-row">
-                                                        <small class="text-muted"><b><i class="fas fa-circle font-8 mr-2"></i> Extra Mayo: </b></small> <small class="ml-2">2 Qty</small>
-                                                    </div>
-                                                    <div class="flex-row">
-                                                        <small class="text-muted"><b><i class="fas fa-circle font-8 mr-2"></i>Extra Cheese: </b></small><small class="ml-2">1 Qty</small>
-                                                    </div>
-
-                                                    <div class="flex-row">
-                                                        <small class="text-muted"><b><i class="fas fa-circle font-8 mr-2"></i>Extra Suase: </b></small><small class="ml-2">5 Qty</small>
-                                                    </div>
+                                                <div class="price">
+                                                    <span class="text-light-white">$@i.total_price</span>
                                                 </div>
                                             </div>
-                                            <div class="price">
-                                                <span class="text-light-white">$15.50</span>
-                                            </div>
-                                        </div>
-
-                                        <div class="checkout-product">
-                                            <div class="img-name-value">
-                                                <div class="product-img">
-                                                    <a href="#">
-                                                        <img src="/Images/66.jpg" class="product_width" alt="#">
-                                                    </a>
-                                                </div>
-
-                                                <div class="product-name ml-2">
-                                                    <span><a href="#" class="text-light-white"><span class="text-light-white">2</span>Tikka Pizza</a></span>
-
-                                                    <div class="flex-row">
-                                                        <small class="text-muted"><b><i class="fas fa-circle font-8 mr-2"></i> Extra Mayo: </b></small> <small class="ml-2">2 Qty</small>
-                                                    </div>
-                                                    <div class="flex-row">
-                                                        <small class="text-muted"><b><i class="fas fa-circle font-8 mr-2"></i>Extra Cheese: </b></small><small class="ml-2">1 Qty</small>
-                                                    </div>
-
-                                                    <div class="flex-row">
-                                                        <small class="text-muted"><b><i class="fas fa-circle font-8 mr-2"></i>Extra Suase: </b></small><small class="ml-2">5 Qty</small>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="price">
-                                                <span class="text-light-white">$15.50</span>
-                                            </div>
-                                        </div>
+                                        }
                                     </div>
                                 </div>
                             </div>
@@ -185,26 +114,21 @@
                                     <div class="price-table u-line">
                                         <div class="item">
                                             <span class="text-light-white">Item subtotal:</span>
-                                            <span class="text-light-white">$30.5</span>
+                                            <span class="text-light-white">$@Model.SubTotal</span>
                                         </div>
                                         <div class="item">
                                             <span class="text-light-white">Delivery fee:</span>
-                                            <span class="text-light-white">$30.5</span>
+                                            <span class="text-light-white">$@Model.DeliveryCharges</span>
                                         </div>
                                         <div class="item">
-                                            <span class="text-light-white">Tax and fees:</span>
-                                            <span class="text-light-white">$30.5</span>
-                                        </div>
-                                        <div class="item">
-                                            <span class="text-light-white">Driver tip:</span>
-                                            <span class="text-light-white">$30.5</span>
+                                            <span class="text-light-white">Service Charges:</span>
+                                            <span class="text-light-white">$@Model.ServiceCharges</span>
                                         </div>
                                     </div>
                                     <div class="total-price padding-tb-10">
-                                        <h5 class="title text-light-black fw-700 ft-15">Amount Paid: <span>$33.36</span></h5>
+                                        <h5 class="title text-light-black fw-700 ft-15">Total: <span>$@Model.TotalPrice</span></h5>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
                     </div>
@@ -213,9 +137,4 @@
 
         </div>
     </div>
-
-
 </div>
-
-
-

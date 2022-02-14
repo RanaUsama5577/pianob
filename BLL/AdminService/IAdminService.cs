@@ -56,7 +56,7 @@ namespace BLL.AdminService
         ResponseDto BlockCategory(int Id);
         List<ProductDtos> GetProducts();
         List<ProductDtos> GetStaffProducts(string userId);
-        ProductAndIngredientDtos ProductDetail(int Id,string BranchName,string CategoryName);
+        ProductAndIngredientDtos ProductDetail(int Id,string BranchName,string CategoryName,string userId);
         ResponseDto AddProducts(ProductDtos modal);
         ResponseDto DeleteProduct(int Id);
         ResponseDto UnBlockProduct(int Id);
@@ -88,5 +88,15 @@ namespace BLL.AdminService
         List<GetOrderdetails> StaffCompletedOrders(string userId);
         ResponseDto StartDeliveringOrder(string userId, int orderId);
         ResponseDto MarkOrderAsDelivered(int orderId, string userId);
+        /////// Customer Apis
+        ResponseDto AddToCart(AddToCart modal, string userId);
+        List<MyCarts> MyCarts(string userId);
+        ResponseDto RemoveFromCart(int Id);
+        ResponseDto GetCart(int Id);
+        ResponseDto UpdateCart(UpdateCart modal, string userId);
+        ResponseDto SaveOrderCustomer(PlaceOrderCustomer modal, string userId);
+        List<GetOrderdetails> GetCurrentOrderdetails(string userId);
+        GetSingleOrderdetails GetSingleOrderdetails(int orderId);
+        List<GetOrderdetails> GetOrderHistorydetails(string userId);
     }
 }

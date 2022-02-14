@@ -8,6 +8,8 @@ namespace DAL
 {
     public class AppInfo:Base2
     {
+        public decimal DeliveryCharges { get; set; }
+        public decimal ServiceCharges { get; set; }
         public string Address { get; set; }
         public string TelephoneNumber { get; set; }
         public string Email { get; set; }
