@@ -247,3 +247,6 @@ D:\repos\piano-pizza\piano-pizza\obj\Release\net5.0\Razor\Views\Order\HistoryOrd
 D:\repos\piano-pizza\piano-pizza\obj\Release\net5.0\Razor\Views\Order\MyOrder.cshtml.g.cs
 D:\repos\piano-pizza\piano-pizza\obj\Release\net5.0\Razor\Views\Order\MyOrderDetails.cshtml.g.cs
 D:\repos\piano-pizza\piano-pizza\obj\Release\net5.0\Razor\Views\PartialForgotPassword.cshtml.g.cs
+D:\repos\piano-pizza\piano-pizza\bin\Release\net5.0\Stripe.net.dll
+D:\repos\piano-pizza\piano-pizza\obj\Release\net5.0\Razor\Views\Account\MyProfile.cshtml.g.cs
+D:\repos\piano-pizza\piano-pizza\obj\Release\net5.0\Razor\Views\Account\Signin.cshtml.g.cs
