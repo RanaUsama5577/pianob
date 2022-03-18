@@ -9,7 +9,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <meta name="description" content="Responsive Bootstrap 4 and web Application ui kit.">
-    <title>Pionob</title>
+    <title>Pianob</title>
     <link rel="icon" href="/admin-assets/images/piano/cropped-b-black-180x180.png"> <!-- Favicon-->
 
     <link href="~/admin-assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
@@ -75,7 +75,7 @@
                 </li>
 
                 @*<--Logout-->*@
-                <li><a href="@Url.Action("Logout","Account")" class="mega-menu mr-3" data-close="true"><i class="zmdi zmdi-power"></i></a></li>
+                <li><a onclick="Logout()" class="mega-menu mr-3" data-close="true"><i class="zmdi zmdi-power"></i></a></li>
 
             </ul>
         </div>
@@ -274,6 +274,23 @@
         //            console.log("Error", error);
         //        });
         //}
+    </script>
+    <script>
+        function Logout() {
+            Swal.fire({
+                title: 'Are you sure you logout?',
+                text: "",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Confirm!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = '/Account/Logout';
+                }
+            })
+        }
     </script>
     <!--Ajax-->
     <script>

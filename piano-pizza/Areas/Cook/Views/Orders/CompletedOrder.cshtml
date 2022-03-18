@@ -43,8 +43,8 @@
                                     @foreach (var i in Model)
                                     {
                                     <tr data-row="1">
-                                        <td>#@i.OrderId</td>
-                                        <td>@i.UserEmail</td>
+                                        <td class="align-middle">#@i.OrderId</td>
+                                        <td class="align-middle">@i.UserEmail</td>
                                         <td class="align-middle">@i.CreatedAt</td>
                                         <td class="align-middle">$@i.TotalPrice</td>
                                         <td class="align-middle text-center">
@@ -115,7 +115,6 @@
                 </div>
             </div><!-- /.modal -->
         </div>
-
         <div class="modal fade bs-example-modal-md mt-5" id="ingredients" tabindex="-1" role="dialog" aria-labelledby="ingredients" aria-hidden="true">
             <div class="modal-dialog modal-md">
                 <div class="modal-content">
@@ -133,10 +132,15 @@
                 </div><!-- /.modal -->
             </div>
         </div>
-
      </div>
 </section>
-
+<script>
+    $(function () {
+        $('#table-1').DataTable({
+            "aaSorting": [],
+        });
+    })
+</script>
 <script>
     function GetProductsDetails(Id) {
         var response = getResponseFromUrl('Get', '/cook/Orders/GetProducts?Id=' + Id, null, false);
@@ -201,7 +205,6 @@
         }
         $('#ingredients').modal('show');
     }
-
 </script>
 <!--Ajax-->
 <script>

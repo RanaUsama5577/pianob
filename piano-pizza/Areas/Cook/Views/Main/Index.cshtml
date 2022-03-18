@@ -105,7 +105,7 @@
                             <img src="~/admin-assets/images/food-cover.png" class="mt-4 mb-2" height="35" />
                         </div>
                         <div class="content mb-2">
-                            <div class="number">@Model.TotalOrders</div><div class="text">Assigned Orders</div>
+                            <div class="number">@Model.TotalOrders</div><div class="text">Total Orders</div>
                         </div>
                     </a>
                 </div>
@@ -149,14 +149,6 @@
                     <div class="row" id="AppendProducts">
 
                     </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="float-right">
-                                <b>Total Bill: </b> <span id="TotalPrice">800</span>
-                            </div>
-                        </div>
-                    </div>
-
                 </div>
             </div>
         </div><!-- /.modal -->
@@ -236,7 +228,6 @@
         if (response.code == 200) {
             var result = response.result;
             if (result.length > 0) {
-                var price = 0;
                 $('#AppendProducts').html("");
                 result.forEach(function (doc) {
                     var data = doc;
@@ -244,7 +235,7 @@
                     var s = "";
                     data.ingredientList.forEach(function (item) {
                         s += `<div class="flex-row">
-                                            <small class="text-muted"><b><i class="fas fa-circle font-8 mr-2"></i>${item.ingredientName}: </b></small> <small class="ml-2">${item.quantity} Qty</small>
+                                            <small class="text-muted"><b><i class="fas fa-circle font-8 mr-2"></i>${item.ingredientName}: </b></small> <small style="float: right;" class="ml-2">${item.quantity} Qty</small>
                                         </div>`;
                     });
                     var product = `<div class="col-12">
@@ -261,10 +252,8 @@
                                 </div>
                             </div>
                         </div>`;
-                    price += data.total_price;
                     $('#AppendProducts').append(product);
                 })
-                $('#TotalPrice').html("$" + price);
                 $('#PrdDtls').modal("show");
             }
         }
@@ -306,7 +295,7 @@
     }
     function MarkOrderAsCooked(Id) {
         Swal.fire({
-            title: 'Are you sure you start working?',
+            title: 'Are you sure you are start working?',
             text: "",
             icon: 'warning',
             showCancelButton: true,

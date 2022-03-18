@@ -123,7 +123,7 @@
             var form = new FormData(document.getElementById('editProfileForm'));
             $.ajax({
                 type: 'POST',
-                url: '/packer/Main/UpdateProfileImage',
+                url: '/packerStaff/Main/UpdateProfileImage',
                 data: form,
                 async: true,
                 processData: false,
@@ -154,7 +154,7 @@
     $('#editBasicForm').submit(function (e) {
         e.preventDefault();
         var UserName = $('#Username').val();
-        var response = getResponseFromUrl('GET', '/packer/Main/UpdateProfile?Name=' + UserName, null, false);
+        var response = getResponseFromUrl('GET', '/packerStaff/Main/UpdateProfile?Name=' + UserName, null, false);
         if (response.code == 200) {
             TimerSweet("Profile Updated!", 'Profile is successfully updated', "success", 2000);
             GetProfile();
@@ -174,7 +174,7 @@
             sweetMessage("Warning!", "Please provide password", "warning");
             return false;
         }
-        var response = getResponseFromUrl('POST', '/packer/Main/ChangePassword', form, true);
+        var response = getResponseFromUrl('POST', '/packerStaff/Main/ChangePassword', form, true);
         if (response.code == 200) {
             TimerSweet("Password Updated!", 'Passsword is successfully updated', "success", 2000);
             GetProfile();

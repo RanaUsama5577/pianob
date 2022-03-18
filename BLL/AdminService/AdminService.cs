@@ -2017,7 +2017,7 @@ namespace BLL.AdminService
                 Longitude = n.Longitude,
                 Address = n.Address,
                 StartTime = db.AssigneesLists.Where(p => p.OrderId == n.Id && p.UserId == n.AssigneeId).FirstOrDefault().StartTime,
-                WorkerStatus = db.AssigneesLists.Where(p=>p.OrderId == n.Id && p.UserId == n.AssigneeId).FirstOrDefault().Status,
+                WorkerStatus = db.AssigneesLists.Where(p =>p.OrderId == n.Id && p.UserId == n.AssigneeId).FirstOrDefault().Status,
             });
 
             GetStaffDashboardStats getStaffDashboardStats = new GetStaffDashboardStats
@@ -2025,7 +2025,7 @@ namespace BLL.AdminService
                 OrderDetails = entities.ToList(),
                 TotalOrders = db.AssigneesLists.Where(p=>p.UserId == userId).Count(),
                 Completed = db.AssigneesLists.Where(p => p.UserId == userId && p.Status == WorkerStatus.Completed).Count(),
-                InProcessOrder = db.AssigneesLists.Where(p => p.UserId == userId && p.Status == WorkerStatus.Waiting || p.Status == WorkerStatus.Working).Count(),
+                InProcessOrder = db.AssigneesLists.Where(p => p.UserId == userId).Where(p=> p.Status == WorkerStatus.Waiting || p.Status == WorkerStatus.Working).Count(),
             };
             return getStaffDashboardStats;
         }
@@ -2222,7 +2222,7 @@ namespace BLL.AdminService
         {
             var staff = db.Users.Find(userId);
             var branch = db.Branches.Find(staff.BranchId);
-            var s = db.AssigneesLists.Where(p => p.Status == WorkerStatus.Completed && p.UserId == userId).AsEnumerable().Select(n => new GetOrderdetails
+            var s = db.AssigneesLists.Where(p => p.Status == WorkerStatus.Completed && p.UserId == userId).OrderByDescending(p=>p.EndTime).AsEnumerable().Select(n => new GetOrderdetails
             {
                 CreatedAt = db.Orders.Find(n.OrderId).CreatedAt.ToString("dd-MMM-yyyy hh:mm:ss tt"),
                 OrderId = db.Orders.Find(n.OrderId).OrderId,

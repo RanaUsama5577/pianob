@@ -42,8 +42,8 @@
                                     @foreach (var i in Model)
                                     {
                                         <tr data-row="1">
-                                            <td>#@i.OrderId</td>
-                                            <td>@i.UserEmail</td>
+                                            <td class="align-middle">#@i.OrderId</td>
+                                            <td class="align-middle">@i.UserEmail</td>
                                             <td class="align-middle">@i.CreatedAt</td>
                                             <td class="align-middle">$@i.TotalPrice</td>
                                             <td class="align-middle text-center">
@@ -135,7 +135,13 @@
 
     </div>
 </section>
-
+<script>
+    $(function () {
+        $('#table-1').DataTable({
+            "aaSorting": [],
+        });
+    })
+</script>
 <script>
     function GetProductsDetails(Id) {
         var response = getResponseFromUrl('Get', '/Driver/Orders/GetProducts?Id=' + Id, null, false);

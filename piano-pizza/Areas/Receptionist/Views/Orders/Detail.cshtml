@@ -69,7 +69,7 @@
                                                 <td class="align-middle">$@i.TotalPrice</td>
                                                 <td class="align-middle">
                                                     <span class="text-warning">Waiting </span>
-                                                    <a onclick="AssignStaff('@Entities.Enum.UserType.Cook','@i.OrderId',@i.Id)" style="cursor:pointer" title="Assign Cook" data-toggle="tooltip" class="bg-white text-secondary border-0  rounded fas fa-user-tie text-white"></a>
+                                                    <a onclick="AssignStaff('@Entities.Enum.UserType.Cook','@i.OrderId',@i.Id,'@i.AssigneeName')" style="cursor:pointer" title="Assign Cook" data-toggle="tooltip" class="bg-white text-secondary border-0  rounded fas fa-user-tie text-white"></a>
                                                 </td>
                                             </tr>
                                         }
@@ -92,7 +92,7 @@
                                                 <td class="align-middle">$@i.TotalPrice</td>
                                                 <td class="align-middle">
                                                     <span class="col-cyan">Cooking</span>
-                                                    <a onclick="AssignStaff('@Entities.Enum.UserType.Cook','@i.OrderId',@i.Id)" style="cursor:pointer" title="Assign Cook" data-toggle="tooltip" class="bg-white text-secondary border-0  rounded fas fa-user-tie text-white"></a>
+                                                    <a onclick="AssignStaff('@Entities.Enum.UserType.Cook','@i.OrderId',@i.Id,'@i.AssigneeName')" style="cursor:pointer" title="Assign Cook" data-toggle="tooltip" class="bg-white text-secondary border-0  rounded fas fa-user-tie text-white"></a>
                                                 </td>
                                             </tr>
                                         }
@@ -115,7 +115,7 @@
                                                 <td class="align-middle">$@i.TotalPrice</td>
                                                 <td class="align-middle">
                                                     <span class="col-light-blue">Ready for Pack </span>
-                                                    <a onclick="AssignStaff('@Entities.Enum.UserType.Packer','@i.OrderId',@i.Id)" style="cursor:pointer" title="Assign Packer" data-toggle="tooltip" class="bg-white text-secondary border-0  rounded fas fa-user-tie text-white"></a>
+                                                    <a onclick="AssignStaff('@Entities.Enum.UserType.Packer','@i.OrderId',@i.Id,'@i.AssigneeName')" style="cursor:pointer" title="Assign Packer" data-toggle="tooltip" class="bg-white text-secondary border-0  rounded fas fa-user-tie text-white"></a>
                                                 </td>
                                             </tr>
                                         }
@@ -138,7 +138,7 @@
                                                 <td class="align-middle">$@i.TotalPrice</td>
                                                 <td class="align-middle">
                                                     <span class="col-light-blue">Packing </span>
-                                                    <a onclick="AssignStaff('@Entities.Enum.UserType.Packer','@i.OrderId',@i.Id)" style="cursor:pointer" title="Assign Packer" data-toggle="tooltip" class="bg-white text-secondary border-0  rounded fas fa-user-tie text-white"></a>
+                                                    <a onclick="AssignStaff('@Entities.Enum.UserType.Packer','@i.OrderId',@i.Id,'@i.AssigneeName')" style="cursor:pointer" title="Assign Packer" data-toggle="tooltip" class="bg-white text-secondary border-0  rounded fas fa-user-tie text-white"></a>
                                                 </td>
                                             </tr>
                                         }
@@ -161,7 +161,7 @@
                                                 <td class="align-middle">$@i.TotalPrice</td>
                                                 <td class="align-middle">
                                                     <span class="text-primary">Ready To Deliver</span>
-                                                    <a onclick="AssignStaff('@Entities.Enum.UserType.Driver','@i.OrderId',@i.Id)" style="cursor:pointer" title="Assign Packer" data-toggle="tooltip" class="bg-white text-secondary border-0  rounded fas fa-user-tie text-white"></a>
+                                                    <a onclick="AssignStaff('@Entities.Enum.UserType.Driver','@i.OrderId',@i.Id,'@i.AssigneeName')" style="cursor:pointer" title="Assign Packer" data-toggle="tooltip" class="bg-white text-secondary border-0  rounded fas fa-user-tie text-white"></a>
                                                 </td>
                                             </tr>
                                         }
@@ -537,10 +537,16 @@
         }
         $('#ingredients').modal('show');
     }
-    function AssignStaff(num, OrderId, Id) {
+    function AssignStaff(num, OrderId, Id,previosAssign) {
         $('#UserAppend').selectpicker('destroy');
         var s = $('#UserSelect > optgroup[label="' + num + '"] > option').clone();
-        $('#UserAppend').html(s);
+        var g = [];
+        s.each(function (index,item) {
+            if ($(item).html() != previosAssign) {
+                g.push(item);
+            }
+        })
+        $('#UserAppend').html(g);
         $('#TempId').val(Id);
         $('#TempOrderId').html("#" + OrderId);
         
