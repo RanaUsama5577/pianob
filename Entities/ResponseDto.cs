@@ -12,4 +12,5 @@ namespace Entities
         public string ShortMessage { get; set; }
         public object Result { get; set; }
     }
+
 }

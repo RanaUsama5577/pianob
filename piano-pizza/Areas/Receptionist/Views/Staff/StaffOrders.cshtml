@@ -1,0 +1,182 @@
+﻿@model Entities.GetStaffStatsAndCompletedOrders;
+@{
+    Layout = "~/Areas/Receptionist/Views/Shared/_Layout.cshtml";
+}
+<section class="content home">
+    <div class="block-header">
+        <div class="row">
+            <div class="col-12">
+                <h2>
+                    Dashboard
+                </h2>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-8 col-sm-12 col-12">
+                <div class="card">
+                    <div class="body">
+                        <table id="table-1" class="table js-basic-example dataTable table-responsive">
+                            <thead class="no-wrap">
+                                <tr>
+                                    <th>Order Id</th>
+                                    <th>Email</th>
+                                    <th data-breakpoints="sm xs">Datetime</th>
+                                    <th data-breakpoints="sm xs">Amount</th>
+                                    <th>Products Detail</th>
+                                    <th>Elapsed Time</th>
+                                    <th>Start Time</th>
+                                    <th>End Time</th>
+                                </tr>
+                            </thead>
+
+                            <tbody class="no-wrap">
+                                @if (Model.OrderDetails != null)
+                                {
+                                    @foreach (var i in Model.OrderDetails)
+                                    {
+                                        <tr data-row="1">
+                                            <td class="align-middle">#@i.OrderId</td>
+                                            <td class="align-middle">@i.UserEmail</td>
+                                            <td class="align-middle">@i.CreatedAt</td>
+                                            <td class="align-middle">$@i.TotalPrice</td>
+                                            <td class="align-middle text-center">
+                                                <a class="description" style="cursor:pointer" onclick="GetProductsDetails(@i.Id)"><img src="~/admin-assets/images/piano/Bg-transparent/Page-2-Image-14-removebg-preview.png" height="35" /></a>
+                                            </td>
+                                            <td class="align-middle">@i.ElaspedTime</td>
+                                            <td class="align-middle">@i.StartTime</td>
+                                            <td class="align-middle">@i.EndTime</td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-sm-12 col-12">
+                <div class="w-100">
+                    <a class="card info-box-2 hover-zoom-effect twitter-widget">
+                        <div class="icon">
+                            <img src="~/admin-assets/images/food-cover.png" class="mt-4 mb-2" height="35" />
+                        </div>
+                        <div class="content mb-2">
+                            <div class="number">
+                                @Model.TotalOrders<div class="text">Total Orders</div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="w-100 mt-43">
+                    <a class="card info-box-2 hover-zoom-effect twitter-widget">
+                        <div class="icon">
+                            <img src="~/admin-assets/images/piano/cooking.png" class="mt-4 mb-2" height="35" />
+                        </div>
+                        <div class="content mb-2">
+                            <div class="number">@Model.InProcessOrder</div><div class="text">In-process Orders</div>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="w-100 mt-43">
+                    <a class="card info-box-2 hover-zoom-effect twitter-widget">
+                        <div class="icon">
+                            <img src="~/admin-assets/images/piano/cooking.png" class="mt-4 mb-2" height="35" />
+                        </div>
+                        <div class="content mb-2">
+                            <div class="number">@Model.Completed</div><div class="text">Completed Orders</div>
+                        </div>
+                    </a>
+                </div>
+
+            </div>       
+        </div>
+    </div>
+    <div class="modal fade bs-example-modal-md mt-5" id="PrdDtls" tabindex="-1" role="dialog" aria-labelledby="PrdDtls" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="formModal">Products Detail</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row" id="AppendProducts">
+
+                    </div>
+                </div>
+            </div>
+        </div><!-- /.modal -->
+    </div>
+</section>
+
+<script>
+    $("[data-toggle='tooltip']").tooltip();
+    $('#staff').addClass('toggled');
+</script>
+<script>
+    function GetProductsDetails(Id) {
+        var response = getResponseFromUrl2('Get', '/receptionist/orders/GetProducts?Id=' + Id, null, false);
+        response = response.responseJSON;
+        if (response.code == 200) {
+            var result = response.result;
+            if (result.length > 0) {
+                $('#AppendProducts').html("");
+                result.forEach(function (doc) {
+                    var data = doc;
+                    console.log("list", data.ingredientList);
+                    var s = "";
+                    data.ingredientList.forEach(function (item) {
+                        s += `<div class="flex-row">
+                                            <small class="text-muted"><b><i class="fas fa-circle font-8 mr-2"></i>${item.ingredientName}: </b></small> <small style="float: right;" class="ml-2">${item.quantity} Qty</small>
+                                        </div>`;
+                    });
+                    var product = `<div class="col-12">
+                            <div class="card project_widget p-1">
+                                <div class="d-flex">
+                                    <img class="img-responsive" width="70" height="70" src="${data.productImage}" alt="About the image">
+                                    <div class="ml-3 mt-2">
+                                        <p class="mb-0">${data.productName}</p>
+                                        ${s}
+                                    </div>
+                                    <div class="ml-auto">
+                                        <span>${data.quantity} Qty</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>`;
+                    $('#AppendProducts').append(product);
+                })
+                $('#PrdDtls').modal("show");
+            }
+        }
+        else {
+            console.log(response);
+            sweetMessage("Error!", response.shortMessage + "<br>" + response.result, "error");
+        }
+    }
+</script>
+<!--Ajax-->
+<script>
+    var getResponseFromUrl2 = function (requestType, requestUrl, requestData, async) {
+        var response;
+        return $.ajax({
+            type: requestType,
+            url: requestUrl,
+            data: requestData,
+            async: false,
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                response = data;
+            },
+            error: function (error) {
+                return error;
+            },
+        });
+        return response;
+    }
+</script>

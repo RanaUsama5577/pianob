@@ -1934,7 +1934,7 @@ namespace BLL.AdminService
             var staff = db.Users.Find(userId);
             if(staff.Type == UserType.SuperAdmin)
             {
-                var entities = db.Orders.Select(n => new GetOrderdetails
+                var entities = db.Orders.OrderByDescending(p=>p.CreatedAt).Select(n => new GetOrderdetails
                 {
                     CreatedAt = n.CreatedAt.ToShortDateString(),
                     OrderId = n.OrderId,
@@ -1956,7 +1956,7 @@ namespace BLL.AdminService
             else
             {
                 var branch = db.Branches.Find(staff.BranchId);
-                var entities = db.Orders.Where(p => p.BranchId == branch.Id).Select(n => new GetOrderdetails
+                var entities = db.Orders.OrderByDescending(p => p.CreatedAt).Where(p => p.BranchId == branch.Id).Select(n => new GetOrderdetails
                 {
                     CreatedAt = n.CreatedAt.ToShortDateString(),
                     OrderId = n.OrderId,
@@ -2026,6 +2026,37 @@ namespace BLL.AdminService
                 TotalOrders = db.AssigneesLists.Where(p=>p.UserId == userId).Count(),
                 Completed = db.AssigneesLists.Where(p => p.UserId == userId && p.Status == WorkerStatus.Completed).Count(),
                 InProcessOrder = db.AssigneesLists.Where(p => p.UserId == userId).Where(p=> p.Status == WorkerStatus.Waiting || p.Status == WorkerStatus.Working).Count(),
+            };
+            return getStaffDashboardStats;
+        }
+        public GetStaffStatsAndCompletedOrders GetStaffStatsAndCompletedOrders(string userId)
+        {
+            var staff = db.Users.Find(userId);
+            var branch = db.Branches.Find(staff.BranchId);
+            var entities = db.AssigneesLists.Include("OrderObject").Where(p => p.UserId == userId && p.Status == WorkerStatus.Completed).AsEnumerable().Select(n => new GetOrderdetails
+            {
+                CreatedAt = n.OrderObject.CreatedAt.ToString("dd-MMM-yyyy hh:mm:ss tt"),
+                OrderId = n.OrderObject.OrderId,
+                Status = n.OrderObject.Status,
+                Id = n.OrderObject.Id,
+                TotalPrice = n.OrderObject.TotalPrice,
+                BranchId = n.OrderObject.BranchId,
+                BranchName = branch.Name,
+                PhoneNumber = n.OrderObject.PhoneNumber,
+                UserEmail = n.OrderObject.UserEmail,
+                UserId = n.OrderObject.UserId,
+                Username = n.OrderObject.Username,
+                ElaspedTime = (n.EndTime.Value - n.StartTime).Hours + ":" + (n.EndTime.Value - n.StartTime).Minutes + ":" + (n.EndTime.Value - n.StartTime).Seconds,
+                StartTime = n.StartTime.ToString("dd-MMM-yyyy hh:mm:ss tt"),
+                EndTime = n.EndTime.Value.ToString("dd-MMM-yyyy hh:mm:ss tt"),
+            });
+
+            GetStaffStatsAndCompletedOrders getStaffDashboardStats = new GetStaffStatsAndCompletedOrders
+            {
+                OrderDetails = entities.ToList(),
+                TotalOrders = db.AssigneesLists.Where(p => p.UserId == userId).Count(),
+                Completed = db.AssigneesLists.Where(p => p.UserId == userId && p.Status == WorkerStatus.Completed).Count(),
+                InProcessOrder = db.AssigneesLists.Where(p => p.UserId == userId).Where(p => p.Status == WorkerStatus.Waiting || p.Status == WorkerStatus.Working).Count(),
             };
             return getStaffDashboardStats;
         }

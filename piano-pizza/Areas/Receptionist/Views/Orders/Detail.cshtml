@@ -22,7 +22,7 @@
                         <div>
                             <button id="all" class="btn-sm btn-primary rounded font-12 mt-2">All</button>
                             <button id="pending" class="btn-sm btn-primary FilterButton rounded font-12 mt-2">Waitng</button>
-                            <button id="cooking" class="btn-sm btn-primary FilterButton rounded font-12 mt-2">In-process</button>
+                            <button id="cooking" class="btn-sm btn-primary FilterButton rounded font-12 mt-2">Cooking</button>
                             <button id="ready_for_pack" class="btn-sm btn-primary FilterButton rounded font-12 mt-2">Ready for Pack</button>
                             <button id="packing" class="btn-sm btn-primary FilterButton rounded font-12 mt-2">Packing</button>
                             <button id="packed" class="btn-sm btn-primary FilterButton rounded font-12 mt-2">Packed</button>
@@ -358,7 +358,13 @@
         
     </div>
 </section>
-
+<script>
+    $(function () {
+        $('#table-1').DataTable({
+            "aaSorting": [],
+        });
+    })
+</script>
 <script>
     $("#all").click(function () {
         $('#all').removeClass('FilterButton');
@@ -512,9 +518,20 @@
                     var row = '<tr><td>' + image + '</td><td>' + data.productName + '</td><td  class="text-center">' + ingredients + s+  '</td><td>' + data.quantity + '</td><td>$' + data.total_price + '</td></tr>';
                     price += data.total_price;
                     $('#dataTable2').append(row);
+                    $('#dataTable2').append(row);
+                    $('#dataTable2').append(row);
+                    $('#dataTable2').append(row);
+                    $('#dataTable2').append(row);
+                    $('#dataTable2').append(row);
+                    $('#dataTable2').append(row);
+                    $('#dataTable2').append(row);
+                    $('#dataTable2').append(row);
+                    $('#dataTable2').append(row);
                 })
                 $('#TotalPrice').html("$" + price);
-                $('#table-2').DataTable();
+                var table = $('#table-2').DataTable();
+                $.fn.dataTable.ext.search.pop();
+                table.draw();
                 $('#PrdDtls').modal("show");
             }
         }

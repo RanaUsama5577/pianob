@@ -81,6 +81,7 @@ namespace BLL.AdminService
         List<GetOrderdetails> GetOrderdetails(string userId);
         List<AllProducts> GetOrderProducts(int Id);
         GetStaffDashboardStats GetStaffOrderdetails(string userId);
+        GetStaffStatsAndCompletedOrders GetStaffStatsAndCompletedOrders(string userId);
         ResponseDto StartFirstOrder(string userId);
         ResponseDto MarkOrderAsCooked(int orderId,string userId);
         ResponseDto MarkOrderAsPacked(int orderId,string userId);

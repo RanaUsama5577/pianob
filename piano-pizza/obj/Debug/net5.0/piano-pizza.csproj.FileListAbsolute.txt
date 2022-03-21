@@ -250,3 +250,4 @@ D:\repos\piano-pizza\piano-pizza\obj\Debug\net5.0\ref\piano-pizza.dll
 D:\repos\piano-pizza\piano-pizza\obj\Debug\net5.0\piano-pizza.pdb
 D:\repos\piano-pizza\piano-pizza\obj\Debug\net5.0\piano-pizza.genruntimeconfig.cache
 D:\repos\piano-pizza\piano-pizza\bin\Debug\net5.0\Stripe.net.dll
+D:\repos\piano-pizza\piano-pizza\obj\Debug\net5.0\Razor\Areas\Receptionist\Views\Staff\StaffOrders.cshtml.g.cs

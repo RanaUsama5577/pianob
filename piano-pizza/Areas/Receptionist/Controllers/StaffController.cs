@@ -44,5 +44,10 @@ namespace piano_pizza.Areas.Receptionist.Controllers
             var users = admin.GetStaffUsers(Entities.Enum.UserType.Driver, userManager1.GetUserId(HttpContext.User));
             return View(users);
         }
+        public ActionResult StaffOrders(string userId)
+        {
+            var orders = admin.GetStaffStatsAndCompletedOrders(userId);
+            return View(orders);
+        }
     }
 }

@@ -32,7 +32,7 @@
                                         <th>@local.GetLocalizedHtmlString("User")</th>
                                         <th>@local.GetLocalizedHtmlString("Gender")</th>
                                         <th>@local.GetLocalizedHtmlString("Phone Number")</th>
-                                        <th class="text-center">@local.GetLocalizedHtmlString("Assigned Orders")</th>
+                                        <th class="text-center">@local.GetLocalizedHtmlString("Order History")</th>
                                         <th>@local.GetLocalizedHtmlString("Joining Date")</th>
                                         <th>@local.GetLocalizedHtmlString("Status")</th>
                                     </tr>
@@ -57,7 +57,7 @@
                                                 <td>@i.Gender</td>
                                                 <td>@i.Phone</td>
                                                 <td class="align-middle text-center">
-                                                    <a class="description" style="cursor:pointer" data-toggle="modal" data-target="#OrderDtls"><img src="~/admin-assets/images/piano/Bg-transparent/Page-2-Image-14-removebg-preview.png" height="35" /></a>
+                                                    <a class="description" style="cursor:pointer" href="/receptionist/staff/StaffOrders?userId=@i.Id"><img src="~/admin-assets/images/piano/Bg-transparent/Page-2-Image-14-removebg-preview.png" height="35" /></a>
                                                 </td>
                                                 <td>@i.JoiningDate</td>
                                                 <td>
@@ -82,11 +82,11 @@
                                                 <td>@i.Gender</td>
                                                 <td>@i.Phone</td>
                                                 <td class="align-middle text-center">
-                                                    <a class="description" style="cursor:pointer" data-toggle="modal" data-target="#OrderDtls"><img src="~/admin-assets/images/piano/Bg-transparent/Page-2-Image-14-removebg-preview.png" height="35" /></a>
+                                                    <a href="/receptionist/staff/StaffOrders?userId=@i.Id" class="description" style="cursor:pointer"><img src="~/admin-assets/images/piano/Bg-transparent/Page-2-Image-14-removebg-preview.png" height="35" /></a>
                                                 </td>
                                                 <td>@i.JoiningDate</td>
                                                 <td>
-                                                    <div class="badge badge-success badge-shadow badge_width_height">Active</div>
+                                                    <div class="badge badge-danger badge-shadow badge_width_height">Blocked</div>
                                                 </td>
                                                 
                                             </tr>
@@ -108,11 +108,11 @@
                                                 <td>@i.Gender</td>
                                                 <td>@i.Phone</td>
                                                 <td class="align-middle text-center">
-                                                    <a class="description" style="cursor:pointer" data-toggle="modal" data-target="#OrderDtls"><img src="~/admin-assets/images/piano/Bg-transparent/Page-2-Image-14-removebg-preview.png" height="35" /></a>
+                                                    <a class="description" style="cursor:pointer" href="/receptionist/staff/StaffOrders?userId=@i.Id"><img src="~/admin-assets/images/piano/Bg-transparent/Page-2-Image-14-removebg-preview.png" height="35" /></a>
                                                 </td>
                                                 <td>@i.JoiningDate</td>
                                                 <td>
-                                                    <div class="badge badge-success badge-shadow badge_width_height">Active</div>
+                                                    <div class="badge badge-danger badge-shadow badge_width_height">Left</div>
                                                 </td>
                                             </tr>
                                         }
@@ -362,4 +362,9 @@
         );
         table.draw();
     });
+</script>
+<script>
+    function AssignedOrders() {
+
+    }
 </script>

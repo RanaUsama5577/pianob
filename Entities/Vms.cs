@@ -376,6 +376,14 @@ namespace Entities
         public int Completed { get; set; }
         public List<GetStaffOrderdetails> OrderDetails { get; set; }
     }
+
+    public class GetStaffStatsAndCompletedOrders
+    {
+        public int TotalOrders { get; set; }
+        public int InProcessOrder { get; set; }
+        public int Completed { get; set; }
+        public List<GetOrderdetails> OrderDetails { get; set; }
+    }
     public class MyCarts
     {
         public int Id { get; set; }
