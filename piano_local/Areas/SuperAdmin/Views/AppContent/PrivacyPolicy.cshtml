@@ -1,0 +1,370 @@
+﻿@model Entities.AppInfoVms;
+@inject piano_local.Resources.LocalizationService local
+@{
+    Layout = "/Areas/SuperAdmin/Views/Shared/_Layout.cshtml";
+}
+<link href="~/admin-assets/summernote/dist/summernote.css" rel="stylesheet" />
+<section class="content profile-page">
+    <div class="block-header">
+        <div class="row">
+            <div class="col-lg-5 col-md-6 col-sm-12">
+                <ul class="breadcrumb bg-transparent">
+                    <li class="breadcrumb-item"><a class="text-secondary"><i class="far fa-file-alt mr-2"></i>@local.GetLocalizedHtmlString("Home")</a></li>
+                    <li class="breadcrumb-item text-secondary">@local.GetLocalizedHtmlString("Privacy Policy")</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row clearfix">
+            <div class="col-12 mb-4">
+                <div class="card" style=" box-shadow: 0 4px 20px 1px rgb(0 0 0 / 6%), 0 1px 4px rgb(0 0 0 / 8%);">
+                    <div class="card-body" style="min-height: 0px;">
+                        <h4 style=" display: inline-block; margin: 0;" class="PageHeading">Applicaton Info</h4>
+                        <div class="d-inline mr-2" style="float:right;margin:auto;">
+                            <button class="btn btn-primary" onclick="EditBasicInfo()" type="button">
+                                Edit
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 mb-3">
+                <div class="card">
+                    <div class="card-body" style="min-height: 0px;">
+                        <div class="row">
+                            <div id="website_email" class="col-md-6">@Model.Email</div>
+                            <div id="website_telephone" style="text-align:right;" class="col-md-6">@Model.TelephoneNumber</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-6 mb-3">
+                <div class="card">
+                    <div class="card-body" style="min-height: 0px;">
+                        <a href="@Model.FacebookUrl" target="_blank" id="fab_link" class=" custombadge">
+                            <img style="width:35px" src="/admin-assets/soc/facebook.png">
+                        </a>
+                        <a href="@Model.GoogleUrl" target="_blank" id="goo_link" class="custombadge">
+                            <img style="width:35px" src="/admin-assets/soc/google.png">
+                        </a>
+                        <a href="@Model.InstagramUrl" target="_blank" id="insta_link" class=" custombadge">
+                            <img style="width:35px" src="/admin-assets/soc/instagram.png">
+                        </a>
+                        <a href="@Model.TwitterUrl" target="_blank" id="twitt_link" class=" custombadge">
+                            <img style="width:35px" src="/admin-assets/soc/twitter.png">
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 mb-3">
+                <div class="card">
+                    <div class="card-body" style="min-height: 0px;">
+                        <div class="row">
+                            <div class="col-md-6">Delivery Charges</div>
+                            <div id="website_delivery_charges" style="text-align:right;" class="col-md-6">@Model.DeliveryCharges</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 mb-3">
+                <div class="card">
+                    <div class="card-body" style="min-height: 0px;">
+                        <div class="row">
+                            <div class="col-md-6">Service Charges</div>
+                            <div id="website_service_charges" style="text-align:right;" class="col-md-6">@Model.ServiceCharges</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="header">
+                        <h2 style="display: inline-block;">@local.GetLocalizedHtmlString("Privacy Policy")</h2>
+                        <button id="edit-button" onclick="edit()" style="margin-left: auto; font-size: 15px; float: right;" class="btn btn-primary">Edit</button>
+                    </div>
+                    <div class="body">
+                        <div id="simple-text"></div>
+                    </div>
+                    <div id="footerdiv" style="display:none;">
+                        <div class="card-footer d-flex flex-row bg-white rounded">
+                            <button onclick="CancelSection()" data-context="warning" class="btn-toastr btn btn-danger ml-auto font-15">@local.GetLocalizedHtmlString("Cancel")</button>
+                            <button onclick="UpdateContent()" class="btn btn-success font-15 ml-3">@local.GetLocalizedHtmlString("Update")</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="infoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Edit Info</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="aboutapp">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Email</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">
+                                                <i class="fas fa-envelope"></i>
+                                            </div>
+                                        </div>
+                                        <input type="text" value="@Model.Email" class="form-control" placeholder="Enter Email" id="email" name="email">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Telephone</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">
+                                                <i class="fas fa-phone"></i>
+                                            </div>
+                                        </div>
+                                        <input type="text" value="@Model.TelephoneNumber" class="form-control" placeholder="Enter Telephone" id="telephone" name="telephone">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Delivery Charges</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">
+                                                <i class="fas fa-dollar-sign"></i>
+                                            </div>
+                                        </div>
+                                        <input type="text" value="@Model.DeliveryCharges" class="form-control float_valid" placeholder="Enter Delivery Charges" id="delivery_modal" name="delivery_modal">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Service Charges</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">
+                                                <i class="fas fa-dollar-sign"></i>
+                                            </div>
+                                        </div>
+                                        <input type="text" value="@Model.ServiceCharges" class="form-control float_valid" placeholder="Enter Service Charges" id="services_modal" name="services_modal">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Facebook</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">
+                                                <i class="fas fa-code-branch"></i>
+                                            </div>
+                                        </div>
+                                        <input type="text" value="@Model.FacebookUrl" class="form-control" placeholder="Enter Facebook Url" id="fbokk" name="facebook_link">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Instagram</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">
+                                                <i class="fas fa-code-branch"></i>
+                                            </div>
+                                        </div>
+                                        <input type="text" value="@Model.InstagramUrl" class="form-control" placeholder="Enter Instagram Url" id="insta" name="instagram_link">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Google</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">
+                                                <i class="fas fa-code-branch"></i>
+                                            </div>
+                                        </div>
+                                        <input type="text" value="@Model.GoogleUrl" class="form-control" placeholder="Enter Google Url" id="goo" name="google_link">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Twitter</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">
+                                                <i class="fas fa-code-branch"></i>
+                                            </div>
+                                        </div>
+                                        <input type="text" value="@Model.TwitterUrl" class="form-control" placeholder="Enter Twitter Url" id="twitt" name="twitter_link">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <a class="btn btn-default waves-effect" style="margin-left:auto;" data-dismiss="modal">Close</a>
+                    <button type="submit" onclick="UpdateInfo()" id="add_btn" class="btn btn-primary btn btn-primary waves-effect waves-light"><i style="margin-right:4px;" class="fa fa-check-circle"></i>Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+    function EditBasicInfo() {
+        $('#infoModal').modal("show");
+    }
+    function UpdateInfo() {
+        var formdata = new FormData(document.getElementById('aboutapp'));
+        $.ajax({
+            url: "/SuperAdmin/AppContent/SaveAboutApplication",
+            type: "POST",
+            data: formdata,
+            dataType: "json",
+            async: false,
+            processData: false,
+            contentType: false,
+            success: function (response) {
+                if (response.code == 200) {
+                    TimerSweet("About App Updated!", 'About App are successfully updated', "success", 2000);
+                    location.reload();
+                }
+                else {
+                    sweetMessage("Error!", response.shortMessage, "error");
+                }
+            },
+            error: function (result) {
+                console.log("Save Error", result);
+            }
+        });
+    }
+    function CancelSection() {
+        $('#simple-text').summernote('reset');
+        $('#simple-text').summernote('destroy');
+        $('#footerdiv').hide();
+        $('#edit-button').show();
+        $('#HeadingContent').show();
+        $('#signup_heading').hide();
+    }
+    function callbackMax(max) {
+        $('#text-count').text(max);
+    }
+    var edit = function () {
+        var max = 4000;
+        $('#simple-text').summernote({
+            focus: true,
+            callbacks: {
+                onKeydown: function (e) {
+                    var t = e.currentTarget.innerText;
+                    if (t.length >= max) {
+                        //delete key
+                        if (e.keyCode != 8) {
+                            e.preventDefault();
+                            MixinSweet("Maximum content limit is 4000", "", "info", 1500);
+                        }
+                    }
+                },
+                onKeyup: function (e) {
+                    var t = e.currentTarget.innerText;
+                    if (typeof callbackMax == 'function') {
+                        callbackMax(max - t.length);
+                    }
+                },
+                onPaste: function (e) {
+                    var t = e.currentTarget.innerText;
+                    var bufferText = ((e.originalEvent || e).clipboardData || window.clipboardData).getData('Text');
+                    var all = t + bufferText;
+                    if (all.length > max) {
+                        e.preventDefault();
+                        MixinSweet("Maximum content limit is 4000", "", "info", 1500);
+                    }
+                    if (typeof callbackMax == 'function') {
+                        callbackMax(max - t.length);
+                    }
+                }
+            }
+        });
+        $('#edit-button').hide();
+        $('#footerdiv').show();
+        $('#HeadingContent').hide();
+        $('#signup_heading').show();
+    };
+    var save = function () {
+        var markup = $('#simple-text').summernote('code');
+        $('#simple-text').summernote('destroy');
+        $('#footerdiv').hide();
+        $('#edit-button').show();
+        $('#HeadingContent').show();
+        $('#signup_heading').hide();
+    };
+</script>
+
+<script>
+    $(function () {
+        $('#privacy').addClass('active');
+        $('#AppData').addClass('toggled');
+        GetContent();
+    })
+    function GetContent() {
+        $.ajax({
+            url: "/SuperAdmin/AppContent/GetPrivacyPolicy",
+            type: "GET",
+            data: null,
+            success: function (response) {
+                $('#simple-text').html(response.content);
+                $('#HeadingContent').html(response.title);
+                $('#signup_heading').val(response.title);
+            },
+            error: function (result) {
+                console.log("Save Error", result);
+            }
+        });
+    }
+    function UpdateContent() {
+        var txt = $('#simple-text').summernote('code');
+        var heading = $('#signup_heading').val();
+        var data = {};
+        data.content = txt;
+        data.title = heading;
+        $.ajax({
+            url: "/SuperAdmin/AppContent/UpdatePrivacyPolicy",
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify(data),
+            dataType: "json",
+            success: function (response) {
+                if (response.code == 200) {
+                    TimerSweet("Privacy Policy Updated!", 'Privacy Policy are successfully updated', "success", 2000);
+                    setTimeout(function () {
+                        GetContent();
+                        $('#simple-text').summernote('destroy');
+                        $('#footerdiv').hide();
+                        $('#edit-button').show();
+                        $('#HeadingContent').show();
+                        $('#signup_heading').hide();
+                    }, 2000);
+                }
+                else {
+                    sweetMessage("Error!", response.shortMessage, "error");
+                }
+            },
+            error: function (result) {
+                console.log("Save Error", result);
+            }
+        });
+    }
+</script>

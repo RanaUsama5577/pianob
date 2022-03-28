@@ -1,0 +1,268 @@
+﻿@inject piano_local.Resources.LocalizationService local
+@{
+    var culture = Context.Features.Get<Microsoft.AspNetCore.Localization.IRequestCultureFeature>();
+    var en = "";
+    var it = "";
+    var nl = "";
+    @if (culture.RequestCulture.UICulture.Name == "en-US")
+    {
+        en = "selectedLanguage";
+    }
+    else if(culture.RequestCulture.UICulture.Name == "it-IT")
+    {
+        it = "selectedLanguage";
+    }
+    else if (culture.RequestCulture.UICulture.Name == "nl-NL")
+    {
+        nl = "selectedLanguage";
+    }
+}
+@using Entities;
+
+<!DOCTYPE html>
+<html lang="en" class="no-js no-svg">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content='Piano Pizza'>
+    <meta name="description" content="Pizza">
+    <meta name="keywords" content="Pizza">
+    <title>Piano Pizza</title>
+    <link rel="stylesheet" href="/assets/css/vendor.mind652.css?v=1557174151243">
+    <link rel="stylesheet" href="/assets/css/styles.mind652.css?v=1557174151243">
+    <link rel="stylesheet" href="/assets/css/customd652.css?v=1557174151243">
+    <link rel="stylesheet" href="/custom/custom.css">
+    <link href="~/assets/toast/toastr.min.css" rel="stylesheet" />
+    <link href="~/assets/toast/toastr-custom.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Kalam:700|Oswald:400,500,700|Open+Sans:300,400&amp;v=1557174088386" rel="stylesheet">
+    <link rel="apple-touch-icon" sizes="57x57" href="/app-images/cropped-b-black-180x180.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="PianoPizza">
+    <link rel="shortcut icon" href="/app-images/cropped-b-black-180x180.png">
+    <link href="~/sweet alert/sweetalert2.min.css" rel="stylesheet" />
+    <script src="/assets/js/vendor.mind652.js?v=1557174151243"></script>
+    <link href="~/admin-assets/css/custom.css" rel="stylesheet" />
+
+</head>
+<body class="active-pageloader entertainment restaurant header-sticky hide-on-scroll header-logo-left footer-widgets footer-background dark-color widget-7 header-transparent submenu-show-arrow-right menu-is-uppercase submenu-is-capitalized logo-text-is-capitalized page-header-logo-left">
+    <!-- Loader -->
+    <div class="customloader"></div>
+    <!-- Loader End -->
+    <div id="site-wrap" class="site">
+        <div id="header-wrap" class="is-clearfix">
+            <header id="header" class="site-header">
+                <div id="header-inner" class="site-header-inner container">
+                    <div class="level">
+                        <div class="level-left">
+                            <div id="header-logo" class="site-logo ">
+                                <div id="logo-inner" class="site-logo-inner">
+                                    <a href="@Url.Action("Index","Home")" class="defaultImage">
+                                        <img alt="Piano" src="/app-images/Piano-b-white.png">
+                                    </a>
+                                    <a class="stickyImage">
+                                        <img alt="Piano" src="/app-images/Piano-b-black.png">
+                                    </a>
+                                </div>
+                                <!-- #logo-inner -->
+                            </div>
+                            <!-- #header-logo -->
+                        </div>
+                        <!-- .level-left -->
+                        <div class="level-right">
+                            <div class="nav-wrap">
+                                <nav class="main-navigation right">
+                                    <ul class="menu" id="ul_menu">
+                                        @if (!User.Identity.IsAuthenticated)
+                                        {
+                                            <li class="active">
+                                                <a href="@Url.Action("Signin", "Account")">@local.GetLocalizedHtmlString("Login/Signup")</a>
+                                            </li>
+                                        }
+                                        else
+                                        {
+                                            <li class="active">
+                                                <a href="@Url.Action("Cart", "Order")">
+                                                    <span class="">@local.GetLocalizedHtmlString("Cart")</span>
+                                                </a>
+                                            </li>
+                                            <li class="active">
+                                                <a href="@Url.Action("History", "Order")">
+                                                    <span class="">@local.GetLocalizedHtmlString("History")</span>
+
+                                                </a>
+                                            </li>
+                                            <li class="active">
+                                                <a href="@Url.Action("MyOrder", "Order")">
+                                                    <span class="">@local.GetLocalizedHtmlString("My Order")</span>
+                                                </a>
+                                            </li>
+                                            <li class="active">
+                                                <a href="#">
+                                                    <img style="width: 40px; border-radius: 50%; margin-top: -8px;" src="/user_icon.jpg" />
+                                                    <span>@User.Identity.Name</span>
+                                                </a>
+                                                <ul class="open-left">
+                                                    <li>
+                                                        <a href="@Url.Action("MyProfile", "Account")">@local.GetLocalizedHtmlString("My Profile")</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="@Url.Action("LogoutUser", "Account")">@local.GetLocalizedHtmlString("Logout")</a>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                        }
+
+                                        <li class="@en" style="font-size: 8px;top: 8px;">
+                                            <a onclick="ChangeLanguage('en-US')" style="padding: 14px 4px;">
+                                                <span class="@en languages">
+                                                    Eng
+                                                </span>
+                                            </a>
+                                        </li>
+                                        <li class="@it" style="font-size: 8px;top: 8px;">
+                                            <a onclick="ChangeLanguage('it-IT')" style="padding: 14px 4px;">
+                                                <span class="@it languages">
+                                                    IT
+                                                </span>
+                                            </a>
+                                        </li>
+                                        <li class="active" style="font-size: 8px;top: 8px;">
+                                            <a onclick="ChangeLanguage('nl-NL')" style="padding: 14px 4px;">
+                                                <span class="@nl languages">
+                                                    NL
+                                                </span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                                <!-- #site-navigation -->
+                            </div>
+                            <!-- #nav-wrap -->
+                        </div>
+                        <!-- .level-right -->
+                    </div>
+                    <!-- .level -->
+                </div>
+                <!-- #header-inner -->
+            </header>
+            <!-- #header -->
+        </div>
+        @RenderBody()
+        <div id="footer-wrap" class="is-clearfix">
+            <footer id="footer" class="site-footer" style="padding: 14px;">
+                <div id="footer-inner" class="site-footer-inner container">
+                    <div class="columns is-variable is-4 is-multiline">
+                        <div class="column is-4">
+                            <div class="widget widget-html" style="text-align: center;">
+                                <img src="/app-images/piano-b-logo-2-1024x1024.png" style="width: 195px;" />
+                            </div>
+                        </div>
+                        <div class="columns" id="footerTab">
+                            <!-- .column -->
+                            <div class="column is-5">
+                                <div class="widget widget-links">
+                                    <h3 class="widget-title ">@local.GetLocalizedHtmlString("Social Links")</h3>
+                                    <div class="footer-social">
+                                        <a id="FBLink" target="_blank" href="#"><i class="fab fa-facebook-f"></i></a>
+                                        <a id="INSTALink" target="_blank" href="#"><i class="fab fa-instagram"></i></a>
+                                        <a id="GGLLink" target="_blank" href="#"><i class="fab fa-google-plus-g"></i></a>
+                                    </div>
+                                </div>
+                                <!-- .widget -->
+                            </div>
+                            <!-- .column -->
+                        </div>
+                    </div>
+                    <!-- .columns -->
+                </div>
+                <!-- #footer-inner -->
+            </footer>
+            <!-- #footer -->
+        </div>
+    </div>
+
+    <script src="/assets/js/scripts.mind652.js?v=1557174151243"></script>
+    <script src="/assets/js/customd652.js?v=1557174151243"></script>
+    <script src="/custom/custom.js"></script>
+    <script src="~/assets/number_input/jquery.bootstrap-touchspin.js"></script>
+    <script src="~/assets/number_input/form-number-input.min.js"></script>
+    <script src="~/assets/toast/toastr.min.js"></script>
+    <script src="~/sweet alert/sweetalert2.min.js"></script>
+    <script src="~/custom.js"></script>
+    <script>
+        $(function () {
+            GetHeaderPartial();
+            GetFooterPartial();
+            GetAppInfo();
+            $('.LoggedInNav').remove();
+            $('.loginNav').show();
+        })
+        function GetHeaderPartial() {
+            $.ajax({
+                url: "/Home/headerPartial",
+                type: "GET",
+                data: null,
+                success: function (response) {
+                    $('#ul_menu').prepend(response);
+                    var element = $('#ul_menu').find("[href='" + location.pathname + "']");
+                    if (element.length != 0) {
+                        element.find('span').addClass('headerBtn');
+                    }
+                    else {
+                        var element = $('#ul_menu').find("[href='/']");
+                        element.find('span').addClass('headerBtn');
+                    }
+                },
+                error: function (result) {
+                    console.log("Save Error", result);
+                }
+            });
+        }
+        function GetFooterPartial() {
+            $.ajax({
+                url: "/Home/footerPartial",
+                type: "GET",
+                data: null,
+                success: function (response) {
+                    $('#footerTab').prepend(response);
+                },
+                error: function (result) {
+                    console.log("Save Error", result);
+                }
+            });
+        }
+        function GetAppInfo() {
+            $.ajax({
+                url: "/Home/GetAppInfo",
+                type: "GET",
+                data: null,
+                success: function (response) {
+                    $('#FBLink').attr('href', response.facebookUrl);
+                    $('#INSTALink').attr('href', response.instagramUrl);
+                    $('#GGLLink').attr('href', response.googleUrl);
+                    /////////////
+                },
+                error: function (result) {
+                    console.log("Save Error", result);
+                }
+            });
+        }
+        function ChangeLanguage(string) {
+            $.ajax({
+                url: "/Home/CultureManagement?culture=" + string,
+                type: "GET",
+                data: null,
+                success: function (response) {
+                    console.log(response);
+                    location.reload();
+                },
+                error: function (result) {
+                    console.log("Save Error", result);
+                }
+            });
+        }
+    </script>
+</body>
+</html>

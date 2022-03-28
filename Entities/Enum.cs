@@ -1,0 +1,118 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace Entities
+{
+    public class Enum
+    {
+        public enum OrderStatus
+        {
+            Waiting,
+            Cooking,
+            ReadyForPacking,
+            Packing,
+            ReadyToDeliver,
+            OnTheWay,
+            Delivered,
+            Cancelled,
+        }
+
+        public enum WorkerStatus
+        {
+            Waiting,
+            Working,
+            Completed,
+        }
+
+        public enum OrderType
+        {
+            Delivery,
+            Takeway,
+            DineIn,
+        }
+
+        public enum IngredientType
+        {
+            ProductType,
+            CategoryType,
+        }
+        public enum ContentType
+        {
+            TermsAndConditions,
+            AboutUs,
+            AboutApp,
+            PrivacyPolicy,
+            CookiePolicy,
+        }
+        public enum CartStatus
+        {
+            Active,
+            OrderConfirmed,
+        }
+
+        public enum EntityStatus
+        {
+            Active,
+            Blocked,
+            Deleted
+        }
+
+        public enum UserStatus
+        {
+            Active,
+            Blocked,
+            Left,
+            Deleted,
+        }
+        public enum UserType
+        {
+            SuperAdmin,
+            Receptionist,
+            Cook,
+            Packer,
+            Driver,
+            User,
+        }
+
+        public enum LoginProvider
+        {
+            WithEmail,
+            WithGmail,
+            WithFacebook,
+        }
+
+        public enum DurationType
+        {
+            Days,
+            Weeks,
+            Months,
+            Years,
+        }
+
+        public enum PaymentStatus
+        {
+            UnPaid,
+            Paid,
+        }
+
+        public enum QueryStatus
+        {
+            Resolved,
+            UnResolved,
+        }
+
+        public enum GenderType
+        {
+            Male,
+            Female,
+        }
+
+        public enum NotificationType
+        {
+            Check,
+            QueryResolved
+        }
+    }
+}

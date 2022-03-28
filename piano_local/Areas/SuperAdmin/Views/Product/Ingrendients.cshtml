@@ -1,0 +1,405 @@
+﻿@model IEnumerable<Entities.IngredientListVms>
+@inject piano_local.Resources.LocalizationService local
+@{
+    Layout = "~/Areas/SuperAdmin/Views/Shared/_Layout.cshtml";
+}
+<link href="~/assets/plugins/jquery-datatable/dataTables.bootstrap4.min.css" rel="stylesheet" />
+<section class="content">
+    <div class="block-header">
+        <div class="row">
+            <div class="col-12">
+                <h2>
+                    @local.GetLocalizedHtmlString("IngredientsDetail")
+                </h2>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+
+        <!-- Exportable Table -->
+        <div class="row clearfix">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="header">
+                        <div style="display: inline-block;">
+                            <button id="all" class="btn-sm btn-primary rounded font-12 mt-2">@local.GetLocalizedHtmlString("All")</button>
+                            <button id="active" class="btn-sm btn-primary FilterButton rounded font-12 mt-2">@local.GetLocalizedHtmlString("Active")</button>
+                            <button id="block" class="btn-sm btn-primary FilterButton rounded font-12 mt-2">@local.GetLocalizedHtmlString("Blocked")</button>
+                        </div>
+                    </div>
+                    <div class="body">
+                        <div class="table-responsive">
+                            <table id="table-1" class="table table-bordered js-basic-example dataTable">
+                                <thead class="no-wrap">
+                                    <tr>
+                                        <th>@local.GetLocalizedHtmlString("Category")</th>
+                                        <th>@local.GetLocalizedHtmlString("Product")</th>
+                                        <th>@local.GetLocalizedHtmlString("Name")</th>
+                                        <th>@local.GetLocalizedHtmlString("Price")</th>
+                                        <th>@local.GetLocalizedHtmlString("Created At")</th>
+                                        <th>@local.GetLocalizedHtmlString("Status")</th>
+                                        <th>@local.GetLocalizedHtmlString("Action")</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="no-wrap">
+                                    @foreach (var i in Model)
+                                    {
+                                        if (i.Status == Entities.Enum.EntityStatus.Active)
+                                        {
+                                            <tr data-row="1">
+                                                <td>
+                                                    @i.CategoryName
+                                                </td>
+                                                <td>
+                                                    @i.ProductName
+                                                </td>
+                                                <td>
+                                                    @i.Name
+                                                </td>
+                                                <td>
+                                                    @i.Price
+                                                </td>
+
+                                                <td>@i.CreatedAt</td>
+                                                <td>
+                                                    <div class="badge badge-success badge-shadow badge_width_height">Active</div>
+                                                </td>
+                                                <td class="text-center">
+                                                    <div style="display:flex;flex-direction:row">
+                                                        <a onclick="showEditModal('@i.Id')" class="btn-sm btn-default waves-effect waves-float waves-black"><i class="fas fa-edit"></i></a>
+                                                        <a onclick="showBlockModal('@i.Id')" class="btn-sm btn-default waves-effect waves-float waves-black"><i class="fas fa-ban"></i></a>
+                                                        <a onclick="showDeleteModal('@i.Id')" class="btn-sm btn-default waves-effect waves-float waves-black"><i class="fas fa-trash"></i></a>
+                                                    </div>
+                                                    <input type="hidden" id="n-@i.Id" value="@i.Name" />
+                                                    <input type="hidden" id="p-@i.Id" value="@i.Price" />
+                                                </td>
+                                            </tr>
+                                        }
+                                        else
+                                        {
+                                            <tr data-row="2">
+                                                <td>
+                                                    @i.CategoryName
+                                                </td>
+                                                <td>
+                                                    @i.ProductName
+                                                </td>
+                                                <td>
+                                                    @i.Name
+                                                </td>
+                                                <td>
+                                                    @i.Price
+                                                </td>
+
+                                                <td>@i.CreatedAt</td>
+                                                <td>
+                                                    <div class="badge badge-danger badge-shadow badge_width_height">Blocked</div>
+                                                </td>
+                                                <td class="text-center">
+                                                    <div style="display:flex;flex-direction:row">
+                                                        <a onclick="showUnBlockModal('@i.Id')" class="btn-sm btn-default waves-effect waves-float waves-black"><i class="fas fa-check-circle"></i></a>
+                                                        <a onclick="showDeleteModal('@i.Id')" class="btn-sm btn-default waves-effect waves-float waves-black"><i class="fas fa-trash"></i></a>
+                                                    </div>
+                                                    <input type="hidden" id="n-@i.Id" value="@i.Name" />
+                                                    <input type="hidden" id="p-@i.Id" value="@i.Price" />
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- #END# Exportable Table -->
+        <!-- Add New  modal -->
+        <div class="modal fade" id="addModal" tabindex="-1" role="dialog" style="display: none;" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="title" id="myModalLabel">@local.GetLocalizedHtmlString("Ingredients")</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form class="" autocomplete="off" id="Form">
+                            <input type="hidden" id="doc_id" />
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Name*</label>
+                                        <input type="text" maxlength="52" class="form-control" placeholder="Enter Name" id="Name" name="name" />
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Price*</label>
+                                        <input type="text" maxlength="52" class="form-control number_valid" placeholder="Enter Price" id="Price" name="Price" />
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <a class="btn btn-default waves-effect" style="margin-left:auto;" data-dismiss="modal">Close</a>
+                        <button type="submit" onclick="UpdateIngredients()" id="add_btn" class="btn btn-primary btn btn-primary waves-effect waves-light"><i style="margin-right:4px;" class="fa fa-check-circle"></i>Submit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<script>
+    $('#product').addClass('toggled');
+    $('#IngrendientsA').addClass('active');
+
+    $("#active").click(function () {
+        $('#active').removeClass('FilterButton');
+        $('#active').siblings().addClass('FilterButton');
+        var table = $('#table-1').DataTable();
+        $.fn.dataTable.ext.search.pop();
+        table.draw();
+        $.fn.dataTable.ext.search.push(
+            function (settings, data, dataIndex) {
+                return $(table.row(dataIndex).node()).attr('data-row') == "1";
+            }
+        );
+        table.draw();
+    });
+    $("#all").click(function () {
+        $('#all').removeClass('FilterButton');
+        $('#all').siblings().addClass('FilterButton');
+        var table = $('#table-1').DataTable();
+        $.fn.dataTable.ext.search.pop();
+        table.draw();
+    });
+    $("#block").click(function () {
+        $('#block').removeClass('FilterButton');
+        $('#block').siblings().addClass('FilterButton');
+        var table = $('#table-1').DataTable();
+        $.fn.dataTable.ext.search.pop();
+        table.draw();
+        $.fn.dataTable.ext.search.push(
+            function (settings, data, dataIndex) {
+                return $(table.row(dataIndex).node()).attr('data-row') == "2";
+            }
+        );
+        table.draw();
+
+    });
+</script>
+<script>
+    function showBlockModal(doc_id) {
+        Swal.fire({
+            title: 'Are you sure you want to block?',
+            text: "",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Confirm!',
+            showLoaderOnConfirm: true,
+            preConfirm: (ref) => {
+                return new Promise(async function (resolve, reject) {
+                    var response = getResponseFromUrl('GET', '/SuperAdmin/Product/BlockIngredient?id=' + doc_id);
+                    if (response.code == 200) {
+                        TimerSweet("Ingredient Blocked!", 'Ingredient is successfully blocked', "success", 2000);
+                        setTimeout(function () {
+                            location.reload();
+                        }, 2000);
+                    }
+                    else {
+                        sweetMessage("Error!", response.shortMessage, "error");
+                    }
+                })
+            },
+        }).then((result) => {
+            if (result.isConfirmed) {
+
+            }
+        })
+    }
+    function showUnBlockModal(doc_id) {
+        Swal.fire({
+            title: 'Are you sure you want to unblock?',
+            text: "",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Confirm!',
+            showLoaderOnConfirm: true,
+            preConfirm: (ref) => {
+                return new Promise(async function (resolve, reject) {
+                    var response = getResponseFromUrl('GET', '/SuperAdmin/Product/UnBlockIngredient?id=' + doc_id);
+                    if (response.code == 200) {
+                        TimerSweet("Ingredient Unblocked!", 'Ingredient is successfully unblocked', "success", 2000);
+                        setTimeout(function () {
+                            location.reload();
+                        }, 2000);
+                    }
+                    else {
+                        sweetMessage("Error!", response.shortMessage, "error");
+                    }
+                })
+            },
+        }).then((result) => {
+            if (result.isConfirmed) {
+
+            }
+        })
+    }
+    function showDeleteModal(doc_id) {
+        Swal.fire({
+            title: 'Are you sure you want to delete?',
+            text: "",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Confirm!',
+            showLoaderOnConfirm: true,
+            preConfirm: (ref) => {
+                return new Promise(async function (resolve, reject) {
+                    var response = getResponseFromUrl('GET', '/SuperAdmin/Product/DeleteIngredient?id=' + doc_id);
+                    if (response.code == 200) {
+                        TimerSweet("Ingredient Deleted!", 'Ingredient is successfully deleted', "success", 2000);
+                        setTimeout(function () {
+                            location.reload();
+                        }, 2000);
+                    }
+                    else {
+                        sweetMessage("Error!", response.shortMessage, "error");
+                    }
+                })
+            },
+        }).then((result) => {
+            if (result.isConfirmed) {
+
+            }
+        })
+    }
+</script>
+<!--Ajax-->
+<script>
+    var getResponseFromUrl = function (requestType, requestUrl, requestData) {
+        var response;
+        $.ajax({
+            type: requestType,
+            url: requestUrl,
+            data: requestData,
+            data: requestData,
+            async: false,
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                response = data;
+                console.log(data);
+            },
+            error: function (error) {
+                return error;
+            },
+        });
+        return response;
+    }
+</script>
+
+<script>
+    function UpdateIngredients() {
+        var bool = true;
+        var GetAllValues = [];
+        $('#Form').find(('.form-control')).each(function (i, obj) {
+            var values = getDataFromSimpleField($(obj));
+            GetAllValues.push(values);
+            if (GetAllValues.includes(false)) {
+                bool = false;
+            }
+        })
+        if (bool == false) {
+            MixinSweet("Please fill all the required fields", "", "error", 2000);
+        }
+        else {
+            $('#add_btn').addClass('btn-progress');
+            var formdata = new FormData(document.getElementById('Form'));
+            var doc_id = $('#doc_id').val();
+            formdata.append("Id", doc_id);
+            $.ajax({
+                type: 'POST',
+                url: '/SuperAdmin/Product/UpdateIngredient',
+                data: formdata,
+                async: true,
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    console.log(data);
+                    if (data.code == 200) {
+                        TimerSweet("Ingredient Updated!", 'Ingredient is successfully updated', "success", 2000);
+                        $('#addModal').modal('hide');
+                        setTimeout(function () {
+                            location.reload();
+                        }, 1000);
+                    }
+                    else {
+                        sweetMessage("Error!", data.shortMessage, "error");
+                    }
+                },
+                error: function (error) {
+                    return error;
+                },
+            });
+        }
+    }
+    function getDataFromSimpleField(element) {
+        var s = false;
+        var value = $(element).val();
+
+        if (value == "" || value == null || value == undefined) {
+            s = false;
+            $(element).addClass('is-invalid');
+            $(element).removeClass('is-valid');
+            if ($(element).hasClass('custom-file-container__custom-file__custom-file-input')) {
+                $(element).siblings('span').addClass('red_border');
+                $(element).siblings('span').removeClass('none_border');
+            }
+        }
+        else if (!value.replace(/\s/g, '')[0].length) {
+            s = false;
+            $(element).addClass('is-invalid');
+            $(element).removeClass('is-valid');
+            if ($(element).hasClass('custom-file-container__custom-file__custom-file-input')) {
+                $(element).siblings('span').addClass('red_border');
+                $(element).siblings('span').removeClass('none_border');
+            }
+        }
+        else {
+            s = true;
+            $(element).addClass('is-valid');
+            $(element).removeClass('is-invalid');
+            if ($(element).hasClass('custom-file-container__custom-file__custom-file-input')) {
+                $(element).siblings('span').removeClass('red_border');
+                $(element).siblings('span').addClass('none_border');
+            }
+        }
+        if (s == false) {
+            return false;
+        }
+        return true;
+    }
+</script>
+<script>
+    function showEditModal(id) {
+        $("#Form")[0].reset();
+        $('#doc_id').val(id);
+        var name = $('#n-' + id).val();
+        var price = $('#p-' + id).val();
+        $('#Name').val(name);
+        $('#Price').val(price);
+        $('#myModalLabel').html("Edit Product");
+        $('#addModal').modal("show");
+    }
+</script>

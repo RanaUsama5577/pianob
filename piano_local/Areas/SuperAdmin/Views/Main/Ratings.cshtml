@@ -1,0 +1,242 @@
+﻿@inject piano_local.Resources.LocalizationService local
+@{
+    ViewBag.Title = "Ratings";
+    Layout = "~/Areas/SuperAdmin/Views/Shared/_Layout.cshtml";
+}
+
+<section class="content">
+    <div class="block-header">
+        <div class="row">
+            <div class="col-12">
+                <h5>@local.GetLocalizedHtmlString("OrdersRating")</h5>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+
+        <!-- Exportable Table -->
+        <div class="row clearfix">
+            <div class="col-lg-12">
+                <div class="card">
+
+                    <div class="body">
+                        <div class="table-responsive">
+                            <div class="table-responsive">
+                                <table class="table table-bordered js-basic-example dataTable">
+                                    <thead style="white-space:nowrap">
+                                        <tr>
+                                            <th>@local.GetLocalizedHtmlString("OrderId")</th>
+                                            <th>@local.GetLocalizedHtmlString("Name")</th>
+                                            <th class="text-center">@local.GetLocalizedHtmlString("ProductsDetail")</th>
+                                            <th>@local.GetLocalizedHtmlString("Rating")</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody style="white-space:nowrap">
+
+                                        <tr data-attribute="1" class="no-wrap">
+                                            <td>#123456</td>
+                                            <td class="align-middle">
+                                                <a href="~/assets/images/sm/avatar1.jpg">
+                                                    <img class="rounded shadow" src="~/assets/images/sm/avatar1.jpg" height="35">
+                                                </a>
+
+                                                <span class="w-space-no ml-2">John Doe</span>
+                                            </td>
+
+
+                                            <td class="align-middle text-center">
+                                                <a class="description" style="cursor:pointer" data-toggle="modal" data-target="#PrdDtls"><img src="~/assets/images/piano/Bg-transparent/Page-2-Image-14-removebg-preview.png" height="35" /></a>
+                                            </td>
+                                            <td>
+                                                <span class="m-l-10">
+                                                    <a href="#"><i class="zmdi zmdi-star col-amber"></i></a>
+                                                    <a href="#"><i class="zmdi zmdi-star col-amber"></i></a>
+                                                    <a href="#"><i class="zmdi zmdi-star col-amber"></i></a>
+                                                    <a href="#"><i class="zmdi zmdi-star col-amber"></i></a>
+                                                    <a href="#"><i class="zmdi zmdi-star-outline text-muted"></i></a>
+                                                </span>
+                                            </td>
+
+                                        </tr>
+
+                                        <tr data-attribute="2" class="no-wrap">
+                                            <td>#678904</td>
+                                            <td class="align-middle">
+                                                <a href="~/assets/images/sm/avatar2.jpg">
+                                                    <img class="rounded shadow" src="~/assets/images/sm/avatar2.jpg" height="35">
+                                                </a>
+
+                                                <span class="w-space-no ml-2">John Doe</span>
+                                            </td>
+                                            <td class="align-middle text-center">
+                                                <a class="description" style="cursor:pointer" data-toggle="modal" data-target="#PrdDtls"><img src="~/assets/images/piano/Bg-transparent/Page-2-Image-14-removebg-preview.png" height="35" /></a>
+                                            </td>
+                                            <td>
+                                                <span class="m-l-10">
+                                                    <a href="#"><i class="zmdi zmdi-star col-amber"></i></a>
+                                                    <a href="#"><i class="zmdi zmdi-star col-amber"></i></a>
+                                                    <a href="#"><i class="zmdi zmdi-star col-amber"></i></a>
+                                                    <a href="#"><i class="zmdi zmdi-star col-amber"></i></a>
+                                                    <a href="#"><i class="zmdi zmdi-star-outline text-muted"></i></a>
+                                                </span>
+                                            </td>
+
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- #END# Exportable Table -->
+        <div class="modal fade bs-example-modal-md mt-5" id="des" tabindex="-1" role="dialog" aria-labelledby="des" aria-hidden="true">
+            <div class="modal-dialog modal-md">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="formModal">@local.GetLocalizedHtmlString("Details")</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <textarea readonly class="w-100 border-0" style="outline:none">Sample Details</textarea>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div><!-- /.modal -->
+        </div>
+    </div>
+    <div class="modal fade bs-example-modal-md mt-5" id="PrdDtls" tabindex="-1" role="dialog" aria-labelledby="PrdDtls" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="formModal">@local.GetLocalizedHtmlString("Products Detail")</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="table-responsive">
+                        <table class="table js-basic-example dataTable">
+                            <thead class="no-wrap">
+                                <tr>
+                                    <th>@local.GetLocalizedHtmlString("Image")</th>
+                                    <th>@local.GetLocalizedHtmlString("Product Name")</th>
+                                    <th data-breakpoints="sm xs">@local.GetLocalizedHtmlString("Detail")</th>
+                                    <th data-breakpoints="sm xs" class="text-center">@local.GetLocalizedHtmlString("Ingredients")</th>
+                                    <th data-breakpoints="xs">@local.GetLocalizedHtmlString("Quantity")</th>
+                                    <th data-breakpoints="xs">@local.GetLocalizedHtmlString("Amount")</th>
+                                </tr>
+                            </thead>
+
+                            <tbody class="no-wrap">
+
+                                <tr>
+                                    <td class="align-middle">
+                                        <a href="/assets/images/piano/Page-1-Image-1.png" target="_blank"> <img src="/assets/images/piano/Page-1-Image-1.png" height="30"> </a>
+                                    </td>
+                                    <td class="align-middle"><h6>Lazania Pizza</h6></td>
+                                    <td class="align-middle">
+                                        <a class="btn-sm btn-primary description" data-toggle="modal" data-target="#des"><i class="fas fa-eye" style="color: #fff;"></i></a>
+                                    </td>
+                                    <td class="align-middle text-center">
+                                        <a class="ingredients" style="cursor:pointer" data-toggle="modal" data-target="#ingredients">
+                                            <img src="~/assets/images/piano/Bg-transparent/Ingredient-removebg-preview.png" height="35" />
+                                        </a>
+                                    </td>
+                                    <td class="align-middle text-center">2</td>
+                                    <td class="align-middle">$16.00</td>
+
+                                </tr>
+                                <tr>
+                                    <td class="align-middle">
+                                        <a href="/assets/images/piano/Page-1-Image-1.png"> <img src="/assets/images/piano/Page-1-Image-1.png" height="30"> </a>
+                                    </td>
+                                    <td class="align-middle"><h6>Kabab Pizza</h6></td>
+                                    <td class="align-middle">
+                                        <a class="btn-sm btn-primary description" data-toggle="modal" data-target="#des"><i class="fas fa-eye" style="color: #fff;"></i></a>
+                                    </td>
+                                    <td class="align-middle text-center">
+                                        <a class="ingredients" style="cursor:pointer" data-toggle="modal" data-target="#ingredients">
+                                            <img src="~/assets/images/piano/Bg-transparent/Ingredient-removebg-preview.png" height="35" />
+                                        </a>
+                                    </td>
+                                    <td class="align-middle text-center">1</td>
+                                    <td class="align-middle">$15.00</td>
+                                </tr>
+
+                            </tbody>
+                            <tfoot>
+                                <tr><th rowspan="1" colspan="5">@local.GetLocalizedHtmlString("Total Bill")</th><th rowspan="1" colspan="1">$31.00</th></tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div><!-- /.modal -->
+    </div>
+    <!-- #END# Exportable Table -->
+    <div class="modal fade bs-example-modal-md mt-5" id="des" tabindex="-1" role="dialog" aria-labelledby="des" aria-hidden="true">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="formModal">@local.GetLocalizedHtmlString("Details")</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <textarea readonly class="w-100 border-0"> Sample Details</textarea>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div><!-- /.modal -->
+    </div>
+
+
+    <div class="modal fade bs-example-modal-md mt-5" id="ingredients" tabindex="-1" role="dialog" aria-labelledby="ingredients" aria-hidden="true">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="formModal">@local.GetLocalizedHtmlString("Ingredients")</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label>Extra Topping:</label><span class="float-right">$25</span>
+                        </div>
+                        <div class="col-md-12">
+                            <label>Extra Topping:</label><span class="float-right">$25</span>
+                        </div>
+                        <div class="col-md-12">
+                            <label>Extra Topping:</label><span class="float-right">$25</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div><!-- /.modal -->
+    </div>
+</section>
+
+
+<script>
+    $('#Query').addClass('active');
+
+</script>
+

@@ -1,0 +1,128 @@
+﻿@model Entities.AdminDashboard
+@inject piano_local.Resources.LocalizationService local
+@{
+    Layout = "~/Areas/SuperAdmin/Views/Shared/_Layout.cshtml";
+}
+<style>
+    #bar_chart {
+        height: 350px !important;
+    }
+</style>
+<section class="content home">
+    <div class="block-header">
+        <div class="row">
+            <div class="col-12">
+                <h2>
+                    @local.GetLocalizedHtmlString("Dashboard")
+                </h2>
+            </div>
+
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row clearfix social-widget">
+            <div class="col-lg-3 col-md-3 col-6 d-flex">
+                <a href="/SuperAdmin/Users/Detail" style="cursor:pointer" class="card info-box-2 hover-zoom-effect facebook-widget">
+                    <div class="icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="content pt-0">
+                        <div class="number">@Model.TotalUsers</div>  <div class="text">@local.GetLocalizedHtmlString("Customers")</div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-lg-3 col-md-3 col-6 d-flex">
+                <a href="/SuperAdmin/Product/Detail" style="cursor:pointer" class="card info-box-2 hover-zoom-effect instagram-widget">
+                    <div class="icon">
+                        <i class="fas fa-pizza-slice text-warning"></i>
+                    </div>
+                    <div class="content pt-3">
+                        <div class="number">@Model.TotalProducts</div>   <div class="text">@local.GetLocalizedHtmlString("Products")</div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-lg-3 col-md-3 col-6 d-flex">
+                <a href="/SuperAdmin/Order/Detail" style="cursor:pointer" class="card info-box-2 hover-zoom-effect twitter-widget">
+                    <div class="icon">
+                        <i class="fas fa-shopping-cart text-warning"></i>
+                    </div>
+                    <div class="content pt-0">
+                        <div class="number">@Model.TotalOrders</div><div class="text">@local.GetLocalizedHtmlString("Orders")</div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-lg-3 col-md-3 col-6 d-flex">
+                <a href="/SuperAdmin/Category/Index" style="cursor:pointer" class="card info-box-2 hover-zoom-effect google-widget">
+                    <div class="icon">
+                        <i class="far fa-question-circle text-secondary"></i>
+                    </div>
+                    <div class="content pt-0">
+                        <div class="number">@Model.TotalCategories</div>  <div class="text">@local.GetLocalizedHtmlString("Categories")</div>
+                    </div>
+                </a>
+            </div>
+
+        </div>
+        <div hidden class="row mt-0 pt-0">
+            <div class="col-12">
+                <div class="card mb-0 pb-0">
+                    <div class="header">
+                        <h2><strong>@local.GetLocalizedHtmlString("Orders")</strong> @local.GetLocalizedHtmlString("Detail")</h2>
+                        <ul class="header-dropdown">
+                            <li class="dropdown">
+                                <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <i class="zmdi zmdi-more"></i> </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="body">
+                        <canvas id="bar_chart" height="150"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    $('#Dash').addClass('active');
+    $('#Dash').addClass('open');
+</script>
+
+<script>
+    $(function () {
+        new Chart(document.getElementById("bar_chart").getContext("2d"), getChartJs());
+    });
+
+    function getChartJs(type) {
+        var config = null;
+
+
+
+        config = {
+            type: 'bar',
+            width: '30',
+            data: {
+                labels: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+                datasets: [{
+                    label: "Take Away",
+                    data: [28, 48, 40, 19, 86, 27, 90, 19, 86, 27, 90, 3],
+                    backgroundColor: '#f4f6f9',
+                    strokeColor: "rgba(255,118,118,0.1)",
+                }, {
+                    label: "Online Order",
+                    data: [10, 30, 80, 61, 26, 75, 40, 61, 26, 75, 6, 10],
+                    backgroundColor: '#3b5998',
+                    strokeColor: "rgba(255,118,118,0.1)",
+                }]
+            },
+            options: {
+                responsive: true,
+                legend: false
+            }
+        }
+
+
+        return config;
+    }
+</script>
+

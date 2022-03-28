@@ -1,0 +1,234 @@
+﻿@inject piano_local.Resources.LocalizationService local
+@model Entities.ProductAndIngredientDtos;
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/orderassets/assets/css/bootstrap.min.css" rel="stylesheet">
+<!-- Custom Stylesheet -->
+<link href="~/orderassets/assets/css/style.css" rel="stylesheet">
+<!-- #header-wrap -->
+<div id="header-bottom-wrap" class="is-clearfix">
+    <div id="header-bottom" class="site-header-bottom">
+        <div id="header-bottom-inner" class="site-header-bottom-inner ">
+            <section class="hero slider is-clearfix ">
+                <div style="background-image: url('/app-images/home.jpg'); background-repeat: no-repeat; background-size: cover; height: 200px; position: relative; background-position: center center;">
+                </div>
+                <div style="position: absolute;width: 100%;height: 100%;background-color: #000000;opacity: 0.5;transition: background 0.3s, border-radius 0.3s, opacity 0.3s;">
+                </div>
+                <div style="text-align: center;position: absolute;width: 100%;">
+                    <h2 style="color: #fff;font-size: 36px;margin-top: 138px;font-family: 'LIBRE FRANKLIN', sans-serif;" class="">@Model.Name</h2>
+                </div>
+            </section>
+            <!-- .slider -->
+        </div>
+        <!-- #header-bottom-inner -->
+    </div>
+    <!-- #header-bottom -->
+</div>
+<!-- #header-bottom-wrap -->
+<!-- import content layouts and modules -->
+<div id="content-main-wrap" class="is-clearfix">
+    <div id="content-area" class="site-content-area">
+        <div id="content-area-inner" class="site-content-area-inner">
+            <!-- works section -->
+            <section id="welcome" class="section introduction is-clearfix">
+                <div class="container">
+                    <div class="columns is-variable is-6 is-multiline">
+                        <div class="column is-6-desktop is-12-tablet has-text-centered">
+                            <div class="works-latest">
+                                <div class="works-latest-item">
+                                    <img alt="Joo - Niche Multi-Purpose HTML Template" src="@Model.Logo">
+                                </div>
+                                <!-- .works-latest-item -->
+                            </div>
+                        </div>
+                        <div class="column is-6-desktop is-12-tablet">
+                            <h1 style="font-size: 34px;" class="heading-title style-3 has-text-left">
+                                @Model.Name - $@Model.Price
+                            </h1>
+                            <p> @Model.Description </p>
+                            <br>
+                            @if (User.Identity.IsAuthenticated && Model.AddedToCart == true)
+                            {
+
+                            }
+                            else
+                            {
+                                <div class="content">
+                                    <h3>
+                                        @local.GetLocalizedHtmlString("Additional Ingredients")
+                                    </h3>
+                                    <ul class="list no-margin" style="padding:0px 100px 0px 0px;">
+                                        @foreach (var i in Model.IngredientLists)
+                                        {
+                                            <li>
+                                                <div class="row">
+                                                    <div class="col-sm-5 col-12">
+                                                        <div class="ps-checkbox">
+                                                            <input class="form-control ingredient_name" data-ingredient="@i.Id" data-price="@i.Price" type="checkbox" id="c-@i.Id">
+                                                            <label for="c-@i.Id">@i.Name</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-7 col-12 d-flex flex-row mt-n3">
+                                                        <div class="input-group bootstrap-touchspin m-0" style="display: flex;position: relative;margin:auto">
+                                                            <span class="input-group-btn bootstrap-touchspin-injected" style="">
+                                                                <button onclick="IngredientDownFunction(this)" class="btn btn-primary bootstrap-touchspin-down disabled-max-min rounded-circle" type="button">-</button>
+                                                            </span>
+                                                            <input id="val-@i.Id" type="text" class="quantity-counter form-control" readonly="" value="0" style="">
+                                                            <span class="input-group-btn bootstrap-touchspin-injected" style="">
+                                                                <button onclick="IngredientUpFunction(this)" class="btn btn-primary bootstrap-touchspin-up rounded-circle" type="button">+</button>
+                                                            </span>
+                                                        </div>
+                                                        <span class="ml-auto pt-4">@i.Price</span>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        }
+                                    </ul>
+                                    <div class="item-quantity" style=" margin-top: 20px;">
+                                        <span class="quantity-title">Qty:</span>
+                                        <div class="quantity-counter-wrapper">
+                                            <div class="input-group bootstrap-touchspin" style="display: flex;position: relative;">
+                                                <span class="input-group-btn bootstrap-touchspin-injected" style="">
+                                                    <button class="btn btn-primary touch-down bootstrap-touchspin-down disabled-max-min rounded-circle" type="button">-</button>
+                                                </span>
+                                                <input id="Quantity" type="text" class="quantity-counter form-control" readonly="" value="1" style="">
+                                                <span class="input-group-btn bootstrap-touchspin-injected" style="">
+                                                    <button class="btn btn-primary touch-up bootstrap-touchspin-up rounded-circle" type="button">+</button>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                            @if (User.Identity.IsAuthenticated && Model.AddedToCart == false)
+                            {
+                                <button onclick="AddToCart(this,false)" href="#" style="background-color: #2d2929;" class="button SpinnerBtn">
+                                    <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                                    <span class="spinner-loading ms-25 align-middle">Loading...</span>
+                                    <span class="SpinnerText">@local.GetLocalizedHtmlString("Add To Cart") </span>
+                                </button>
+                            }
+                            else if (User.Identity.IsAuthenticated && Model.AddedToCart == true)
+                            {
+                        <a href="@Url.Action("Cart","Order")" style="background-color: #2d2929;" class="button">@local.GetLocalizedHtmlString("View In Cart")</a>
+                            }
+                            else
+                            {
+                        <a style="background-color: #2d2929;" class="button" href="@Url.Action("Signin","Account")">@local.GetLocalizedHtmlString("Sign In To Manage Cart")</a>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+    <!-- #content-area -->
+</div>
+<script>
+    $(function () {
+        $('.touch-up').on('click', function () {
+            var s = parseInt($(this).parent().siblings('input').val()) + 1;
+            $(this).parent().siblings('input').val(s > 50 ? 50 : s);
+        })
+        $('.touch-down').on('click', function () {
+            var s = parseInt($(this).parent().siblings('input').val()) - 1;
+            $(this).parent().siblings('input').val(s <= 0 ? 1 : s);
+        })
+    })
+    $('.ingredient_name').on('click', function () {
+        if ($(this).prop('checked')) {
+            $(this).closest('.col-sm-5').siblings('.col-sm-7').find('.quantity-counter').val(1);
+        }
+        else {
+            $(this).closest('.col-sm-5').siblings('.col-sm-7').find('.quantity-counter').val(0);
+        }
+    })
+    function IngredientUpFunction(element) {
+        var input = $(element).parent().siblings('.quantity-counter');
+        var itemCount = $(element).parent().siblings('.quantity-counter').val();
+        var itemCount = parseInt(itemCount);
+        itemCount += 1;
+        if (itemCount <= 99) {
+            $(input).val(itemCount);
+        }
+        $(element).closest('.col-sm-7').prev('.col-sm-5').find('input').prop('checked', true);
+    }
+    function IngredientDownFunction(element) {
+        var input = $(element).parent().siblings('.quantity-counter');
+        var itemCount = $(element).parent().siblings('.quantity-counter').val();
+        var itemCount = parseInt(itemCount);
+        itemCount -= 1;
+        if (itemCount >= 0) {
+            $(input).val(itemCount);
+        }
+        if (itemCount == 0) {
+            $(element).closest('.col-sm-7').prev('.col-sm-5').find('input').prop('checked', false);
+        }
+    }
+</script>
+
+<script>
+    function AddToCart(element, n) {
+        $(element).addClass('SpinnerProgressBtn').removeClass('SpinnerBtn');
+        var pushs = [];
+        var quantity = 0;
+        $('input[type="checkbox"]:checked').each(function (index, obj) {
+            var ingredient = $(obj).attr('data-ingredient');
+            quantity = $('#val-' + ingredient).val();
+            var data = {
+                Id: parseInt(ingredient),
+                quantity: parseInt(quantity),
+            };
+            pushs.push(data);
+        })
+        console.log(pushs);
+        var product_data = JSON.stringify({
+            'allIngredients': pushs,
+            'quantity': $('#Quantity').val(),
+            'branchBool': n,
+            'price': '@Model.Price',
+            'productId': '@Model.Id',
+        });
+
+        $.ajax({
+            type: 'POST',
+            url: '/Product/AddToCart',
+            data: product_data,
+            async: true,
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            success: function (data) {
+                console.log("Api", data);
+                $(element).addClass('SpinnerBtn').removeClass('SpinnerProgressBtn');
+                if (data.code == 200) {
+                    MixinSweet("Product added to cart!", "", "success", "2000");
+                    setTimeout(function () {
+                        location.reload();
+                    }, 2000);
+                }
+                else if (data.code == 401) {
+                    Swal.fire({
+                        title: data.shortMessage,
+                        text: "",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Confirm!',
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            AddToCart(element,true);
+                        }
+                    })
+                }
+                else {
+                    sweetMessage("Warning!", data.shortMessage, "error");
+                }
+            },
+            error: function (error) {
+                return error;
+            },
+        });
+    }
+</script>

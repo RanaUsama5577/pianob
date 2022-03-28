@@ -1,0 +1,340 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <UserSecretsId>aspnet-piano_local-44F766CA-CBFB-47B4-B80D-8DC6BDA8ABA4</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="5.0.9" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.9" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="5.0.9" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.9" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.9" />
+    <PackageReference Include="Stripe.net" Version="39.100.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BLL\BLL.csproj" />
+    <ProjectReference Include="..\DAL\DAL.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="Views\Home\Index.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="Views\Shared\Error.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="Views\Shared\_Layout.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="Views\_ViewStart.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\Account\AccessDenied.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Views\Account\AccessDenied.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Account\ForgotPassword.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Account\Login.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Account\MyProfile.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Account\ResetPassword.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Account\Signin.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Account\SuccessResetPassword.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Home\footerPartial.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Home\headerPartial.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Menu\Index.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Order\Cart.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Order\History.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Order\HistoryOrderDetails.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Order\Index.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Order\MyOrder.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Order\MyOrderDetails.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Product\Index.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\Account\ForgotPassword.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\Account\Login.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\Account\MyProfile.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\Account\ResetPassword.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\Account\Signin.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\Account\SuccessResetPassword.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\Home\footerPartial.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\Home\headerPartial.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\Menu\Index.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\Order\Cart.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\Order\History.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\Order\HistoryOrderDetails.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\Order\Index.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\Order\MyOrder.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\Order\MyOrderDetails.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\Product\Index.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Areas\Cook\Views\Main\CookProfile.cshtml" />
+    <None Include="Areas\Cook\Views\Main\Index.cshtml" />
+    <None Include="Areas\Cook\Views\Orders\CompletedOrder.cshtml" />
+    <None Include="Areas\Cook\Views\Shared\_Layout.cshtml" />
+    <None Include="Areas\Cook\Views\web.config" />
+    <None Include="Areas\Driver\Views\Main\DriverProfile.cshtml" />
+    <None Include="Areas\Driver\Views\Main\Index.cshtml" />
+    <None Include="Areas\Driver\Views\Orders\CompletedOrder.cshtml" />
+    <None Include="Areas\Driver\Views\Shared\_Layout.cshtml" />
+    <None Include="Areas\PackerStaff\Views\Main\Index.cshtml" />
+    <None Include="Areas\PackerStaff\Views\Main\PackerProfile.cshtml" />
+    <None Include="Areas\PackerStaff\Views\Orders\CompletedOrder.cshtml" />
+    <None Include="Areas\PackerStaff\Views\Shared\_Layout.cshtml" />
+    <None Include="Areas\Receptionist\Views\Main\Index.cshtml" />
+    <None Include="Areas\Receptionist\Views\Main\ReceptionistProfile.cshtml" />
+    <None Include="Areas\Receptionist\Views\Orders\Detail.cshtml" />
+    <None Include="Areas\Receptionist\Views\Orders\PlaceOrder.cshtml" />
+    <None Include="Areas\Receptionist\Views\Products\ProductsDetail.cshtml" />
+    <None Include="Areas\Receptionist\Views\Shared\_Layout.cshtml" />
+    <None Include="Areas\Receptionist\Views\Staff\Cook.cshtml" />
+    <None Include="Areas\Receptionist\Views\Staff\Driver.cshtml" />
+    <None Include="Areas\Receptionist\Views\Staff\Packer.cshtml" />
+    <None Include="Areas\Receptionist\Views\Staff\StaffOrders.cshtml" />
+    <None Include="Areas\Receptionist\Views\Users\Detail.cshtml" />
+    <None Include="Areas\Receptionist\Views\web.config" />
+    <None Include="Areas\SuperAdmin\Views\AppContent\CookiePolicy.cshtml" />
+    <None Include="Areas\SuperAdmin\Views\AppContent\PrivacyPolicy.cshtml" />
+    <None Include="Areas\SuperAdmin\Views\Branch\Details.cshtml" />
+    <None Include="Areas\SuperAdmin\Views\Category\Index.cshtml" />
+    <None Include="Areas\SuperAdmin\Views\Login\ForgotPassword.cshtml" />
+    <None Include="Areas\SuperAdmin\Views\Login\SignIn.cshtml" />
+    <None Include="Areas\SuperAdmin\Views\Main\AdminProfile.cshtml" />
+    <None Include="Areas\SuperAdmin\Views\Main\Index.cshtml" />
+    <None Include="Areas\SuperAdmin\Views\Main\Queries.cshtml" />
+    <None Include="Areas\SuperAdmin\Views\Main\Ratings.cshtml" />
+    <None Include="Areas\SuperAdmin\Views\Order\Detail.cshtml" />
+    <None Include="Areas\SuperAdmin\Views\Order\Payment.cshtml" />
+    <None Include="Areas\SuperAdmin\Views\Product\AddIngredients.cshtml" />
+    <None Include="Areas\SuperAdmin\Views\Product\AddProduct.cshtml" />
+    <None Include="Areas\SuperAdmin\Views\Product\Detail.cshtml" />
+    <None Include="Areas\SuperAdmin\Views\Product\Ingrendients.cshtml" />
+    <None Include="Areas\SuperAdmin\Views\Shared\_Layout.cshtml" />
+    <None Include="Areas\SuperAdmin\Views\Staff\AddCook.cshtml" />
+    <None Include="Areas\SuperAdmin\Views\Staff\AddDriver.cshtml" />
+    <None Include="Areas\SuperAdmin\Views\Staff\AddPacker.cshtml" />
+    <None Include="Areas\SuperAdmin\Views\Staff\AddReceptionist.cshtml" />
+    <None Include="Areas\SuperAdmin\Views\Staff\AddStaff.cshtml" />
+    <None Include="Areas\SuperAdmin\Views\Staff\CookDetails.cshtml" />
+    <None Include="Areas\SuperAdmin\Views\Staff\DriverDetails.cshtml" />
+    <None Include="Areas\SuperAdmin\Views\Staff\PackerDetails.cshtml" />
+    <None Include="Areas\SuperAdmin\Views\Staff\ReceptionistDetails.cshtml" />
+    <None Include="Areas\SuperAdmin\Views\Staff\StaffOrders.cshtml" />
+    <None Include="Areas\SuperAdmin\Views\Users\Detail.cshtml" />
+    <None Include="Areas\SuperAdmin\Views\web.config" />
+    <None Include="wwwroot\admin-assets\app-assets\forms\form-card.min.js" />
+    <None Include="wwwroot\admin-assets\app-assets\forms\jquery.card.js" />
+    <None Include="wwwroot\admin-assets\bundles\countTo.bundle.js" />
+    <None Include="wwwroot\admin-assets\bundles\datatablescripts.bundle.js" />
+    <None Include="wwwroot\admin-assets\bundles\flotscripts.bundle.js" />
+    <None Include="wwwroot\admin-assets\bundles\footable.bundle.js" />
+    <None Include="wwwroot\admin-assets\bundles\fullcalendarscripts.bundle.js" />
+    <None Include="wwwroot\admin-assets\bundles\jvectormap.bundle.js" />
+    <None Include="wwwroot\admin-assets\bundles\knob.bundle.js" />
+    <None Include="wwwroot\admin-assets\bundles\libscripts.bundle.js" />
+    <None Include="wwwroot\admin-assets\bundles\mainscripts.bundle.js" />
+    <None Include="wwwroot\admin-assets\bundles\morrisscripts.bundle.js" />
+    <None Include="wwwroot\admin-assets\bundles\sparkline.bundle.js" />
+    <None Include="wwwroot\admin-assets\bundles\vendorscripts.bundle.js" />
+    <None Include="wwwroot\admin-assets\fonts\Material-Design-Iconic-Fontd1f1.woff2" />
+    <None Include="wwwroot\admin-assets\images\logo.svg" />
+    <None Include="wwwroot\admin-assets\images\weather\cloudy.svg" />
+    <None Include="wwwroot\admin-assets\images\weather\rain.svg" />
+    <None Include="wwwroot\admin-assets\images\weather\sky.svg" />
+    <None Include="wwwroot\admin-assets\images\weather\summer.svg" />
+    <None Include="wwwroot\admin-assets\images\weather\wind.svg" />
+    <None Include="wwwroot\admin-assets\js\image-uploader.min.js" />
+    <None Include="wwwroot\admin-assets\js\jquery.steps.js" />
+    <None Include="wwwroot\admin-assets\js\jquery.validate.js" />
+    <None Include="wwwroot\admin-assets\js\map.js" />
+    <None Include="wwwroot\admin-assets\js\pages\blog\blog.js" />
+    <None Include="wwwroot\admin-assets\js\pages\calendar\calendar.js" />
+    <None Include="wwwroot\admin-assets\js\pages\cards\basic.js" />
+    <None Include="wwwroot\admin-assets\js\pages\charts\chartjs.js" />
+    <None Include="wwwroot\admin-assets\js\pages\charts\flot.js" />
+    <None Include="wwwroot\admin-assets\js\pages\charts\jquery-knob.js" />
+    <None Include="wwwroot\admin-assets\js\pages\charts\jquery-knob.min.js" />
+    <None Include="wwwroot\admin-assets\js\pages\charts\morris.js" />
+    <None Include="wwwroot\admin-assets\js\pages\charts\polar_area_chart.js" />
+    <None Include="wwwroot\admin-assets\js\pages\charts\sparkline.js" />
+    <None Include="wwwroot\admin-assets\js\pages\ecommerce.js" />
+    <None Include="wwwroot\admin-assets\js\pages\forms\advanced-form-elements.js" />
+    <None Include="wwwroot\admin-assets\js\pages\forms\basic-form-elements.js" />
+    <None Include="wwwroot\admin-assets\js\pages\forms\editors.js" />
+    <None Include="wwwroot\admin-assets\js\pages\forms\form-validation.js" />
+    <None Include="wwwroot\admin-assets\js\pages\forms\form-wizard.js" />
+    <None Include="wwwroot\admin-assets\js\pages\index.js" />
+    <None Include="wwwroot\admin-assets\js\pages\index2.js" />
+    <None Include="wwwroot\admin-assets\js\pages\maps\google.js" />
+    <None Include="wwwroot\admin-assets\js\pages\maps\jvectormap.js" />
+    <None Include="wwwroot\admin-assets\js\pages\medias\image-gallery.js" />
+    <None Include="wwwroot\admin-assets\js\pages\rtl.js" />
+    <None Include="wwwroot\admin-assets\js\pages\tables\editable-table.js" />
+    <None Include="wwwroot\admin-assets\js\pages\tables\footable.js" />
+    <None Include="wwwroot\admin-assets\js\pages\tables\jquery-datatable.js" />
+    <None Include="wwwroot\admin-assets\js\pages\ui\dialogs.js" />
+    <None Include="wwwroot\admin-assets\js\pages\ui\notifications.js" />
+    <None Include="wwwroot\admin-assets\js\pages\ui\range-sliders.js" />
+    <None Include="wwwroot\admin-assets\js\pages\ui\sortable-nestable.js" />
+    <None Include="wwwroot\admin-assets\js\pages\widgets\infobox\infobox-1.js" />
+    <None Include="wwwroot\admin-assets\js\sweetalert2.min.js" />
+    <None Include="wwwroot\admin-assets\plugins\bootstrap-colorpicker\js\bootstrap-colorpicker.js" />
+    <None Include="wwwroot\admin-assets\plugins\bootstrap-material-datetimepicker\js\bootstrap-material-datetimepicker.js" />
+    <None Include="wwwroot\admin-assets\plugins\bootstrap-notify\bootstrap-notify.js" />
+    <None Include="wwwroot\admin-assets\plugins\bootstrap-tagsinput\bootstrap-tagsinput.js" />
+    <None Include="wwwroot\admin-assets\plugins\chartjs\Chart.bundle.js" />
+    <None Include="wwwroot\admin-assets\plugins\chartjs\Chart.bundle.min.js" />
+    <None Include="wwwroot\admin-assets\plugins\chartjs\polar_area_chart.js" />
+    <None Include="wwwroot\admin-assets\plugins\ckeditor\ckeditor.js" />
+    <None Include="wwwroot\admin-assets\plugins\dropzone\dropzone.js" />
+    <None Include="wwwroot\admin-assets\plugins\editable-table\mindmup-editabletable.js" />
+    <None Include="wwwroot\admin-assets\plugins\gmaps\gmaps.js" />
+    <None Include="wwwroot\admin-assets\plugins\ion-rangeslider\js\ion.rangeSlider.js" />
+    <None Include="wwwroot\admin-assets\plugins\jquery-datatable\buttons\buttons.bootstrap4.min.js" />
+    <None Include="wwwroot\admin-assets\plugins\jquery-datatable\buttons\buttons.colVis.min.js" />
+    <None Include="wwwroot\admin-assets\plugins\jquery-datatable\buttons\buttons.flash.min.js" />
+    <None Include="wwwroot\admin-assets\plugins\jquery-datatable\buttons\buttons.html5.min.js" />
+    <None Include="wwwroot\admin-assets\plugins\jquery-datatable\buttons\buttons.print.min.js" />
+    <None Include="wwwroot\admin-assets\plugins\jquery-datatable\buttons\dataTables.buttons.min.js" />
+    <None Include="wwwroot\admin-assets\plugins\jquery-inputmask\jquery.inputmask.bundle.js" />
+    <None Include="wwwroot\admin-assets\plugins\jquery-knob\jquery.knob.min.js" />
+    <None Include="wwwroot\admin-assets\plugins\jquery-sparkline\jquery.sparkline.js" />
+    <None Include="wwwroot\admin-assets\plugins\jquery-spinner\js\jquery.spinner.js" />
+    <None Include="wwwroot\admin-assets\plugins\jquery-steps\jquery.steps.js" />
+    <None Include="wwwroot\admin-assets\plugins\jquery-validation\jquery.validate.js" />
+    <None Include="wwwroot\admin-assets\plugins\jvectormap\jquery-jvectormap-au-mill.js" />
+    <None Include="wwwroot\admin-assets\plugins\jvectormap\jquery-jvectormap-in-mill.js" />
+    <None Include="wwwroot\admin-assets\plugins\jvectormap\jquery-jvectormap-uk-mill-en.js" />
+    <None Include="wwwroot\admin-assets\plugins\jvectormap\jquery-jvectormap-us-aea-en.js" />
+    <None Include="wwwroot\admin-assets\plugins\jvectormap\jquery-jvectormap-world-mill-en.js" />
+    <None Include="wwwroot\admin-assets\plugins\light-gallery\fonts\lgd641.svg" />
+    <None Include="wwwroot\admin-assets\plugins\light-gallery\js\lightgallery-all.min.js" />
+    <None Include="wwwroot\admin-assets\plugins\momentjs\moment.js" />
+    <None Include="wwwroot\admin-assets\plugins\multi-select\js\jquery.multi-select.js" />
+    <None Include="wwwroot\admin-assets\plugins\nestable\jquery.nestable.js" />
+    <None Include="wwwroot\admin-assets\plugins\nouislider\nouislider.js" />
+    <None Include="wwwroot\admin-assets\plugins\sweetalert\sweetalert.min.js" />
+    <None Include="wwwroot\admin-assets\summernote\dist\summernote.js" />
+    <None Include="wwwroot\assets\flaticon\font\Flaticon.svg" />
+    <None Include="wwwroot\assets\flaticon\font\Flaticon.woff2" />
+    <None Include="wwwroot\assets\font-awesome\fonts\fontawesome-webfont3e6e.svg" />
+    <None Include="wwwroot\assets\font-awesome\fonts\fontawesome-webfont3e6e.woff2" />
+    <None Include="wwwroot\assets\js\bootstrap.bundle.min.js" />
+    <None Include="wwwroot\assets\js\customd652.js" />
+    <None Include="wwwroot\assets\js\jquery.min.js" />
+    <None Include="wwwroot\assets\js\popper.min.js" />
+    <None Include="wwwroot\assets\js\scripts.mind652.js" />
+    <None Include="wwwroot\assets\js\vendor.mind652.js" />
+    <None Include="wwwroot\assets\number_input\form-number-input.min.js" />
+    <None Include="wwwroot\assets\number_input\jquery.bootstrap-touchspin.js" />
+    <None Include="wwwroot\assets\toast\components-bs-toast.min.js" />
+    <None Include="wwwroot\assets\toast\toastr.min.js" />
+    <None Include="wwwroot\cleave-js\dist\addons\cleave-phone.us.js" />
+    <None Include="wwwroot\cleave-js\dist\cleave.min.js" />
+    <None Include="wwwroot\custom\custom.js" />
+    <None Include="wwwroot\fileuploader\file-upload-with-preview.min.js" />
+    <None Include="wwwroot\fonts\glyphicons-halflings-regular.svg" />
+    <None Include="wwwroot\fonts\glyphicons-halflings-regular.woff2" />
+    <None Include="wwwroot\fonts\nunito-v9-latin-600.svg" />
+    <None Include="wwwroot\fonts\nunito-v9-latin-600.woff2" />
+    <None Include="wwwroot\fonts\nunito-v9-latin-700.svg" />
+    <None Include="wwwroot\fonts\nunito-v9-latin-700.woff2" />
+    <None Include="wwwroot\fonts\nunito-v9-latin-800.svg" />
+    <None Include="wwwroot\fonts\nunito-v9-latin-800.woff2" />
+    <None Include="wwwroot\fonts\nunito-v9-latin-regular.svg" />
+    <None Include="wwwroot\fonts\nunito-v9-latin-regular.woff2" />
+    <None Include="wwwroot\fonts\pe-icon-7-stroke\fonts\Pe-icon-7-strokea93c.svg" />
+    <None Include="wwwroot\fonts\webfonts\fa-brands-400.svg" />
+    <None Include="wwwroot\fonts\webfonts\fa-brands-400.woff2" />
+    <None Include="wwwroot\fonts\webfonts\fa-regular-400.svg" />
+    <None Include="wwwroot\fonts\webfonts\fa-regular-400.woff2" />
+    <None Include="wwwroot\fonts\webfonts\fa-solid-900.svg" />
+    <None Include="wwwroot\fonts\webfonts\fa-solid-900.woff2" />
+    <None Include="wwwroot\orderassets\assets\css\font\Flaticon.svg" />
+    <None Include="wwwroot\orderassets\assets\css\font\Flaticon.woff2" />
+    <None Include="wwwroot\orderassets\assets\fonts\fa-brands-400.svg" />
+    <None Include="wwwroot\orderassets\assets\fonts\fa-brands-400.woff2" />
+    <None Include="wwwroot\orderassets\assets\fonts\fa-regular-400.svg" />
+    <None Include="wwwroot\orderassets\assets\fonts\fa-regular-400.woff2" />
+    <None Include="wwwroot\orderassets\assets\fonts\fa-solid-900.svg" />
+    <None Include="wwwroot\orderassets\assets\fonts\fa-solid-900.woff2" />
+    <None Include="wwwroot\orderassets\assets\js\bootstrap.min.js" />
+    <None Include="wwwroot\orderassets\assets\js\ion.rangeSlider.min.js" />
+    <None Include="wwwroot\orderassets\assets\js\popper.min.js" />
+    <None Include="wwwroot\orderassets\assets\js\quickmunch.js" />
+    <None Include="wwwroot\orderassets\assets\js\swiper.min.js" />
+    <None Include="wwwroot\select\form-select2.min.js" />
+    <None Include="wwwroot\select\select2.full.min.js" />
+    <None Include="wwwroot\sweet alert\sweet-alerts.init.js" />
+    <None Include="wwwroot\sweet alert\sweetalert2.min.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Areas\Driver\Data\" />
+    <Folder Include="Areas\Driver\Models\" />
+    <Folder Include="Areas\PackerStaff\Data\" />
+    <Folder Include="Areas\PackerStaff\Models\" />
+    <Folder Include="Areas\SuperAdmin\Data\" />
+    <Folder Include="Areas\SuperAdmin\Models\" />
+  </ItemGroup>
+
+</Project>

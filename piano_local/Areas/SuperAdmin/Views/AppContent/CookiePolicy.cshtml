@@ -1,0 +1,159 @@
+﻿@inject piano_local.Resources.LocalizationService local
+@{
+    Layout = "~/Areas/SuperAdmin/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/admin-assets/summernote/dist/summernote.css" rel="stylesheet" />
+
+<section class="content profile-page">
+    <div class="block-header">
+        <div class="row">
+            <div class="col-lg-5 col-md-6 col-sm-12">
+                <ul class="breadcrumb bg-transparent">
+                    <li class="breadcrumb-item"><a class="text-secondary"><i class="far fa-file-alt mr-2"></i>@local.GetLocalizedHtmlString("Home")</a></li>
+                    <li class="breadcrumb-item text-secondary">@local.GetLocalizedHtmlString("Cookie Policy")</li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+    <div class="container-fluid">
+
+        <div class="row clearfix">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="header">
+                        <h2 style="display: inline-block;">@local.GetLocalizedHtmlString("Cookie Policy")</h2>
+                        <button id="edit-button" onclick="edit()" style="margin-left: auto; font-size: 15px; float: right;" class="btn btn-primary">Edit</button>
+                    </div>
+                    <div class="body">
+                        <div id="simple-text"></div>
+                    </div>
+                    <div id="footerdiv" style="display:none;">
+                        <div class="card-footer d-flex flex-row bg-white rounded">
+                            <button onclick="CancelSection()"  data-context="warning" class="btn-toastr btn btn-danger ml-auto font-15">@local.GetLocalizedHtmlString("Cancel")</button>
+                            <button onclick="UpdateContent()" class="btn btn-success font-15 ml-3">@local.GetLocalizedHtmlString("Update")</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+    function CancelSection() {
+        $('#simple-text').summernote('reset');
+        $('#simple-text').summernote('destroy');
+        $('#footerdiv').hide();
+        $('#edit-button').show();
+        $('#HeadingContent').show();
+        $('#signup_heading').hide();
+    }
+    function callbackMax(max) {
+        $('#text-count').text(max);
+    }
+    var edit = function () {
+        var max = 4000;
+        $('#simple-text').summernote({
+            focus: true,
+            callbacks: {
+                onKeydown: function (e) {
+                    var t = e.currentTarget.innerText;
+                    if (t.length >= max) {
+                        //delete key
+                        if (e.keyCode != 8) {
+                            e.preventDefault();
+                            MixinSweet("Maximum content limit is 4000", "", "info", 1500);
+                        }
+                    }
+                },
+                onKeyup: function (e) {
+                    var t = e.currentTarget.innerText;
+                    if (typeof callbackMax == 'function') {
+                        callbackMax(max - t.length);
+                    }
+                },
+                onPaste: function (e) {
+                    var t = e.currentTarget.innerText;
+                    var bufferText = ((e.originalEvent || e).clipboardData || window.clipboardData).getData('Text');
+                    var all = t + bufferText;
+                    if (all.length > max) {
+                        e.preventDefault();
+                        MixinSweet("Maximum content limit is 4000", "", "info", 1500);
+                    }
+                    if (typeof callbackMax == 'function') {
+                        callbackMax(max - t.length);
+                    }
+                }
+            }
+        });
+        $('#edit-button').hide();
+        $('#footerdiv').show();
+        $('#HeadingContent').hide();
+        $('#signup_heading').show();
+    };
+    var save = function () {
+        var markup = $('#simple-text').summernote('code');
+        $('#simple-text').summernote('destroy');
+        $('#footerdiv').hide();
+        $('#edit-button').show();
+        $('#HeadingContent').show();
+        $('#signup_heading').hide();
+    };
+</script>
+
+<script>
+    $(function () {
+        $('#cookie').addClass('active');
+        $('#AppData').addClass('toggled');
+        GetContent();
+    })
+    function GetContent() {
+        $.ajax({
+            url: "/SuperAdmin/AppContent/GetCookiePolicy",
+            type: "GET",
+            data: null,
+            success: function (response) {
+                $('#simple-text').html(response.content);
+                $('#HeadingContent').html(response.title);
+                $('#signup_heading').val(response.title);
+            },
+            error: function (result) {
+                console.log("Save Error", result);
+            }
+        });
+    }
+    function UpdateContent() {
+        var txt = $('#simple-text').summernote('code');
+        var heading = $('#signup_heading').val();
+        var data = {};
+        data.content = txt;
+        data.title = heading;
+        $.ajax({
+            url: "/SuperAdmin/AppContent/UpdateCookiePolicy",
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify(data),
+            dataType: "json",
+            success: function (response) {
+                if (response.code == 200) {
+                    TimerSweet("Cookie Policy Updated!", 'Cookie Policy are successfully updated', "success", 2000);
+                    setTimeout(function () {
+                        GetContent();
+                        $('#simple-text').summernote('destroy');
+                        $('#footerdiv').hide();
+                        $('#edit-button').show();
+                        $('#HeadingContent').show();
+                        $('#signup_heading').hide();
+                    }, 2000);
+                }
+                else {
+                    sweetMessage("Error!", response.shortMessage, "error");
+                }
+            },
+            error: function (result) {
+                console.log("Save Error", result);
+            }
+        });
+    }
+</script>

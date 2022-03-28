@@ -1,0 +1,20 @@
+﻿@model IEnumerable<Entities.BranchVms>
+@inject piano_local.Resources.LocalizationService local
+@{
+    Layout = null;
+}
+<li class="niche-templates">
+    <a href="@Url.Action("Index","Home")">
+        <span>@local.GetLocalizedHtmlString("Home")</span>
+    </a>
+</li>
+@foreach (var i in Model)
+{
+    <li class="active">
+        <a href="@Url.Action("Index","Menu",new {BranchName = i.Name})">
+            <span>@i.Name</span>
+        </a>
+    </li>
+}
+
+

@@ -1,0 +1,91 @@
+﻿@inject piano_local.Resources.LocalizationService local
+@{
+    ViewBag.Title = "AddProduct";
+    Layout = "~/Areas/SuperAdmin/Views/Shared/_Layout.cshtml";
+}
+
+<section class="content">
+    <div class="block-header">
+        <div class="row">
+            <div class="col-12">
+                <h2>
+                    @local.GetLocalizedHtmlString("Add Product")
+                </h2>
+            </div>
+
+        </div>
+    </div>
+    <div class="container-fluid">
+        <!-- Basic Validation -->
+        <div class="row clearfix">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <div class="card">
+                    <div class="body">
+                        <div id="form_validation" method="POST">
+                            <div class="Scriptcontent">
+
+                                <main>
+                                    <form method="POST" name="form-example-1" id="form-example-1" class="rounded" enctype="multipart/form-data">
+                                        <div style="cursor:pointer" class="input-field ">
+                                            <label class="active">@local.GetLocalizedHtmlString("Product Pictures")</label>
+                                            <div class="input-images-1 rounded" style="padding-top: .5rem;"></div>
+                                        </div>
+
+                                    </form>
+                                </main>
+
+                            </div>
+                            <!-- #END# File Upload | Drag & Drop OR With Click & Choose -->
+
+                            <div class="row mt-4">
+                                <div class="col-md-3">
+                                    <label>Select Branch</label>
+                                    <select class="form-group form-float show-tick w-100">
+                                        <option value="" disabled selected>-- Select Branch</option>
+                                        <option value="">MAASTRICHT</option>
+                                        <option value="">LEIDEN</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <label>Select Category</label>
+                                    <select class="form-group form-float show-tick w-100">
+                                        <option value="" disabled selected>-- Select Category</option>
+                                        <option value="10">PIZZE SPECIALI</option>
+                                        <option value="20">DRINKS</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-group form-float">
+                                        <label>@local.GetLocalizedHtmlString("Name")</label>
+                                        <input type="text" class="form-control mt-1" placeholder="Name" name="name" required>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-3">
+                                    <div class="form-group form-float">
+                                        <label>@local.GetLocalizedHtmlString("Price")</label>
+                                        <input type="number" class="form-control mt-1" placeholder="Price" maxlength="4" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" onkeypress="return event.charCode != 45" min="0" max="9999" required>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 mt-2">
+                                    <div class="form-group form-float">
+                                        <textarea class="border-top-0 border-left-0 border-right-0 w-100" rows="4" style="outline:none;border-color:#eee!important" placeholder="Pizza description"></textarea>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <button class="btn btn-raised btn-primary btn-round waves-effect mb-4" style="float:right" type="submit">@local.GetLocalizedHtmlString("SUBMIT")</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- #END# Basic Validation -->
+
+    </div>
+</section>
+

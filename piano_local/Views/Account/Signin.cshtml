@@ -1,0 +1,269 @@
+﻿@inject piano_local.Resources.LocalizationService local
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<!-- #header-wrap -->
+<div id="header-bottom-wrap" class="is-clearfix">
+    <div id="header-bottom" class="site-header-bottom">
+        <div id="header-bottom-inner" class="site-header-bottom-inner ">
+            <section class="hero slider is-clearfix ">
+                <div style="background-image: url('/app-images/home.jpg');background-repeat: no-repeat;background-size: cover;height: 200px;position: relative;background-position: center center;">
+                </div>
+                <div style="position: absolute;width: 100%;height: 100%;background-color: #000000;opacity: 0.5;transition: background 0.3s, border-radius 0.3s, opacity 0.3s;">
+                </div>
+                <div style="text-align: center;position: absolute;width: 100%;">
+                    <h2 style="color: #fff;font-size: 36px;margin-top: 138px;font-family: 'LIBRE FRANKLIN', sans-serif;" class="">@local.GetLocalizedHtmlString("Sign In") </h2>
+                </div>
+            </section>
+            <!-- .slider -->
+        </div>
+        <!-- #header-bottom-inner -->
+    </div>
+    <!-- #header-bottom -->
+</div>
+
+<!-- import content layouts and modules -->
+<div id="content-main-wrap" class="is-clearfix">
+    <div id="content-area" class="site-content-area">
+        <div id="content-area-inner" class="site-content-area-inner">
+            <section class="section  is-clearfix">
+                <div class="container">
+                    <br>
+                    <br>
+                    <div class="columns is-variable is-multiline">
+                        <div class="column is-half is-offset-one-quarter">
+                            <div class="tabs-list">
+                                <div class="tabs is-boxed is-centered">
+                                    <ul>
+                                        <li class="is-active">
+                                            <a>
+                                                <span class="icon">
+                                                    <i class="fas fa-sign-in-alt"></i>
+                                                </span>
+                                                <span>@local.GetLocalizedHtmlString("Login")</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a>
+                                                <span class="icon">
+                                                    <i class="fas fa-user"></i>
+                                                </span>
+                                                <span>@local.GetLocalizedHtmlString("Register")</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a>
+                                                <span class="icon">
+                                                    <i class="fas fa-lock"></i>
+                                                </span>
+                                                <span>@local.GetLocalizedHtmlString("Forgot Password")</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <!-- .tabs -->
+                                <div class="tabs-content">
+                                    <div class="tab-block content">
+                                        <br>
+                                        <form action="#" id="LoginForm" method="Post">
+                                            @Html.AntiForgeryToken()
+                                            <div class="field">
+                                                <div class="control is-expanded">
+                                                    <input class="input" id="EmailLogin" type="email" name="email" placeholder="Email">
+                                                </div>
+                                            </div>
+                                            <!-- .field -->
+                                            <div class="field">
+                                                <div class="control is-expanded">
+                                                    <input class="input" id="PasswordLogin" type="password" name="password" placeholder="Password">
+                                                </div>
+                                            </div>
+                                            <!-- .field -->
+                                            <div class="field ">
+                                                <div class="control">
+                                                    <div class="level">
+                                                        <div class="level-left">
+                                                            <button class="button is-small">@local.GetLocalizedHtmlString("Login")</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- .field -->
+                                        </form>
+                                    </div>
+                                    <!-- .tab-block -->
+                                    <div class="tab-block content">
+                                        <br>
+                                        <form action="#" id="SignupForm" autocomplete="off" method="Post">
+                                            @Html.AntiForgeryToken()
+                                            <div class="field">
+                                                <div class="control is-expanded">
+                                                    <input class="input" type="text" id="NameSignup" name="name" placeholder="Name">
+                                                </div>
+                                            </div>
+                                            <!-- .field -->
+                                            <div class="field">
+                                                <div class="control is-expanded">
+                                                    <input class="input" type="text" id="Username" name="Username" placeholder="Username" maxlength="10">
+                                                </div>
+                                            </div>
+                                            <!-- .field -->
+                                            <div class="field">
+                                                <div class="control is-expanded">
+                                                    <input class="input" type="text" id="EmailSignup" name="email" placeholder="Email">
+                                                </div>
+                                            </div>
+                                            <!-- .field -->
+                                            <div class="field">
+                                                <div class="control is-expanded">
+                                                    <input class="input" type="password" autocomplete="new-password" id="PasswordSignup" name="password" placeholder="Password">
+                                                </div>
+                                            </div>
+                                            <!-- .field -->
+                                            <div class="field">
+                                                <div class="control">
+                                                    <button class="button is-small">@local.GetLocalizedHtmlString("Register Now")</button>
+                                                </div>
+                                            </div>
+                                            <!-- .field -->
+                                        </form>
+                                    </div>
+                                    <!-- .tab-block -->
+                                    <div class="tab-block content">
+                                        <br>
+                                        <form action="#" id="ForgotPasswordForm" autocomplete="off" method="Post">
+                                            @Html.AntiForgeryToken()
+                                            <!-- .field -->
+                                            <div class="field">
+                                                <div class="control is-expanded">
+                                                    <input class="input" type="text" id="EmailForgot" name="Email" placeholder="Email">
+                                                </div>
+                                            </div>
+                                            <!-- .field -->
+                                            <div class="field">
+                                                <div class="control">
+                                                    <button class="button is-small">@local.GetLocalizedHtmlString("Forgot Password")</button>
+                                                </div>
+                                            </div>
+                                            <!-- .field -->
+                                        </form>
+                                    </div>
+                                </div>
+                                <!-- .tabs-content -->
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                </div>
+            </section>
+        </div>
+        <!-- #content-area-inner -->
+    </div>
+    <!-- #content-area -->
+</div>
+<!-- #content-main-wrap -->
+
+<script>
+    $('#LoginForm').submit(async function (e) {
+        e.preventDefault();
+        if ($('#EmailLogin').val() == "" || $('#PasswordLogin').val() == "") {
+            MixinSweet("Please provide login details!", "", "success", 2000);
+            return false;
+        }
+        var formData = new FormData(document.getElementById("LoginForm"));
+        var response = await getResponseFromUrl('POST', '/Account/Signin', formData, true);
+        if (response.code == 200) {
+            MixinSweet("Logged In!", "", "success", 2000);
+            document.getElementById('LoginForm').reset();
+            document.getElementById('SignupForm').reset();
+            document.getElementById('ForgotPasswordForm').reset();
+            window.location.href = response.shortMessage;
+        }
+        else {
+            console.log(response);
+            sweetMessage("Error!", response.shortMessage, "error");
+        }
+    })
+
+    $('#SignupForm').submit(async function (e) {
+        e.preventDefault();
+        if ($('#NameSignup').val() == "" || $('#EmailSignup').val() == "" || $('#PasswordSignup').val() == "") {
+            MixinSweet("Please provide login details!", "", "success", 2000);
+            return false;
+        }
+        var formData = new FormData(document.getElementById("SignupForm"));
+        var response = await getResponseFromUrl('POST', '/Account/Signup', formData, true);
+        if (response.code == 200) {
+            MixinSweet("Registered!", "Please login to continue", "success", 2000);
+            document.getElementById('SignupForm').reset();
+            document.getElementById('LoginForm').reset();
+            document.getElementById('ForgotPasswordForm').reset();
+        }
+        else if (response.code == 402) {
+            console.log(response);
+            var s = "";
+            if (response.result.length > 0) {
+                response.result.forEach(function (item) {
+                    s += item + "<br>";
+                })
+            }
+            sweetMessage("Error!", response.shortMessage + "<br>" + s, "error");
+        }
+        else {
+            console.log(response);
+            sweetMessage("Error!", response.shortMessage, "error");
+        }
+    })
+
+    $('#ForgotPasswordForm').submit(async function (e) {
+        e.preventDefault();
+        if ($('#EmailForgot').val() == "") {
+            MixinSweet("Please provide email details!", "", "success", 2000);
+            return false;
+        }
+        var formData = new FormData(document.getElementById("ForgotPasswordForm"));
+        var response = await getResponseFromUrl('POST', '/Account/CustomerForgotPassword', formData, true);
+        if (response.code == 200) {
+            sweetMessage("Info!", response.shortMessage, "info");
+            document.getElementById('SignupForm').reset();
+            document.getElementById('LoginForm').reset();
+            document.getElementById('ForgotPasswordForm').reset();
+        }
+        else if (response.code == 402) {
+            console.log(response);
+            var s = "";
+            if (response.result.length > 0) {
+                response.result.forEach(function (item) {
+                    s += item + "<br>";
+                })
+            }
+            sweetMessage("Error!", response.shortMessage + "<br>" + s, "error");
+        }
+        else {
+            console.log(response);
+            sweetMessage("Error!", response.shortMessage, "error");
+        }
+    })
+</script>
+
+<!--Ajax-->
+<script>
+    var getResponseFromUrl = function (requestType, requestUrl, requestData, async) {
+        var response;
+        return $.ajax({
+            type: requestType,
+            url: requestUrl,
+            data: requestData,
+            async: async,
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                response = data;
+                return response;
+            },
+            error: function (error) {
+                return error;
+            },
+        });
+    }
+</script>

@@ -1,0 +1,211 @@
+﻿@inject piano_local.Resources.LocalizationService local
+@{
+    Layout = "~/Areas/Driver/Views/Shared/_Layout.cshtml";
+}
+<section class="content profile-page">
+    <div class="block-header">
+        <div class="row">
+            <div class="col-12">
+                <h5>@local.GetLocalizedHtmlString("Profile")</h5>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row clearfix">
+            <div class="col-lg-4 col-md-12">
+                <form class="card member-card" id="editProfileForm">
+                    <div class="header l-cyan">
+                    </div>
+                    <div class="member-img">
+                        <div class="col-md-12 mb-1">
+                            <input type="file" accept="image/*" id="file" name="file" onchange="loadFile(event)" style="display: none" />
+
+                            <label for="file" style="cursor: pointer;">
+                                <span class="position-absolute rounded-circle bg-white pl-1 pr-1 pt-1 " style="margin-left: 102px;margin-top: 115px;">
+                                    <i class="fas fa-camera font-18 text-black"></i>
+                                </span>
+                                <img src="/user_icon.jpg" class="rounded-circle imageUrl" id="output" style="max-width:146px;min-width: 146px !important;max-height:146px; min-height: 146px !important" />
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-12 mb-2">
+                        <button id="PhotoChange" class="btn btn-primary rounded-pill text-white">@local.GetLocalizedHtmlString("Update Photo")</button>
+                    </div>
+                </form>
+            </div>
+            <div class="col-lg-8 col-md-12">
+                <div class="card mb-4">
+                    <ul class="nav nav-tabs">
+                        <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#project">@local.GetLocalizedHtmlString("Overview")</a></li>
+                        <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#timeline">@local.GetLocalizedHtmlString("Settings")</a></li>
+                    </ul>
+                </div>
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane active" id="project">
+                        <div class="card">
+                            <div class="header bline">
+                                <h2>@local.GetLocalizedHtmlString("Edit Profile")</h2>
+                            </div>
+                            <form class="body" style="padding: 20px 20px 9px 20px!important;" id="editBasicForm">
+                                <div class="row">
+                                    <div class="col-md-6 col-sm-12 col-12">
+                                        <div class="form-group">
+                                            <input type="text" maxlength="32" class="form-control" id="Username" name="Name" value="John Doe" placeholder="Name">
+                                        </div>
+                                    </div>
+                                </div>
+                                <button id="NameChange" class="btn btn-primary btn-round mt-3 text-white">@local.GetLocalizedHtmlString("Save Changes")</button>
+                            </form>
+                        </div>
+                    </div>
+                    <div role="tabpanel" class="tab-pane " id="timeline">
+                        <div class="card">
+                            <div class="header bline">
+                                <h2>@local.GetLocalizedHtmlString("Change Password")</h2>
+                            </div>
+                            <div class="body" style="padding: 20px 20px 9px 20px!important;">
+                                <form class="row" id="editPasswordForm">
+                                    <div class="col-md-4 col-sm-12 col-12">
+                                        <div class="form-group">
+                                            <input type="password" class="form-control" id="current_password" name="current_password" placeholder="@local.GetLocalizedHtmlString("Current Password")">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-sm-12 col-12">
+                                        <div class="form-group">
+                                            <input type="password" class="form-control" id="new_password" name="new_password" placeholder="@local.GetLocalizedHtmlString("New Password")">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-sm-12 col-12">
+                                        <div class="form-group">
+                                            <input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="@local.GetLocalizedHtmlString("Confirm Password")">
+                                        </div>
+                                    </div>
+                                    <button id="PassChange" class="btn btn-primary btn-round mt-3 text-white">@local.GetLocalizedHtmlString("Save Changes")</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+    var loadFile = function (event) {
+        var image = document.getElementById("output");
+        image.src = URL.createObjectURL(event.target.files[0]);
+    };
+</script>
+<!-- Add New  modal -->
+<script type="text/javascript">
+    function changePictureModal() {
+        $('#changePictureModal').modal("show");
+    }
+    function shower(type) {
+        if (type == 1) {
+            $("#closer").show();
+            $("#shower").hide();
+            $("#editBasicForm").find('input').attr('disabled', false);
+        }
+        else {
+            $("#editBasicForm").find('input').attr('disabled', true);
+            $("#closer").hide();
+            $("#shower").show();
+        }
+    }
+</script>
+<script>
+    $('#editProfileForm').submit(function (e) {
+        e.preventDefault();
+        var file = $('#file').val();
+        if (file != "") {
+            var response;
+            var form = new FormData(document.getElementById('editProfileForm'));
+            $.ajax({
+                type: 'POST',
+                url: '/Driver/Main/UpdateProfileImage',
+                data: form,
+                async: true,
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    response = data;
+                    if (response.code == 200) {
+                        var data = response.result;
+                        $('.UserName').html(data.fullName);
+                        $('#UserName').val(data.fullName);
+                        $('.imageUrl').attr('src', data.profileImageUrl);
+                        $('#EmailUserId').html(data.email);
+                        $('#changePictureModal').modal("hide");
+                        MixinSweet("Uploaded!", "", "success", 2000);
+                    }
+                    else {
+                        sweetMessage("Error!", response.msg, "error");
+                    }
+                    console.log(data);
+                },
+                error: function (error) {
+                    return error;
+                },
+            });
+        }
+    })
+
+    $('#editBasicForm').submit(function (e) {
+        e.preventDefault();
+        var UserName = $('#Username').val();
+        var response = getResponseFromUrl('GET', '/Driver/Main/UpdateProfile?Name=' + UserName, null, false);
+        if (response.code == 200) {
+            TimerSweet("Profile Updated!", 'Profile is successfully updated', "success", 2000);
+            GetProfile();
+        }
+        else {
+            sweetMessage("Error!", response.msg, "error");
+        }
+    })
+    $('#editPasswordForm').submit(function (e) {
+        e.preventDefault();
+        var form = new FormData(document.getElementById('editPasswordForm'));
+        if ($('#new_password').val() != $('#confirm_password').val()) {
+            sweetMessage("Warning!", "Password and confirm password should be same", "warning");
+            return false;
+        }
+        else if ($('#new_password').val() == "" || $('#confirm_password').val() == "" || $('#current_password').val() == "") {
+            sweetMessage("Warning!", "Please provide password", "warning");
+            return false;
+        }
+        var response = getResponseFromUrl('POST', '/Driver/Main/ChangePassword', form, true);
+        if (response.code == 200) {
+            TimerSweet("Password Updated!", 'Passsword is successfully updated', "success", 2000);
+            GetProfile();
+            document.getElementById('editPasswordForm').reset();
+        }
+        else {
+            console.log(response);
+            sweetMessage("Error!", response.shortMessage + "<br>" + response.result, "error");
+        }
+    })
+</script>
+
+<!--Ajax-->
+<script>
+    var getResponseFromUrl = function (requestType, requestUrl, requestData, async) {
+        var response;
+        $.ajax({
+            type: requestType,
+            url: requestUrl,
+            data: requestData,
+            async: false,
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                response = data;
+            },
+            error: function (error) {
+                return error;
+            },
+        });
+        return response;
+    }
+</script>
+
