@@ -1,0 +1,127 @@
+﻿.cursor-pointer{
+    cursor:pointer;
+}
+.select2-container {
+    width: 100% !important;
+}
+.btn-progress {
+    position: relative;
+    background-image: url("/spinner-white.svg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 30px;
+    color: transparent !important;
+    pointer-events: none
+}
+
+.spinner-grow {
+    display: inline-block;
+    width: 2rem;
+    background-color: currentColor;
+    border-radius: 50%;
+    opacity: 0;
+    -webkit-animation: .75s linear infinite spinner-grow;
+    animation: .75s linear infinite spinner-grow;
+}
+.spinner-grow-sm {
+    width: 1rem;
+    height: 1rem;
+}
+.ms-25 {
+    margin-left: 0.25rem !important;
+}
+.align-middle {
+    vertical-align: middle !important;
+}
+
+.SpinnerBtn > .spinner-grow {
+    display: none;
+}
+
+.SpinnerBtn > .spinner-loading {
+    display: none;
+}
+
+.SpinnerBtn .SpinnerText{
+    display:block;
+}
+
+.SpinnerProgressBtn > .SpinnerText {
+    display: none;
+}
+
+.SpinnerBtn .SpinnerProgressBtn > .spinner-grow {
+    display: block;
+}
+.SpinnerBtn .SpinnerProgressBtn > .spinner-loading {
+    display: block;
+}
+.SpinnerProgressBtn {
+    pointer-events: none;
+    position: relative;
+}
+.dropdown.show .dropdown-menu {
+    min-width: 100% !important;
+}
+
+.container234 .overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0px;
+    left: 13px;
+    right: 0px;
+    height: 100% !important;
+    width: 100% !important;
+    opacity: 0;
+    transition: .5s ease;
+    background-color: #1c1d1d;
+    display: block !important;
+}
+
+.container234 {
+    position: relative;
+}
+
+    .container234 .overlay {
+        opacity: 1;
+        height: 23px !important;
+        top: 5px;
+        border-radius: 10px;
+        display: block;
+    }
+
+    .container234 .text {
+        color: white;
+        font-size: 11px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        -webkit-transform: translate(-50%, -50%);
+        -ms-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+        text-align: center;
+    }
+
+.btn-primary:not(:disabled):not(.disabled):active {
+    color: #fff;
+    background-color: #6d6a6a !important;
+}
+.navbar {
+    z-index: 10;
+}
+
+.sidebar {
+    z-index: 9;
+}
+.modal-content .btn-default {
+    color: #212529 !important;
+    background-color: #dae0e5 !important;
+    border-color: #d3d9df !important;
+}
+
+.red_border{
+    border:1px solid red;
+}
+.none_border{
+    border:none;
+}

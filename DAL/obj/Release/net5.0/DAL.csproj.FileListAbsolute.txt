@@ -1,0 +1,15 @@
+D:\repos\piano_local\DAL\bin\Release\net5.0\DAL.deps.json
+D:\repos\piano_local\DAL\bin\Release\net5.0\DAL.dll
+D:\repos\piano_local\DAL\bin\Release\net5.0\ref\DAL.dll
+D:\repos\piano_local\DAL\bin\Release\net5.0\DAL.pdb
+D:\repos\piano_local\DAL\bin\Release\net5.0\Entities.dll
+D:\repos\piano_local\DAL\bin\Release\net5.0\Entities.pdb
+D:\repos\piano_local\DAL\obj\Release\net5.0\DAL.csproj.AssemblyReference.cache
+D:\repos\piano_local\DAL\obj\Release\net5.0\DAL.GeneratedMSBuildEditorConfig.editorconfig
+D:\repos\piano_local\DAL\obj\Release\net5.0\DAL.AssemblyInfoInputs.cache
+D:\repos\piano_local\DAL\obj\Release\net5.0\DAL.AssemblyInfo.cs
+D:\repos\piano_local\DAL\obj\Release\net5.0\DAL.csproj.CoreCompileInputs.cache
+D:\repos\piano_local\DAL\obj\Release\net5.0\DAL.csproj.CopyComplete
+D:\repos\piano_local\DAL\obj\Release\net5.0\DAL.dll
+D:\repos\piano_local\DAL\obj\Release\net5.0\ref\DAL.dll
+D:\repos\piano_local\DAL\obj\Release\net5.0\DAL.pdb
